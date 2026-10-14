@@ -1,3 +1,5 @@
 // Layer order. All Creuva styles live in cascade layers, so any unlayered CSS
 // (custom project styles, other extensions) wins without specificity fights.
-@layer creuva.tokens, creuva.base, creuva.layout, creuva.components, creuva.utilities;
+// The base styles of the theme components bundle (elements.css) are declared
+// first, so Creuva overrides them although they are loaded later.
+@layer theme-components, creuva.tokens, creuva.base, creuva.layout, creuva.components, creuva.utilities;

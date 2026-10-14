@@ -1,6 +1,6 @@
 // Elements of the theme components bundle.
-// Selectors follow the current markup of the bundle (ce_ct_* wrappers); adjust
-// them here when the elements are migrated to Twig.
+// Selectors follow the BEM markup of the Twig elements (theme components
+// bundle 2.0); layout basics come from the bundle's elements.css.
 @use '../mixins' as *;
 
 @layer creuva.components {
@@ -35,110 +35,108 @@
     color: var(--c-text-muted);
   }
 
+  // Custom properties of the bundle's base styles (elements.css)
+  :root {
+    --tc-gap: var(--space-s);
+    --tc-accent: var(--c-accent);
+    --tc-icon-size: 1.25rem;
+    --tc-slider-overlay: color-mix(in srgb, var(--c-primary) 55%, transparent);
+    --tc-modal-padding: var(--space-l);
+    --tc-modal-background: var(--c-surface);
+    --tc-modal-color: var(--c-text);
+  }
+
   // Content box & teaser box → cards
-  .ce_ct_contentBox,
-  .ce_ct_teaserBox {
-    > .inside {
-      @include card;
+  .content-box,
+  .teaser-box {
+    @include card;
 
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: box-shadow var(--transition), transform var(--transition);
-    }
+    height: 100%;
+    transition: box-shadow var(--transition), transform var(--transition);
 
-    &:hover > .inside {
+    &:hover {
       box-shadow: var(--shadow-m);
     }
 
     :is(h2, h3, h4) {
       font-size: 1.125rem;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
     }
 
-    p {
+    .rte {
       color: var(--c-text-muted);
       font-size: var(--fs-small);
-    }
 
-    .pageLink {
-      margin-top: auto;
-
-      a {
-        @include arrow-link;
+      > :last-child {
+        margin-bottom: 0;
       }
     }
   }
 
-  .ce_ct_contentBox > .inside {
+  :is(.content-box__more, .teaser-box__more) a {
+    @include arrow-link;
+  }
+
+  .content-box {
     padding: var(--space-m);
 
-    > figure,
-    > .image_container {
-      margin-bottom: var(--space-m);
-
-      img {
-        border-radius: var(--radius-m);
-      }
+    &--has-media {
+      gap: var(--space-m) var(--space-s);
     }
+  }
+
+  .content-box__media img {
+    border-radius: var(--radius-m);
   }
 
   // Teaser box: image flush at the top, content padded
-  .ce_ct_teaserBox > .inside {
-    overflow: hidden;
-    padding-bottom: var(--space-m);
+  .teaser-box {
+    padding: var(--space-m) 0;
 
-    > * {
+    &--has-media {
+      padding-top: 0;
+    }
+
+    > :not(.teaser-box__media) {
       margin-inline: var(--space-m);
     }
 
-    > :is(figure, a, .image_container):first-child {
-      margin: 0 0 var(--space-m);
-
-      img {
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-      }
+    &:hover .teaser-box__media img {
+      transform: scale(1.03);
     }
   }
 
-  .ce_ct_teaserBox:hover > .inside > :first-child img {
-    transform: scale(1.03);
+  .teaser-box__media {
+    overflow: hidden;
+
+    img {
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
   }
 
   // Feature element → icon box
-  .ce_ct_featureElement {
-    display: flex;
+  .feature-element--has-icon {
     gap: var(--space-s);
+  }
 
-    .icon {
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      width: 3rem;
-      height: 3rem;
-      border-radius: var(--radius-pill);
-      background: var(--c-accent-soft);
-      color: var(--c-accent);
-      font-size: 1.25rem;
+  .feature-element__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+  }
 
-      a {
-        color: inherit;
-      }
-    }
-
-    .headline {
+  .feature-element__body {
+    > :is(h2, h3, h4, h5, h6) {
       margin-bottom: 0.25rem;
+      font-size: 1rem;
       font-weight: 700;
     }
 
-    .text {
+    .rte {
       color: var(--c-text-muted);
       font-size: var(--fs-small);
 
@@ -149,61 +147,23 @@
   }
 
   // Price box
-  .ce_ct_priceBox {
-    > .inside {
-      @include card;
+  .price-box {
+    @include card;
 
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      padding: var(--space-l) var(--space-m);
-    }
+    height: 100%;
+    padding: var(--space-l) var(--space-m);
+    text-align: start;
 
-    &.popular-box > .inside {
+    &--highlight {
       border: 2px solid var(--c-accent);
       box-shadow: var(--shadow-m);
-    }
-
-    .popular-label {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      padding: 0.25rem 0.875rem;
-      border-radius: var(--radius-pill);
-      background: var(--c-accent);
-      color: #fff;
-      font-size: var(--fs-kicker);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      transform: translate(-50%, -50%);
     }
 
     :is(h2, h3, h4) {
       font-size: 1.25rem;
     }
 
-    .price {
-      margin-block: var(--space-xs) var(--space-m);
-    }
-
-    .amount {
-      font-family: var(--font-heading);
-      font-size: var(--fs-h2);
-      font-weight: var(--font-weight-heading);
-      line-height: 1.1;
-    }
-
-    .label {
-      color: var(--c-text-muted);
-      font-size: var(--fs-small);
-    }
-
-    .text {
-      margin-bottom: var(--space-m);
-
+    .rte {
       ul {
         padding: 0;
         list-style: none;
@@ -212,33 +172,77 @@
       ul > li {
         @include check-item;
       }
-    }
 
-    .first-link {
-      margin-top: auto;
+      > :last-child {
+        margin-bottom: 0;
+      }
     }
+  }
 
-    :is(.first-link, .second-link) a {
-      display: flex;
-      justify-content: center;
-      padding: 0.8em 1.6em;
-      border: 1px solid transparent;
-      border-radius: var(--radius-pill);
-      font-size: var(--fs-small);
-      font-weight: 600;
-      text-decoration: none;
-    }
+  .price-box__badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: 0.25rem 0.875rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent);
+    color: #fff;
+    font-size: var(--fs-kicker);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+  }
 
-    .first-link a {
+  .price-box__price {
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: 0 0.375rem;
+  }
+
+  .price-box__amount {
+    font-family: var(--font-heading);
+    font-size: var(--fs-h2);
+    font-weight: var(--font-weight-heading);
+  }
+
+  .price-box__label {
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  .price-box__links {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .price-box__link {
+    display: flex;
+    justify-content: center;
+    padding: 0.8em 1.6em;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    text-decoration: none;
+
+    &--primary {
       background: var(--c-primary);
       color: var(--c-primary-contrast);
     }
 
-    .second-link a {
-      margin-top: var(--space-xs);
+    &--secondary {
       border-color: var(--c-border);
       color: var(--c-text);
     }
+  }
+
+  // Modal (frontend module)
+  .ct-modal__dialog {
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-m);
   }
 
   // Simple box → callout / info box

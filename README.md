@@ -140,6 +140,9 @@ vendor/bin/contao-console creuva:install --demo --reset
    | `footer` | Creuva Marke + Footer-Navigationen                         |
    | `bottom` | Copyright, Sitemap, Cookie-Einstellungen                   |
 
+   Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
+   Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
+
 4. Unter **Creuva-Design** Variante (Light, Dark, Editorial, Corporate), Eckenradius
    sowie optional Primär- und Akzentfarbe festlegen.
 5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
@@ -156,8 +159,8 @@ vendor/bin/contao-console creuva:install --demo --reset
 Gestaltet werden außerdem die Contao-Standardelemente (Text, Liste, Beschreibungsliste,
 Tabelle, Bild, Galerie, Akkordeon, Downloads, Hyperlink, Formulare, Breadcrumb), die
 News-Module (Liste als Karten, Leser, Archivmenü, Seitenzahlen) und die Elemente des
-Theme Components Bundles (Contentbox, Teaserbox, Preisbox, Feature-Element, Simplebox,
-Icon-Tile).
+Theme Components Bundles 2.0 (Contentbox, Teaserbox, Preisbox, Feature-Element, Simplebox,
+Icon-Tile, Modal).
 
 ### Templatevarianten
 
@@ -273,11 +276,9 @@ theme-idee/        Konzept und Entwürfe
 - Die Barrierefreiheits-Werkzeuge (Kontrast, Schriftgröße) und die Animationen beim
   Scrollen des Theme Components Bundles nutzen die Hooks `generatePage` bzw.
   `parseFrontendTemplate`, die Contao bei Layouts vom Typ „Modern“ nicht ausführt.
-- Die Breadcrumb benötigt das Theme Components Bundle ab der Version mit Contao-6-Support
-  (ältere Versionen geben in modernen Layouts nur einen Platzhalter aus).
-- Ältere Elemente des Theme Components Bundles (Contentbox, Preisbox, …) haben noch
-  PHP-Templates und funktionieren nur unter Contao 5.7.
+  Die Einstellungen im Startpunkt haben deshalb im Creuva-Layout keine Wirkung.
 
 ## Lizenz
 
-Proprietär – © pdir GmbH
+Proprietär – © pdir GmbH, siehe [LICENSE](LICENSE).
+Hinweise zu Bibliotheken und Schriften Dritter: [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

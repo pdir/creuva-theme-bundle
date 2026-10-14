@@ -8,7 +8,8 @@
         header  – logo, navigation, CTA button
         main    – page content (articles)
         footer  – footer columns (logo, navigation, legal links)
-        bottom  – bottom bar (copyright, sitemap, cookie settings)
+        bottom  – bottom bar (copyright, sitemap, cookie settings); always contains
+                  the "powered by contao-themes.net" link
 #}
 
 {% set creuva = {
@@ -59,7 +60,11 @@
         </footer>
     {% endslot %}
 
-    {% slot bottom %}
-        <div class="l-bottom"><div class="l-container l-bottom__inner">{{ slot() }}</div></div>
-    {% endslot %}
+    {# The copyright link is required by the theme licence (see LICENSE, section 2) #}
+    <div class="l-bottom">
+        <div class="l-container l-bottom__inner">
+            {% slot bottom %}{{ slot() }}{% endslot %}
+            <p class="c-powered-by">powered by <a href="https://contao-themes.net" hreflang="de">contao-themes.net</a></p>
+        </div>
+    </div>
 {% endblock %}
