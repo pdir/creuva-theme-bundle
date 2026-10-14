@@ -21,6 +21,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 #[AsCommand(
     name: 'creuva:install',
@@ -40,7 +41,7 @@ class InstallCommand extends Command
             ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Design variant ('.implode(', ', ThemeInstaller::VARIANTS).')', 'light')
             ->addOption('root', 'r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ID of an existing website root that should use the Creuva layout (multiple allowed)')
             ->addOption('with-pages', null, InputOption::VALUE_NONE, 'Create a new website root with start, contact, imprint, privacy and sitemap pages')
-            ->addOption('demo', null, InputOption::VALUE_OPTIONAL, 'Create a new website root with the demo content (e.g. "standard")', false)
+            ->addOption('demo', null, InputOption::VALUE_OPTIONAL, 'Create a new website root with the demo content: name of a demo of the bundle (e.g. "standard") or a folder with a demo.yaml file (e.g. "files/my-demo")', false)
             ->addOption('site-title', null, InputOption::VALUE_REQUIRED, 'Title of the new website root (with --with-pages)', 'Creuva')
             ->addOption('language', null, InputOption::VALUE_REQUIRED, 'Language of the new website root (with --with-pages)', 'de')
             ->addOption('dns', null, InputOption::VALUE_REQUIRED, 'Domain of the new website root (with --with-pages)', '')
@@ -65,6 +66,11 @@ class InstallCommand extends Command
                 Complete demo website with sample pages, news, images and forms:
 
                   <info>php %command.full_name% --demo</info>
+
+                Own demo from a folder in the file manager (same structure as the demos of the bundle:
+                demo.yaml and an optional "files" folder with images and downloads):
+
+                  <info>php %command.full_name% --demo=files/my-demo</info>
 
                 Delete all existing contents first and import the demo again (a database backup is created):
 
@@ -114,10 +120,11 @@ class InstallCommand extends Command
 
         if (false !== $demo) {
             $demo ??= 'standard';
-            $demos = $this->installer->getAvailableDemos();
 
-            if (!isset($demos[$demo])) {
-                $io->error(\sprintf('Unknown demo "%s" (available: %s).', $demo, implode(', ', array_keys($demos))));
+            try {
+                $this->installer->checkDemo($demo);
+            } catch (\InvalidArgumentException|ParseException $e) {
+                $io->error($e->getMessage());
 
                 return Command::INVALID;
             }

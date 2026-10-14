@@ -18,7 +18,8 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Imports a demo site (pages, articles, content elements, news, forms, files)
- * from a YAML definition in demo/<name>/demo.yaml.
+ * from a YAML definition in demo/<name>/demo.yaml or in a folder of the file
+ * manager (files/<folder>/demo.yaml, with the demo files in files/<folder>/files).
  *
  * Values in the definition are resolved as follows:
  *
@@ -53,6 +54,10 @@ class DemoImporter
         private readonly Connection $connection,
         #[Autowire(service: 'contao.filesystem.virtual.files')]
         private readonly VirtualFilesystemInterface $filesStorage,
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $projectDir,
+        #[Autowire(param: 'contao.upload_path')]
+        private readonly string $uploadPath,
     ) {
     }
 
@@ -86,17 +91,77 @@ class DemoImporter
     }
 
     /**
+     * Returns whether the demo is a folder in the file manager ("files/<folder>")
+     * instead of a demo of the bundle.
+     */
+    public function isLocalDemo(string $demo): bool
+    {
+        return str_contains($demo, '/');
+    }
+
+    /**
      * @return array<string, mixed>
      */
-    public function load(string $name): array
+    public function load(string $demo): array
     {
-        $file = $this->getDemoRoot().'/'.$name.'/demo.yaml';
+        return Yaml::parseFile($this->getDemoDir($demo).'/demo.yaml');
+    }
 
-        if (!preg_match('/^[a-z0-9-]+$/', $name) || !is_file($file)) {
-            throw new \InvalidArgumentException(\sprintf('Unknown demo "%s".', $name));
+    /**
+     * Returns the directory of a demo of the bundle ("standard") or of a folder
+     * in the file manager ("files/my-demo").
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getDemoDir(string $demo): string
+    {
+        if (!$this->isLocalDemo($demo)) {
+            $dir = $this->getDemoRoot().'/'.$demo;
+
+            if (!preg_match('/^[a-z0-9-]+$/', $demo) || !is_file($dir.'/demo.yaml')) {
+                throw new \InvalidArgumentException(\sprintf('Unknown demo "%s" (available: %s, or a folder like "%s/my-demo").', $demo, implode(', ', array_keys($this->getAvailableDemos())), $this->uploadPath));
+            }
+
+            return $dir;
         }
 
-        return Yaml::parseFile($file);
+        $uploadDir = realpath($this->projectDir.'/'.$this->uploadPath);
+        $path = str_replace('\\', '/', $demo);
+
+        // Relative to the project directory (e.g. "files/my-demo")
+        if (!str_starts_with($path, '/') && !preg_match('#^[A-Za-z]:/#', $path)) {
+            $path = $this->projectDir.'/'.$path;
+        }
+
+        $dir = realpath($path);
+
+        if (false === $uploadDir || false === $dir || !str_starts_with($dir.'/', $uploadDir.'/') || $dir === $uploadDir) {
+            throw new \InvalidArgumentException(\sprintf('The demo folder "%s" does not exist or is not inside the "%s" directory.', $demo, $this->uploadPath));
+        }
+
+        if (str_starts_with($dir.'/', $uploadDir.'/'.self::FILES_FOLDER.'/')) {
+            throw new \InvalidArgumentException(\sprintf('The demo folder must not be inside "%s/%s" (it is deleted by creuva:reset).', $this->uploadPath, self::FILES_FOLDER));
+        }
+
+        if (!is_file($dir.'/demo.yaml')) {
+            throw new \InvalidArgumentException(\sprintf('The folder "%s" does not contain a demo.yaml file.', $demo));
+        }
+
+        return $dir;
+    }
+
+    /**
+     * Name of the demo, used for the folder files/creuva-demo/<name>.
+     */
+    public function getDemoName(string $demo): string
+    {
+        if (!$this->isLocalDemo($demo)) {
+            return $demo;
+        }
+
+        $name = strtolower(trim((string) preg_replace('/[^A-Za-z0-9]+/', '-', basename($this->getDemoDir($demo))), '-'));
+
+        return 'local-'.($name ?: 'demo');
     }
 
     /**
@@ -104,13 +169,13 @@ class DemoImporter
      *
      * @param array<string, mixed> $definition
      */
-    public function prepare(string $name, array $definition, string $language = 'de'): void
+    public function prepare(string $demo, array $definition, string $language = 'de'): void
     {
         $this->refs = [];
         $this->warnings = [];
-        $this->demoDir = $this->getDemoRoot().'/'.$name;
+        $this->demoDir = $this->getDemoDir($demo);
 
-        $this->importFiles($name);
+        $this->importFiles($this->getDemoName($demo));
 
         // File metadata (alt texts, titles for downloads)
         foreach ($definition['files'] ?? [] as $path => $meta) {

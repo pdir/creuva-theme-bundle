@@ -12,6 +12,7 @@ namespace Pdir\CreuvaThemeBundle\Installer;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Creates the Creuva theme with its front end modules and page layout and
@@ -99,6 +100,21 @@ class ThemeInstaller
     public function getAvailableDemos(): array
     {
         return $this->demoImporter->getAvailableDemos();
+    }
+
+    /**
+     * Loads the demo definition to check it before the installation.
+     *
+     * @throws \InvalidArgumentException if the demo does not exist
+     * @throws ParseException             if the demo.yaml file is invalid
+     */
+    public function checkDemo(string $demo): void
+    {
+        $definition = $this->demoImporter->load($demo);
+
+        if (!\is_array($definition) || !\is_array($definition['pages'] ?? null)) {
+            throw new \InvalidArgumentException(\sprintf('The demo.yaml file of the demo "%s" does not define any pages.', $demo));
+        }
     }
 
     /**

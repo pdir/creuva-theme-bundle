@@ -76,6 +76,27 @@ und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 `demo/standard/demo.yaml` und lässt sich als Vorlage für weitere Demos nutzen
 (neuer Ordner `demo/<name>/` → `--demo=<name>`).
 
+### Eigene Demo aus der Dateiverwaltung
+
+Eine Demo kann auch in einem Ordner unter `files/` liegen, z. B. für Kundenprojekte, ohne
+das Bundle zu ändern. Der Ordner hat denselben Aufbau wie `demo/standard/`:
+
+```
+files/meine-demo/
+├── demo.yaml       Seiten, Inhalte, Module, Formulare, News (Schema wie demo/standard/demo.yaml)
+└── files/          Bilder, Icons, Downloads (optional, referenziert mit file:<pfad>)
+```
+
+```bash
+vendor/bin/contao-console creuva:install --demo=files/meine-demo
+```
+
+- Der Pfad ist relativ zum Projektverzeichnis und muss innerhalb von `files/` liegen
+  (nicht in `files/creuva-demo`).
+- Die Dateien werden nach `files/creuva-demo/local-<ordnername>/` kopiert; der Quellordner
+  bleibt unverändert und kann mit `--reset` beliebig oft neu importiert werden.
+- Den Quellordner nicht öffentlich schalten, sonst ist die `demo.yaml` im Web abrufbar.
+
 ### Inhalte zurücksetzen
 
 Der Demo-Import überschreibt keine bestehenden Inhalte. Um die Demo erneut zu importieren
