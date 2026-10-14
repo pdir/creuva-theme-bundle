@@ -1,0 +1,10 @@
+{#
+    Key figures ("Kennzahlen"): term = value (e.g. 120+), details = label.
+#}
+{% extends '@Contao/content_element/description_list.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-stats') %}
+
+{% block description %}
+    <div class="c-stats__item">{{ parent() }}</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+// Hero with organic image mask (see theme-idee/ start page draft)
+@layer creuva.components {
+  .c-hero {
+    padding-block: var(--space-l);
+    container-type: inline-size;
+    overflow-x: clip;
+  }
+
+  .c-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l);
+    align-items: center;
+  }
+
+  @container (min-width: 56rem) {
+    .c-hero__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    }
+  }
+
+  .c-hero__title {
+    font-size: var(--fs-h1);
+  }
+
+  .c-hero__text {
+    max-width: 34rem;
+    color: var(--c-text-muted);
+  }
+
+  .c-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+  }
+
+  .c-hero__media {
+    position: relative;
+    isolation: isolate;
+
+    // Soft accent blob behind the image
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 4% 30% 30% -6%;
+      z-index: -1;
+      border-radius: 60% 40% 55% 45% / 55% 45% 55% 45%;
+      background: var(--c-accent-blob);
+    }
+
+    img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+  }
+
+  .c-hero--organic .c-hero__media img {
+    border-radius: 42% 58% 38% 62% / 52% 38% 62% 48%;
+  }
+
+  .c-hero--rounded .c-hero__media img {
+    border-radius: var(--radius-l);
+  }
+
+  .c-hero--none .c-hero__media::before {
+    display: none;
+  }
+
+  .c-hero__badge {
+    position: absolute;
+    right: 4%;
+    bottom: 18%;
+    display: grid;
+    place-items: center;
+    width: clamp(6rem, 18cqi, 8rem);
+    aspect-ratio: 1;
+    margin: 0;
+    padding: var(--space-s);
+    border-radius: 50%;
+    background: var(--c-surface);
+    box-shadow: var(--shadow-m);
+    font-size: var(--fs-kicker);
+    line-height: 1.4;
+    text-align: center;
+    color: var(--c-text-muted);
+  }
+}

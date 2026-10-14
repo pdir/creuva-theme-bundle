@@ -1,0 +1,245 @@
+{
+  "title": "Creuva",
+  "version": "1",
+  "sections": {
+    "1": {
+      "secId": "creuvaSection",
+      "secHeadline": "Abschnitt & Hintergrund",
+      "secClass": "icon-th-large",
+      "cssSet": {
+        "1": {
+          "id": "creuvaBackground",
+          "class": "icon-eye ac-col7",
+          "type": "select",
+          "label": "Hintergrund",
+          "values": {
+            "1": {
+              "title": "Weiß",
+              "value": "u-bg-surface"
+            },
+            "2": {
+              "title": "Hellgrau",
+              "value": "u-bg-muted"
+            },
+            "3": {
+              "title": "Akzent hell",
+              "value": "u-bg-accent"
+            },
+            "4": {
+              "title": "Primär (dunkel)",
+              "value": "u-bg-primary"
+            }
+          }
+        },
+        "2": {
+          "id": "creuvaBleed",
+          "class": "icon-resize-horizontal ac-col7",
+          "type": "select",
+          "label": "Breite",
+          "values": {
+            "1": {
+              "title": "Volle Breite (Hintergrund)",
+              "value": "u-full-bleed"
+            },
+            "2": {
+              "title": "Schmal (Lesebreite)",
+              "value": "u-narrow"
+            }
+          }
+        },
+        "3": {
+          "id": "creuvaCard",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "Rahmen",
+          "values": {
+            "1": {
+              "title": "Karte",
+              "value": "u-card"
+            },
+            "2": {
+              "title": "Hervorgehoben (Preis-Karte)",
+              "value": "u-featured"
+            }
+          }
+        }
+      }
+    },
+    "2": {
+      "secId": "creuvaGrid",
+      "secHeadline": "Raster für Elementgruppen",
+      "secClass": "icon-th-large",
+      "cssSet": {
+        "1": {
+          "id": "creuvaGridCols",
+          "class": "icon-desktop ac-col7",
+          "type": "select",
+          "label": "Spalten",
+          "values": {
+            "1": {
+              "title": "2 Spalten",
+              "value": "u-grid-2"
+            },
+            "2": {
+              "title": "3 Spalten",
+              "value": "u-grid-3"
+            },
+            "3": {
+              "title": "4 Spalten",
+              "value": "u-grid-4"
+            }
+          }
+        }
+      }
+    },
+    "3": {
+      "secId": "creuvaSpacing",
+      "secHeadline": "Abstände",
+      "secClass": "icon-move",
+      "cssSet": {
+        "1": {
+          "id": "creuvaPadding",
+          "class": "icon-resize-vertical ac-col7",
+          "type": "select",
+          "label": "Innenabstand oben/unten",
+          "values": {
+            "1": {
+              "title": "Kein",
+              "value": "u-py-0"
+            },
+            "2": {
+              "title": "S",
+              "value": "u-py-s"
+            },
+            "3": {
+              "title": "M",
+              "value": "u-py-m"
+            },
+            "4": {
+              "title": "L",
+              "value": "u-py-l"
+            },
+            "5": {
+              "title": "XL",
+              "value": "u-py-xl"
+            }
+          }
+        },
+        "2": {
+          "id": "creuvaMarginTop",
+          "class": "icon-up-big ac-col7",
+          "type": "select",
+          "label": "Abstand oben",
+          "values": {
+            "1": {
+              "title": "Kein",
+              "value": "u-mt-0"
+            },
+            "2": {
+              "title": "S",
+              "value": "u-mt-s"
+            },
+            "3": {
+              "title": "L",
+              "value": "u-mt-l"
+            },
+            "4": {
+              "title": "XL",
+              "value": "u-mt-xl"
+            }
+          }
+        }
+      }
+    },
+    "4": {
+      "secId": "creuvaText",
+      "secHeadline": "Text & Links",
+      "secClass": "icon-indent-right",
+      "cssSet": {
+        "1": {
+          "id": "creuvaAlign",
+          "class": "icon-indent-right ac-col7",
+          "type": "select",
+          "label": "Ausrichtung",
+          "values": {
+            "1": {
+              "title": "Links",
+              "value": "u-text-left"
+            },
+            "2": {
+              "title": "Zentriert",
+              "value": "u-text-center"
+            },
+            "3": {
+              "title": "Rechts",
+              "value": "u-text-right"
+            }
+          }
+        },
+        "2": {
+          "id": "creuvaTextStyle",
+          "class": "icon-eye ac-col7",
+          "type": "select",
+          "label": "Textstil",
+          "values": {
+            "1": {
+              "title": "Einleitung (größer)",
+              "value": "u-lead"
+            },
+            "2": {
+              "title": "Gedämpft",
+              "value": "u-muted"
+            },
+            "3": {
+              "title": "Akzentfarbe",
+              "value": "u-accent"
+            },
+            "4": {
+              "title": "Dachzeile",
+              "value": "u-kicker"
+            }
+          }
+        },
+        "3": {
+          "id": "creuvaLinkStyle",
+          "class": "icon-right-big ac-col7",
+          "type": "select",
+          "label": "Link als Button",
+          "values": {
+            "1": {
+              "title": "Primär-Button",
+              "value": "u-button"
+            },
+            "2": {
+              "title": "Sekundär-Button",
+              "value": "u-button-secondary"
+            }
+          }
+        }
+      }
+    },
+    "5": {
+      "secId": "creuvaVisibility",
+      "secHeadline": "Sichtbarkeit",
+      "secClass": "icon-eye",
+      "cssSet": {
+        "1": {
+          "id": "creuvaHide",
+          "class": "icon-mobile ac-col7",
+          "type": "select",
+          "label": "Ausblenden",
+          "values": {
+            "1": {
+              "title": "Auf Smartphones",
+              "value": "u-hide-mobile"
+            },
+            "2": {
+              "title": "Ab Tablet",
+              "value": "u-hide-desktop"
+            }
+          }
+        }
+      }
+    }
+  }
+}

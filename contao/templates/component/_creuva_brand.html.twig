@@ -1,0 +1,19 @@
+{#
+    Logo (image or text) linking to the start page.
+
+    Mandatory variables:
+        @var array brand {href: string, logo: Figure|null, text: string}
+#}
+
+{% use '@Contao/component/_figure.html.twig' %}
+
+{% block creuva_brand_component %}
+    <a class="c-brand" href="{{ brand.href }}" rel="home">
+        {% if brand.logo %}
+            {% with {figure: brand.logo, attributes: attrs().addClass('c-brand__logo')} %}{{ block('figure_component') }}{% endwith %}
+            {% if brand.text %}<span class="u-visually-hidden">{{ brand.text }}</span>{% endif %}
+        {% else %}
+            <span class="c-brand__text">{{ brand.text|default('MSC.creuvaHome'|trans([], 'contao_default')) }}</span>
+        {% endif %}
+    </a>
+{% endblock %}

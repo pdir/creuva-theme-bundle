@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; font-family: "Helvetica Neue", Arial, sans-serif; }
+  #stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .blob { position: absolute; border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; filter: blur(0.5px); }
+  .blur { filter: blur(60px); }
+  .browser { position: absolute; background: #fff; border-radius: 1.4vw; box-shadow: 0 3vw 6vw -2vw rgba(10,30,20,.35); overflow: hidden; }
+  .browser .bar { height: 3.2vw; background: #f1f3f1; display: flex; align-items: center; gap: .7vw; padding: 0 1.4vw; }
+  .browser .bar i { width: 1vw; height: 1vw; border-radius: 50%; background: #d5dad5; display: block; }
+  .browser .bar b { margin-left: 2vw; height: 1.4vw; width: 40%; border-radius: 1vw; background: #e3e7e3; display: block; }
+  .site { padding: 2.4vw 3vw; }
+  .nav { display: flex; align-items: center; gap: 2vw; margin-bottom: 4vw; }
+  .nav .logo { width: 9vw; height: 1.6vw; border-radius: .4vw; }
+  .nav .links { display: flex; gap: 1.5vw; margin-left: auto; }
+  .nav .links span { width: 5vw; height: .9vw; border-radius: .5vw; background: #dfe4df; display: block; }
+  .nav .cta { width: 8vw; height: 2.6vw; border-radius: 2vw; }
+  .line { height: 1vw; border-radius: .5vw; background: #e4e8e4; margin-bottom: .9vw; }
+  .h { height: 3.2vw; border-radius: .6vw; margin-bottom: 1.2vw; }
+  .row { display: flex; gap: 2vw; }
+  .card { flex: 1; border-radius: 1vw; padding: 1.5vw; }
+  .img { border-radius: 1vw; }
+  .phone { position: absolute; width: 22vw; height: 44vw; border-radius: 3vw; background: #111; padding: .9vw; box-shadow: 0 3vw 5vw -2vw rgba(0,0,0,.4); }
+  .phone .screen { width: 100%; height: 100%; border-radius: 2.3vw; overflow: hidden; background: #fff; padding: 2vw 1.6vw; }
+  .person { position: absolute; left: 50%; transform: translateX(-50%); }
+  .person .head { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50%; }
+  .person .body { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50% 50% 0 0 / 60% 60% 0 0; }
+  .grain::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px); background-size: 6px 6px; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const stage = document.getElementById('stage');
+const name = location.hash.slice(1);
+const el = (html) => { stage.insertAdjacentHTML('beforeend', html); };
+
+const palettes = {
+  green:  { bg: '#e9f4e1', p: '#1d3b2a', a: '#3c9a2f', s: '#cfe8bf', t: '#f6faf3' },
+  night:  { bg: '#1c2433', p: '#f2c14e', a: '#5b8def', s: '#2b3547', t: '#151b26' },
+  sand:   { bg: '#f4ece1', p: '#7a4b2a', a: '#d08c4a', s: '#ead9c2', t: '#fbf7f1' },
+  ocean:  { bg: '#e2eef7', p: '#123d63', a: '#1f86c9', s: '#c6dcee', t: '#f4f8fc' },
+  berry:  { bg: '#f6e6ec', p: '#5a1836', a: '#c43d74', s: '#efcbd9', t: '#fcf5f8' },
+  forest: { bg: '#203a2b', p: '#e9f4e1', a: '#8fd16a', s: '#2d4d3a', t: '#18301f' },
+};
+
+function website(pal, x, y, w, h, variant = 0) {
+  const c = palettes[pal];
+  const hero = variant === 1
+    ? `<div class="row" style="align-items:center;margin-bottom:3vw"><div style="flex:1.1"><div class="line" style="width:30%;background:${c.a}"></div><div class="h" style="width:95%;background:${c.p}"></div><div class="h" style="width:70%;background:${c.p}"></div><div class="line" style="width:80%"></div><div class="line" style="width:60%"></div><div style="display:flex;gap:1vw;margin-top:2vw"><span style="width:9vw;height:2.8vw;border-radius:2vw;background:${c.p};display:block"></span><span style="width:9vw;height:2.8vw;border-radius:2vw;border:2px solid ${c.s};display:block"></span></div></div><div class="img" style="flex:1;height:20vw;background:linear-gradient(135deg,${c.a},${c.s});border-radius:40% 60% 55% 45% / 50% 40% 60% 50%"></div></div>`
+    : `<div style="height:16vw;border-radius:1.2vw;background:linear-gradient(120deg,${c.p},${c.a});margin-bottom:2.5vw;padding:3vw"><div class="h" style="width:45%;background:rgba(255,255,255,.9)"></div><div class="line" style="width:35%;background:rgba(255,255,255,.5)"></div><span style="width:9vw;height:2.6vw;border-radius:2vw;background:#fff;display:block;margin-top:2vw"></span></div>`;
+  const cards = [0,1,2].map(i => `<div class="card" style="background:${c.t};border:1px solid ${c.s}"><div style="width:3vw;height:3vw;border-radius:.8vw;background:${c.s};margin-bottom:1.2vw"></div><div class="line" style="width:60%;background:${c.p};opacity:.8"></div><div class="line"></div><div class="line" style="width:70%"></div></div>`).join('');
+  el(`<div class="browser" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"><div class="bar"><i></i><i></i><i></i><b></b></div><div class="site" style="background:#fff;height:100%">
+    <div class="nav"><div class="logo" style="background:${c.p}"></div><div class="links"><span></span><span></span><span></span><span></span></div><div class="cta" style="background:${c.a}"></div></div>
+    ${hero}<div class="row">${cards}</div></div></div>`);
+}
+
+function phone(pal, x, y, rot = 0) {
+  const c = palettes[pal];
+  el(`<div class="phone" style="left:${x}%;top:${y}%;transform:rotate(${rot}deg)"><div class="screen">
+    <div style="display:flex;justify-content:space-between;margin-bottom:3vw"><div style="width:7vw;height:1.4vw;border-radius:.4vw;background:${c.p}"></div><div style="width:2.4vw;height:1.4vw;border-radius:.3vw;background:#dde2dd"></div></div>
+    <div style="height:16vw;border-radius:1.5vw;background:linear-gradient(140deg,${c.a},${c.s});margin-bottom:2vw"></div>
+    <div class="h" style="height:2.2vw;width:90%;background:${c.p}"></div><div class="h" style="height:2.2vw;width:60%;background:${c.p}"></div>
+    <div class="line" style="height:.9vw"></div><div class="line" style="height:.9vw;width:80%"></div>
+    <div style="width:12vw;height:2.6vw;border-radius:2vw;background:${c.a};margin-top:2vw"></div></div></div>`);
+}
+
+function background(c1, c2, blobs = []) {
+  stage.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+  blobs.forEach(([x, y, s, col, blur]) => el(`<div class="blob${blur ? ' blur' : ''}" style="left:${x}%;top:${y}%;width:${s}vw;height:${s}vw;background:${col}"></div>`));
+}
+
+function person(bg, skin, shirt, hair, hairStyle = 0) {
+  stage.style.background = bg;
+  const hairEl = hairStyle === 1
+    ? `<div style="position:absolute;left:50%;top:15%;transform:translateX(-50%);width:42vw;height:50vw;border-radius:50% 50% 40% 40%;background:${hair}"></div>`
+    : `<div style="position:absolute;left:50%;top:16%;transform:translateX(-50%);width:36vw;height:22vw;border-radius:50% 50% 30% 30%;background:${hair}"></div>`;
+  el(`${hairEl}<div style="position:absolute;left:50%;top:22%;transform:translateX(-50%);width:32vw;height:38vw;border-radius:46% 46% 44% 44%;background:${skin}"></div>
+    <div style="position:absolute;left:50%;top:18%;transform:translateX(-50%);width:34vw;height:12vw;border-radius:50% 50% 20% 20%;background:${hair};${hairStyle===1?'display:none':''}"></div>
+    <div style="position:absolute;left:50%;top:56%;transform:translateX(-50%);width:14vw;height:12vw;background:${skin}"></div>
+    <div style="position:absolute;left:50%;top:64%;transform:translateX(-50%);width:84vw;height:60vw;border-radius:46% 46% 0 0;background:${shirt}"></div>`);
+}
+
+const images = {
+  hero() {
+    background('#dff0d3', '#b9dfa4', [[-10, 55, 60, '#3c9a2f55', true], [60, -15, 55, '#ffffff99', true]]);
+    website('green', 8, 12, 84, 62, 1);
+    phone('green', 66, 46, 6);
+  },
+  about() {
+    background('#f3f6f1', '#e3efd9', [[55, 40, 60, '#3c9a2f40', true]]);
+    el(`<div style="position:absolute;left:8%;top:14%;width:40%;height:72%;border-radius:2vw;background:#1d3b2a;padding:4vw">
+      <div style="width:30%;height:1.2vw;background:#8fd16a;border-radius:1vw;margin-bottom:2vw"></div>
+      <div style="width:90%;height:3vw;background:#fff;border-radius:.6vw;margin-bottom:1.2vw"></div>
+      <div style="width:70%;height:3vw;background:#fff;border-radius:.6vw;margin-bottom:3vw"></div>
+      ${[80, 95, 60, 85].map(w => `<div style="width:${w}%;height:1vw;background:#ffffff55;border-radius:1vw;margin-bottom:1vw"></div>`).join('')}</div>`);
+    el(`<div style="position:absolute;left:44%;top:24%;width:48%;height:30%;border-radius:2vw;background:#fff;box-shadow:0 2vw 4vw -2vw #1d3b2a55;padding:2.5vw;display:flex;gap:2vw">
+      ${['120+', '98%', '15'].map(n => `<div style="flex:1"><div style="font:700 4.5vw/1 Helvetica;color:#1d3b2a;letter-spacing:-.1vw">${n}</div><div style="width:80%;height:.9vw;background:#e3e9e2;border-radius:1vw;margin-top:1.4vw"></div></div>`).join('')}</div>`);
+    el(`<div style="position:absolute;left:52%;top:60%;width:36%;height:26%;border-radius:2vw;background:linear-gradient(135deg,#3c9a2f,#8fd16a)"></div>`);
+  },
+  'projekt-gruenwerk'() { background('#e2f0d8', '#c8e3b6', [[60, 50, 50, '#ffffff88', true]]); website('green', 7, 10, 70, 80, 1); phone('green', 70, 30, 4); },
+  'projekt-nordlicht'() { background('#0f1520', '#26324a', [[-10, -10, 50, '#5b8def55', true], [60, 60, 50, '#f2c14e33', true]]); website('night', 12, 12, 76, 76, 0); },
+  'projekt-alpenhof'() { background('#f4ece1', '#e6d3bb', [[50, 40, 60, '#d08c4a44', true]]); website('sand', 22, 10, 70, 80, 1); phone('sand', 6, 28, -4); },
+  'projekt-stadtwerke'() { background('#dceaf5', '#b9d4ea', [[-15, 40, 60, '#1f86c944', true]]); website('ocean', 8, 10, 84, 80, 0); },
+  'projekt-roesterei'() { background('#f6e6ec', '#ecc8d6', [[60, -10, 50, '#c43d7433', true]]); phone('berry', 14, 10, -5); phone('berry', 40, 14, 0); phone('berry', 66, 10, 5); },
+  'projekt-sportverein'() { background('#18301f', '#2d4d3a', [[50, 50, 60, '#8fd16a33', true]]); website('forest', 8, 12, 70, 76, 0); phone('forest', 70, 34, 6); },
+  'detail-1'() { background('#eef6e8', '#d5eac6'); phone('green', 12, 6, 0); phone('green', 39, 12, 0); phone('green', 66, 6, 0); },
+  'detail-2'() { background('#1d3b2a', '#2d5a3f', [[60, 20, 40, '#8fd16a44', true]]); website('green', 10, 10, 80, 80, 0); },
+  'detail-3'() {
+    background('#f8faf7', '#e9f4e1');
+    const sw = ['#1d3b2a', '#3c9a2f', '#8fd16a', '#cfe8bf', '#f6faf3'];
+    sw.forEach((c, i) => el(`<div style="position:absolute;left:${10 + i * 16.5}%;top:18%;width:14%;height:44%;border-radius:1.5vw;background:${c};box-shadow:0 1vw 2vw -1vw #0003"></div>`));
+    el(`<div style="position:absolute;left:10%;top:70%;font:700 9vw/1 Helvetica;color:#1d3b2a;letter-spacing:-.3vw">Aa</div><div style="position:absolute;left:32%;top:72%;width:40%"><div class="line" style="background:#1d3b2a;width:70%;height:1.4vw"></div><div class="line"></div><div class="line" style="width:80%"></div></div>`);
+  },
+  'news-1'() { background('#1d3b2a', '#2f5e42', [[10, 10, 45, '#8fd16a66', true], [55, 45, 50, '#3c9a2f88', true]]); el(`<div style="position:absolute;inset:22% 30%;border:.5vw solid #ffffff88;border-radius:50%"></div><div style="position:absolute;inset:35% 42%;background:#fff;border-radius:50%"></div>`); },
+  'news-2'() { background('#f4ece1', '#ead9c2', [[50, 20, 50, '#d08c4a55', true]]); for (let i = 0; i < 5; i++) el(`<div style="position:absolute;left:${12 + i * 16}%;bottom:18%;width:10%;height:${20 + i * 12}%;border-radius:1vw 1vw 0 0;background:${i === 4 ? '#1d3b2a' : '#3c9a2f' + (40 + i * 12)}"></div>`); },
+  'news-3'() { background('#e2eef7', '#c6dcee', [[-10, 40, 60, '#1f86c955', true]]); website('ocean', 18, 16, 64, 68, 1); },
+  'news-4'() { background('#e9f4e1', '#cfe8bf'); for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) el(`<div style="position:absolute;left:${8 + c * 14.5}%;top:${10 + r * 21}%;width:12%;height:17%;border-radius:${(r + c) % 3 === 0 ? '50%' : '1.2vw'};background:${['#1d3b2a', '#3c9a2f', '#8fd16a', '#ffffff'][(r * 2 + c) % 4]}"></div>`); },
+  'team-1'() { person('#cfe8bf', '#e8b998', '#1d3b2a', '#4a2f22'); },
+  'team-2'() { person('#e9e0f3', '#f1cdb0', '#3c9a2f', '#c9893f', 1); },
+  'team-3'() { person('#f3e3cf', '#a8714f', '#123d63', '#1f1a17'); },
+  'team-4'() { person('#d8e8f4', '#f4d3bd', '#8a3a5c', '#2b2b2b', 1); },
+  'team-5'() { person('#f6e6ec', '#c98f6b', '#1d3b2a', '#5a4033'); },
+  'team-6'() { person('#e2f0d8', '#efc6a6', '#3a3a3a', '#d9b26a', 1); },
+};
+
+(images[name] || (() => {}))();
+</script>
+</body>
+</html>

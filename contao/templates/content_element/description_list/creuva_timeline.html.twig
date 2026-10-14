@@ -1,0 +1,10 @@
+{#
+    Timeline: term = date or year, details = event.
+#}
+{% extends '@Contao/content_element/description_list.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-timeline') %}
+
+{% block description %}
+    <div class="c-timeline__item">{{ parent() }}</div>
+{% endblock %}

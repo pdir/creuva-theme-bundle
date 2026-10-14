@@ -1,0 +1,25 @@
+{% extends '@Contao/frontend_module/_base.html.twig' %}
+{% use '@Contao/component/_creuva_brand.html.twig' %}
+{% use '@Contao/component/_creuva_social_icon.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-footer-brand') %}
+
+{% block content %}
+    {{ block('creuva_brand_component') }}
+
+    {% if claim %}
+        <p class="c-footer-brand__claim">{{ claim|nl2br }}</p>
+    {% endif %}
+
+    {% if social_links %}
+        <ul class="c-social">
+            {% for link in social_links %}
+                <li>
+                    <a class="c-social__link" href="{{ link.href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ link.label }}">
+                        {% with {platform: link.platform} %}{{ block('creuva_social_icon_component') }}{% endwith %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

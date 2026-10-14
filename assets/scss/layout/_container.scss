@@ -1,0 +1,40 @@
+@layer creuva.layout {
+  body {
+    overflow-x: clip;
+  }
+
+  .l-container {
+    width: min(100% - 2 * var(--gutter), var(--container));
+    margin-inline: auto;
+  }
+
+  .l-main {
+    display: block;
+  }
+
+  // Articles are the page sections: contained width, vertical rhythm
+  .l-main > .mod_article {
+    padding-block: var(--space-section);
+
+    > * {
+      width: min(100% - 2 * var(--gutter), var(--container));
+      margin-inline: auto;
+    }
+
+    > * + * {
+      margin-top: var(--space-l);
+    }
+
+    > .c-hero {
+      width: auto;
+    }
+  }
+
+  .l-main > .mod_article:has(> .c-hero:first-child) {
+    padding-top: 0;
+  }
+
+  .l-main > .mod_article:has(> .c-hero:last-child) {
+    padding-bottom: 0;
+  }
+}

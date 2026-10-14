@@ -1,0 +1,3 @@
+// Layer order. All Creuva styles live in cascade layers, so any unlayered CSS
+// (custom project styles, other extensions) wins without specificity fights.
+@layer creuva.tokens, creuva.base, creuva.layout, creuva.components, creuva.utilities;

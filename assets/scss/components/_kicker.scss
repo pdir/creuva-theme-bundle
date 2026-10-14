@@ -1,0 +1,10 @@
+@layer creuva.components {
+  .c-kicker {
+    margin-bottom: var(--space-s);
+    font-size: var(--fs-kicker);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+}

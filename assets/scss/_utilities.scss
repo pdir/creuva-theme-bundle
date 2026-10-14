@@ -1,0 +1,150 @@
+// Utility classes – offered to editors via the advanced classes bundle
+// (see public/sets/creuva.json)
+@use 'mixins' as *;
+
+@layer creuva.utilities {
+  // Colors & backgrounds
+  .u-accent { color: var(--c-accent); }
+  .u-muted { color: var(--c-text-muted); }
+
+  :is(.u-bg-surface, .u-bg-muted, .u-bg-accent, .u-bg-primary) {
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+  }
+
+  .u-bg-surface { background: var(--c-surface); }
+  .u-bg-muted { background: var(--c-surface-muted); }
+  .u-bg-accent { background: var(--c-accent-soft); }
+
+  .u-bg-primary {
+    --c-text: var(--c-primary-contrast);
+    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+    --c-link: var(--c-primary-contrast);
+    --c-surface: color-mix(in srgb, var(--c-primary-contrast) 8%, var(--c-primary));
+    --c-border: color-mix(in srgb, var(--c-primary-contrast) 18%, transparent);
+
+    background: var(--c-primary);
+    color: var(--c-text);
+
+    .first-headline:not(.block) + .main-headline,
+    .c-hero__accent,
+    .u-accent {
+      color: color-mix(in srgb, var(--c-accent) 55%, #fff);
+    }
+
+    .c-button--primary,
+    .content-hyperlink.u-button > a {
+      background: var(--c-primary-contrast);
+      color: var(--c-primary);
+    }
+  }
+
+  // Call to action box: a link as the only content of the last paragraph
+  // becomes a button
+  :is(.u-bg-primary, .u-bg-accent) .rte > p:last-child:not(:first-child) > a:only-child {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    padding: 0.8em 1.6em;
+    border-radius: var(--radius-pill);
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color var(--transition);
+
+    &::after {
+      content: "→";
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-primary) 85%, #000);
+    }
+  }
+
+  .u-bg-primary .rte > p:last-child:not(:first-child) > a:only-child {
+    background: var(--c-primary-contrast);
+    color: var(--c-primary);
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+    }
+  }
+
+  // Article as section with full-width background (CSS class in the article settings)
+  .l-main > .mod_article:is(.u-bg-surface, .u-bg-muted, .u-bg-accent, .u-bg-primary) {
+    padding: var(--space-section) 0;
+    border-radius: 0;
+  }
+
+  // Full-bleed section: background spans the viewport, content stays contained
+  .u-full-bleed {
+    width: auto !important;
+    margin-inline: calc(50% - 50vw) !important;
+    padding-inline: max(var(--gutter), (100vw - var(--container)) / 2);
+    border-radius: 0;
+  }
+
+  // Card
+  .u-card {
+    @include card;
+
+    padding: var(--space-m);
+  }
+
+  // Spacing
+  .u-py-0 { padding-block: 0 !important; }
+  .u-py-s { padding-block: var(--space-s) !important; }
+  .u-py-m { padding-block: var(--space-m) !important; }
+  .u-py-l { padding-block: var(--space-l) !important; }
+  .u-py-xl { padding-block: var(--space-xl) !important; }
+
+  .u-mt-0 { margin-top: 0 !important; }
+  .u-mt-s { margin-top: var(--space-s) !important; }
+  .u-mt-l { margin-top: var(--space-l) !important; }
+  .u-mt-xl { margin-top: var(--space-xl) !important; }
+
+  // Width & alignment
+  .u-narrow { max-width: 48rem; }
+  .u-narrow.u-text-center { margin-inline: auto; }
+  .u-text-left { text-align: left; }
+  .u-text-center { text-align: center; }
+  .u-text-right { text-align: right; }
+
+  // Typography
+  .u-lead {
+    font-size: 1.125rem;
+    color: var(--c-text-muted);
+  }
+
+  .u-kicker {
+    font-size: var(--fs-kicker);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  // Grid for element groups / wrappers
+  :is(.u-grid-2, .u-grid-3, .u-grid-4) {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
+  }
+
+  .u-grid-2 { --grid-min: 22rem; }
+  .u-grid-3 { --grid-min: 16rem; }
+  .u-grid-4 { --grid-min: 12rem; }
+
+  // Visibility
+  @media (max-width: 47.99rem) {
+    .u-hide-mobile { display: none !important; }
+  }
+
+  @media (min-width: 48rem) {
+    .u-hide-desktop { display: none !important; }
+  }
+}

@@ -1,0 +1,28 @@
+{#
+    Team member: image = portrait, headline = name, subline = position,
+    text = short bio or contact details.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-team') %}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-team__media">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    {% if headline.text %}
+        <{{ headline.tag_name|default('h3') }} class="c-team__name">{{ headline.text|insert_tag }}</{{ headline.tag_name|default('h3') }}>
+    {% endif %}
+
+    {% if data.subline|default %}
+        <p class="c-team__role">{{ data.subline }}</p>
+    {% endif %}
+
+    {% if text %}
+        {{ block('text') }}
+    {% endif %}
+{% endblock %}

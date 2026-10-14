@@ -1,0 +1,286 @@
+// Elements of the theme components bundle.
+// Selectors follow the current markup of the bundle (ce_ct_* wrappers); adjust
+// them here when the elements are migrated to Twig.
+@use '../mixins' as *;
+
+@layer creuva.components {
+  // Headline with subline (theme components bundle):
+  // - subline as block ("Inline" unchecked) → kicker above the headline
+  // - subline inline ("Inline" checked)      → two-tone headline, main part accented
+  .first-headline.block {
+    display: block;
+    margin-bottom: var(--space-s);
+    font-family: var(--font-sans);
+    font-size: var(--fs-kicker);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: var(--lh-base);
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  .first-headline:not(.block) + .main-headline,
+  .c-hero__accent {
+    color: var(--c-accent);
+  }
+
+  .subheadline.block {
+    display: block;
+    margin-top: var(--space-xs);
+    font-family: var(--font-sans);
+    font-size: var(--fs-kicker);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  // Content box & teaser box → cards
+  .ce_ct_contentBox,
+  .ce_ct_teaserBox {
+    > .inside {
+      @include card;
+
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    &:hover > .inside {
+      box-shadow: var(--shadow-m);
+    }
+
+    :is(h2, h3, h4) {
+      font-size: 1.125rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    p {
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    .pageLink {
+      margin-top: auto;
+
+      a {
+        @include arrow-link;
+      }
+    }
+  }
+
+  .ce_ct_contentBox > .inside {
+    padding: var(--space-m);
+
+    > figure,
+    > .image_container {
+      margin-bottom: var(--space-m);
+
+      img {
+        border-radius: var(--radius-m);
+      }
+    }
+  }
+
+  // Teaser box: image flush at the top, content padded
+  .ce_ct_teaserBox > .inside {
+    overflow: hidden;
+    padding-bottom: var(--space-m);
+
+    > * {
+      margin-inline: var(--space-m);
+    }
+
+    > :is(figure, a, .image_container):first-child {
+      margin: 0 0 var(--space-m);
+
+      img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+    }
+  }
+
+  .ce_ct_teaserBox:hover > .inside > :first-child img {
+    transform: scale(1.03);
+  }
+
+  // Feature element → icon box
+  .ce_ct_featureElement {
+    display: flex;
+    gap: var(--space-s);
+
+    .icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius-pill);
+      background: var(--c-accent-soft);
+      color: var(--c-accent);
+      font-size: 1.25rem;
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .headline {
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+    }
+
+    .text {
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Price box
+  .ce_ct_priceBox {
+    > .inside {
+      @include card;
+
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: var(--space-l) var(--space-m);
+    }
+
+    &.popular-box > .inside {
+      border: 2px solid var(--c-accent);
+      box-shadow: var(--shadow-m);
+    }
+
+    .popular-label {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      padding: 0.25rem 0.875rem;
+      border-radius: var(--radius-pill);
+      background: var(--c-accent);
+      color: #fff;
+      font-size: var(--fs-kicker);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: translate(-50%, -50%);
+    }
+
+    :is(h2, h3, h4) {
+      font-size: 1.25rem;
+    }
+
+    .price {
+      margin-block: var(--space-xs) var(--space-m);
+    }
+
+    .amount {
+      font-family: var(--font-heading);
+      font-size: var(--fs-h2);
+      font-weight: var(--font-weight-heading);
+      line-height: 1.1;
+    }
+
+    .label {
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    .text {
+      margin-bottom: var(--space-m);
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      ul > li {
+        @include check-item;
+      }
+    }
+
+    .first-link {
+      margin-top: auto;
+    }
+
+    :is(.first-link, .second-link) a {
+      display: flex;
+      justify-content: center;
+      padding: 0.8em 1.6em;
+      border: 1px solid transparent;
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .first-link a {
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+    }
+
+    .second-link a {
+      margin-top: var(--space-xs);
+      border-color: var(--c-border);
+      color: var(--c-text);
+    }
+  }
+
+  // Simple box → callout / info box
+  .simplebox > .inside {
+    padding: var(--space-m) var(--space-l);
+    border: 1px solid color-mix(in srgb, var(--c-accent) 25%, transparent);
+    border-radius: var(--radius-m);
+    background: var(--c-accent-soft);
+
+    .title {
+      margin-bottom: var(--space-xs);
+      font-size: 1rem;
+    }
+
+    > :last-child,
+    .rte > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Icon tile
+  .icon-tile > a {
+    @include card;
+
+    display: grid;
+    justify-items: center;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    color: var(--c-text);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow var(--transition), border-color var(--transition);
+
+    &:hover {
+      border-color: var(--c-accent);
+      box-shadow: var(--shadow-m);
+    }
+
+    img {
+      width: auto;
+      max-height: 3rem;
+    }
+  }
+}

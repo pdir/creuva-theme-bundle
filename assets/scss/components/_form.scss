@@ -1,0 +1,97 @@
+// Contao forms (form generator, login, search)
+@layer creuva.components {
+  .widget {
+    margin-bottom: var(--space-s);
+
+    > label,
+    > fieldset > legend {
+      display: block;
+      margin-bottom: 0.375rem;
+      font-size: var(--fs-small);
+      font-weight: 600;
+    }
+
+    span.mandatory {
+      margin-left: 0.15em;
+      color: var(--c-accent);
+    }
+  }
+
+  :is(input:not([type='checkbox'], [type='radio'], [type='submit'], [type='range'], [type='file']), textarea, select) {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-s);
+    background: var(--c-surface);
+    color: var(--c-text);
+    transition: border-color var(--transition), box-shadow var(--transition);
+
+    &::placeholder {
+      color: var(--c-text-muted);
+      opacity: 0.8;
+    }
+
+    &:focus {
+      border-color: var(--c-accent);
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 25%, transparent);
+    }
+  }
+
+  textarea {
+    min-height: 8rem;
+    resize: vertical;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='range'] {
+    accent-color: var(--c-accent);
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0 0.5rem 0 0;
+    vertical-align: -0.15em;
+  }
+
+  .widget-checkbox fieldset,
+  .widget-radio fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    > span {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .widget .error,
+  p.error {
+    margin-top: 0.25rem;
+    color: #b42318;
+    font-size: var(--fs-small);
+  }
+
+  :is(.widget-submit button, button.submit, input[type='submit']) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.8em 1.6em;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition);
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-primary) 85%, #000);
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{#
+    Teaser card: image on top, subline as category, headline and text. If the
+    text contains a link, the whole card becomes clickable (last link).
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-card') %}
+{% set text_attributes = attrs(text_attributes|default).addClass('c-card__text') %}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-card__media">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    <div class="c-card__body">
+        {% if data.subline|default %}
+            <p class="c-card__category">{{ data.subline }}</p>
+        {% endif %}
+
+        {% if headline.text %}
+            <{{ headline.tag_name|default('h3') }} class="c-card__title">{{ headline.text|insert_tag }}</{{ headline.tag_name|default('h3') }}>
+        {% endif %}
+
+        {{ block('text') }}
+    </div>
+{% endblock %}

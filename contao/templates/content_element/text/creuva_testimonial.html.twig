@@ -1,0 +1,28 @@
+{#
+    Customer quote: text = quote, headline = name, subline = role/company,
+    image = portrait.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-testimonial') %}
+
+{% block wrapper_tag %}figure{% endblock %}
+
+{% block inner %}
+    <blockquote class="c-testimonial__quote">
+        {{ block('text') }}
+    </blockquote>
+
+    {% if headline.text or image %}
+        <figcaption class="c-testimonial__author">
+            {% if image %}
+                {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+            {% endif %}
+            <span>
+                {% if headline.text %}<strong>{{ headline.text|insert_tag }}</strong>{% endif %}
+                {% if data.subline|default %}<span>{{ data.subline }}</span>{% endif %}
+            </span>
+        </figcaption>
+    {% endif %}
+{% endblock %}
