@@ -76,6 +76,30 @@ und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 `demo/standard/demo.yaml` und lässt sich als Vorlage für weitere Demos nutzen
 (neuer Ordner `demo/<name>/` → `--demo=<name>`).
 
+### Inhalte zurücksetzen
+
+Der Demo-Import überschreibt keine bestehenden Inhalte. Um die Demo erneut zu importieren
+oder eine Installation in den Zustand nach der Neuinstallation zu versetzen, gibt es
+`creuva:reset`:
+
+```bash
+# Alle Inhalte löschen (mit Rückfrage und Datenbank-Backup)
+vendor/bin/contao-console creuva:reset
+
+# Inhalte löschen und die Demo neu importieren
+vendor/bin/contao-console creuva:install --demo --reset
+```
+
+- Geleert werden alle Contao-Tabellen (`tl_*`): Seitenstruktur, Artikel, Inhaltselemente,
+  Themes, Module, Layouts, Formulare, News, Versionen, Suchindex usw. Die IDs beginnen
+  wieder bei 1.
+- Erhalten bleiben Backend-Benutzer und -Gruppen, Mitglieder und Mitgliedergruppen, die
+  Dateiverwaltung (`tl_files`) sowie technische Tabellen (Sessions, Cronjobs, Message Queue).
+- Von den Dateien wird nur der Demo-Ordner `files/creuva-demo` gelöscht.
+- Vorher wird ein Backup unter `var/backups/creuva-reset__<Zeitstempel>.sql.gz` angelegt;
+  zurückspielen mit `contao:backup:restore <Dateiname>`. Ohne Backup: `--no-backup`.
+- Ohne Rückfrage (z. B. in Skripten): `--force`.
+
 ## Manuelle Einrichtung
 
 1. **Layout → Themes → Neues Theme** anlegen.
@@ -219,7 +243,7 @@ contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
 public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
-src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehl creuva:install)
+src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset)
 theme-idee/        Konzept und Entwürfe
 ```
 

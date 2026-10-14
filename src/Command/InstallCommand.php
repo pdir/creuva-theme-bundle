@@ -44,6 +44,9 @@ class InstallCommand extends Command
             ->addOption('site-title', null, InputOption::VALUE_REQUIRED, 'Title of the new website root (with --with-pages)', 'Creuva')
             ->addOption('language', null, InputOption::VALUE_REQUIRED, 'Language of the new website root (with --with-pages)', 'de')
             ->addOption('dns', null, InputOption::VALUE_REQUIRED, 'Domain of the new website root (with --with-pages)', '')
+            ->addOption('reset', null, InputOption::VALUE_NONE, 'Delete all existing contents first (see creuva:reset), e.g. to import the demo again')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Reset without asking for confirmation (with --reset)')
+            ->addOption('no-backup', null, InputOption::VALUE_NONE, 'Do not create a database backup before the reset (with --reset)')
             ->setHelp(<<<'HELP'
                 The <info>%command.name%</info> command sets up the Creuva theme:
 
@@ -62,6 +65,10 @@ class InstallCommand extends Command
                 Complete demo website with sample pages, news, images and forms:
 
                   <info>php %command.full_name% --demo</info>
+
+                Delete all existing contents first and import the demo again (a database backup is created):
+
+                  <info>php %command.full_name% --demo --reset</info>
 
                 Contact, imprint, privacy and sitemap pages of an existing website are detected by their alias
                 (e.g. kontakt, impressum, datenschutz) and linked in the header and footer.
@@ -91,12 +98,6 @@ class InstallCommand extends Command
             return Command::INVALID;
         }
 
-        if ($this->installer->themeExists($themeName)) {
-            $io->error(\sprintf('A theme named "%s" already exists. Use --theme-name to choose a different name.', $themeName));
-
-            return Command::FAILURE;
-        }
-
         $variant = (string) $input->getOption('variant');
 
         if (!\in_array($variant, ThemeInstaller::VARIANTS, true)) {
@@ -124,6 +125,32 @@ class InstallCommand extends Command
             $createPages = true;
         } else {
             $demo = null;
+        }
+
+        if ($input->getOption('reset')) {
+            if ($rootIds) {
+                $io->error('The options --reset and --root cannot be combined.');
+
+                return Command::INVALID;
+            }
+
+            $reset = new ArrayInput(array_filter([
+                '--force' => $input->getOption('force'),
+                '--no-backup' => $input->getOption('no-backup'),
+            ]));
+            $reset->setInteractive($input->isInteractive());
+
+            if (Command::SUCCESS !== $this->getApplication()?->find('creuva:reset')->run($reset, $output)) {
+                return Command::FAILURE;
+            }
+
+            $rootPages = $this->installer->getRootPages();
+        }
+
+        if ($this->installer->themeExists($themeName)) {
+            $io->error(\sprintf('A theme named "%s" already exists. Use --theme-name to choose a different name.', $themeName));
+
+            return Command::FAILURE;
         }
 
         if ($createPages && $rootIds) {
