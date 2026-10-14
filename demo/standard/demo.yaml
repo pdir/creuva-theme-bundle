@@ -263,13 +263,24 @@ pages:
               - { key: '04 Umsetzung', value: 'Entwicklung mit Contao und Creuva.' }
               - { key: '05 Launch', value: 'Schulung, Livegang und Betreuung.' }
       - title: FAQ
+        cssID: ['', 'u-bg-muted']
         elements:
-          - type: accordion
-            headline: Häufige Fragen zu unseren Leistungen
+          - type: element_group
+            cssID: u-grid-2
             children:
-              - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wie lange dauert ein Website-Projekt?' }, text: '<p>Je nach Umfang zwischen vier und zwölf Wochen. Einen genauen Zeitplan erhalten Sie mit unserem Angebot.</p>' }
-              - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Kann ich die Website selbst pflegen?' }, text: '<p>Ja. Contao ist intuitiv bedienbar und wir schulen Ihr Team persönlich.</p>' }
-              - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Übernehmt ihr auch Hosting und Wartung?' }, text: '<p>Gerne – mit unseren Wartungspaketen bleibt Ihre Website sicher und aktuell.</p>' }
+              - { type: 'headline', headline: 'Noch Fragen?', subline: 'Häufige Fragen' }
+              - { type: 'text', text: '<p>Hier finden Sie Antworten auf die häufigsten Fragen zu unseren Leistungen.</p>', cssID: 'u-muted' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: accordion
+                children:
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Für welche Branchen arbeitet Creuva?' }, text: '<p>Für Unternehmen, Vereine und öffentliche Einrichtungen – vom Handwerksbetrieb bis zum Energieversorger.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Mit welchen Technologien entwickeln Sie?' }, text: '<p>Mit Contao, Twig und modernen Web-Standards. Ihre Website bleibt updatefähig, schnell und sicher.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wie lange dauert ein typisches Projekt?' }, text: '<p>Je nach Umfang zwischen vier und zwölf Wochen. Einen genauen Zeitplan erhalten Sie mit unserem Angebot.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Bieten Sie auch Support und Wartung an?' }, text: '<p>Ja – mit unseren Wartungspaketen bleibt Ihre Website sicher und aktuell. Bei Fragen sind wir schnell erreichbar.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was kostet eine neue Website?' }, text: '<p>Das hängt vom Umfang ab. Einen Überblick geben unsere <a href="{{link_url::preise}}">Pakete und Preise</a>.</p>' }
+              - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: ['800', '560', 'crop'] }
     children:
       - title: Webdesign
         alias: webdesign

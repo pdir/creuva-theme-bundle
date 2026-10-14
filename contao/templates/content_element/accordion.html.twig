@@ -1,5 +1,13 @@
 {% extends '@Contao/content_element/accordion.html.twig' %}
 
+{# Each entry is wrapped in an item so it can be styled as a card. handorgel
+   finds headers and contents via querySelectorAll, so the wrapper is fine. #}
+{% block element %}
+    <div class="c-accordion__item">
+        {{- parent() -}}
+    </div>
+{% endblock %}
+
 {# The accordion is fully styled by Creuva (assets/scss/components/_content.scss),
    so the default handorgel stylesheet is not loaded. #}
 {% block style %}{% endblock %}

@@ -253,53 +253,102 @@
     }
   }
 
-  // Accordion (handorgel, core styles are replaced by the Creuva template)
+  // Accordion (handorgel, core styles are replaced by the Creuva template):
+  // every entry is a card with a round plus icon in front of the question
+  // and a plus/minus toggle at the end
   .content-accordion {
     display: grid;
     gap: var(--space-xs);
   }
 
+  .c-accordion__item {
+    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    border-radius: var(--radius-m);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-s);
+    transition: border-color var(--transition), box-shadow var(--transition);
+
+    &:hover,
+    &:has(.handorgel__header--open) {
+      border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+    }
+
+    &:has(.handorgel__header--open) {
+      box-shadow: var(--shadow-m);
+    }
+  }
+
   .handorgel__header {
     margin: 0;
-    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
     letter-spacing: 0;
   }
 
   .handorgel__header__button {
+    --accordion-icon: 0.625rem;
+
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-s);
     width: 100%;
-    padding: var(--space-s) var(--space-m);
-    border: 1px solid var(--c-border);
-    border-radius: var(--radius-m);
-    background: var(--c-surface);
+    padding: 0.875rem var(--space-m) 0.875rem var(--space-s);
+    border: 0;
+    border-radius: inherit;
+    background: none;
     color: var(--c-text);
+    font: inherit;
     font-weight: 600;
+    line-height: 1.4;
     text-align: left;
     cursor: pointer;
-    transition: border-color var(--transition);
 
+    // Plus/minus drawn with two bars: the vertical bar collapses when open
+    &::before,
     &::after {
-      content: "+";
+      content: "";
       flex-shrink: 0;
-      font-size: 1.25rem;
-      font-weight: 400;
-      line-height: 1;
+      background:
+        linear-gradient(currentColor 0 0) center / var(--accordion-icon) 2px no-repeat,
+        linear-gradient(currentColor 0 0) center / 2px var(--accordion-icon) no-repeat;
+      transition: background-size var(--transition), background-color var(--transition), color var(--transition);
     }
 
-    &:hover {
-      border-color: var(--c-accent);
+    // Round icon in front of the question
+    &::before {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background-color: var(--c-accent-soft);
+      color: var(--c-accent);
+    }
+
+    // Toggle at the end
+    &::after {
+      width: 1rem;
+      height: 1rem;
+      margin-left: auto;
+      color: var(--c-text-muted);
+    }
+
+    &:hover::after {
+      color: var(--c-text);
+    }
+
+    &:focus-visible {
+      outline-offset: 2px;
     }
   }
 
   .handorgel__header--open .handorgel__header__button {
-    border-bottom-color: transparent;
-    border-radius: var(--radius-m) var(--radius-m) 0 0;
-
+    &::before,
     &::after {
-      content: "−";
+      background-size: var(--accordion-icon) 2px, 2px 0;
+    }
+
+    &::before {
+      background-color: var(--c-accent);
+      color: var(--c-surface);
     }
   }
 
@@ -307,10 +356,6 @@
     display: none;
     height: 0;
     overflow: hidden;
-    border: 1px solid var(--c-border);
-    border-top: 0;
-    border-radius: 0 0 var(--radius-m) var(--radius-m);
-    background: var(--c-surface);
     transition: height 0.1s ease 0.1s;
   }
 
@@ -323,8 +368,9 @@
     overflow: visible;
   }
 
+  // Answer aligned with the question text (icon width + gap)
   .handorgel__content__inner {
-    padding: 0 var(--space-m) var(--space-m);
+    padding: 0 var(--space-m) var(--space-m) calc(var(--space-s) * 2 + 1.75rem);
     color: var(--c-text-muted);
     opacity: 0;
     transition: opacity 0.1s ease;
@@ -335,8 +381,9 @@
     transition: opacity 0.3s ease;
   }
 
-  // Element group: optional grid via utility classes
-  .content-element-group:is(.u-grid-2, .u-grid-3, .u-grid-4) > :is(h1, h2, h3, h4, h5, h6) {
+  // Element group: optional grid via utility classes (the group headline spans
+  // all columns, headline elements stay in their column)
+  .content-element-group:is(.u-grid-2, .u-grid-3, .u-grid-4) > :is(h1, h2, h3, h4, h5, h6):not(.content-headline) {
     grid-column: 1 / -1;
   }
 
