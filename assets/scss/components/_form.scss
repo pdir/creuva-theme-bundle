@@ -13,7 +13,7 @@
 
     span.mandatory {
       margin-left: 0.15em;
-      color: var(--c-accent);
+      color: var(--c-accent-text);
     }
   }
 
@@ -32,7 +32,7 @@
     }
 
     &:focus {
-      border-color: var(--c-accent);
+      border-color: var(--c-accent-text);
       outline: none;
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 25%, transparent);
     }
@@ -46,7 +46,7 @@
   input[type='checkbox'],
   input[type='radio'],
   input[type='range'] {
-    accent-color: var(--c-accent);
+    accent-color: var(--c-accent-text);
   }
 
   input[type='checkbox'],

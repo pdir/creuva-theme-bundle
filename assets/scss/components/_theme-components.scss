@@ -21,7 +21,7 @@
 
   .first-headline:not(.block) + .main-headline,
   .c-hero__accent {
-    color: var(--c-accent);
+    color: var(--c-accent-text);
   }
 
   .subheadline.block {
@@ -38,7 +38,7 @@
   // Custom properties of the bundle's base styles (elements.css)
   :root {
     --tc-gap: var(--space-s);
-    --tc-accent: var(--c-accent);
+    --tc-accent: var(--c-accent-text);
     --tc-icon-size: 1.25rem;
     --tc-slider-overlay: color-mix(in srgb, var(--c-primary) 55%, transparent);
     --tc-modal-padding: var(--space-l);
@@ -187,7 +187,7 @@
     border: 0;
     border-radius: var(--radius-pill);
     background: var(--c-accent);
-    color: #fff;
+    color: var(--c-accent-contrast);
     font-size: var(--fs-kicker);
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -278,7 +278,7 @@
     transition: box-shadow var(--transition), border-color var(--transition);
 
     &:hover {
-      border-color: var(--c-accent);
+      border-color: var(--c-accent-text);
       box-shadow: var(--shadow-m);
     }
 

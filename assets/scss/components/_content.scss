@@ -247,7 +247,7 @@
       }
 
       &:hover {
-        border-color: var(--c-accent);
+        border-color: var(--c-accent-text);
         box-shadow: var(--shadow-s);
       }
     }
@@ -320,7 +320,7 @@
       height: 1.75rem;
       border-radius: 50%;
       background-color: var(--c-accent-soft);
-      color: var(--c-accent);
+      color: var(--c-accent-text);
     }
 
     // Toggle at the end
@@ -347,7 +347,7 @@
     }
 
     &::before {
-      background-color: var(--c-accent);
+      background-color: var(--c-accent-text);
       color: var(--c-surface);
     }
   }

@@ -4,7 +4,7 @@
 
 @layer creuva.utilities {
   // Colors & backgrounds
-  .u-accent { color: var(--c-accent); }
+  .u-accent { color: var(--c-accent-text); }
   .u-muted { color: var(--c-text-muted); }
 
   :is(.u-bg-surface, .u-bg-muted, .u-bg-accent, .u-bg-primary) {
@@ -29,7 +29,7 @@
     .first-headline:not(.block) + .main-headline,
     .c-hero__accent,
     .u-accent {
-      color: color-mix(in srgb, var(--c-accent) 55%, #fff);
+      color: var(--c-accent-on-primary);
     }
 
     .c-button--primary,

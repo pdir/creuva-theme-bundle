@@ -23,8 +23,6 @@ class ThemeInstaller
 {
     public const CLASS_SET = 'bundles/creuvatheme/sets/creuva.json';
 
-    public const VARIANTS = ['light', 'dark', 'editorial', 'corporate'];
-
     private const TEXTS = [
         'de' => [
             'home' => 'Startseite',
@@ -39,6 +37,7 @@ class ThemeInstaller
             'footerLegal' => 'Footer – Rechtliches',
             'copyright' => 'Copyright',
             'bottomLinks' => 'Untere Links',
+            'styleSwitcher' => 'Style-Switcher (Demo)',
             'legal' => 'Rechtliches',
             'pages' => 'Seiten',
             'layout' => 'Creuva Standard',
@@ -64,6 +63,7 @@ class ThemeInstaller
             'footerLegal' => 'Footer – legal',
             'copyright' => 'Copyright',
             'bottomLinks' => 'Bottom links',
+            'styleSwitcher' => 'Style switcher (demo)',
             'legal' => 'Legal',
             'pages' => 'Pages',
             'layout' => 'Creuva default',
@@ -125,7 +125,7 @@ class ThemeInstaller
     public function getMissingColumns(): array
     {
         $required = [
-            'tl_layout' => ['creuvavariant', 'creuvaradius'],
+            'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius'],
             'tl_module' => ['creuvanavigation', 'creuvasociallinks'],
             'tl_content' => ['creuvaheadlineaccent'],
         ];
@@ -315,6 +315,14 @@ class ThemeInstaller
                 $this->insertContent($result->articles['sitemap'], ['type' => 'module', 'module' => $sitemap], 1);
             }
 
+            // Preview of the color schemes on the demo website
+            if ($demo) {
+                $modules['styleSwitcher'] = $this->insertModule($result, [
+                    'name' => $texts['styleSwitcher'],
+                    'type' => 'creuva_style_switcher',
+                ]);
+            }
+
             $result->moduleIds = $modules;
 
             // Demo modules (news, sitemap, …) and content
@@ -326,6 +334,7 @@ class ThemeInstaller
 
             // Page layout with the modules assigned to the slots of page/layout/creuva
             $slots = [
+                ['styleSwitcher', 'top'],
                 ['header', 'header'],
                 [0, 'main'],
                 ...array_map(static fn (string $key): array => [$key, 'footer'], $footerSlots),
@@ -350,6 +359,7 @@ class ThemeInstaller
                 'template' => 'page/layout/creuva',
                 'modules' => serialize($layoutModules),
                 'creuvaVariant' => $options->variant,
+                'creuvaScheme' => $options->scheme,
             ]);
 
             // Assign the layout (and the Creuva class set) to the root pages

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Pdir\CreuvaThemeBundle\Command;
 
+use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Pdir\CreuvaThemeBundle\Installer\InstallOptions;
 use Pdir\CreuvaThemeBundle\Installer\ThemeInstaller;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,8 +30,10 @@ use Symfony\Component\Yaml\Exception\ParseException;
 )]
 class InstallCommand extends Command
 {
-    public function __construct(private readonly ThemeInstaller $installer)
-    {
+    public function __construct(
+        private readonly ThemeInstaller $installer,
+        private readonly DesignSettings $designSettings,
+    ) {
         parent::__construct();
     }
 
@@ -38,7 +41,8 @@ class InstallCommand extends Command
     {
         $this
             ->addOption('theme-name', null, InputOption::VALUE_REQUIRED, 'Name of the theme', 'Creuva')
-            ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Design variant ('.implode(', ', ThemeInstaller::VARIANTS).')', 'light')
+            ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Design variant ('.implode(', ', DesignSettings::VARIANTS).')', 'light')
+            ->addOption('scheme', null, InputOption::VALUE_REQUIRED, 'Color scheme ('.implode(', ', $this->designSettings->getSchemeNames()).')', $this->designSettings->getDefaultScheme())
             ->addOption('root', 'r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ID of an existing website root that should use the Creuva layout (multiple allowed)')
             ->addOption('with-pages', null, InputOption::VALUE_NONE, 'Create a new website root with start, contact, imprint, privacy and sitemap pages')
             ->addOption('demo', null, InputOption::VALUE_OPTIONAL, 'Create a new website root with the demo content: name of a demo of the bundle (e.g. "standard") or a folder with a demo.yaml file (e.g. "files/my-demo")', false)
@@ -106,8 +110,16 @@ class InstallCommand extends Command
 
         $variant = (string) $input->getOption('variant');
 
-        if (!\in_array($variant, ThemeInstaller::VARIANTS, true)) {
-            $io->error(\sprintf('Invalid variant "%s" (allowed: %s).', $variant, implode(', ', ThemeInstaller::VARIANTS)));
+        if (!\in_array($variant, DesignSettings::VARIANTS, true)) {
+            $io->error(\sprintf('Invalid variant "%s" (allowed: %s).', $variant, implode(', ', DesignSettings::VARIANTS)));
+
+            return Command::INVALID;
+        }
+
+        $scheme = (string) $input->getOption('scheme');
+
+        if (!$this->designSettings->hasScheme($scheme)) {
+            $io->error(\sprintf('Invalid color scheme "%s" (allowed: %s).', $scheme, implode(', ', $this->designSettings->getSchemeNames())));
 
             return Command::INVALID;
         }
@@ -212,6 +224,7 @@ class InstallCommand extends Command
         $result = $this->installer->install(new InstallOptions(
             themeName: $themeName,
             variant: $variant,
+            scheme: $scheme,
             createPages: $createPages,
             siteTitle: (string) $input->getOption('site-title'),
             language: $language,
@@ -254,7 +267,7 @@ class InstallCommand extends Command
             'Next steps:',
             \sprintf(' * Add your logo in the header module (ID %d) and the brand module (ID %d)', $result->moduleIds['header'], $result->moduleIds['brand']),
             ...($demo ? [] : [\sprintf(' * Add the social media links in the brand module (ID %d)', $result->moduleIds['brand'])]),
-            \sprintf(' * Choose the design variant and colors in the page layout (ID %d) under "Creuva design"', $result->layoutId),
+            \sprintf(' * Choose the color scheme, design variant and colors in the page layout (ID %d) under "Creuva design"', $result->layoutId),
         ]);
 
         return Command::SUCCESS;

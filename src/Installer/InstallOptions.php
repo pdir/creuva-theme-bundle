@@ -15,6 +15,7 @@ final class InstallOptions
     public function __construct(
         public readonly string $themeName = 'Creuva',
         public readonly string $variant = 'light',
+        public readonly string $scheme = '',
         public readonly bool $createPages = false,
         public readonly string $siteTitle = 'Creuva',
         public readonly string $language = 'de',

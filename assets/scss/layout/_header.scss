@@ -82,7 +82,7 @@ $nav-breakpoint: 64rem;
     }
 
     a:hover {
-      color: var(--c-accent);
+      color: var(--c-accent-text);
     }
 
     strong.active,
@@ -247,7 +247,7 @@ $nav-breakpoint: 64rem;
 
       strong.active,
       a.trail {
-        color: var(--c-accent);
+        color: var(--c-accent-text);
       }
 
       .level_2 {

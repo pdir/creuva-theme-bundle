@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 
 /*
  * Design settings for the "modern" (Twig) layout type. The values are output
@@ -16,13 +17,20 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
  */
 PaletteManipulator::create()
     ->addLegend('creuva_legend', 'modules_legend', PaletteManipulator::POSITION_AFTER)
-    ->addField(['creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('modern', 'tl_layout')
 ;
 
+// Options from config/color-schemes.json, see ColorSchemeOptionsListener
+$GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaScheme'] = [
+    'inputType' => 'select',
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 32, 'default' => ''],
+];
+
 $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaVariant'] = [
     'inputType' => 'select',
-    'options' => ['light', 'dark', 'editorial', 'corporate'],
+    'options' => DesignSettings::VARIANTS,
     'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaVariant_options'],
     'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'light'],
@@ -30,9 +38,9 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaVariant'] = [
 
 $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaRadius'] = [
     'inputType' => 'select',
-    'options' => ['none', 'small', 'medium', 'large'],
+    'options' => DesignSettings::RADII,
     'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'],
-    'eval' => ['tl_class' => 'w50'],
+    'eval' => ['tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'large'],
 ];
 

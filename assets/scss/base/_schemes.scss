@@ -1,0 +1,19 @@
+// Color schemes from config/color-schemes.json (_scheme-data.scss is generated
+// by vite.config.js). The default scheme applies without a data-scheme
+// attribute. Optional values fall back to values derived from the accent.
+@use 'scheme-data' as data;
+@use 'sass:map';
+
+@layer creuva.tokens {
+  @each $name, $scheme in data.$schemes {
+    $selector: if($name == data.$default, ":root, :root[data-scheme='#{$name}']", ":root[data-scheme='#{$name}']");
+
+    #{$selector} {
+      --scheme-primary: #{map.get($scheme, primary)};
+      --scheme-accent: #{map.get($scheme, accent)};
+      --scheme-accent-text: #{map.get($scheme, accent-text) or var(--scheme-accent)};
+      --scheme-accent-contrast: #{map.get($scheme, accent-contrast) or #fff};
+      --scheme-dark-accent: #{map.get($scheme, dark-accent) or color-mix(in srgb, var(--scheme-accent) 60%, #fff)};
+    }
+  }
+}

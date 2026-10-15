@@ -1,4 +1,5 @@
 @use 'base/layers';
+@use 'base/schemes';
 @use 'base/tokens';
 @use 'base/reset';
 @use 'base/typography';
@@ -15,4 +16,5 @@
 @use 'components/news';
 @use 'components/form';
 @use 'components/theme-components';
+@use 'components/style-switcher';
 @use 'utilities';

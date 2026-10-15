@@ -45,7 +45,8 @@ vendor/bin/contao-console creuva:install --demo
 | `--with-pages` | Neuen Startpunkt mit Grundseiten anlegen (automatisch, wenn noch keiner existiert) |
 | `--demo[=standard]` | Neuen Startpunkt mit der Demo anlegen (siehe unten) |
 | `--site-title`, `--language`, `--dns` | Titel, Sprache (Standard `de`) und Domain des neuen Startpunkts |
-| `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial`, `corporate` |
+| `--scheme` | Farbschema: `green` (Standard), `blue`, `red`, `yellow`, `petrol`, `violet`, `terracotta`, `ocean`, `indigo`, `gold`, `bordeaux`, `magenta`, `plum`, `orange`, `olive`, `sage`, `lime` |
+| `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial` |
 | `--theme-name` | Name des Themes (Standard „Creuva“), z. B. für eine zweite Variante |
 
 Kontakt-, Impressum-, Datenschutz- und Sitemap-Seiten einer bestehenden Website werden
@@ -70,6 +71,9 @@ Sprache legen):
   bitte im Formulargenerator ergänzen)
 - **Dateien** unter `files/creuva-demo/standard/` (Illustrationen, Icons, PDFs) inklusive
   Alt-Texten; der Ordner ist öffentlich
+
+Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
+Besucher Farbschema, Variante und Eckenradius live ausprobieren können.
 
 Die Demo verwendet ausschließlich Core-Elemente, Creuva-Elemente und Templatevarianten
 und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
@@ -130,11 +134,12 @@ vendor/bin/contao-console creuva:install --demo --reset
    - *Creuva › Creuva Marke* – Logo, Claim und Social-Media-Links für den Footer
    - *Individuelle Navigation* mit Überschrift für jede Footer-Spalte (z. B. Leistungen, Unternehmen, Rechtliches)
    - optional *Eigener HTML-Code* für das Copyright und eine individuelle Navigation für die Links unten rechts
+   - optional *Creuva › Creuva Style-Switcher* – Vorschau der Farbschemen im Frontend (z. B. für eine Demo-Website)
 3. **Seitenlayout** anlegen: Layouttyp **„Modern“**, Template **`page/layout/creuva`**, Module den Slots zuweisen:
 
    | Slot     | Inhalt                                                     |
    |----------|------------------------------------------------------------|
-   | `top`    | optionale Leiste (z. B. Kontrast-/Schriftgrößenumschalter) |
+   | `top`    | optionale Leiste (z. B. Kontrast-/Schriftgrößenumschalter), Style-Switcher |
    | `header` | Creuva Header                                              |
    | `main`   | Artikel                                                    |
    | `footer` | Creuva Marke + Footer-Navigationen                         |
@@ -143,8 +148,8 @@ vendor/bin/contao-console creuva:install --demo --reset
    Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
 
-4. Unter **Creuva-Design** Variante (Light, Dark, Editorial, Corporate), Eckenradius
-   sowie optional Primär- und Akzentfarbe festlegen.
+4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius
+   sowie optional eigene Primär- und Akzentfarbe festlegen.
 5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
    Redakteure können dann Hintergründe, Raster, Abstände usw. per Auswahlfeld setzen.
 
@@ -218,6 +223,43 @@ Alle Templates sind Twig-Templates und lassen sich wie gewohnt in `templates/`
 {% extends '@Contao/content_element/creuva_hero.html.twig' %}
 ```
 
+## Farbschemen
+
+Die Farbschemen sind in `config/color-schemes.json` gepflegt – die Datei ist die einzige
+Quelle für das CSS, die Auswahl im Seitenlayout, den Style-Switcher und `creuva:install --scheme`:
+
+```json
+"petrol": {
+  "label": { "de": "Petrol", "en": "Petrol" },
+  "primary": "#0f3a40",
+  "accent": "#0b7d7d"
+}
+```
+
+| Schlüssel | Pflicht | Verwendung |
+|-----------|---------|------------|
+| `primary` | ja | Buttons, dunkle Flächen, Links; tönt außerdem Hintergründe, Rahmen und Text |
+| `accent` | ja | Akzente, Badges, Icons, Fokusrahmen |
+| `accentText` | nein | Akzent als Textfarbe (Standard: `accent`), z. B. dunkleres Gelb |
+| `accentContrast` | nein | Textfarbe auf dem Akzent (Standard: Weiß) |
+| `darkAccent` | nein | Primär- und Akzentfarbe der Variante „Dark“ (Standard: `accent` aufgehellt) |
+
+Neues Schema: Eintrag ergänzen und `npm run build` ausführen. Der Build prüft die
+WCAG-Kontraste (Text 4,5:1, große Schrift 3:1) für Light und Dark und bricht mit einer
+Meldung ab, wenn ein Schema sie nicht erreicht. Das Schema `default` gilt ohne Auswahl.
+
+Das Seitenlayout gibt das Schema als `data-scheme` am `<html>`-Element aus; eigene
+Primär-/Akzentfarben aus dem Layout überschreiben es. Die frühere Variante „Corporate“
+ist jetzt das Schema „Blau“ (bestehende Layouts werden per Migration umgestellt).
+
+### Style-Switcher
+
+Das Frontend-Modul *Creuva Style-Switcher* blendet am linken Rand ein Zahnrad ein, über das
+Besucher Farbschema, Variante und Eckenradius wechseln. Die Auswahl wird nur im Browser
+(localStorage) gespeichert und gilt auf allen Seiten mit dem Modul. Per URL lässt sich eine
+Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&radius=none`. Das Modul im Slot
+`top` platzieren, damit die Auswahl vor dem ersten Rendern greift.
+
 ## Eigenes CSS
 
 Sämtliche Creuva-Styles liegen in CSS-Cascade-Layern (`creuva.*`). Eigene Styles
@@ -227,7 +269,7 @@ Farben, Abstände und Typografie sind als CSS Custom Properties definiert
 
 ```css
 :root {
-  --c-primary: #123456;
+  --scheme-primary: #123456; /* Primärfarbe inkl. getönter Hintergründe */
   --radius-l: 0.75rem;
 }
 ```
@@ -260,7 +302,7 @@ composer require pdir/creuva-theme-bundle:@dev
 
 ```
 assets/            Quellcode (SCSS, JS) – wird nicht mit ausgeliefert
-config/            Symfony-Services
+config/            Symfony-Services, Farbschemen (color-schemes.json)
 contao/config/     Registrierung des Klassen-Sets
 contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module)
 contao/languages/  Übersetzungen (de, en)

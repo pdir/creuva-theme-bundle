@@ -1,21 +1,28 @@
-// Design tokens. Primary and accent can be overridden per page layout
-// (inline custom properties on <html>), everything else derives from them.
+// Design tokens. The brand colors come from the color scheme (data-scheme on
+// <html>, see _schemes.scss and config/color-schemes.json) and can be
+// overridden per page layout (inline --scheme-* properties on <html>).
+// Surfaces and text are tinted with the primary color, so every scheme gets
+// matching neutrals. The formulas are mirrored in assets/build/color-schemes.js
+// for the contrast check – keep both in sync.
 @layer creuva.tokens {
   :root {
     // Brand
-    --c-primary: #1d3b2a;
-    --c-accent: #3c9a2f;
+    --c-primary: var(--scheme-primary);
     --c-primary-contrast: #fff;
+    --c-accent: var(--scheme-accent);
+    --c-accent-text: var(--scheme-accent-text);
+    --c-accent-contrast: var(--scheme-accent-contrast);
+    --c-accent-on-primary: color-mix(in srgb, var(--c-accent) 55%, #fff);
     --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, #fff);
-    --c-accent-blob: color-mix(in srgb, var(--c-accent) 30%, #f4fbe9);
+    --c-accent-blob: color-mix(in srgb, var(--c-accent) 30%, #fff);
 
     // Surfaces & text
-    --c-bg: #f8faf7;
+    --c-bg: color-mix(in srgb, var(--scheme-primary) 3%, #fff);
     --c-surface: #fff;
-    --c-surface-muted: #f3f6f1;
-    --c-text: #14241b;
-    --c-text-muted: #5a6a60;
-    --c-border: #e3e9e2;
+    --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 5%, #fff);
+    --c-text: color-mix(in srgb, var(--scheme-primary) 65%, #000);
+    --c-text-muted: color-mix(in srgb, var(--scheme-primary) 45%, #808080);
+    --c-border: color-mix(in srgb, var(--scheme-primary) 12%, #fff);
     --c-link: var(--c-primary);
 
     // Typography (self-host the web font, no external requests)
@@ -68,17 +75,20 @@
 
   // Design variants
   :root[data-theme='dark'] {
-    --c-accent: #8fd16a;
-    --c-primary: #8fd16a;
-    --c-primary-contrast: #0f1a13;
-    --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, #121c16);
-    --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, #121c16);
-    --c-bg: #0f1712;
-    --c-surface: #16211a;
-    --c-surface-muted: #1b2820;
-    --c-text: #eef3ee;
-    --c-text-muted: #a7b4ab;
-    --c-border: #2a3a30;
+    --c-primary: var(--scheme-dark-accent);
+    --c-primary-contrast: var(--c-bg);
+    --c-accent: var(--scheme-dark-accent);
+    --c-accent-text: var(--scheme-dark-accent);
+    --c-accent-contrast: var(--c-bg);
+    --c-accent-on-primary: color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg));
+    --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg));
+    --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, var(--c-bg));
+    --c-bg: color-mix(in srgb, var(--scheme-primary) 30%, #080808);
+    --c-surface: color-mix(in srgb, var(--scheme-primary) 42%, #0c0c0c);
+    --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 50%, #0e0e0e);
+    --c-text: color-mix(in srgb, var(--scheme-primary) 6%, #fff);
+    --c-text-muted: color-mix(in srgb, var(--scheme-primary) 20%, #d0d0d0);
+    --c-border: color-mix(in srgb, var(--scheme-primary) 55%, #333);
     --shadow-m: 0 12px 32px -12px rgb(0 0 0 / 0.5);
   }
 
@@ -90,20 +100,12 @@
     --lh-heading: 1.05;
   }
 
-  :root[data-theme='corporate'] {
-    --c-primary: #1b2f4b;
-    --c-accent: #2f6fd6;
-    --c-bg: #f7f9fc;
-    --c-surface-muted: #f1f4f9;
-    --c-border: #e1e7f0;
-    --c-text: #142033;
-    --c-text-muted: #56627a;
-  }
-
   // High contrast mode of the theme components bundle (class on <body>)
   .high-contrast {
     --c-primary: #000;
     --c-accent: #0b5d00;
+    --c-accent-text: #0b5d00;
+    --c-accent-contrast: #fff;
     --c-primary-contrast: #fff;
     --c-accent-soft: #fff;
     --c-accent-blob: transparent;

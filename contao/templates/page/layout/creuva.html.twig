@@ -12,20 +12,26 @@
                   the "powered by contao-themes.net" link
 #}
 
+{# The former variant "corporate" is the color scheme "blue" now #}
+{% set creuva_variant = layout.creuvaVariant|default('light') %}
+
 {% set creuva = {
-    variant: layout.creuvaVariant|default('light'),
+    variant: creuva_variant == 'corporate' ? 'light' : creuva_variant,
+    scheme: layout.creuvaScheme|default(creuva_variant == 'corporate' ? 'blue' : ''),
     radius: layout.creuvaRadius|default('large'),
     primary: layout.creuvaPrimaryColor|default,
     accent: layout.creuvaAccentColor|default,
 } %}
 
+{# Custom colors override the color scheme (see base/_schemes.scss) #}
 {% set creuva_tokens = [
-    creuva.primary ? '--c-primary:#' ~ creuva.primary,
-    creuva.accent ? '--c-accent:#' ~ creuva.accent,
+    creuva.primary ? '--scheme-primary:#' ~ creuva.primary,
+    creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
 ]|filter(v => v)|join(';') %}
 
 {% set html_attributes = attrs()
     .set('data-theme', creuva.variant)
+    .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
     .setIfExists('style', creuva_tokens ? creuva_tokens|csp_unsafe_inline_style : null)
     .mergeWith(html_attributes|default)

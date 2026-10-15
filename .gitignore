@@ -3,3 +3,4 @@
 /composer.lock
 /.idea/
 .DS_Store
+/assets/scss/base/_scheme-data.scss

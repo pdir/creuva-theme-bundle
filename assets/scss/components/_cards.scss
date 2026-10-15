@@ -54,7 +54,7 @@
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--c-accent);
+    color: var(--c-accent-text);
   }
 
   .c-card__title {
@@ -174,7 +174,7 @@
       font-family: Georgia, serif;
       font-size: 4rem;
       line-height: 1;
-      color: var(--c-accent);
+      color: var(--c-accent-text);
     }
   }
 
@@ -241,7 +241,7 @@
   }
 
   .c-team__role {
-    color: var(--c-accent);
+    color: var(--c-accent-text);
     font-size: var(--fs-small);
     font-weight: 600;
   }
