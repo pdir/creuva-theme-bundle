@@ -1,29 +1,12 @@
 // Design tokens. The brand colors come from the color scheme (data-scheme on
 // <html>, see _schemes.scss and config/color-schemes.json) and can be
 // overridden per page layout (inline --scheme-* properties on <html>).
-// Surfaces and text are tinted with the primary color, so every scheme gets
-// matching neutrals. The formulas are mirrored in assets/build/color-schemes.js
-// for the contrast check – keep both in sync.
+// The color tokens are defined in _color-tokens.scss.
+@use 'color-tokens' as colors;
+
 @layer creuva.tokens {
   :root {
-    // Brand
-    --c-primary: var(--scheme-primary);
-    --c-primary-contrast: #fff;
-    --c-accent: var(--scheme-accent);
-    --c-accent-text: var(--scheme-accent-text);
-    --c-accent-contrast: var(--scheme-accent-contrast);
-    --c-accent-on-primary: color-mix(in srgb, var(--c-accent) 55%, #fff);
-    --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, #fff);
-    --c-accent-blob: color-mix(in srgb, var(--c-accent) 30%, #fff);
-
-    // Surfaces & text
-    --c-bg: color-mix(in srgb, var(--scheme-primary) 3%, #fff);
-    --c-surface: #fff;
-    --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 5%, #fff);
-    --c-text: color-mix(in srgb, var(--scheme-primary) 65%, #000);
-    --c-text-muted: color-mix(in srgb, var(--scheme-primary) 45%, #808080);
-    --c-border: color-mix(in srgb, var(--scheme-primary) 12%, #fff);
-    --c-link: var(--c-primary);
+    @include colors.light;
 
     // Typography (self-host the web font, no external requests)
     --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -75,20 +58,8 @@
 
   // Design variants
   :root[data-theme='dark'] {
-    --c-primary: var(--scheme-dark-accent);
-    --c-primary-contrast: var(--c-bg);
-    --c-accent: var(--scheme-dark-accent);
-    --c-accent-text: var(--scheme-dark-accent);
-    --c-accent-contrast: var(--c-bg);
-    --c-accent-on-primary: color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg));
-    --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg));
-    --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, var(--c-bg));
-    --c-bg: color-mix(in srgb, var(--scheme-primary) 30%, #080808);
-    --c-surface: color-mix(in srgb, var(--scheme-primary) 42%, #0c0c0c);
-    --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 50%, #0e0e0e);
-    --c-text: color-mix(in srgb, var(--scheme-primary) 6%, #fff);
-    --c-text-muted: color-mix(in srgb, var(--scheme-primary) 20%, #d0d0d0);
-    --c-border: color-mix(in srgb, var(--scheme-primary) 55%, #333);
+    @include colors.dark;
+
     --shadow-m: 0 12px 32px -12px rgb(0 0 0 / 0.5);
   }
 

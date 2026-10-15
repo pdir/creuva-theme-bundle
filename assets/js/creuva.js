@@ -128,7 +128,7 @@ const initStyleSwitcher = () => {
     save();
   });
 
-  // Back to the settings of the page layout (also removes the URL parameters)
+  // Back to the saved settings of the website (also removes the URL parameters)
   switcher.querySelector('[data-creuva-style-reset]').addEventListener('click', () => {
     try {
       localStorage.removeItem('creuva-style');
@@ -147,6 +147,65 @@ const initStyleSwitcher = () => {
   }
 
   sync();
+  initStyleSwitcherSave(switcher, api, defaults);
+};
+
+/**
+ * Saves the choice in the website root (front end preview, administrators only).
+ */
+const initStyleSwitcherSave = (switcher, api, defaults) => {
+  const container = switcher.querySelector('[data-creuva-style-save]');
+
+  if (!container) {
+    return;
+  }
+
+  const config = JSON.parse(container.dataset.creuvaStyleSave);
+  const button = container.querySelector('button');
+  const status = container.querySelector('[role="status"]');
+
+  button.addEventListener('click', async () => {
+    const choice = { ...defaults, ...api.state };
+    const body = new FormData();
+
+    body.append('REQUEST_TOKEN', config.token);
+    body.append('root', config.root);
+    Object.keys(api.allowed).forEach((key) => body.append(key, choice[key]));
+
+    button.disabled = true;
+    container.classList.remove('is-saved', 'is-error');
+
+    try {
+      const response = await fetch(config.url, {
+        method: 'POST',
+        body,
+        credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
+      });
+
+      if (!response.ok || !(await response.json()).success) {
+        throw new Error(String(response.status));
+      }
+
+      // The saved settings are the defaults now
+      Object.assign(defaults, choice);
+      Object.keys(api.state).forEach((key) => delete api.state[key]);
+
+      try {
+        localStorage.removeItem('creuva-style');
+      } catch (e) {
+        // Nothing stored
+      }
+
+      container.classList.add('is-saved');
+      status.textContent = status.dataset.success;
+    } catch (e) {
+      container.classList.add('is-error');
+      status.textContent = status.dataset.error;
+    } finally {
+      button.disabled = false;
+    }
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => {

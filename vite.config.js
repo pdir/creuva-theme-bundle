@@ -64,7 +64,10 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false, // public/ also holds static files (e.g. sets/)
     sourcemap: mode === 'development',
     rolldownOptions: {
-      input: { creuva: resolve(import.meta.dirname, 'assets/js/creuva.js') },
+      input: {
+        creuva: resolve(import.meta.dirname, 'assets/js/creuva.js'),
+        backend: resolve(import.meta.dirname, 'assets/js/backend.js'),
+      },
       output: {
         entryFileNames: '[name].js',
         assetFileNames: '[name][extname]',

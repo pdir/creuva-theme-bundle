@@ -12,16 +12,8 @@
                   the "powered by contao-themes.net" link
 #}
 
-{# The former variant "corporate" is the color scheme "blue" now #}
-{% set creuva_variant = layout.creuvaVariant|default('light') %}
-
-{% set creuva = {
-    variant: creuva_variant == 'corporate' ? 'light' : creuva_variant,
-    scheme: layout.creuvaScheme|default(creuva_variant == 'corporate' ? 'blue' : ''),
-    radius: layout.creuvaRadius|default('large'),
-    primary: layout.creuvaPrimaryColor|default,
-    accent: layout.creuvaAccentColor|default,
-} %}
+{# Settings of the page layout, overridden by the website root (see DesignSettings::resolve()) #}
+{% set creuva = creuva_design(page, layout|default(null)) %}
 
 {# Custom colors override the color scheme (see base/_schemes.scss) #}
 {% set creuva_tokens = [

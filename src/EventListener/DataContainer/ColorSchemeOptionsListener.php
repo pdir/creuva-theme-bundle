@@ -15,9 +15,11 @@ use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Offers the color schemes of config/color-schemes.json in the page layout.
+ * Offers the color schemes of config/color-schemes.json in the page layout and
+ * the website root.
  */
 #[AsCallback(table: 'tl_layout', target: 'fields.creuvaScheme.options')]
+#[AsCallback(table: 'tl_page', target: 'fields.creuvaScheme.options')]
 class ColorSchemeOptionsListener
 {
     public function __construct(

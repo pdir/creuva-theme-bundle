@@ -1,7 +1,7 @@
 # Creuva theme bundle
 
 Bedingungen:
-- Das theme componets bundle ist hier zu finden: /Users/ma/PhpstormProjects/theme-components-bundle
+- Das theme components bundle ist hier zu finden: /Users/ma/PhpstormProjects/theme-components-bundle
 - Das Advanced Classes Bundle ist hier zu finden: /Users/ma/PhpstormProjects/advanced-classes-bundle
 - Es sollen Contao 5.7 und Contao 6 unterstützt werden
 

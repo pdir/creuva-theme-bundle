@@ -1,0 +1,197 @@
+// Back end: color scheme picker and live preview in the page layout
+// (tl_layout.creuvaScheme, see assets/js/backend.js)
+@use 'sass:map';
+@use 'base/scheme-data' as data;
+@use 'base/color-tokens' as colors;
+
+// Radio buttons as chips with a swatch of the scheme (the labels stay plain
+// text, the swatch color is selected via the option value)
+.creuva-scheme-picker .tl_radio_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.375rem;
+
+  > span {
+    position: relative;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.6rem 0.35rem 0.4rem;
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    border-radius: 999px;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--swatch-primary, #999) 50%, var(--swatch-accent, #ccc) 50%);
+      box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+    }
+
+    &:hover {
+      border-color: color-mix(in srgb, currentColor 45%, transparent);
+    }
+  }
+
+  input:checked + label {
+    border-color: currentColor;
+    box-shadow: inset 0 0 0 1px currentColor;
+    font-weight: 600;
+  }
+
+  input:focus-visible + label {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  @each $name, $scheme in data.$schemes {
+    input[value='#{$name}'] + label {
+      --swatch-primary: #{map.get($scheme, primary)};
+      --swatch-accent: #{map.get($scheme, accent)};
+    }
+  }
+}
+
+// Live preview with the color tokens of the front end
+.creuva-preview {
+  @include colors.scheme(map.get(data.$schemes, data.$default));
+  @include colors.light;
+
+  --radius-m: 0.75rem;
+  --radius-l: 1rem;
+
+  max-width: 44rem;
+  margin-top: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: system-ui, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+
+  @each $name, $scheme in data.$schemes {
+    &[data-scheme='#{$name}'] {
+      @include colors.scheme($scheme);
+    }
+  }
+
+  &[data-theme='dark'] {
+    @include colors.dark;
+  }
+
+  &[data-radius='none'] { --radius-m: 0; --radius-l: 0; }
+  &[data-radius='small'] { --radius-m: 0.25rem; --radius-l: 0.375rem; }
+  &[data-radius='medium'] { --radius-m: 0.5rem; --radius-l: 0.75rem; }
+
+  p {
+    margin: 0 0 0.75rem;
+  }
+}
+
+.creuva-preview__kicker {
+  color: var(--c-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.creuva-preview__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+
+  span {
+    color: var(--c-accent-text);
+  }
+}
+
+.creuva-preview__text {
+  u {
+    color: var(--c-link);
+  }
+
+  span {
+    color: var(--c-text-muted);
+  }
+}
+
+.creuva-preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.creuva-preview__button {
+  padding: 0.5em 1.2em;
+  border: 1px solid var(--c-primary);
+  border-radius: 999px;
+  background: var(--c-primary);
+  color: var(--c-primary-contrast);
+  font-weight: 600;
+
+  &--secondary {
+    border-color: var(--c-border);
+    background: var(--c-surface);
+    color: var(--c-text);
+  }
+}
+
+.creuva-preview__badge {
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  background: var(--c-accent);
+  color: var(--c-accent-contrast);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.creuva-preview__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.75rem;
+}
+
+.creuva-preview__card {
+  padding: 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  background: var(--c-surface);
+
+  strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  &--soft {
+    border-color: transparent;
+    background: var(--c-accent-soft);
+  }
+
+  &--primary {
+    border-color: transparent;
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+
+    span {
+      color: var(--c-accent-on-primary);
+    }
+  }
+}

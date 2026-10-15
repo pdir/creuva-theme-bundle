@@ -31,3 +31,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_small'] = 'Klein';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_medium'] = 'Mittel';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_large'] = 'Groß';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleReset'] = 'Zurücksetzen';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSave'] = 'Für die Website speichern';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Speichert die Auswahl im Startpunkt der Website, sie gilt dann für alle Besucher.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Gespeichert. Die Auswahl gilt jetzt für alle Besucher.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Speichern fehlgeschlagen. Bitte die Seite neu laden und erneut versuchen.';

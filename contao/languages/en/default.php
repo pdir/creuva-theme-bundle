@@ -31,3 +31,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_small'] = 'Small';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_medium'] = 'Medium';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_large'] = 'Large';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleReset'] = 'Reset';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSave'] = 'Save for the website';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Saves the choice in the website root, it then applies to all visitors.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Saved. The choice now applies to all visitors.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Saving failed. Please reload the page and try again.';

@@ -7,6 +7,9 @@
 
     Place the module in the "top" slot: the inline script then applies the
     stored choice before the header and the content are rendered.
+
+    In the front end preview, administrators can save the choice in the
+    website root ("save" is null otherwise).
 #}
 
 {% set panel_id = 'creuva-style-switcher-' ~ data.id %}
@@ -105,6 +108,13 @@
                 {% endfor %}
             </div>
         </fieldset>
+
+        {% if save %}
+            <div class="c-style-switcher__save" data-creuva-style-save="{{ save|json_encode }}">
+                <button class="c-style-switcher__save-button" type="button">{{ 'MSC.creuvaStyleSave'|trans([], 'contao_default') }}</button>
+                <p class="c-style-switcher__save-status" role="status" data-success="{{ 'MSC.creuvaStyleSaved'|trans([], 'contao_default') }}" data-error="{{ 'MSC.creuvaStyleSaveError'|trans([], 'contao_default') }}">{{ 'MSC.creuvaStyleSaveHint'|trans([], 'contao_default') }}</p>
+            </div>
+        {% endif %}
 
         <button class="c-style-switcher__reset" type="button" data-creuva-style-reset>{{ 'MSC.creuvaStyleReset'|trans([], 'contao_default') }}</button>
     </div>

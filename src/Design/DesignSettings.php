@@ -70,6 +70,56 @@ class DesignSettings
     }
 
     /**
+     * Combines the settings of the page layout and the website root (the root
+     * page overrides the layout). A scheme of the root page also replaces the
+     * custom colors of the layout, just like the style switcher does.
+     *
+     * @param array<string, mixed>|null $layout
+     * @param array<string, mixed>|null $rootPage
+     *
+     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string}
+     */
+    public function resolve(array|null $layout, array|null $rootPage = null): array
+    {
+        $variant = (string) ($layout['creuvaVariant'] ?? '');
+        $scheme = (string) ($layout['creuvaScheme'] ?? '');
+
+        // The former variant "corporate" is the color scheme "blue" now
+        if ('corporate' === $variant) {
+            [$variant, $scheme] = ['light', $scheme ?: 'blue'];
+        }
+
+        $radius = (string) ($layout['creuvaRadius'] ?? '');
+
+        $settings = [
+            'variant' => \in_array($variant, self::VARIANTS, true) ? $variant : 'light',
+            'scheme' => $this->hasScheme($scheme) ? $scheme : '',
+            'radius' => \in_array($radius, self::RADII, true) ? $radius : 'large',
+            'primary' => (string) ($layout['creuvaPrimaryColor'] ?? ''),
+            'accent' => (string) ($layout['creuvaAccentColor'] ?? ''),
+        ];
+
+        if (null === $rootPage) {
+            return $settings;
+        }
+
+        if (\in_array($rootPage['creuvaVariant'] ?? null, self::VARIANTS, true)) {
+            $settings['variant'] = $rootPage['creuvaVariant'];
+        }
+
+        if (\in_array($rootPage['creuvaRadius'] ?? null, self::RADII, true)) {
+            $settings['radius'] = $rootPage['creuvaRadius'];
+        }
+
+        if ($this->hasScheme((string) ($rootPage['creuvaScheme'] ?? ''))) {
+            $settings['scheme'] = $rootPage['creuvaScheme'];
+            $settings['primary'] = $settings['accent'] = '';
+        }
+
+        return $settings;
+    }
+
+    /**
      * @param array<string, string> $labels
      */
     private function getLabel(array $labels, string $locale): string|null

@@ -17,3 +17,4 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaUrl1'] = ['Link CTA-Button', 'Ziel des B
 $GLOBALS['TL_LANG']['tl_module']['creuvaLinkTitle1'] = ['Text CTA-Button', 'Beschriftung des Buttons, z. B. „Projekt starten“.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaClaim'] = ['Claim', 'Kurzer Text unter dem Logo.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaSocialLinks'] = ['Social-Media-Links', 'Eine URL pro Zeile. Instagram, LinkedIn, X, YouTube, Facebook, Xing, GitHub, TikTok und Mastodon werden automatisch erkannt.'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Nur für Administratoren in der Vorschau', 'Den Style-Switcher nur Administratoren in der Frontend-Vorschau anzeigen, z. B. um das Design einer Live-Website auszuwählen. Besucher sehen ihn dann nicht.'];

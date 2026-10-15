@@ -248,8 +248,17 @@ Neues Schema: Eintrag ergänzen und `npm run build` ausführen. Der Build prüft
 WCAG-Kontraste (Text 4,5:1, große Schrift 3:1) für Light und Dark und bricht mit einer
 Meldung ab, wenn ein Schema sie nicht erreicht. Das Schema `default` gilt ohne Auswahl.
 
+Im Seitenlayout werden die Schemen als Farbpunkte zur Auswahl angeboten; darunter zeigt eine
+Live-Vorschau Überschrift, Buttons und Boxen im gewählten Schema – inklusive Variante,
+Eckenradius und eigener Farben (`public/backend.css` und `backend.js`, nur im Seitenlayout geladen).
+
 Das Seitenlayout gibt das Schema als `data-scheme` am `<html>`-Element aus; eigene
-Primär-/Akzentfarben aus dem Layout überschreiben es. Die frühere Variante „Corporate“
+Primär-/Akzentfarben aus dem Layout überschreiben es.
+
+Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Variante und Eckenradius
+unter „Creuva-Design“ zusätzlich festlegen. Diese Werte haben Vorrang vor dem Seitenlayout;
+ein Schema im Startpunkt ersetzt auch die eigenen Farben des Layouts. So können mehrere
+Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Die frühere Variante „Corporate“
 ist jetzt das Schema „Blau“ (bestehende Layouts werden per Migration umgestellt).
 
 ### Style-Switcher
@@ -259,6 +268,15 @@ Besucher Farbschema, Variante und Eckenradius wechseln. Die Auswahl wird nur im 
 (localStorage) gespeichert und gilt auf allen Seiten mit dem Modul. Per URL lässt sich eine
 Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&radius=none`. Das Modul im Slot
 `top` platzieren, damit die Auswahl vor dem ersten Rendern greift.
+
+In der Frontend-Vorschau zeigt der Switcher Administratoren zusätzlich den Button
+„Für die Website speichern“. Er speichert die Auswahl im Startpunkt der aktuellen Website,
+leert den Seiten-Cache dieser Website und gilt danach für alle Besucher. Redakteure ohne
+Admin-Rechte und normale Besucher sehen den Button nicht; der Endpunkt
+(`/contao/creuva/style-switcher`) prüft Admin-Rechte und Request-Token.
+
+Mit der Moduloption „Nur für Administratoren in der Vorschau“ ist der Switcher für Besucher
+unsichtbar – so lässt sich das Design einer Live-Website in der Vorschau auswählen.
 
 ## Eigenes CSS
 
@@ -281,7 +299,7 @@ kein Node.js nötig ist. Nach Änderungen in `assets/`:
 
 ```bash
 npm install
-npm run build     # Produktion → public/creuva.css, public/creuva.js, public/manifest.json
+npm run build     # Produktion → public/creuva.*, public/backend.*, public/manifest.json
 npm run dev       # Watch-Modus mit Sourcemaps
 ```
 

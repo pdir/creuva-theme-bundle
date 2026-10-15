@@ -1,0 +1,57 @@
+@use 'sass:map';
+
+// Color tokens of the light and the dark variant, derived from the --scheme-*
+// properties of the color scheme. Surfaces and text are tinted with the
+// primary color, so every scheme gets matching neutrals. Used by the front end
+// (_tokens.scss) and the scheme preview in the back end (backend.scss).
+//
+// The formulas are mirrored in assets/build/color-schemes.js for the contrast
+// check – keep both in sync.
+
+// --scheme-* properties of a scheme from config/color-schemes.json; optional
+// values fall back to values derived from the accent
+@mixin scheme($scheme) {
+  --scheme-primary: #{map.get($scheme, primary)};
+  --scheme-accent: #{map.get($scheme, accent)};
+  --scheme-accent-text: #{map.get($scheme, accent-text) or var(--scheme-accent)};
+  --scheme-accent-contrast: #{map.get($scheme, accent-contrast) or #fff};
+  --scheme-dark-accent: #{map.get($scheme, dark-accent) or color-mix(in srgb, var(--scheme-accent) 60%, #fff)};
+}
+
+@mixin light {
+  // Brand
+  --c-primary: var(--scheme-primary);
+  --c-primary-contrast: #fff;
+  --c-accent: var(--scheme-accent);
+  --c-accent-text: var(--scheme-accent-text);
+  --c-accent-contrast: var(--scheme-accent-contrast);
+  --c-accent-on-primary: color-mix(in srgb, var(--c-accent) 55%, #fff);
+  --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, #fff);
+  --c-accent-blob: color-mix(in srgb, var(--c-accent) 30%, #fff);
+
+  // Surfaces & text
+  --c-bg: color-mix(in srgb, var(--scheme-primary) 3%, #fff);
+  --c-surface: #fff;
+  --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 5%, #fff);
+  --c-text: color-mix(in srgb, var(--scheme-primary) 65%, #000);
+  --c-text-muted: color-mix(in srgb, var(--scheme-primary) 45%, #808080);
+  --c-border: color-mix(in srgb, var(--scheme-primary) 12%, #fff);
+  --c-link: var(--c-primary);
+}
+
+@mixin dark {
+  --c-primary: var(--scheme-dark-accent);
+  --c-primary-contrast: var(--c-bg);
+  --c-accent: var(--scheme-dark-accent);
+  --c-accent-text: var(--scheme-dark-accent);
+  --c-accent-contrast: var(--c-bg);
+  --c-accent-on-primary: color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg));
+  --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg));
+  --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, var(--c-bg));
+  --c-bg: color-mix(in srgb, var(--scheme-primary) 30%, #080808);
+  --c-surface: color-mix(in srgb, var(--scheme-primary) 42%, #0c0c0c);
+  --c-surface-muted: color-mix(in srgb, var(--scheme-primary) 50%, #0e0e0e);
+  --c-text: color-mix(in srgb, var(--scheme-primary) 6%, #fff);
+  --c-text-muted: color-mix(in srgb, var(--scheme-primary) 20%, #d0d0d0);
+  --c-border: color-mix(in srgb, var(--scheme-primary) 55%, #333);
+}

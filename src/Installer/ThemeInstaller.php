@@ -127,6 +127,7 @@ class ThemeInstaller
         $required = [
             'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius'],
             'tl_module' => ['creuvanavigation', 'creuvasociallinks'],
+            'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvaradius'],
             'tl_content' => ['creuvaheadlineaccent'],
         ];
 
@@ -366,7 +367,8 @@ class ThemeInstaller
             $hasClassSet = $this->hasColumn('tl_page', 'ac_set');
 
             foreach ($rootIds as $rootId) {
-                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'tstamp' => time()];
+                // Remove the design settings of the website root, so the ones of the new layout apply
+                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => '', 'tstamp' => time()];
 
                 if ($hasClassSet) {
                     $data['ac_set'] = self::CLASS_SET;

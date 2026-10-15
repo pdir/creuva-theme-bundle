@@ -21,10 +21,11 @@ PaletteManipulator::create()
     ->applyToPalette('modern', 'tl_layout')
 ;
 
-// Options from config/color-schemes.json, see ColorSchemeOptionsListener
+// Options from config/color-schemes.json, see ColorSchemeOptionsListener; the
+// swatches and the live preview come from public/backend.css and backend.js
 $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaScheme'] = [
-    'inputType' => 'select',
-    'eval' => ['tl_class' => 'w50'],
+    'inputType' => 'radio',
+    'eval' => ['tl_class' => 'clr creuva-scheme-picker'],
     'sql' => ['type' => 'string', 'length' => 32, 'default' => ''],
 ];
 
@@ -32,7 +33,7 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaVariant'] = [
     'inputType' => 'select',
     'options' => DesignSettings::VARIANTS,
     'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaVariant_options'],
-    'eval' => ['tl_class' => 'w50'],
+    'eval' => ['tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'light'],
 ];
 
@@ -40,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaRadius'] = [
     'inputType' => 'select',
     'options' => DesignSettings::RADII,
     'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'],
-    'eval' => ['tl_class' => 'w50 clr'],
+    'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'large'],
 ];
 
