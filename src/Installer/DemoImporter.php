@@ -28,6 +28,7 @@ use Symfony\Component\Yaml\Yaml;
  *   module:<key>         ID of a demo front end module
  *   form:<key>           ID of a demo form
  *   news_archive:<key>   ID of a demo news archive
+ *   calendar:<key>       ID of a demo event calendar
  *   headline: "Text"     headline as h2 (or {value: …, unit: h1})
  *   cssID: "classes"     CSS classes (or [id, classes])
  *   any other array      serialized
@@ -229,6 +230,17 @@ class DemoImporter
             $this->importNewsArchive((string) $key, $archive);
         }
 
+        $hasEvents = $this->tableExists('tl_calendar_events');
+
+        foreach ($definition['events'] ?? [] as $key => $calendar) {
+            if (!$hasEvents) {
+                $this->warnings[] = 'The calendar bundle is not installed, the demo events have been skipped.';
+                break;
+            }
+
+            $this->importEventCalendar((string) $key, $calendar);
+        }
+
         $modules = [];
 
         foreach ($definition['modules'] ?? [] as $key => $module) {
@@ -262,6 +274,16 @@ class DemoImporter
                 }
 
                 $this->importElements($item['elements'] ?? [], $this->refs['news'][$item['alias']], 'tl_news');
+            }
+        }
+
+        foreach ($definition['events'] ?? [] as $calendar) {
+            foreach ($calendar['items'] ?? [] as $item) {
+                if (!isset($item['alias'], $this->refs['event'][$item['alias']])) {
+                    continue;
+                }
+
+                $this->importElements($item['elements'] ?? [], $this->refs['event'][$item['alias']], 'tl_calendar_events');
             }
         }
     }
@@ -356,6 +378,62 @@ class DemoImporter
             }
 
             $this->refs['news'][$item['alias']] = $this->insert('tl_news', $data);
+        }
+    }
+
+    /**
+     * Creates an event calendar. The date of an event is a strtotime() string
+     * ("2026-12-05", "5 December" = current year, "+3 days"), the optional
+     * "startTime" and "endTime" are given as "HH:MM".
+     *
+     * @param array<string, mixed> $calendar
+     */
+    private function importEventCalendar(string $key, array $calendar): void
+    {
+        $items = $calendar['items'] ?? [];
+        unset($calendar['items']);
+
+        $id = $this->insert('tl_calendar', $this->resolveRow($calendar) ?? []);
+        $this->refs['calendar'][$key] = $id;
+
+        foreach ($items as $item) {
+            $date = strtotime((string) ($item['date'] ?? 'today'), strtotime('today'));
+
+            if (false === $date) {
+                $this->warnings[] = \sprintf('The date "%s" of the demo event "%s" is invalid, the event has been skipped.', $item['date'], $item['title'] ?? '');
+                continue;
+            }
+
+            $startDate = strtotime(date('Y-m-d', $date));
+            $endDate = isset($item['endDate']) ? strtotime(date('Y-m-d', strtotime((string) $item['endDate'], $startDate))) : null;
+            $startTime = $item['startTime'] ?? null;
+            $endTime = $item['endTime'] ?? $startTime;
+
+            unset($item['elements'], $item['date'], $item['endDate'], $item['startTime'], $item['endTime']);
+
+            // Same values as tl_calendar_events::adjustTime() stores
+            if (null !== $startTime) {
+                $times = [
+                    'addTime' => 1,
+                    'startTime' => strtotime(date('Y-m-d', $startDate).' '.$startTime),
+                    'endTime' => strtotime(date('Y-m-d', $endDate ?? $startDate).' '.$endTime),
+                ];
+            } else {
+                $times = [
+                    'startTime' => $startDate,
+                    'endTime' => strtotime('+1 day', $endDate ?? $startDate) - 1,
+                ];
+            }
+
+            $data = $this->resolveRow($item) ?? [];
+            $data['title'] = (string) $item['title']; // plain text in tl_calendar_events
+            $data += $times + ['pid' => $id, 'startDate' => $startDate, 'endDate' => $endDate, 'published' => 1, 'source' => 'default'];
+
+            if (!empty($data['singleSRC'])) {
+                $data += ['addImage' => 1];
+            }
+
+            $this->refs['event'][$item['alias']] = $this->insert('tl_calendar_events', $data);
         }
     }
 
@@ -465,7 +543,7 @@ class DemoImporter
             return serialize(array_map(fn ($v) => \is_array($v) ? $v : $this->resolveValue($v), $value));
         }
 
-        if (!\is_string($value) || !preg_match('/^(file|page|module|form|news_archive):(.+)$/', $value, $matches)) {
+        if (!\is_string($value) || !preg_match('/^(file|page|module|form|news_archive|calendar):(.+)$/', $value, $matches)) {
             return $value;
         }
 

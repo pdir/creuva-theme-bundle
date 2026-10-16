@@ -95,6 +95,21 @@ files/meine-demo/
 vendor/bin/contao-console creuva:install --demo=files/meine-demo
 ```
 
+Termine (Kalender-Bundle) werden wie News unter `events:` definiert; das Datum ist ein
+`strtotime()`-Ausdruck (`"2026-12-05"`, `"5 December"` = aktuelles Jahr), Uhrzeiten als `HH:MM`.
+Module referenzieren den Kalender mit `calendar:<key>`:
+
+```yaml
+events:
+  programm:
+    title: Programm
+    jumpTo: page:termin
+    items:
+      - { title: 'Eröffnung', alias: 'eroeffnung', date: '23 November', startTime: '17:00', endTime: '18:00', location: 'Marktplatz' }
+modules:
+  eventlist: { name: 'Termine', type: 'eventlist', cal_calendar: ['calendar:programm'], cal_format: 'next_all' }
+```
+
 - Der Pfad ist relativ zum Projektverzeichnis und muss innerhalb von `files/` liegen
   (nicht in `files/creuva-demo`).
 - Die Dateien werden nach `files/creuva-demo/local-<ordnername>/` kopiert; der Quellordner
