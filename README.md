@@ -115,7 +115,7 @@ Demo-Module lassen sich zusätzlichen Slots des Layouts zuordnen, z. B. eine Log
 files:
   partner/stadt.png: { alt: 'Stadt Musterstadt', link: 'https://example.org/' }
 modules:
-  partner: { name: 'Partner', type: 'creuva_logos', headline: 'Unsere Partner', multiSRC: ['file:partner/stadt.png'], creuvaLogosVariant: 'primary' }
+  partner: { name: 'Partner', type: 'creuva_logos', headline: 'Unsere Partner', multiSRC: ['file:partner/stadt.png'], creuvaLogosVariant: 'primary', creuvaLogosHeight: '6rem' }
 layout:
   prefooter: [partner]
 ```

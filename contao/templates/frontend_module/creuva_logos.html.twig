@@ -9,6 +9,7 @@
 
 {% set attributes = attrs(attributes|default)
     .addClass(['c-logos', 'c-logos--' ~ variant])
+    .addStyle('--logos-height:' ~ height, height)
 %}
 
 {% block wrapper_tag %}section{% endblock %}

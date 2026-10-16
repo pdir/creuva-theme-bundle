@@ -18,6 +18,7 @@ use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\FilesModel;
 use Contao\ModuleModel;
 use Contao\StringUtil;
+use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -59,6 +60,7 @@ class LogosController extends AbstractFrontendModuleController
 
         $template->set('logos', $logos);
         $template->set('variant', \in_array($model->creuvaLogosVariant, self::VARIANTS, true) ? $model->creuvaLogosVariant : 'surface');
+        $template->set('height', preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) $model->creuvaLogosHeight) ? (string) $model->creuvaLogosHeight : null);
 
         return $template->getResponse();
     }

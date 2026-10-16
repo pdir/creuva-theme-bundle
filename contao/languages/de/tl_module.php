@@ -21,3 +21,4 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Nur für Administrator
 $GLOBALS['TL_LANG']['tl_module']['creuva_logos_legend'] = 'Darstellung';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant'] = ['Hintergrund', '„Primärfarbe“ eignet sich für weiße Logos.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'] = ['surface' => 'Hell', 'muted' => 'Gedämpft', 'primary' => 'Primärfarbe'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaLogosHeight'] = ['Logohöhe', 'Maximale Höhe der Logos als CSS-Wert, z. B. „8rem“ (Standard: 5rem). Die Breite darf das Doppelte betragen; die Bildgröße sollte groß genug gewählt sein.'];
