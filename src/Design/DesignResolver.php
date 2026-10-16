@@ -34,7 +34,7 @@ class DesignResolver
      * @param array<string, mixed>      $page   page with details (rootId)
      * @param array<string, mixed>|null $layout
      *
-     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string}
+     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string}
      */
     public function resolve(array $page, array|null $layout): array
     {

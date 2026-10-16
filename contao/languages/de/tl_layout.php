@@ -16,3 +16,4 @@ $GLOBALS['TL_LANG']['tl_layout']['creuvaRadius'] = ['Eckenradius', 'Rundung von 
 $GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'] = ['none' => 'Eckig', 'small' => 'Klein', 'medium' => 'Mittel', 'large' => 'Groß'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaPrimaryColor'] = ['Primärfarbe', 'Überschreibt die Primärfarbe des Farbschemas (Hex-Wert ohne #).'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaAccentColor'] = ['Akzentfarbe', 'Überschreibt die Akzentfarbe des Farbschemas (Hex-Wert ohne #). Sie wird auch für Links und kleine Texte genutzt und braucht einen Kontrast von mindestens 4,5:1 zu Weiß.'];
+$GLOBALS['TL_LANG']['tl_layout']['creuvaLogoHeight'] = ['Logohöhe', 'Höhe des Logos im Header als CSS-Wert, z. B. „4rem“ (Standard: 2.25rem). Der Header wächst bei Bedarf mit.'];

@@ -301,6 +301,21 @@ class DemoImporter
         return $this->refs['page'][$alias] ?? null;
     }
 
+    /**
+     * Resolves a value of the definition (e.g. "file:design/logo.png"), arrays are
+     * serialized. Returns null and adds a warning if a reference cannot be resolved.
+     */
+    public function resolveReference(mixed $value): mixed
+    {
+        try {
+            return $this->resolveValue($value);
+        } catch (\OutOfBoundsException $e) {
+            $this->warnings[] = $e->getMessage();
+
+            return null;
+        }
+    }
+
     private function getDemoRoot(): string
     {
         return \dirname(__DIR__, 2).'/demo';

@@ -17,7 +17,7 @@ use Pdir\CreuvaThemeBundle\Design\DesignSettings;
  */
 PaletteManipulator::create()
     ->addLegend('creuva_legend', 'modules_legend', PaletteManipulator::POSITION_AFTER)
-    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('modern', 'tl_layout')
 ;
 
@@ -55,4 +55,11 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaAccentColor'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 6, 'colorpicker' => true, 'isHexColor' => true, 'tl_class' => 'w50 wizard'],
     'sql' => ['type' => 'string', 'length' => 6, 'default' => ''],
+];
+
+// Height of the logo in the header, e.g. "4rem" (default: 2.25rem)
+$GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaLogoHeight'] = [
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 16, 'rgxp' => 'custom', 'customRgxp' => DesignSettings::LOGO_HEIGHT_PATTERN, 'placeholder' => '2.25rem', 'tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
 ];

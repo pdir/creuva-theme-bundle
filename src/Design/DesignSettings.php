@@ -21,6 +21,11 @@ class DesignSettings
     public const RADII = ['none', 'small', 'medium', 'large'];
 
     /**
+     * CSS length for the logo height, e.g. "4rem", "3.5em" or "64px".
+     */
+    public const LOGO_HEIGHT_PATTERN = '/^\d{1,3}(\.\d{1,3})?(rem|em|px)$/';
+
+    /**
      * @var array{default: string, schemes: array<string, array{label: array<string, string>, primary: string, accent: string}>}|null
      */
     private array|null $data = null;
@@ -77,7 +82,7 @@ class DesignSettings
      * @param array<string, mixed>|null $layout
      * @param array<string, mixed>|null $rootPage
      *
-     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string}
+     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string}
      */
     public function resolve(array|null $layout, array|null $rootPage = null): array
     {
@@ -97,6 +102,7 @@ class DesignSettings
             'radius' => \in_array($radius, self::RADII, true) ? $radius : 'large',
             'primary' => (string) ($layout['creuvaPrimaryColor'] ?? ''),
             'accent' => (string) ($layout['creuvaAccentColor'] ?? ''),
+            'logoHeight' => preg_match(self::LOGO_HEIGHT_PATTERN, (string) ($layout['creuvaLogoHeight'] ?? '')) ? (string) $layout['creuvaLogoHeight'] : '',
         ];
 
         if (null === $rootPage) {

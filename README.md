@@ -95,6 +95,19 @@ files/meine-demo/
 vendor/bin/contao-console creuva:install --demo=files/meine-demo
 ```
 
+Ein Logo für Header und Footer-Marke wird unter `header:` bzw. `brand:` mit `logo:` gesetzt,
+optional mit Bildgröße (`logoSize`, wie im Modul):
+
+```yaml
+design:
+  logoHeight: 4rem    # Logohöhe des Layouts (Standard 2.25rem), der Header wächst mit
+header:
+  logo: file:design/logo.png
+  logoSize: ['', '128', 'proportional']
+brand:
+  logo: file:design/logo.png
+```
+
 Termine (Kalender-Bundle) werden wie News unter `events:` definiert; das Datum ist ein
 `strtotime()`-Ausdruck (`"2026-12-05"`, `"5 December"` = aktuelles Jahr), Uhrzeiten als `HH:MM`.
 Module referenzieren den Kalender mit `calendar:<key>`:
@@ -167,7 +180,8 @@ vendor/bin/contao-console creuva:install --demo --reset
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
 
 4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius
-   sowie optional eigene Primär- und Akzentfarbe festlegen.
+   sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`, Standard
+   `2.25rem`) festlegen.
 5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
    Redakteure können dann Hintergründe, Raster, Abstände usw. per Auswahlfeld setzen.
 

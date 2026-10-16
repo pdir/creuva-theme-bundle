@@ -12,6 +12,7 @@ namespace Pdir\CreuvaThemeBundle\Installer;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
@@ -125,7 +126,7 @@ class ThemeInstaller
     public function getMissingColumns(): array
     {
         $required = [
-            'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius'],
+            'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
             'tl_module' => ['creuvanavigation', 'creuvasociallinks'],
             'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvaradius'],
             'tl_content' => ['creuvaheadlineaccent'],
@@ -236,14 +237,14 @@ class ThemeInstaller
                 $header['creuvaLinkTitle1'] = $texts['cta'];
             }
 
-            $modules['header'] = $this->insertModule($result, $header);
+            $modules['header'] = $this->insertModule($result, $header + $this->getDemoLogo($demo['header'] ?? []));
 
             $modules['brand'] = $this->insertModule($result, [
                 'name' => $texts['brand'],
                 'type' => 'creuva_brand',
                 'creuvaClaim' => $demo['brand']['claim'] ?? $texts['claim'],
                 'creuvaSocialLinks' => implode("\n", $demo['brand']['social'] ?? []),
-            ]);
+            ] + $this->getDemoLogo($demo['brand'] ?? []));
 
             $footerSlots = ['brand'];
 
@@ -361,6 +362,7 @@ class ThemeInstaller
                 'modules' => serialize($layoutModules),
                 'creuvaVariant' => $options->variant,
                 'creuvaScheme' => $options->scheme,
+                'creuvaLogoHeight' => preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($demo['design']['logoHeight'] ?? '')) ? (string) $demo['design']['logoHeight'] : '',
             ]);
 
             // Assign the layout (and the Creuva class set) to the root pages
@@ -382,6 +384,28 @@ class ThemeInstaller
 
             return $result;
         });
+    }
+
+    /**
+     * Logo of the header or brand module of a demo ("logo: file:…", optional "logoSize").
+     *
+     * @param array<string, mixed> $config
+     *
+     * @return array<string, mixed>
+     */
+    private function getDemoLogo(array $config): array
+    {
+        if (empty($config['logo']) || null === ($uuid = $this->demoImporter->resolveReference($config['logo']))) {
+            return [];
+        }
+
+        $data = ['creuvaLogo' => $uuid];
+
+        if (isset($config['logoSize'])) {
+            $data['imgSize'] = $this->demoImporter->resolveReference($config['logoSize']);
+        }
+
+        return $data;
     }
 
     private function createRootPage(InstallOptions $options): int

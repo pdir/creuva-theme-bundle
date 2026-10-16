@@ -15,8 +15,10 @@
 {# Settings of the page layout, overridden by the website root (see DesignSettings::resolve()) #}
 {% set creuva = creuva_design(page, layout|default(null)) %}
 
-{# Custom colors override the color scheme (see base/_schemes.scss) #}
+{# Custom colors override the color scheme (see base/_schemes.scss), a custom
+   logo height also makes the header grow if needed (see base/_tokens.scss) #}
 {% set creuva_tokens = [
+    creuva.logoHeight ? '--logo-height:%1$s;--header-height:max(4.5rem,calc(%1$s + 1rem))'|format(creuva.logoHeight),
     creuva.primary ? '--scheme-primary:#' ~ creuva.primary,
     creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
 ]|filter(v => v)|join(';') %}
