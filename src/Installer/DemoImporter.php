@@ -42,6 +42,12 @@ class DemoImporter
     public const FILES_FOLDER = 'creuva-demo';
 
     /**
+     * Folders created by Flysystem are private (0700) by default, which the web
+     * server cannot read on many hosts; public means 0755.
+     */
+    private const WRITE_OPTIONS = ['directory_visibility' => 'public'];
+
+    /**
      * @var array<string, array<string, int|string>> type => key => ID/UUID
      */
     private array $refs = [];
@@ -380,14 +386,14 @@ class DemoImporter
         $folder = explode('/', $path)[0];
 
         if (str_contains($path, '/') && !$this->filesStorage->fileExists($folder.'/.public')) {
-            $this->filesStorage->write($folder.'/.public', '');
+            $this->writeFile($folder.'/.public', '');
         }
 
         // Never overwrite an existing file, e.g. a versioned custom.css that is not in
         // the file manager yet (new database): writing its content back registers it
         if (!$this->filesStorage->fileExists($path)) {
             $exists = $this->filesStorage->fileExists($path, VirtualFilesystemInterface::BYPASS_DBAFS);
-            $this->filesStorage->write($path, $exists ? $this->filesStorage->read($path) : "/* Individuelle Anpassungen – wird nach dem Creuva-CSS geladen */\n");
+            $this->writeFile($path, $exists ? $this->filesStorage->read($path) : "/* Individuelle Anpassungen – wird nach dem Creuva-CSS geladen */\n");
         }
 
         return $this->filesStorage->get($path)?->getUuid()?->toBinary();
@@ -431,6 +437,44 @@ class DemoImporter
         return $folder;
     }
 
+    private function writeFile(string $path, string $contents): void
+    {
+        $this->filesStorage->write($path, $contents, self::WRITE_OPTIONS);
+    }
+
+    /**
+     * Makes existing folders readable for the web server again (e.g. created
+     * with 0700 by an earlier import): the folder, its parents up to the upload
+     * directory and all subfolders.
+     */
+    private function fixFolderPermissions(string $folder): void
+    {
+        $uploadDir = $this->projectDir.'/'.$this->uploadPath;
+        $dir = $uploadDir.'/'.$folder;
+
+        if (!is_dir($dir)) {
+            return; // e.g. not a local file system
+        }
+
+        $dirs = [];
+
+        for ($path = $folder; '.' !== $path && '' !== $path; $path = \dirname($path)) {
+            $dirs[] = $uploadDir.'/'.$path;
+        }
+
+        foreach ((new Finder())->directories()->in($dir)->ignoreDotFiles(false) as $subfolder) {
+            $dirs[] = $subfolder->getPathname();
+        }
+
+        foreach ($dirs as $path) {
+            $mode = fileperms($path) & 0777;
+
+            if (($mode & 0055) !== 0055 && !@chmod($path, $mode | 0755)) {
+                $this->warnings[] = \sprintf('The permissions of the folder "%s" could not be changed to 0755.', substr($path, \strlen($this->projectDir) + 1));
+            }
+        }
+    }
+
     private function importFiles(string $target): void
     {
         $source = $this->demoDir.'/files';
@@ -443,12 +487,12 @@ class DemoImporter
         $publicFolder = str_starts_with($target, self::FILES_FOLDER.'/') ? self::FILES_FOLDER : $target;
 
         if (!$this->filesStorage->fileExists($publicFolder.'/.public')) {
-            $this->filesStorage->write($publicFolder.'/.public', '');
+            $this->writeFile($publicFolder.'/.public', '');
         }
 
         foreach ((new Finder())->files()->in($source)->sortByName() as $file) {
             $path = $target.'/'.str_replace('\\', '/', $file->getRelativePathname());
-            $this->filesStorage->write($path, $file->getContents());
+            $this->writeFile($path, $file->getContents());
 
             $uuid = $this->filesStorage->get($path)?->getUuid();
 
@@ -456,6 +500,8 @@ class DemoImporter
                 $this->refs['file'][str_replace('\\', '/', $file->getRelativePathname())] = $uuid->toBinary();
             }
         }
+
+        $this->fixFolderPermissions($publicFolder);
     }
 
     /**
