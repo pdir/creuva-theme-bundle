@@ -354,6 +354,15 @@ class ThemeInstaller
                 }
             }
 
+            // Demo modules in the layout slots, e.g. "layout: {prefooter: [partner]}"
+            foreach ($demo['layout'] ?? [] as $slot => $keys) {
+                foreach ((array) $keys as $key) {
+                    if (null !== ($id = $this->demoImporter->resolveReference('module:'.$key))) {
+                        $layoutModules[] = ['mod' => (string) $id, 'col' => (string) $slot, 'enable' => '1'];
+                    }
+                }
+            }
+
             $result->layoutId = $this->insert('tl_layout', [
                 'pid' => $result->themeId,
                 'name' => $texts['layout'],

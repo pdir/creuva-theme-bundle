@@ -59,3 +59,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['creuvaPreviewOnly'] = [
     'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'boolean', 'default' => false],
 ];
+
+// Logo bar (images from multiSRC, link from the file metadata)
+$GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_logos'] = '{title_legend},name,headline,type;{source_legend},multiSRC,imgSize;{creuva_logos_legend},creuvaLogosVariant;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['creuvaLogosVariant'] = [
+    'inputType' => 'select',
+    'options' => Pdir\CreuvaThemeBundle\Controller\FrontendModule\LogosController::VARIANTS,
+    'reference' => &$GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'surface'],
+];

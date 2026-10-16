@@ -35,3 +35,4 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleSave'] = 'Save for the website';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Saves the choice in the website root, it then applies to all visitors.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Saved. The choice now applies to all visitors.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Saving failed. Please reload the page and try again.';
+$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva logo bar', 'Logos of partners or sponsors, linked via the file metadata. Best placed in the "prefooter" slot.'];

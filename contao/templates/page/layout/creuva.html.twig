@@ -7,6 +7,7 @@
         top     – optional bar above the header (e.g. contrast/font size switcher)
         header  – logo, navigation, CTA button
         main    – page content (articles)
+        prefooter – full-width area above the footer (e.g. logo bar of partners)
         footer  – footer columns (logo, navigation, legal links)
         bottom  – bottom bar (copyright, sitemap, cookie settings); always contains
                   the "powered by contao-themes.net" link
@@ -52,6 +53,11 @@
 
     {% slot main %}
         <main id="main" class="l-main">{{ slot() }}</main>
+    {% endslot %}
+
+    {# Full-width area above the footer on all pages, e.g. for a partner logo bar #}
+    {% slot prefooter %}
+        <div class="l-prefooter">{{ slot() }}</div>
     {% endslot %}
 
     {% slot footer %}

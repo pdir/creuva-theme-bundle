@@ -18,3 +18,6 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaLinkTitle1'] = ['CTA button text', 'Labe
 $GLOBALS['TL_LANG']['tl_module']['creuvaClaim'] = ['Claim', 'Short text below the logo.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaSocialLinks'] = ['Social media links', 'One URL per line. Instagram, LinkedIn, X, YouTube, Facebook, Xing, GitHub, TikTok and Mastodon are detected automatically.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Administrators in the preview only', 'Show the style switcher to administrators in the front end preview only, e.g. to choose the design of a live website. Visitors do not see it then.'];
+$GLOBALS['TL_LANG']['tl_module']['creuva_logos_legend'] = 'Appearance';
+$GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant'] = ['Background', '"Primary color" suits white logos.'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'] = ['surface' => 'Light', 'muted' => 'Muted', 'primary' => 'Primary color'];

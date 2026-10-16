@@ -108,6 +108,18 @@ brand:
   logo: file:design/logo.png
 ```
 
+Demo-Module lassen sich zusätzlichen Slots des Layouts zuordnen, z. B. eine Logoleiste
+(Modul `creuva_logos`, Logos verlinkt über die Metadaten der Dateien) über dem Footer:
+
+```yaml
+files:
+  partner/stadt.png: { alt: 'Stadt Musterstadt', link: 'https://example.org/' }
+modules:
+  partner: { name: 'Partner', type: 'creuva_logos', headline: 'Unsere Partner', multiSRC: ['file:partner/stadt.png'], creuvaLogosVariant: 'primary' }
+layout:
+  prefooter: [partner]
+```
+
 Termine (Kalender-Bundle) werden wie News unter `events:` definiert; das Datum ist ein
 `strtotime()`-Ausdruck (`"2026-12-05"`, `"5 December"` = aktuelles Jahr), Uhrzeiten als `HH:MM`.
 Module referenzieren den Kalender mit `calendar:<key>`:
