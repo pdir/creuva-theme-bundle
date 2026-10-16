@@ -176,7 +176,7 @@ class DemoImporter
         $this->warnings = [];
         $this->demoDir = $this->getDemoDir($demo);
 
-        $this->importFiles($this->getDemoName($demo));
+        $this->importFiles($this->getFilesFolder($demo, $definition));
 
         // File metadata (alt texts, titles for downloads)
         foreach ($definition['files'] ?? [] as $path => $meta) {
@@ -306,7 +306,40 @@ class DemoImporter
         return \dirname(__DIR__, 2).'/demo';
     }
 
-    private function importFiles(string $name): void
+    /**
+     * Folder in the file manager (relative to the upload path) the demo files are
+     * copied to: "creuva-demo/<demo name>" or the "filesFolder" of the definition.
+     *
+     * @param array<string, mixed> $definition
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getFilesFolder(string $demo, array $definition): string
+    {
+        if (!isset($definition['filesFolder'])) {
+            return self::FILES_FOLDER.'/'.$this->getDemoName($demo);
+        }
+
+        $folder = trim(str_replace('\\', '/', (string) $definition['filesFolder']), '/');
+        $folder = (string) preg_replace('#^'.preg_quote($this->uploadPath, '#').'/#', '', $folder);
+
+        if ('' === $folder || !preg_match('#^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*$#', $folder) || \in_array('..', explode('/', $folder), true)) {
+            throw new \InvalidArgumentException(\sprintf('The files folder "%s" is invalid (expected a folder inside "%s", e.g. "inhalte").', $definition['filesFolder'], $this->uploadPath));
+        }
+
+        // The demo source must not overlap with the target (e.g. files/my-demo)
+        if ($this->isLocalDemo($demo)) {
+            $source = substr($this->getDemoDir($demo), \strlen((string) realpath($this->projectDir.'/'.$this->uploadPath)) + 1);
+
+            if (str_starts_with($folder.'/', $source.'/') || str_starts_with($source.'/', $folder.'/')) {
+                throw new \InvalidArgumentException(\sprintf('The files folder "%s/%s" must not overlap with the demo folder "%s/%s".', $this->uploadPath, $folder, $this->uploadPath, $source));
+            }
+        }
+
+        return $folder;
+    }
+
+    private function importFiles(string $target): void
     {
         $source = $this->demoDir.'/files';
 
@@ -314,11 +347,11 @@ class DemoImporter
             return;
         }
 
-        $target = self::FILES_FOLDER.'/'.$name;
-
         // Make the folder public so downloads and SVG files can be served directly
-        if (!$this->filesStorage->fileExists(self::FILES_FOLDER.'/.public')) {
-            $this->filesStorage->write(self::FILES_FOLDER.'/.public', '');
+        $publicFolder = str_starts_with($target, self::FILES_FOLDER.'/') ? self::FILES_FOLDER : $target;
+
+        if (!$this->filesStorage->fileExists($publicFolder.'/.public')) {
+            $this->filesStorage->write($publicFolder.'/.public', '');
         }
 
         foreach ((new Finder())->files()->in($source)->sortByName() as $file) {

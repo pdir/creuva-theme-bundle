@@ -114,6 +114,9 @@ modules:
   (nicht in `files/creuva-demo`).
 - Die Dateien werden nach `files/creuva-demo/local-<ordnername>/` kopiert; der Quellordner
   bleibt unverändert und kann mit `--reset` beliebig oft neu importiert werden.
+- Mit `filesFolder: inhalte` in der `demo.yaml` landen die Dateien stattdessen in
+  `files/inhalte/` (der Ordner wird öffentlich geschaltet). Er wird von `creuva:reset` nicht
+  gelöscht; bei einem erneuten Import werden die Dateien überschrieben und behalten ihre UUID.
 - Den Quellordner nicht öffentlich schalten, sonst ist die `demo.yaml` im Web abrufbar.
 
 ### Inhalte zurücksetzen
