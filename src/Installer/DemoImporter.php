@@ -354,6 +354,42 @@ class DemoImporter
         }
     }
 
+    /**
+     * Own stylesheet of a demo ("design: stylesheets: […]"): a reference to a demo
+     * file ("file:design/custom.css") or a path in the file manager, e.g.
+     * "files/design/custom.css". Such a file is created if it does not exist yet
+     * and is never overwritten, so individual adjustments survive a new import.
+     *
+     * @return string|null the binary UUID
+     */
+    public function provideStylesheet(string $path): string|null
+    {
+        if (str_starts_with($path, 'file:')) {
+            return $this->resolveReference($path);
+        }
+
+        $path = (string) preg_replace('#^'.preg_quote($this->uploadPath, '#').'/#', '', trim(str_replace('\\', '/', $path), '/'));
+
+        if (!preg_match('#^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*\.css$#', $path) || \in_array('..', explode('/', $path), true)) {
+            $this->warnings[] = \sprintf('The stylesheet "%s" is invalid (expected a CSS file inside "%s", e.g. "%s/design/custom.css").', $path, $this->uploadPath, $this->uploadPath);
+
+            return null;
+        }
+
+        // The folder has to be public, so the browser can load the file
+        $folder = explode('/', $path)[0];
+
+        if (str_contains($path, '/') && !$this->filesStorage->fileExists($folder.'/.public')) {
+            $this->filesStorage->write($folder.'/.public', '');
+        }
+
+        if (!$this->filesStorage->fileExists($path)) {
+            $this->filesStorage->write($path, "/* Individuelle Anpassungen – wird nach dem Creuva-CSS geladen */\n");
+        }
+
+        return $this->filesStorage->get($path)?->getUuid()?->toBinary();
+    }
+
     private function getDemoRoot(): string
     {
         return \dirname(__DIR__, 2).'/demo';

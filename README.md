@@ -133,6 +133,7 @@ mit `logoSize`:
 ```yaml
 design:
   logoHeight: 4rem    # Logohöhe des Layouts (Standard 2.25rem), der Header wächst mit
+  stylesheets: ['files/design/custom.css']   # eigenes CSS, wird angelegt, falls nicht vorhanden
 header:
   logo: file:design/logo.png
 brand:
@@ -400,6 +401,12 @@ Farben, Abstände und Typografie sind als CSS Custom Properties definiert
   --radius-l: 0.75rem;
 }
 ```
+
+Eigene CSS-Dateien aus der Dateiverwaltung (z. B. `files/design/custom.css`) werden im
+Seitenlayout unter *Creuva-Design › Eigene Stylesheets* ausgewählt und nach `creuva.css`
+geladen (mit Änderungszeitpunkt als Cache-Busting). Der Ordner muss öffentlich sein.
+In einer Demo legt `design: stylesheets:` die Datei an, falls sie noch nicht existiert;
+eine vorhandene Datei wird nie überschrieben.
 
 ## Entwicklung
 

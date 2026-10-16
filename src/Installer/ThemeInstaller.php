@@ -395,7 +395,13 @@ class ThemeInstaller
                 'creuvaVariant' => $options->variant,
                 'creuvaScheme' => $options->scheme,
                 'creuvaLogoHeight' => preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($demo['design']['logoHeight'] ?? '')) ? (string) $demo['design']['logoHeight'] : '',
+                'creuvaStylesheets' => $this->getDemoStylesheets($demo),
             ]);
+
+            // Including the warnings of the stylesheets
+            if ($demo) {
+                $result->warnings = $this->demoImporter->getWarnings();
+            }
 
             // Assign the layout (and the Creuva class set) to the root pages
             $hasClassSet = $this->hasColumn('tl_page', 'ac_set');
@@ -421,6 +427,24 @@ class ThemeInstaller
 
             return $result;
         });
+    }
+
+    /**
+     * Own stylesheets of a demo ("design: stylesheets: ['files/design/custom.css']").
+     *
+     * @param array<string, mixed>|null $demo
+     */
+    private function getDemoStylesheets(array|null $demo): string|null
+    {
+        $uuids = [];
+
+        foreach ((array) ($demo['design']['stylesheets'] ?? []) as $path) {
+            if (null !== ($uuid = $this->demoImporter->provideStylesheet((string) $path))) {
+                $uuids[] = $uuid;
+            }
+        }
+
+        return $uuids ? serialize($uuids) : null;
     }
 
     /**

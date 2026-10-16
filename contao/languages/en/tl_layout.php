@@ -17,3 +17,4 @@ $GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'] = ['none' => 'Square', 
 $GLOBALS['TL_LANG']['tl_layout']['creuvaPrimaryColor'] = ['Primary color', 'Overrides the primary color of the color scheme (hex value without #).'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaAccentColor'] = ['Accent color', 'Overrides the accent color of the color scheme (hex value without #). It is also used for links and small text and needs a contrast ratio of at least 4.5:1 to white.'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaLogoHeight'] = ['Logo height', 'Height of the logo in the header as a CSS value, e.g. "4rem" (default: 2.25rem). The header grows if needed.'];
+$GLOBALS['TL_LANG']['tl_layout']['creuvaStylesheets'] = ['Own stylesheets', 'CSS files from the file manager for individual adjustments, e.g. "files/design/custom.css". They are loaded after the Creuva CSS and, without cascade layers, always take precedence.'];

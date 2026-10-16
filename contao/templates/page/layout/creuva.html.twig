@@ -35,6 +35,10 @@
 {% block head %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('creuva.css', 'creuva_theme') }}">
+    {# Own stylesheets of the page layout (individual adjustments) #}
+    {% for stylesheet in creuva_stylesheets(layout|default(null)) %}
+        <link rel="stylesheet" href="{{ asset(stylesheet) }}">
+    {% endfor %}
     <script src="{{ asset('creuva.js', 'creuva_theme') }}" defer></script>
 {% endblock %}
 

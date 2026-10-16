@@ -17,7 +17,7 @@ use Pdir\CreuvaThemeBundle\Design\DesignSettings;
  */
 PaletteManipulator::create()
     ->addLegend('creuva_legend', 'modules_legend', PaletteManipulator::POSITION_AFTER)
-    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight', 'creuvaStylesheets'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('modern', 'tl_layout')
 ;
 
@@ -62,4 +62,11 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaLogoHeight'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 16, 'rgxp' => 'custom', 'customRgxp' => DesignSettings::LOGO_HEIGHT_PATTERN, 'placeholder' => '2.25rem', 'tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
+];
+
+// Own stylesheets from the file manager, loaded after creuva.css (e.g. files/design/custom.css)
+$GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaStylesheets'] = [
+    'inputType' => 'fileTree',
+    'eval' => ['multiple' => true, 'fieldType' => 'checkbox', 'filesOnly' => true, 'extensions' => 'css', 'isSortable' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => 'blob', 'notnull' => false],
 ];
