@@ -378,8 +378,13 @@ class ThemeInstaller
             $hasClassSet = $this->hasColumn('tl_page', 'ac_set');
 
             foreach ($rootIds as $rootId) {
-                // Remove the design settings of the website root, so the ones of the new layout apply
-                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => '', 'tstamp' => time()];
+                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'tstamp' => time()];
+
+                // Remove the design settings of an existing website root, so the ones of the new
+                // layout apply (the root of a demo keeps the design of its definition)
+                if (null === $demo) {
+                    $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => ''];
+                }
 
                 if ($hasClassSet) {
                     $data['ac_set'] = self::CLASS_SET;

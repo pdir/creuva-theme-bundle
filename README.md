@@ -144,6 +144,36 @@ modules:
   gelöscht; bei einem erneuten Import werden die Dateien überschrieben und behalten ihre UUID.
 - Den Quellordner nicht öffentlich schalten, sonst ist die `demo.yaml` im Web abrufbar.
 
+### Website als Demo exportieren
+
+`creuva:export` speichert eine bestehende Website als Demo-Vorlage unter `var/exports/<name>/`.
+Exportiert werden der Seitenbaum mit Artikeln und Inhaltselementen, die darin verwendeten Module,
+Formulare, News und Termine sowie alle referenzierten Dateien inklusive Alt-Texten:
+
+```bash
+# Startpunkt wird abgefragt (bei mehreren Websites) oder per ID übergeben
+vendor/bin/contao-console creuva:export
+vendor/bin/contao-console creuva:export 1 --name=kunde-x --title="Kunde X"
+```
+
+```
+var/exports/kunde-x/
+├── demo.yaml       IDs sind durch page:<alias>, module:<key>, file:<pfad> … ersetzt
+└── files/          die verwendeten Dateien (Ordner in Galerien werden aufgelöst)
+```
+
+Die Vorlage lässt sich in jede Installation importieren: Ordner nach `files/kunde-x` kopieren
+und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach `demo/<name>/`).
+
+- Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
+  Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante und Eckenradius
+  aus Seitenlayout und Startpunkt. Eigene Farben des Layouts werden nicht exportiert.
+- Seiten-Links in Insert-Tags (`{{link_url::12}}`) werden auf Aliase umgestellt. Insert-Tags mit
+  anderen IDs (`{{insert_module::3}}`, `{{file::…}}`) und die Elemente „Inhaltselement“ und
+  „Artikel“ (Verweise) lassen sich nicht übertragen; der Command listet sie als Warnung auf.
+- Empfänger-Adressen von Formularen werden nicht exportiert.
+- Mit `--force` wird ein vorhandener Export gleichen Namens ersetzt.
+
 ### Inhalte zurücksetzen
 
 Der Demo-Import überschreibt keine bestehenden Inhalte. Um die Demo erneut zu importieren
