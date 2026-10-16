@@ -383,8 +383,11 @@ class DemoImporter
             $this->filesStorage->write($folder.'/.public', '');
         }
 
+        // Never overwrite an existing file, e.g. a versioned custom.css that is not in
+        // the file manager yet (new database): writing its content back registers it
         if (!$this->filesStorage->fileExists($path)) {
-            $this->filesStorage->write($path, "/* Individuelle Anpassungen – wird nach dem Creuva-CSS geladen */\n");
+            $exists = $this->filesStorage->fileExists($path, VirtualFilesystemInterface::BYPASS_DBAFS);
+            $this->filesStorage->write($path, $exists ? $this->filesStorage->read($path) : "/* Individuelle Anpassungen – wird nach dem Creuva-CSS geladen */\n");
         }
 
         return $this->filesStorage->get($path)?->getUuid()?->toBinary();
