@@ -29,6 +29,8 @@ use Symfony\Component\Yaml\Yaml;
  *   form:<key>           ID of a demo form
  *   news_archive:<key>   ID of a demo news archive
  *   calendar:<key>       ID of a demo event calendar
+ *   image_size:<key>     ID of a demo image size ("size: image_size:card" is
+ *                        short for ['', '', 'image_size:card'])
  *   headline: "Text"     headline as h2 (or {value: …, unit: h1})
  *   cssID: "classes"     CSS classes (or [id, classes])
  *   any other array      serialized
@@ -190,6 +192,42 @@ class DemoImporter
                 ['uuid' => $this->refs['file'][$path]],
             );
         }
+    }
+
+    /**
+     * Creates the image sizes of the demo (tl_image_size with the media queries
+     * of tl_image_size_item in "items") in the theme.
+     *
+     * @param array<string, mixed> $definition
+     *
+     * @return array<string, int> key => image size ID
+     */
+    public function importImageSizes(array $definition, int $themeId): array
+    {
+        foreach ($definition['imageSizes'] ?? [] as $key => $size) {
+            $this->refs['image_size'][(string) $key] = $this->importImageSize($size, $themeId);
+        }
+
+        return $this->refs['image_size'] ?? [];
+    }
+
+    /**
+     * Creates an image size (e.g. the default logo size of the installer).
+     *
+     * @param array<string, mixed> $size
+     */
+    public function importImageSize(array $size, int $themeId): int
+    {
+        $items = $size['items'] ?? [];
+        unset($size['items']);
+
+        $id = $this->insert('tl_image_size', ($this->resolveRow($size) ?? []) + ['pid' => $themeId]);
+
+        foreach (array_values($items) as $i => $item) {
+            $this->insert('tl_image_size_item', ($this->resolveRow($item) ?? []) + ['pid' => $id, 'sorting' => ($i + 1) * 128]);
+        }
+
+        return $id;
     }
 
     /**
@@ -569,6 +607,7 @@ class DemoImporter
                 $data[$field] = match ($field) {
                     'headline', 'sectionHeadline' => serialize(\is_array($value) ? $value : ['unit' => 'h2', 'value' => (string) $value]),
                     'cssID' => serialize(\is_array($value) ? $value : ['', (string) $value]),
+                    'size', 'imgSize' => $this->resolveSize($value) ?? '',
                     default => $this->resolveValue($value),
                 };
             } catch (\OutOfBoundsException $e) {
@@ -581,6 +620,26 @@ class DemoImporter
         return $data;
     }
 
+    /**
+     * Resolves an image size ("image_size:card", [800, 600, crop] or
+     * ['', '', 'image_size:card']). A missing image size is removed with a
+     * warning instead of skipping the record.
+     */
+    public function resolveSize(mixed $value): string|null
+    {
+        if (\is_string($value) && str_starts_with($value, 'image_size:')) {
+            $value = ['', '', $value];
+        }
+
+        try {
+            return \is_array($value) ? $this->resolveValue($value) : (null === $value ? null : (string) $value);
+        } catch (\OutOfBoundsException) {
+            $this->warnings[] = \sprintf('The demo image size "%s" does not exist, the default size has been used.', implode(', ', array_map(strval(...), $value)));
+
+            return null;
+        }
+    }
+
     private function resolveValue(mixed $value): mixed
     {
         if (\is_bool($value)) {
@@ -591,7 +650,7 @@ class DemoImporter
             return serialize(array_map(fn ($v) => \is_array($v) ? $v : $this->resolveValue($v), $value));
         }
 
-        if (!\is_string($value) || !preg_match('/^(file|page|module|form|news_archive|calendar):(.+)$/', $value, $matches)) {
+        if (!\is_string($value) || !preg_match('/^(file|page|module|form|news_archive|calendar|image_size):(.+)$/', $value, $matches)) {
             return $value;
         }
 

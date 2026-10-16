@@ -66,6 +66,8 @@ Sprache legen):
   Impressum, Datenschutz und Sitemap
 - **Module:** Hauptnavigation, Header mit CTA, Footer mit vier Spalten und Social-Media-Links,
   News-Liste und -Leser, Sitemap
+- **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
+  der Demo verweisen
 - **News-Archiv** mit vier Beiträgen (nur wenn das News-Bundle installiert ist)
 - **Kontaktformular** mit Weiterleitung auf die Danke-Seite (ohne E-Mail-Versand,
   bitte im Formulargenerator ergänzen)
@@ -95,17 +97,47 @@ files/meine-demo/
 vendor/bin/contao-console creuva:install --demo=files/meine-demo
 ```
 
-Ein Logo für Header und Footer-Marke wird unter `header:` bzw. `brand:` mit `logo:` gesetzt,
-optional mit Bildgröße (`logoSize`, wie im Modul):
+Bildgrößen (Theme › Bildgrößen, siehe
+[Contao-Doku](https://docs.contao.org/5.x/dev/framework/image-processing/image-sizes/)) werden
+unter `imageSizes:` mit den Feldern von `tl_image_size` definiert, Media Queries
+(`tl_image_size_item`) unter `items`. Der Import legt sie im Creuva-Theme an; Inhalte und Module
+verweisen mit `image_size:<key>` darauf, eigene Größen bleiben als `[breite, höhe, modus]` möglich:
+
+```yaml
+imageSizes:
+  logo: { name: 'Logo', width: 480, height: 120, resizeMode: 'box', densities: '2x', skipIfDimensionsMatch: true }
+  card:
+    name: Karte (4:3)
+    width: 800
+    height: 600
+    resizeMode: crop
+    densities: 1.5x, 2x
+    lazyLoading: true
+    formats: ['jpg:jpg,webp;jpeg:jpeg,webp', 'png:png,webp']   # wie in tl_image_size gespeichert
+    items:
+      - { media: '(max-width: 40rem)', width: 640, height: 640, resizeMode: 'crop' }
+pages:
+  - title: Start
+    articles:
+      - elements:
+          - { type: 'image', singleSRC: 'file:bilder/foto.jpg', size: 'image_size:card' }
+modules:
+  newslist: { name: 'News', type: 'newslist', news_archives: ['news_archive:blog'], imgSize: 'image_size:card' }
+```
+
+Header und Footer-Marke verwenden die Bildgröße mit dem Key `logo`. Ohne eine solche Größe legt
+der Installer eine eigene Bildgröße „Logo“ an (480 × 120 px Box, 2x-Dichte), auch ohne Demo.
+Das Logo selbst wird unter `header:` bzw. `brand:` mit `logo:` gesetzt, eine abweichende Größe
+mit `logoSize`:
 
 ```yaml
 design:
   logoHeight: 4rem    # Logohöhe des Layouts (Standard 2.25rem), der Header wächst mit
 header:
   logo: file:design/logo.png
-  logoSize: ['', '128', 'proportional']
 brand:
-  logo: file:design/logo.png
+  logo: file:design/logo-hell.png
+  logoSize: image_size:logo-footer   # oder ['', '128', 'proportional']
 ```
 
 Demo-Module lassen sich zusätzlichen Slots des Layouts zuordnen, z. B. eine Logoleiste
@@ -148,7 +180,7 @@ modules:
 
 `creuva:export` speichert eine bestehende Website als Demo-Vorlage unter `var/exports/<name>/`.
 Exportiert werden der Seitenbaum mit Artikeln und Inhaltselementen, die darin verwendeten Module,
-Formulare, News und Termine sowie alle referenzierten Dateien inklusive Alt-Texten:
+Formulare, News und Termine, die Bildgrößen sowie alle referenzierten Dateien inklusive Alt-Texten:
 
 ```bash
 # Startpunkt wird abgefragt (bei mehreren Websites) oder per ID übergeben
@@ -158,7 +190,7 @@ vendor/bin/contao-console creuva:export 1 --name=kunde-x --title="Kunde X"
 
 ```
 var/exports/kunde-x/
-├── demo.yaml       IDs sind durch page:<alias>, module:<key>, file:<pfad> … ersetzt
+├── demo.yaml       IDs sind durch page:<alias>, module:<key>, image_size:<key>, file:<pfad> … ersetzt
 └── files/          die verwendeten Dateien (Ordner in Galerien werden aufgelöst)
 ```
 
@@ -168,6 +200,9 @@ und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach 
 - Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
   Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante und Eckenradius
   aus Seitenlayout und Startpunkt. Eigene Farben des Layouts werden nicht exportiert.
+- Bildgrößen: alle Größen des Themes, dem das Seitenlayout gehört, und alle in Inhalten und
+  Modulen verwendeten Größen, jeweils mit ihren Media Queries. Größen aus der Konfiguration
+  (`contao.image.sizes`, `_name`) bleiben Verweise und müssen im Ziel ebenfalls definiert sein.
 - Seiten-Links in Insert-Tags (`{{link_url::12}}`) werden auf Aliase umgestellt. Insert-Tags mit
   anderen IDs (`{{insert_module::3}}`, `{{file::…}}`) und die Elemente „Inhaltselement“ und
   „Artikel“ (Verweise) lassen sich nicht übertragen; der Command listet sie als Warnung auf.

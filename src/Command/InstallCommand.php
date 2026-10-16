@@ -56,6 +56,7 @@ class InstallCommand extends Command
                 The <info>%command.name%</info> command sets up the Creuva theme:
 
                   * theme "Creuva" with main navigation, header, brand, footer navigations and copyright modules
+                    and an image size for the logo
                   * page layout of type "modern" with the template page/layout/creuva and all modules assigned to their slots
                   * the layout (and the Creuva class set of the advanced classes bundle) for the selected website roots
 
@@ -250,6 +251,7 @@ class InstallCommand extends Command
                 array_keys($result->modules),
                 $result->modules,
             ),
+            \sprintf('%d image size(s) (the logo uses ID %d)', \count($result->imageSizes), $result->imageSizes['logo']),
             ...($result->pages ? [\sprintf('Website root with %d pages%s', \count($result->pages), $demo ? ' (demo "'.$demo.'")' : ' ('.implode(', ', array_keys($result->pages)).')')] : []),
         ]);
 

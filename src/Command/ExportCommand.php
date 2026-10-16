@@ -47,7 +47,7 @@ class ExportCommand extends Command
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Overwrite an existing export with the same name')
             ->setHelp(<<<'HELP'
                 The <info>%command.name%</info> command exports the page tree of a website with its articles,
-                content elements, modules, forms, news, events and files as a demo template:
+                content elements, modules, forms, news, events, image sizes and files as a demo template:
 
                   <info>php %command.full_name% 1 --name=my-demo</info>
 
@@ -59,7 +59,8 @@ class ExportCommand extends Command
 
                 Header button, brand and footer columns are taken from the Creuva modules of the page
                 layout, the design (color scheme, variant, corner radius) from the page layout and the
-                website root. Recipient addresses of forms are not exported.
+                website root. The image sizes of the theme and all image sizes used by the contents are
+                exported with their media queries. Recipient addresses of forms are not exported.
                 HELP)
         ;
     }
@@ -132,6 +133,7 @@ class ExportCommand extends Command
             ['Forms' => $counts['forms'] ?? 0],
             ['News' => $counts['news'] ?? 0],
             ['Events' => $counts['events'] ?? 0],
+            ['Image sizes' => $counts['imageSizes'] ?? 0],
             ['Files' => $counts['files'] ?? 0],
         );
 

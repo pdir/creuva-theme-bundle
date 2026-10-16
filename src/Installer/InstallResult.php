@@ -27,6 +27,11 @@ final class InstallResult
     public array $moduleIds = [];
 
     /**
+     * @var array<string, int> key (logo, …) => image size ID
+     */
+    public array $imageSizes = [];
+
+    /**
      * @var list<int>
      */
     public array $rootPages = [];

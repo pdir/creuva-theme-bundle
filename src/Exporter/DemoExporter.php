@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Pdir\CreuvaThemeBundle\Exporter;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\BooleanType;
 use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
@@ -18,10 +19,11 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Exports a website (page tree, articles, content elements, modules, forms,
- * news, events and files) as a demo template in the format of the DemoImporter:
- * <target>/demo.yaml and the referenced files in <target>/files.
+ * news, events, image sizes and files) as a demo template in the format of the
+ * DemoImporter: <target>/demo.yaml and the referenced files in <target>/files.
  *
- * IDs are replaced by references (page:<alias>, module:<key>, file:<path> …),
+ * IDs are replaced by references (page:<alias>, module:<key>, file:<path>,
+ * image_size:<key> …),
  * so the demo can be imported into any installation with creuva:install --demo.
  */
 class DemoExporter
@@ -60,6 +62,16 @@ class DemoExporter
         'calendar' => ['cal_calendar'],
     ];
 
+    /**
+     * Fields with an image size ([width, height, mode or image size ID]).
+     */
+    private const SIZE_FIELDS = [
+        'tl_content' => 'size',
+        'tl_module' => 'imgSize',
+        'tl_news' => 'size',
+        'tl_calendar_events' => 'size',
+    ];
+
     private const REFERENCE_TABLES = [
         'module' => 'tl_module',
         'form' => 'tl_form',
@@ -88,12 +100,17 @@ class DemoExporter
     private array $exported = [];
 
     /**
+     * @var array<int, string> image size ID => key
+     */
+    private array $imageSizes = [];
+
+    /**
      * @var array<string, array{path: string, meta: string|null}> UUID (hex) => file
      */
     private array $files = [];
 
     /**
-     * @var array<string, array<string, array{default: mixed}>> table => column => info
+     * @var array<string, array<string, array{default: mixed, boolean: bool}>> table => column => info
      */
     private array $columns = [];
 
@@ -121,7 +138,7 @@ class DemoExporter
      */
     public function export(int $rootId, string $targetDir, string $title): array
     {
-        $this->pages = $this->keys = $this->exported = $this->files = $this->counts = $this->warnings = [];
+        $this->pages = $this->keys = $this->exported = $this->imageSizes = $this->files = $this->counts = $this->warnings = [];
 
         $root = $this->connection->fetchAssociative("SELECT * FROM tl_page WHERE id = ? AND type IN ('root', 'rootfallback')", [$rootId]);
 
@@ -152,7 +169,7 @@ class DemoExporter
             };
         }
 
-        $definition += array_filter($sections);
+        $definition += array_filter(['imageSizes' => $this->exportImageSizes()] + $sections);
         $definition['pages'] = $pages;
 
         $definition = $this->exportFiles($definition, $targetDir, (string) $root['language']);
@@ -237,6 +254,11 @@ class DemoExporter
 
         $data = [];
 
+        // All image sizes of the theme, also the ones that are not used yet
+        foreach ($this->connection->fetchFirstColumn('SELECT id FROM tl_image_size WHERE pid = ? ORDER BY id', [(int) $layout['pid']]) as $id) {
+            $this->registerImageSize((int) $id);
+        }
+
         if (preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($layout['creuvaLogoHeight'] ?? ''))) {
             $data['design']['logoHeight'] = (string) $layout['creuvaLogoHeight'];
         }
@@ -282,7 +304,8 @@ class DemoExporter
     }
 
     /**
-     * Logo of the header or brand module ("logo: file:…", optional "logoSize").
+     * Logo of the header or brand module ("logo: file:…") and its image size
+     * ("logoSize: image_size:<key>" or [width, height, mode]).
      *
      * @param array<string, mixed> $module
      *
@@ -292,18 +315,84 @@ class DemoExporter
     {
         $logo = (string) ($module['creuvaLogo'] ?? '');
 
-        if (!$this->isUuid($logo) || !\is_string($file = $this->registerFile($logo))) {
-            return [];
+        return array_filter([
+            'logo' => $this->isUuid($logo) && \is_string($file = $this->registerFile($logo)) ? $file : null,
+            'logoSize' => $this->convertSize('tl_module', 'imgSize', $module['imgSize'] ?? null, $module),
+        ]);
+    }
+
+    /**
+     * Image sizes with their media queries ("items").
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function exportImageSizes(): array
+    {
+        $sizes = [];
+
+        foreach ($this->imageSizes as $id => $key) {
+            $size = $this->cleanRow('tl_image_size', $this->fetchRow('tl_image_size', $id));
+
+            foreach ($this->connection->fetchAllAssociative('SELECT * FROM tl_image_size_item WHERE pid = ? ORDER BY sorting', [$id]) as $row) {
+                $size['items'][] = $this->cleanRow('tl_image_size_item', $row);
+            }
+
+            $sizes[$key] = $size;
+            $this->count('imageSizes');
         }
 
-        $data = ['logo' => $file];
-        $size = $this->unserialize($module['imgSize'] ?? null);
+        return $sizes;
+    }
 
-        if (\is_array($size) && array_filter($size, static fn ($v): bool => '' !== (string) $v)) {
-            $data['logoSize'] = array_map(strval(...), $size);
+    /**
+     * Converts an image size: IDs of tl_image_size become "image_size:<key>",
+     * custom sizes remain [width, height, mode].
+     *
+     * @param array<string, mixed> $row
+     *
+     * @return string|list<string>|null
+     */
+    private function convertSize(string $table, string $field, mixed $value, array $row): string|array|null
+    {
+        $size = $this->unserialize($value);
+
+        if (null === $size || !array_filter($size, static fn ($v): bool => '' !== (string) $v)) {
+            return null;
         }
 
-        return $data;
+        $mode = (string) ($size[2] ?? '');
+
+        if (ctype_digit($mode)) {
+            if (null === ($key = $this->registerImageSize((int) $mode))) {
+                $this->warnings[] = \sprintf('%s.%s of record ID %d refers to the missing image size ID %s and has been removed.', $table, $field, $row['id'], $mode);
+
+                return null;
+            }
+
+            return 'image_size:'.$key;
+        }
+
+        // Image sizes of the configuration (contao.image.sizes) are not part of the demo
+        if (str_starts_with($mode, '_')) {
+            $this->warnings[] = \sprintf('The image size "%s" is defined in the configuration (contao.image.sizes) and must exist in the target installation.', substr($mode, 1));
+        }
+
+        return array_map(strval(...), array_values($size));
+    }
+
+    private function registerImageSize(int $id): string|null
+    {
+        if (isset($this->imageSizes[$id])) {
+            return $this->imageSizes[$id];
+        }
+
+        $name = $this->connection->fetchOne('SELECT name FROM tl_image_size WHERE id = ?', [$id]);
+
+        if (false === $name) {
+            return null;
+        }
+
+        return $this->imageSizes[$id] = $this->uniqueKey($this->slug((string) $name) ?: 'size-'.$id, $this->imageSizes);
     }
 
     /**
@@ -492,7 +581,8 @@ class DemoExporter
                 continue;
             }
 
-            $value = $this->convertValue($table, $field, $value, $row);
+            // Boolean columns (e.g. tl_image_size.lazyLoading) as true/false
+            $value = ($columns[strtolower($field)]['boolean'] ?? false) ? (bool) $value : $this->convertValue($table, $field, $value, $row);
 
             if (null !== $value && '' !== $value && [] !== $value) {
                 $data[$field] = $value;
@@ -534,6 +624,10 @@ class DemoExporter
             [$id, $class] = [(string) ($cssId[0] ?? ''), (string) ($cssId[1] ?? '')];
 
             return '' === $id ? $class : [$id, $class];
+        }
+
+        if ($field === (self::SIZE_FIELDS[$table] ?? null)) {
+            return $this->convertSize($table, $field, $value, $row);
         }
 
         foreach (self::REFERENCES as $type => $fields) {
@@ -802,7 +896,7 @@ class DemoExporter
     private function dump(array $definition, array $root): string
     {
         $header = \sprintf(
-            "# %s\n#\n# Exported from \"%s\" on %s with creuva:export.\n# Import: copy this folder to files/<name> and run\n#   vendor/bin/contao-console creuva:install --demo=files/<name>\n# See src/Installer/DemoImporter.php for the value syntax (file:, page:, module:, …).\n\n",
+            "# %s\n#\n# Exported from \"%s\" on %s with creuva:export.\n# Import: copy this folder to files/<name> and run\n#   vendor/bin/contao-console creuva:install --demo=files/<name>\n# See src/Installer/DemoImporter.php for the value syntax (file:, page:, module:, image_size:, …).\n\n",
             $definition['title'],
             $root['title'],
             date('Y-m-d H:i'),
@@ -889,7 +983,7 @@ class DemoExporter
     }
 
     /**
-     * @return array<string, array{default: mixed}>
+     * @return array<string, array{default: mixed, boolean: bool}>
      */
     private function getColumns(string $table): array
     {
@@ -897,7 +991,7 @@ class DemoExporter
             $this->columns[$table] = [];
 
             foreach ($this->connection->createSchemaManager()->listTableColumns($table) as $column) {
-                $this->columns[$table][strtolower($column->getName())] = ['default' => $column->getDefault()];
+                $this->columns[$table][strtolower($column->getName())] = ['default' => $column->getDefault(), 'boolean' => $column->getType() instanceof BooleanType];
             }
         }
 

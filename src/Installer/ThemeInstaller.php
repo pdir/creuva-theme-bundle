@@ -80,6 +80,21 @@ class ThemeInstaller
     ];
 
     /**
+     * Image size of the logo in the header and brand module, unless the demo
+     * defines an image size with the key "logo". The logo is shown with a height
+     * of 2.25rem by default (see creuvaLogoHeight), the box leaves room for
+     * larger logo heights and high resolution displays.
+     */
+    public const LOGO_SIZE = [
+        'name' => 'Logo',
+        'width' => 480,
+        'height' => 120,
+        'resizeMode' => 'box',
+        'densities' => '2x',
+        'skipIfDimensionsMatch' => true,
+    ];
+
+    /**
      * Aliases used to find existing pages in a site structure.
      */
     private const ALIASES = [
@@ -198,6 +213,7 @@ class ThemeInstaller
             if (null !== $options->demo) {
                 $demo = $this->demoImporter->load($options->demo);
                 $this->demoImporter->prepare($options->demo, $demo, $options->language);
+                $result->imageSizes = $this->demoImporter->importImageSizes($demo, $result->themeId);
 
                 $rootId = $this->createRootPage($options);
                 $rootIds = [$rootId];
@@ -212,6 +228,13 @@ class ThemeInstaller
             } elseif (1 === \count($rootIds)) {
                 $pageIds = $this->findPages($rootIds[0]);
             }
+
+            // Own image size for the logo of the header and brand module
+            if (!isset($result->imageSizes['logo'])) {
+                $result->imageSizes['logo'] = $this->demoImporter->importImageSize(self::LOGO_SIZE, $result->themeId);
+            }
+
+            $logoSize = ['imgSize' => serialize(['', '', (string) $result->imageSizes['logo']])];
 
             // Front end modules
             $modules = [];
@@ -237,14 +260,14 @@ class ThemeInstaller
                 $header['creuvaLinkTitle1'] = $texts['cta'];
             }
 
-            $modules['header'] = $this->insertModule($result, $header + $this->getDemoLogo($demo['header'] ?? []));
+            $modules['header'] = $this->insertModule($result, $header + $this->getDemoLogo($demo['header'] ?? []) + $logoSize);
 
             $modules['brand'] = $this->insertModule($result, [
                 'name' => $texts['brand'],
                 'type' => 'creuva_brand',
                 'creuvaClaim' => $demo['brand']['claim'] ?? $texts['claim'],
                 'creuvaSocialLinks' => implode("\n", $demo['brand']['social'] ?? []),
-            ] + $this->getDemoLogo($demo['brand'] ?? []));
+            ] + $this->getDemoLogo($demo['brand'] ?? []) + $logoSize);
 
             $footerSlots = ['brand'];
 
@@ -401,7 +424,9 @@ class ThemeInstaller
     }
 
     /**
-     * Logo of the header or brand module of a demo ("logo: file:…", optional "logoSize").
+     * Logo of the header or brand module of a demo ("logo: file:…") and its
+     * image size ("logoSize: image_size:<key>" or [width, height, mode]; the
+     * image size "logo" is used by default).
      *
      * @param array<string, mixed> $config
      *
@@ -409,14 +434,14 @@ class ThemeInstaller
      */
     private function getDemoLogo(array $config): array
     {
-        if (empty($config['logo']) || null === ($uuid = $this->demoImporter->resolveReference($config['logo']))) {
-            return [];
+        $data = [];
+
+        if (!empty($config['logo']) && null !== ($uuid = $this->demoImporter->resolveReference($config['logo']))) {
+            $data['creuvaLogo'] = $uuid;
         }
 
-        $data = ['creuvaLogo' => $uuid];
-
-        if (isset($config['logoSize'])) {
-            $data['imgSize'] = $this->demoImporter->resolveReference($config['logoSize']);
+        if (isset($config['logoSize']) && null !== ($size = $this->demoImporter->resolveSize($config['logoSize']))) {
+            $data['imgSize'] = $size;
         }
 
         return $data;
