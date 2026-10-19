@@ -73,6 +73,8 @@ Sprache legen):
   bitte im Formulargenerator ergänzen)
 - **Dateien** unter `files/creuva-demo/standard/` (Illustrationen, Icons, PDFs) inklusive
   Alt-Texten; der Ordner ist öffentlich
+- **Favicon** im Startpunkt (Contao-Feld „Favicon“, ausgeliefert unter `/favicon.ico`);
+  die Vorlage liegt als SVG unter `assets/favicon/favicon.svg`
 
 Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
 Besucher Farbschema, Variante und Eckenradius live ausprobieren können.
@@ -201,6 +203,8 @@ und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach 
 - Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
   Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante und Eckenradius
   aus Seitenlayout und Startpunkt. Eigene Farben des Layouts werden nicht exportiert.
+- Vom Startpunkt werden Datums-/Zeitformate und das Favicon übernommen
+  (`root: { favicon: file:… }`).
 - Bildgrößen: alle Größen des Themes, dem das Seitenlayout gehört, und alle in Inhalten und
   Modulen verwendeten Größen, jeweils mit ihren Media Queries. Größen aus der Konfiguration
   (`contao.image.sizes`, `_name`) bleiben Verweise und müssen im Ziel ebenfalls definiert sein.

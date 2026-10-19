@@ -10,6 +10,7 @@ root:
   dateFormat: d.m.Y
   datimFormat: d.m.Y
   timeFormat: H:i
+  favicon: file:design/favicon.ico   # served as /favicon.ico (source: assets/favicon/favicon.svg)
 
 # Metadata of the demo files (alternative texts, titles of downloads)
 files:

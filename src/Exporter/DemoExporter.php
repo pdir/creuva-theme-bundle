@@ -31,7 +31,7 @@ class DemoExporter
     /**
      * Settings of the website root that are part of the demo.
      */
-    private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat'];
+    private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat', 'favicon'];
 
     private const SYSTEM_FIELDS = ['id', 'pid', 'tstamp', 'sorting', 'ptable'];
 
@@ -218,6 +218,17 @@ class DemoExporter
             array_intersect_key($root, array_flip(self::ROOT_FIELDS)),
             static fn ($value): bool => null !== $value && '' !== $value,
         );
+
+        // Favicon of the website (served as /favicon.ico)
+        if (isset($data['favicon'])) {
+            $file = $this->isUuid((string) $data['favicon']) ? $this->registerFile((string) $data['favicon']) : null;
+
+            if (\is_string($file)) {
+                $data['favicon'] = $file;
+            } else {
+                unset($data['favicon']);
+            }
+        }
 
         // Effective design of the website (page layout and root settings)
         $layout = $root['includeLayout'] ? $this->connection->fetchAssociative('SELECT * FROM tl_layout WHERE id = ?', [$root['layout']]) : false;
