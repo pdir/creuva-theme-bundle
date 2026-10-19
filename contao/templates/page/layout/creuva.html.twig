@@ -28,6 +28,7 @@
     .set('data-theme', creuva.variant)
     .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
+    .set('data-animations', creuva.animations|default('auto'))
     .setIfExists('style', creuva_tokens ? creuva_tokens|csp_unsafe_inline_style : null)
     .mergeWith(html_attributes|default)
 %}

@@ -235,7 +235,11 @@ class InstallCommand extends Command
 
         // The demo files are in a public folder that needs a symlink in the web directory
         if ($demo && $this->getApplication()?->has('contao:symlinks')) {
-            $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput());
+            try {
+                $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput());
+            } catch (\Throwable $e) {
+                $result->warnings[] = 'The symlinks could not be created ('.$e->getMessage().'). Run "contao:symlinks" manually, otherwise the SVG icons and downloads of the demo cannot be loaded.';
+            }
         }
 
         foreach ($result->warnings as $warning) {

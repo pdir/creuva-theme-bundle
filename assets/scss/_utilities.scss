@@ -33,43 +33,36 @@
     }
 
     .c-button--primary,
-    .content-hyperlink.u-button > a {
+    .content-hyperlink.u-button > a,
+    .content-text.u-button .rte > p:last-child > a {
+      border-color: var(--c-primary-contrast);
       background: var(--c-primary-contrast);
       color: var(--c-primary);
+
+      &:hover {
+        border-color: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+        background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+      }
     }
   }
 
   // Call to action box: a link as the only content of the last paragraph
   // becomes a button
-  :is(.u-bg-primary, .u-bg-accent) .rte > p:last-child:not(:first-child) > a:only-child {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    margin-top: var(--space-xs);
-    padding: 0.8em 1.6em;
-    border-radius: var(--radius-pill);
-    background: var(--c-primary);
-    color: var(--c-primary-contrast);
-    font-size: var(--fs-small);
-    font-weight: 600;
-    line-height: 1.2;
-    text-decoration: none;
-    transition: background-color var(--transition);
-
-    &::after {
-      content: "→";
-    }
-
-    &:hover {
-      background: color-mix(in srgb, var(--c-primary) 85%, #000);
-    }
+  :is(.u-bg-primary, .u-bg-accent) > .rte > p:last-child:not(:first-child) > a:only-child {
+    @include button-base;
   }
 
-  .u-bg-primary .rte > p:last-child:not(:first-child) > a:only-child {
+  :is(.u-bg-primary, .u-bg-accent) > .rte > p:last-child:not(:first-child) > a:only-child {
+    @include button-primary;
+  }
+
+  .u-bg-primary > .rte > p:last-child:not(:first-child) > a:only-child {
+    border-color: var(--c-primary-contrast);
     background: var(--c-primary-contrast);
     color: var(--c-primary);
 
     &:hover {
+      border-color: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
       background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
     }
   }
@@ -138,6 +131,15 @@
   .u-grid-2 { --grid-min: 22rem; }
   .u-grid-3 { --grid-min: 16rem; }
   .u-grid-4 { --grid-min: 12rem; }
+
+  // Vertical alignment of the grid cells, e.g. a section intro with the
+  // headline on the left and text + link on the right
+  .u-align-center { align-items: center; }
+  .u-align-end { align-items: end; }
+
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):is(.u-align-center, .u-align-end) > * {
+    margin-bottom: 0;
+  }
 
   // Visibility
   @media (max-width: 47.99rem) {

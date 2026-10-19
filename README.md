@@ -7,6 +7,7 @@ aufgebaut auf dem [Theme Components Bundle](https://github.com/contao-themes-net
 
 - Contao 5.7 (PHP ≥ 8.3) oder Contao 6 (PHP ≥ 8.4)
 - `contao-themes-net/theme-components-bundle` ^2.0 (wird automatisch installiert)
+- `oveleon/contao-component-style-manager` ^3.12 (wird automatisch installiert)
 
 ## Installation
 
@@ -61,9 +62,9 @@ des Startpunkts (Deutsch oder Englisch).
 Sprache legen):
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
-  sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ, Downloads
-  und „Elemente & Module“ (Styleguide aller Komponenten), Kontakt mit Danke-Seite,
-  Impressum, Datenschutz und Sitemap
+  sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
+  Kontakt mit Danke-Seite, Impressum, Datenschutz und Sitemap; dazu der
+  [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
 - **Module:** Hauptnavigation, Header mit CTA, Footer mit vier Spalten und Social-Media-Links,
   News-Liste und -Leser, Sitemap
 - **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
@@ -78,6 +79,32 @@ Sprache legen):
 
 Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
 Besucher Farbschema, Variante und Eckenradius live ausprobieren können.
+
+### Styleguide
+
+Der Styleguide zeigt alle Elemente, Templatevarianten, CSS-Klassen und Module des Themes
+auf einer Seite: Farben, Typografie, Buttons, Listen und Tabellen, Medien, alle
+Templatevarianten, Kennzahlen/Timeline/Fakten, Akkordeon, Theme-Components-Elemente,
+Hintergründe, Animationen, Formular (alle Feldtypen), Breadcrumb und News-Liste.
+
+Er ist unabhängig von der Demo und lässt sich jeder Website mit dem Creuva-Layout
+hinzufügen:
+
+```bash
+vendor/bin/contao-console creuva:styleguide --root=1
+vendor/bin/contao-console creuva:styleguide --root=1 --replace   # nach einem Theme-Update neu anlegen
+```
+
+- Seite „Styleguide“ (Alias `styleguide`) am Ende der Website, nicht in der Navigation,
+  nicht im Suchindex und mit `noindex,nofollow`
+- Eigene Module, ein Formular und ein News-Archiv mit dem Präfix „Styleguide – “,
+  die Bildgrößen des Themes werden wiederverwendet
+- Dateien unter `files/creuva-demo/styleguide/`
+- Definition: `styleguide/styleguide.yaml` (gleiche Syntax wie die Demos). Neue Elemente
+  und Klassen bitte dort ergänzen.
+
+Eine Demo installiert den Styleguide mit `styleguide: true` gleich mit. Im Footer lässt er
+sich über den Alias `styleguide` verlinken.
 
 Die Demo verwendet ausschließlich Core-Elemente, Creuva-Elemente und Templatevarianten
 und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
@@ -261,9 +288,9 @@ vendor/bin/contao-console creuva:install --demo --reset
    Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
 
-4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius
-   sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`, Standard
-   `2.25rem`) festlegen.
+4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius,
+   Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
+   Standard `2.25rem`) festlegen.
 5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
    Redakteure können dann Hintergründe, Raster, Abstände usw. per Auswahlfeld setzen.
 
@@ -288,15 +315,46 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Element | Variante | Verwendung |
 |---------|----------|------------|
 | Text | `creuva_card` | Karte mit Bild, Kategorie (Subline), Titel und Text; der letzte Link macht die ganze Karte klickbar |
-| Text | `creuva_feature` | Icon-Box mit kleinem Bild oder SVG-Icon |
+| Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im Style Manager unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
+| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste hell, weitere als Umriss) |
+| Text | `creuva_media` | Bild & Text nebeneinander: Bild links oder rechts (*Bildausrichtung*), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
 | Text | `creuva_price` | Preis-Karte: Paket als Überschrift, Preis als Subline, Leistungsliste, letzter Link als Button; mit `u-featured` hervorgehoben |
-| Beschreibungsliste | `creuva_stats` | Kennzahlen: Begriff = Zahl, Beschreibung = Bezeichnung |
-| Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis |
+| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch |
+| Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
+| Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
 
 In Kästen mit `u-bg-primary` oder `u-bg-accent` wird ein Link, der allein im letzten
-Absatz steht, automatisch als Button dargestellt (Call-to-Action-Box).
+Absatz steht, automatisch als Button dargestellt (Call-to-Action-Box). In Texten mit
+`u-lead` und in Abschnittsköpfen (Elementgruppe mit `u-grid-2 u-align-end`) wird er zum
+Pfeil-Link („Alle Leistungen ansehen →“).
+
+### Dachzeile
+
+Text-Elemente und Beschreibungslisten haben das Feld **Dachzeile** (kleiner Text in
+Großbuchstaben über der Überschrift). Zusammen mit einer Subline mit „Inline“ ergibt das
+die Kombination aus Dachzeile und zweifarbiger Überschrift wie auf der Startseite der Demo
+(„KREATIVE PARTNER AUF AUGENHÖHE – Mehr als nur eine **Agentur.**“).
+
+### Abschnittskopf
+
+Überschrift links, Einleitung und Link rechts: eine Elementgruppe mit den Klassen
+`u-grid-2 u-align-end`, darin ein Überschrift-Element und ein Text-Element (Klasse `u-lead`)
+mit dem Link allein im letzten Absatz.
+
+### Akkordeon
+
+Jeder Eintrag ist eine Karte mit einem runden Plus/Minus-Schalter am Ende. Ein Icon vor der
+Frage wird mit einer Klasse am Akkordeon-Element ergänzt: `u-accordion-icon` (Fragezeichen),
+`u-accordion-info` oder `u-accordion-chat`. Für ein eigenes Icon zusätzlich zu
+`u-accordion-icon` eine eigene Klasse vergeben und das Icon per CSS setzen:
+
+```css
+.content-accordion.mein-icon {
+  --accordion-icon-mask: url("/files/icons/paket.svg");
+}
+```
 
 ### Abschnitte mit Hintergrund
 
@@ -312,21 +370,75 @@ Das Theme Components Bundle erweitert Überschriften um eine *Subline*:
 - Subline **mit** „Inline“ → zweifarbige Überschrift, die eigentliche Überschrift
   erscheint in der Akzentfarbe („Mehr als nur eine **Agentur.**“)
 
+### CSS-Klassen im Style Manager
+
+Alle Creuva-Klassen stehen im [Style Manager](https://github.com/oveleon/contao-component-style-manager)
+als Auswahlfelder bereit, und zwar im Bereich *Stil* von Inhaltselementen, Artikeln und
+Modulen. Sie sind nach den Bereichen der Tabelle unten gruppiert, und jedes Element
+zeigt nur die Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei
+Elementgruppen, *Buttons* nur bei Hyperlink- und Text-Elementen). Die Konfiguration
+bringt das Bundle mit (`contao/templates/style-manager-creuva.yaml`). Sie wird
+automatisch geladen, ein Import im Backend ist nicht nötig.
+
+- Der Demo-Import belegt die Klassen der Demo-Elemente im Style Manager vor.
+- Bei bestehenden Websites übernimmt die Migration (`contao:migrate`) Creuva-Klassen
+  aus dem Feld *CSS-Klasse* in die Auswahl des Style Managers. Das gilt nur für
+  Datensätze ohne Style-Manager-Auswahl, die Klassen selbst bleiben unverändert.
+
+**Buttons:** Ein *Hyperlink*-Element wird mit „Primär-Button“ bzw. „Sekundär-Button“
+zum Button. Bei einem *Text*-Element mit dieser Auswahl werden die Links im
+**letzten Absatz** zu Buttons, nebeneinander. In der Templatevariante „Bild & Text“
+und in Call-to-Action-Boxen (`u-bg-primary`, `u-bg-accent`) passiert das automatisch.
+
 ### Klassen-Set (Advanced Classes)
+
+Dieselben Klassen gibt es zusätzlich als Klassen-Set „Creuva“ für das Advanced
+Classes Bundle (`public/sets/creuva.json`).
 
 | Bereich | Klassen |
 |---------|---------|
 | Hintergrund | `u-bg-surface`, `u-bg-muted`, `u-bg-accent`, `u-bg-primary` |
 | Breite | `u-full-bleed` (Hintergrund über die volle Breite), `u-narrow` |
 | Rahmen | `u-card`, `u-featured` (hervorgehobene Preis-Karte) |
-| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4` |
+| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-center`, `u-align-end` |
 | Abstände | `u-py-0` … `u-py-xl`, `u-mt-0` … `u-mt-xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
-| Links | `u-button`, `u-button-secondary` (für das Hyperlink-Element) |
+| Buttons | `u-button`, `u-button-secondary` (Hyperlink-Element, Links im letzten Absatz eines Text-Elements) |
+| Icon-Box | `u-feature-plain` (ohne Karte), `u-feature-inline` (Icon links) |
+| Animation | `u-reveal-up`, `u-reveal-left`, `u-reveal-right`, `u-reveal-down`, `u-reveal-zoom`, `u-reveal-blur`, `u-reveal-fade`, `u-reveal-none` (keine Animation), `u-reveal-stagger` (Inhalte nacheinander), `u-no-countup` (Kennzahlen nicht hochzählen) |
+| Elemente | `u-accordion-icon`, `u-accordion-info`, `u-accordion-chat` (Akkordeon-Icon), `u-media-plain` (Bild & Text ohne Akzentfläche) |
 | Sichtbarkeit | `u-hide-mobile`, `u-hide-desktop` |
 
 Die Klassen funktionieren auch ohne das Advanced Classes Bundle über das Feld
 *CSS-Klasse*.
+
+## Animationen und Hover-Effekte
+
+Im Seitenlayout legt **Creuva-Design › Animationen** fest, was beim Scrollen eingeblendet wird:
+
+| Einstellung | Wirkung |
+|-------------|---------|
+| Alle Abschnitte (Standard) | Alle Elemente im Hauptbereich blenden von unten ein, Raster (`u-grid-*`) und News-Listen Element für Element, „Bild & Text“ von beiden Seiten |
+| Nur per CSS-Klasse | Nur Elemente mit einer Klasse aus „Animation“ (siehe Klassen-Set) |
+| Keine | Keine Scroll-Animationen, keine Einstiegsanimation im Hero, Zahlen werden sofort angezeigt |
+
+- Die Klassen `u-reveal-*` legen die Richtung je Element fest und haben Vorrang vor der
+  automatischen Animation; `u-reveal-none` nimmt ein Element (oder einen ganzen Artikel) aus.
+- Inhalte, die beim Laden schon sichtbar sind, werden nie ausgeblendet; ohne JavaScript ist
+  alles sofort sichtbar.
+- Der Hero blendet beim Laden ein, die Fläche hinter dem Bild bewegt sich langsam.
+- Besucher mit der Systemeinstellung „Bewegung reduzieren“ sehen keine Animationen.
+- Hover-Effekte (Karten heben sich, Bilder zoomen, Pfeile wandern mit) sind immer aktiv.
+- Dauer, Weg und Verzögerung lassen sich per CSS anpassen:
+
+```css
+:root {
+  --reveal-duration: 0.6s;   /* Standard 0.8s */
+  --reveal-distance: 1.5rem; /* Standard 2.5rem */
+  --reveal-stagger: 60ms;    /* Verzögerung je Element im Raster */
+  --hover-lift: -4px;        /* Anheben von Karten beim Hover */
+}
+```
 
 ## Templates anpassen
 
@@ -445,9 +557,11 @@ contao/config/     Registrierung des Klassen-Sets
 contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module)
 contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
+                   und style-manager-creuva.yaml (Style-Manager-Konfiguration)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
 public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
-src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset)
+src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide)
+styleguide/        Styleguide-Definition (styleguide.yaml) und Dateien
 theme-idee/        Konzept und Entwürfe
 ```
 
@@ -456,7 +570,16 @@ theme-idee/        Konzept und Entwürfe
 - Die Barrierefreiheits-Werkzeuge (Kontrast, Schriftgröße) und die Animationen beim
   Scrollen des Theme Components Bundles nutzen die Hooks `generatePage` bzw.
   `parseFrontendTemplate`, die Contao bei Layouts vom Typ „Modern“ nicht ausführt.
-  Die Einstellungen im Startpunkt haben deshalb im Creuva-Layout keine Wirkung.
+  Die Einstellungen im Startpunkt haben deshalb im Creuva-Layout keine Wirkung;
+  Creuva bringt eigene Animationen mit (siehe „Animationen und Hover-Effekte“).
+- Die Demo-Dateien (SVG-Icons, PDFs) werden direkt aus `files/creuva-demo/` geladen und
+  brauchen den Symlink `public/files/creuva-demo` (`contao:symlinks`). Unter Windows schlägt
+  das ohne Administratorrechte bzw. Entwicklermodus fehl – dann fehlen Icons und Downloads.
+  Für die lokale Entwicklung hilft eine Verzeichnis-Junction:
+  `mklink /J public\files\creuva-demo files\creuva-demo`. `creuva:install --reset` und
+  `contao:symlinks` kommen mit einer vorhandenen Junction aber nicht zurecht und brechen
+  ab. Die Junction deshalb vorher mit `rmdir public\files\creuva-demo` entfernen (löscht
+  nur den Link).
 
 ## Lizenz
 

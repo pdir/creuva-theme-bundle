@@ -208,8 +208,252 @@ const initStyleSwitcherSave = (switcher, api, defaults) => {
   });
 };
 
+const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * Animation setting of the page layout (data-animations on <html>):
+ * "auto" (default), "classes" or "none".
+ */
+const getAnimationMode = () => document.documentElement.dataset.animations || 'auto';
+
+const REVEAL_CLASSES = {
+  'u-reveal-up': 'up',
+  'u-reveal-down': 'down',
+  'u-reveal-left': 'left',
+  'u-reveal-right': 'right',
+  'u-reveal-zoom': 'zoom',
+  'u-reveal-blur': 'blur',
+  'u-reveal-fade': 'fade',
+};
+
+// Containers whose children appear one after another
+const STAGGER_CONTAINERS = '.u-grid-2, .u-grid-3, .u-grid-4, .u-reveal-stagger, .mod_newslist:has(.layout_latest)';
+
+const getRevealType = (element, fallback = null) => {
+  const match = Object.keys(REVEAL_CLASSES).find((name) => element.classList.contains(name));
+
+  return match ? REVEAL_CLASSES[match] : fallback;
+};
+
+const readTime = (element, property, fallback) => {
+  const value = getComputedStyle(element).getPropertyValue(property).trim();
+  const number = parseFloat(value);
+
+  if (Number.isNaN(number)) {
+    return fallback;
+  }
+
+  return value.endsWith('ms') ? number : number * 1000;
+};
+
+/**
+ * Elements fade in when they scroll into view. Editors control this with the
+ * animation setting of the page layout and the CSS classes u-reveal-* (type),
+ * u-reveal-stagger (children one after another) and u-reveal-none (no animation).
+ */
+const initReveal = () => {
+  const mode = getAnimationMode();
+
+  if ('none' === mode || prefersReducedMotion() || !('IntersectionObserver' in window)) {
+    return;
+  }
+
+  const items = new Map();
+  const root = document.documentElement;
+  const stagger = readTime(root, '--reveal-stagger', 90);
+
+  const add = (element, type, delay = 0) => {
+    if (!items.has(element) && !element.closest('.u-reveal-none')) {
+      items.set(element, { type, delay });
+    }
+  };
+
+  const addChildren = (container, type) => {
+    [...container.children]
+      .filter((child) => !child.matches('script, style, template'))
+      .forEach((child, index) => add(child, getRevealType(child, type), Math.min(index, 5) * stagger));
+  };
+
+  // Explicit classes first, they win over the automatic animation
+  document.querySelectorAll('[class*="u-reveal-"]').forEach((element) => {
+    if (element.classList.contains('u-reveal-stagger')) {
+      addChildren(element, getRevealType(element, 'up'));
+    } else if (element.matches('.c-media') && !getRevealType(element)) {
+      add(element, 'split');
+    } else if (getRevealType(element)) {
+      add(element, getRevealType(element));
+    }
+  });
+
+  if ('auto' === mode) {
+    document.querySelectorAll('.l-main > .mod_article > :not(.c-hero)').forEach((element) => {
+      if (element.matches('.c-media')) {
+        add(element, 'split');
+      } else if (element.matches(STAGGER_CONTAINERS)) {
+        addChildren(element, 'up');
+      } else {
+        add(element, 'up');
+      }
+    });
+  }
+
+  const duration = readTime(root, '--reveal-duration', 800);
+
+  const reveal = (element) => {
+    const { delay } = items.get(element);
+
+    element.classList.add('is-revealed');
+
+    // Back to the normal state, so hover transitions work as usual
+    setTimeout(() => {
+      element.removeAttribute('data-reveal');
+      element.classList.remove('is-revealed');
+      element.style.removeProperty('--reveal-delay');
+    }, delay + duration + 400);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          reveal(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+
+  const fold = window.innerHeight * 0.92;
+
+  items.forEach(({ type, delay }, element) => {
+    // Content that is already visible is never hidden
+    if (element.getBoundingClientRect().top < fold) {
+      return;
+    }
+
+    element.dataset.reveal = type;
+
+    if (delay) {
+      element.style.setProperty('--reveal-delay', `${delay}ms`);
+    }
+
+    observer.observe(element);
+  });
+};
+
+const escapeHtml = (text) => text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
+
+/**
+ * Splits a key figure like "120+", "98 %", "1.200" or "4,9" into prefix,
+ * number and suffix.
+ */
+const parseFigure = (text) => {
+  const match = text.match(/^(\D*?)(\d(?:[\d.,\s  ]*\d)?)(\D*)$/);
+
+  if (!match) {
+    return null;
+  }
+
+  const [, prefix, raw, suffix] = match;
+  const separators = raw.match(/[.,]/g) || [];
+  const last = Math.max(raw.lastIndexOf('.'), raw.lastIndexOf(','));
+  const tail = last > -1 ? raw.slice(last + 1) : '';
+
+  // The last separator is a decimal separator if it differs from the others
+  // ("1.500,50") or is the only one and not followed by three digits ("4,9")
+  const isDecimal = last > -1 && (new Set(separators).size > 1 || (1 === separators.length && 3 !== tail.length));
+  const integer = (isDecimal ? raw.slice(0, last) : raw).replace(/[^\d]/g, '');
+  const decimals = isDecimal ? tail.length : 0;
+  const value = parseFloat(isDecimal ? `${integer}.${tail}` : integer);
+  const grouping = /[\s\u00a0\u202f]/.test(raw) || separators.length > (isDecimal ? 1 : 0);
+
+  return Number.isNaN(value) ? null : { prefix, raw, suffix, value, decimals, grouping };
+};
+
+/**
+ * Key figures (template variant creuva_stats): prefix and suffix are styled as
+ * unit and the numbers count up when they scroll into view (not with the CSS
+ * class u-no-countup or the animation setting "none").
+ */
+const initCountUp = () => {
+  const terms = [...document.querySelectorAll('.c-stats dt')].filter((term) => 0 === term.children.length);
+
+  if (!terms.length) {
+    return;
+  }
+
+  const animate = 'none' !== getAnimationMode() && !prefersReducedMotion() && 'IntersectionObserver' in window;
+  const locale = document.documentElement.lang || 'de';
+  const unit = (text) => (text.trim() ? `<span class="c-stats__unit">${escapeHtml(text.trim())}</span>` : '');
+
+  const run = (term, figure) => {
+    const wrapper = term.querySelector('.c-stats__count');
+    const output = term.querySelector('[data-count]');
+    const format = new Intl.NumberFormat(locale, {
+      minimumFractionDigits: figure.decimals,
+      maximumFractionDigits: figure.decimals,
+      useGrouping: figure.grouping,
+    });
+    const duration = Math.min(2400, 1200 + figure.value * 4);
+    const start = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - (1 - progress) ** 4;
+
+      output.textContent = format.format(figure.value * eased);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        wrapper.classList.remove('is-counting');
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const observer = animate
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              observer.unobserve(entry.target);
+              run(entry.target, entry.target.creuvaFigure);
+            }
+          });
+        },
+        { threshold: 0.6 },
+      )
+    : null;
+
+  terms.forEach((term) => {
+    const figure = parseFigure(term.textContent.trim());
+
+    if (!figure) {
+      return;
+    }
+
+    const value = `${unit(figure.prefix)}${escapeHtml(figure.raw)}${unit(figure.suffix)}`;
+
+    if (!observer || term.closest('.u-no-countup')) {
+      term.innerHTML = value;
+
+      return;
+    }
+
+    // The final value stays in the layout (and is read by screen readers)
+    term.innerHTML = `<span class="c-stats__count is-counting"><span>${value}</span><span aria-hidden="true">${unit(figure.prefix)}<span data-count>0</span>${unit(figure.suffix)}</span></span>`;
+    term.creuvaFigure = figure;
+    observer.observe(term);
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initNavigation();
   initStyleSwitcher();
+  initReveal();
+  initCountUp();
 });

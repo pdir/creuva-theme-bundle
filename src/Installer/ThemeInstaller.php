@@ -107,6 +107,7 @@ class ThemeInstaller
     public function __construct(
         private readonly Connection $connection,
         private readonly DemoImporter $demoImporter,
+        private readonly StyleguideInstaller $styleguideInstaller,
     ) {
     }
 
@@ -272,8 +273,11 @@ class ThemeInstaller
             $footerSlots = ['brand'];
 
             // Footer columns of the demo
+            $footerColumns = [];
+
             foreach ($demo['footer'] ?? [] as $i => $column) {
                 $pages = array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, $column['pages'])));
+                $footerColumns['footer'.$i] = $column['pages'];
 
                 $modules['footer'.$i] = $this->insertModule($result, [
                     'name' => 'Footer – '.$column['headline'],
@@ -401,6 +405,21 @@ class ThemeInstaller
             // Including the warnings of the stylesheets
             if ($demo) {
                 $result->warnings = $this->demoImporter->getWarnings();
+            }
+
+            // Styleguide of the theme as part of the demo ("styleguide: true"), it can be
+            // linked in the footer with the alias "styleguide"
+            if (!empty($demo['styleguide'])) {
+                $styleguide = $this->styleguideInstaller->install($rootIds[0], $result->themeId, $options->language);
+                $result->pages[StyleguideInstaller::ALIAS] = $styleguide['pageId'];
+                $result->warnings = array_values(array_unique([...$result->warnings, ...$styleguide['warnings']]));
+
+                foreach ($footerColumns as $key => $aliases) {
+                    if (\in_array(StyleguideInstaller::ALIAS, $aliases, true)) {
+                        $pages = array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, $aliases)));
+                        $this->connection->update('tl_module', ['pages' => serialize(array_map('strval', $pages))], ['id' => $modules[$key]]);
+                    }
+                }
             }
 
             // Assign the layout (and the Creuva class set) to the root pages

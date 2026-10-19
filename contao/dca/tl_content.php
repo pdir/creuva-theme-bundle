@@ -8,7 +8,17 @@ declare(strict_types=1);
  * Copyright (C) pdir GmbH <develop@pdir.de>
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask,creuvaBadge;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+// Kicker ("Dachzeile") above the headline of text elements (also used by the
+// template variants creuva_media and creuva_stats)
+PaletteManipulator::create()
+    ->addField('creuvaKicker', 'headline', PaletteManipulator::POSITION_BEFORE)
+    ->applyToPalette('text', 'tl_content')
+    ->applyToPalette('description_list', 'tl_content')
+;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaKicker'] = [
     'search' => true,

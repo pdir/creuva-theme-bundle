@@ -1,0 +1,134 @@
+// Image and text side by side (template variant content_element/text/creuva_media):
+// image on the left or right (setting "Bildausrichtung"), kicker, two-tone
+// headline, text with check list and a link in the last paragraph as button.
+@use '../mixins' as *;
+
+@layer creuva.components {
+  .c-media {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l) clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: center;
+    container-type: inline-size;
+  }
+
+  @media (min-width: 56rem) {
+    .c-media:has(.c-media__visual) {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    }
+
+    .c-media--right:has(.c-media__visual) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+
+      .c-media__visual {
+        order: 2;
+      }
+    }
+  }
+
+  // Image with a soft accent shape behind it
+  .c-media__visual {
+    position: relative;
+    isolation: isolate;
+    padding: 0 0 var(--space-m) var(--space-m);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--space-l) var(--space-l) 0 0;
+      z-index: -1;
+      border-radius: var(--radius-l);
+      background: var(--c-accent-soft);
+      transition: transform 0.6s var(--ease-out);
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: var(--radius-l) !important;
+      box-shadow: var(--shadow-l);
+      transition: transform 0.7s var(--ease-out);
+    }
+
+    &:hover::before {
+      transform: translate(-0.5rem, 0.5rem);
+    }
+
+    &:hover img {
+      transform: translate(0.25rem, -0.25rem);
+    }
+  }
+
+  .c-media--right .c-media__visual {
+    padding: 0 var(--space-m) var(--space-m) 0;
+
+    &::before {
+      inset: var(--space-l) 0 0 var(--space-l);
+    }
+
+    &:hover::before {
+      transform: translate(0.5rem, 0.5rem);
+    }
+
+    &:hover img {
+      transform: translate(-0.25rem, -0.25rem);
+    }
+  }
+
+  .c-media__body {
+    > :is(h1, h2, h3) {
+      margin-bottom: var(--space-m);
+    }
+
+    // Text: lead size, check list with more space
+    .rte {
+      color: var(--c-text-muted);
+      font-size: 1.0625rem;
+
+      ul {
+        margin-block: var(--space-m);
+        color: var(--c-text);
+        font-size: var(--fs-base);
+      }
+
+      ul > li + li {
+        margin-top: 0.625rem;
+      }
+
+      // Link(s) in the last paragraph → buttons (first primary, others secondary)
+      > p:last-child:not(:first-child):has(> a) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-s);
+        margin-top: var(--space-l);
+      }
+
+      > p:last-child:not(:first-child):has(> a) > a {
+        @include button-base;
+      }
+
+      > p:last-child:not(:first-child):has(> a) > a:not(:first-child) {
+        @include button-secondary;
+      }
+
+      > p:last-child:not(:first-child):has(> a) > a:first-child {
+        @include button-primary;
+      }
+    }
+  }
+
+  // Without accent shape (CSS class u-media-plain)
+  .c-media.u-media-plain .c-media__visual {
+    padding: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}

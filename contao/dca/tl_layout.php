@@ -17,7 +17,7 @@ use Pdir\CreuvaThemeBundle\Design\DesignSettings;
  */
 PaletteManipulator::create()
     ->addLegend('creuva_legend', 'modules_legend', PaletteManipulator::POSITION_AFTER)
-    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight', 'creuvaStylesheets'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight', 'creuvaAnimations', 'creuvaStylesheets'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('modern', 'tl_layout')
 ;
 
@@ -62,6 +62,16 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaLogoHeight'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 16, 'rgxp' => 'custom', 'customRgxp' => DesignSettings::LOGO_HEIGHT_PATTERN, 'placeholder' => '2.25rem', 'tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
+];
+
+// Scroll and hover animations, output as data-animations on <html> (see
+// assets/js/creuva.js and components/_motion.scss)
+$GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaAnimations'] = [
+    'inputType' => 'select',
+    'options' => DesignSettings::ANIMATIONS,
+    'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaAnimations_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'auto'],
 ];
 
 // Own stylesheets from the file manager, loaded after creuva.css (e.g. files/design/custom.css)

@@ -5,6 +5,9 @@
 
 title: Standard / Creative
 
+# Also install the styleguide of the theme (styleguide/styleguide.yaml, page alias "styleguide")
+styleguide: true
+
 # Settings of the website root
 root:
   dateFormat: d.m.Y
@@ -67,7 +70,7 @@ brand:
 footer:
   - { headline: 'Leistungen', pages: ['webdesign', 'entwicklung', 'beratung', 'preise'] }
   - { headline: 'Unternehmen', pages: ['ueber-uns', 'team', 'projekte', 'kontakt'] }
-  - { headline: 'Wissen', pages: ['wissen', 'faq', 'downloads', 'elemente'] }
+  - { headline: 'Wissen', pages: ['wissen', 'faq', 'downloads', 'styleguide'] }
   - { headline: 'Rechtliches', pages: ['impressum', 'datenschutz'] }
 
 forms:
@@ -168,43 +171,56 @@ pages:
             creuvaUrl2: '{{link_url::leistungen}}'
             creuvaLinkTitle2: Unsere Leistungen
       - title: Leistungen
+        cssID: ['', 'u-bg-surface']
         elements:
-          - { type: 'headline', headline: 'Unsere Leistungen', subline: 'Was wir tun' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Unsere Leistungen', subline: 'Was wir tun' }
+              - { type: 'text', text: '<p>Von der ersten Idee bis zum fertigen Projekt – wir bieten ganzheitliche Lösungen für Ihren digitalen Erfolg.</p><p><a href="{{link_url::leistungen}}">Alle Leistungen ansehen</a></p>', cssID: 'u-lead' }
           - type: element_group
             cssID: u-grid-4
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Moderne, unabhängige Designs, die Ihre Marke perfekt repräsentieren.</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Saubere, performante Umsetzungen mit Contao und modernen Technologien.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategische Beratung für nachhaltige und erfolgreiche digitale Projekte.</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Persönliche Betreuung – auch lange nach dem Launch.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Moderne, individuelle Designs, die Ihre Marke perfekt repräsentieren.</p><p><a href="{{link_url::webdesign}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Saubere, performante Umsetzungen mit Contao und modernen Technologien.</p><p><a href="{{link_url::entwicklung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategische Beratung für nachhaltige und erfolgreiche digitale Projekte.</p><p><a href="{{link_url::beratung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Persönliche Betreuung – auch lange nach dem Launch.</p><p><a href="{{link_url::kontakt}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/support.svg' }
       - title: Agentur
         elements:
           - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: Kreative Partner auf Augenhöhe
             headline: Agentur.
             subline: Mehr als nur eine
             headline_inline: '1'
-            text: <p>Wir sind ein eingespieltes Team aus Designern, Entwicklern und Strategen. Gemeinsam mit Ihnen entwickeln wir digitale Lösungen, die begeistern und nachhaltig funktionieren.</p><ul><li>Individuelle Konzepte statt Baukasten</li><li>Persönliche Beratung und direkte Kommunikation</li><li>Langfristige Partnerschaften auf Augenhöhe</li></ul>
+            text: <p>Wir sind ein eingespieltes Team aus Designern, Entwicklern und Strategen. Unser Ziel – digitale Lösungen, die nicht nur funktionieren, sondern wirklich zu Ihnen passen.</p><ul><li>Individuelle Konzepte statt Baukasten</li><li>Persönliche Beratung und direkte Kommunikation</li><li>Langfristige Partnerschaften</li><li>Leidenschaft für gutes Design und sauberen Code</li></ul><p><a href="{{link_url::ueber-uns}}">Mehr über uns</a></p>
             addImage: true
             singleSRC: file:bilder/about.jpg
             size: 'image_size:card'
             floating: left
-          - { type: 'hyperlink', url: '{{link_url::ueber-uns}}', linkTitle: 'Mehr über uns', cssID: 'u-button' }
       - title: Referenzen
         cssID: ['', 'u-bg-muted']
         elements:
-          - { type: 'headline', headline: 'Ausgewählte Projekte', subline: 'Referenzen' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Arbeiten.', subline: 'Unsere neuesten', headline_inline: '1' }
+              - { type: 'text', text: '<p>Ausgewählte Projekte aus Webdesign, Entwicklung und Beratung.</p><p><a href="{{link_url::projekte}}">Alle Projekte ansehen</a></p>', cssID: 'u-lead' }
           - type: element_group
             cssID: u-grid-3
             children:
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="{{link_url::projekt-gruenwerk}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Branding · Website', headline: { unit: 'h3', value: 'Nordlicht Studio' }, text: '<p>Dunkles, kreatives Design für ein Fotostudio.</p><p><a href="{{link_url::projekt-nordlicht}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Tourismus · Buchung', headline: { unit: 'h3', value: 'Hotel Alpenhof' }, text: '<p>Warme Bildsprache und Online-Anfrage für ein Hotel.</p><p><a href="{{link_url::projekt-alpenhof}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
-          - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Alle Projekte ansehen', cssID: 'u-button-secondary' }
       - title: Kennzahlen
         elements:
-          - type: description_list
+          - &stats
+            type: description_list
             customTpl: content_element/description_list/creuva_stats
-            headline: Vertrauen. Erfahrung. Ergebnisse.
+            creuvaKicker: Zahlen, die für sich sprechen
+            headline: Ergebnisse.
+            subline: Vertrauen. Erfahrung.
+            headline_inline: '1'
             cssID: u-bg-accent u-text-center
             data:
               - { key: '120+', value: 'Erfolgreiche Projekte' }
@@ -213,8 +229,9 @@ pages:
               - { key: '24', value: 'Engagierte Köpfe' }
       - title: Kundenstimmen
         elements:
-          - { type: 'headline', headline: 'Das sagen unsere Kunden', subline: 'Kundenstimmen' }
-          - type: element_group
+          - { type: 'headline', headline: 'Starkes Feedback.', subline: 'Echte Meinungen.', headline_inline: '1' }
+          -
+            type: element_group
             cssID: u-grid-3
             children:
               - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Geschäftsführerin, Grünwerk Energie', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos. Unsere neue Website bringt spürbar mehr Anfragen.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
@@ -222,15 +239,22 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Sabine Huber' }, subline: 'Hotel Alpenhof', text: '<p>Endlich eine Website, die so einladend ist wie unser Haus. Die Online-Anfragen haben sich verdoppelt.</p>', addImage: true, singleSRC: 'file:bilder/team-4.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Sabine Huber' }
       - title: Neuigkeiten
         elements:
-          - { type: 'headline', headline: 'News & Wissen', subline: 'Aktuelles' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Wissen.', subline: 'News &', headline_inline: '1' }
+              - { type: 'text', text: '<p>Tipps, Neuigkeiten und Hintergründe rund um Webdesign und Contao.</p><p><a href="{{link_url::wissen}}">Alle Beiträge</a></p>', cssID: 'u-lead' }
           - { type: 'module', module: 'module:newslatest' }
       - title: CTA
         elements:
-          - type: text
-            headline: Lassen Sie uns gemeinsam Großes schaffen.
-            subline: Bereit für Ihr nächstes Projekt?
-            text: '<p>Ob neue Website, Relaunch oder Beratung – wir freuen uns darauf, Ihr Projekt kennenzulernen.</p><p><a href="{{link_url::kontakt}}">Jetzt Kontakt aufnehmen</a></p>'
-            cssID: u-bg-primary
+          - &cta
+            type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Bereit für Ihr Projekt?
+            headline: Großes schaffen.
+            subline: Lassen Sie uns gemeinsam
+            headline_inline: '1'
+            text: '<p>Ob neue Website, Relaunch oder Beratung – wir freuen uns darauf, Ihr Projekt kennenzulernen.</p><p><a href="{{link_url::kontakt}}">Projekt starten</a> <a href="{{link_url::kontakt}}">Unverbindlich anfragen</a></p>'
 
   # 02 · Leistungen
   - title: Leistungen
@@ -239,61 +263,107 @@ pages:
       - title: Intro
         elements:
           - type: creuva_hero
-            creuvaKicker: Leistungen
-            headline: { unit: 'h1', value: 'Alles für Ihren digitalen Auftritt –' }
-            creuvaHeadlineAccent: aus einer Hand.
-            text: <p>Von der Strategie über das Design bis zur technischen Umsetzung und Betreuung begleiten wir Sie durch jede Phase Ihres Projekts.</p>
+            creuvaKicker: Unsere Leistungen
+            headline: { unit: 'h1', value: 'Digitale Lösungen für nachhaltigen' }
+            creuvaHeadlineAccent: Erfolg.
+            text: <p>Wir gestalten, entwickeln und begleiten digitale Projekte, die nicht nur gut aussehen, sondern messbare Ergebnisse liefern – für Marken, Unternehmen und Organisationen.</p>
             singleSRC: file:bilder/detail-2.jpg
             size: 'image_size:hero'
-            creuvaHeroMask: rounded
+            creuvaHeroMask: organic
+            creuvaBadge: "Strategie.\nDesign.\nEntwicklung.\nAlles aus\neiner Hand."
             creuvaUrl1: '{{link_url::kontakt}}'
-            creuvaLinkTitle1: Beratung anfragen
+            creuvaLinkTitle1: Jetzt anfragen
       - title: Überblick
+        cssID: ['', 'u-bg-accent']
         elements:
-          - { type: 'headline', headline: 'Unsere Kompetenzen', subline: 'Überblick' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Überblick.', subline: 'Leistungen im', headline_inline: '1' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Von der ersten Idee bis zum laufenden Betrieb – wir bieten Ihnen ganzheitliche Lösungen für Ihr digitales Projekt.</p>' }
           - type: element_group
             cssID: u-grid-3
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Individuelle Designs mit klarer Nutzerführung.</p><p><a href="{{link_url::webdesign}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Contao-Websites, Erweiterungen und Schnittstellen.</p><p><a href="{{link_url::entwicklung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategie, Konzeption und Content-Planung.</p><p><a href="{{link_url::beratung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Performance' }, text: '<p>Schnelle Ladezeiten und Top-Werte bei Core Web Vitals.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'SEO' }, text: '<p>Technische Optimierung und Inhalte, die gefunden werden.</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Updates, Wartung und schnelle Hilfe im Alltag.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
-      - title: Arbeitsweise
-        cssID: ['', 'u-bg-muted']
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Moderne, individuelle Designs, die Ihre Marke stärken und Menschen begeistern.</p><p><a href="{{link_url::webdesign}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Saubere, performante Websites mit Contao und modernen Technologien.</p><p><a href="{{link_url::entwicklung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategische Beratung für nachhaltige digitale Projekte und langfristigen Erfolg.</p><p><a href="{{link_url::beratung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+      - title: Vorteile
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'eine Agentur.', subline: 'Mehr als nur', headline_inline: '1' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Wir verbinden Design, Technologie und Strategie zu digitalen Lösungen, die heute überzeugen und morgen noch Bestand haben.</p>' }
+          -
+            type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Individuelle Lösungen' }, text: '<p>Keine Standardlösungen, sondern maßgeschneiderte Konzepte.</p>', addImage: true, singleSRC: 'file:icons/rakete.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Erfahrenes Team' }, text: '<p>Expertise aus zahlreichen erfolgreichen Projekten.</p>', addImage: true, singleSRC: 'file:icons/raute.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Moderne Technologien' }, text: '<p>Saubere Umsetzung mit Contao und modernen Tools.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Langfristige Partnerschaft' }, text: '<p>Auch nach dem Launch sind wir an Ihrer Seite.</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+      - title: Leistungen im Detail
         elements:
           - type: text
-            headline: Gemeinsam zum Ziel
-            subline: So arbeiten wir
-            text: <p>Wir arbeiten in klaren Schritten und binden Sie in jede Entscheidung ein. So entstehen Websites, die zu Ihrem Unternehmen passen.</p><ul><li>Workshop und Zieldefinition</li><li>Konzept, Wireframes und Design</li><li>Umsetzung in Contao</li><li>Schulung, Launch und Betreuung</li></ul>
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: 01 · Webdesign
+            headline: wirken.
+            subline: Designs, die
+            headline_inline: '1'
+            text: '<p>Wir entwickeln individuelle Webdesigns, die Ihre Marke klar kommunizieren, Emotionen wecken und Ihre Zielgruppe gezielt ansprechen.</p><ul><li>Individuelles Designkonzept</li><li>Responsive Gestaltung für alle Endgeräte</li><li>Barrierearme und suchmaschinenfreundliche Umsetzung</li><li>Enge Zusammenarbeit und klarer Prozess</li></ul><p><a href="{{link_url::webdesign}}">Mehr zum Webdesign</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-3.jpg
+            size: 'image_size:card'
+            floating: left
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: 02 · Entwicklung
+            headline: Möglichkeiten schafft.
+            subline: Technologie, die
+            headline_inline: '1'
+            text: '<p>Wir setzen Ihre Website mit Contao und modernen Technologien um – sauber, performant und zukunftssicher.</p><ul><li>Contao-Entwicklung und individuelle Erweiterungen</li><li>Performance-Optimierung</li><li>Schnittstellen und Integrationen</li><li>Wartung, Updates und Support</li></ul><p><a href="{{link_url::entwicklung}}">Mehr zur Entwicklung</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-2.jpg
+            size: 'image_size:card'
+            floating: right
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: 03 · Beratung
+            headline: nachhaltigen Erfolg.
+            subline: Strategie für
+            headline_inline: '1'
+            text: '<p>Wir beraten Sie von der ersten Idee bis zum laufenden Betrieb und entwickeln gemeinsam eine Strategie, die zu Ihren Zielen und Ressourcen passt.</p><ul><li>Strategische Beratung und Zieldefinition</li><li>Analyse bestehender Websites</li><li>Konzeption und Planung</li><li>Begleitung bei der Umsetzung</li></ul><p><a href="{{link_url::beratung}}">Mehr zur Beratung</a></p>'
             addImage: true
             singleSRC: file:bilder/detail-1.jpg
             size: 'image_size:card'
-            floating: right
+            floating: left
       - title: Ablauf
-        elements:
-          - type: description_list
-            customTpl: content_element/description_list/creuva_timeline
-            headline: Ihr Projekt in fünf Schritten
-            data:
-              - { key: '01 Analyse', value: 'Wir lernen Ihr Unternehmen und Ihre Ziele kennen.' }
-              - { key: '02 Konzept', value: 'Struktur, Inhalte und Funktionen werden geplant.' }
-              - { key: '03 Design', value: 'Entwürfe für alle wichtigen Seiten und Geräte.' }
-              - { key: '04 Umsetzung', value: 'Entwicklung mit Contao und Creuva.' }
-              - { key: '05 Launch', value: 'Schulung, Livegang und Betreuung.' }
-      - title: FAQ
         cssID: ['', 'u-bg-muted']
         elements:
+          -
+            type: description_list
+            customTpl: content_element/description_list/creuva_timeline
+            creuvaKicker: So arbeiten wir
+            headline: Beste Ergebnisse.
+            subline: Ein klarer Prozess.
+            headline_inline: '1'
+            data:
+              - { key: '01 Kennenlernen', value: 'Wir besprechen Ihre Ziele und Anforderungen.' }
+              - { key: '02 Konzeption', value: 'Wir entwickeln eine individuelle Strategie.' }
+              - { key: '03 Umsetzung', value: 'Design und Entwicklung gehen Hand in Hand.' }
+              - { key: '04 Betreuung', value: 'Auch nach dem Launch sind wir an Ihrer Seite.' }
+      - title: FAQ
+        elements:
           - type: element_group
-            cssID: u-grid-2
+            cssID: u-grid-2 u-align-end
             children:
-              - { type: 'headline', headline: 'Noch Fragen?', subline: 'Häufige Fragen' }
-              - { type: 'text', text: '<p>Hier finden Sie Antworten auf die häufigsten Fragen zu unseren Leistungen.</p>', cssID: 'u-muted' }
+              - { type: 'headline', headline: 'Fragen?', subline: 'Noch', headline_inline: '1' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Hier finden Sie Antworten auf die häufigsten Fragen zu unseren Leistungen.</p>' }
           - type: element_group
             cssID: u-grid-2
             children:
               - type: accordion
+                cssID: u-accordion-icon
                 children:
                   - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Für welche Branchen arbeitet Creuva?' }, text: '<p>Für Unternehmen, Vereine und öffentliche Einrichtungen – vom Handwerksbetrieb bis zum Energieversorger.</p>' }
                   - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Mit welchen Technologien entwickeln Sie?' }, text: '<p>Mit Contao, Twig und modernen Web-Standards. Ihre Website bleibt updatefähig, schnell und sicher.</p>' }
@@ -301,28 +371,96 @@ pages:
                   - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Bieten Sie auch Support und Wartung an?' }, text: '<p>Ja – mit unseren Wartungspaketen bleibt Ihre Website sicher und aktuell. Bei Fragen sind wir schnell erreichbar.</p>' }
                   - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was kostet eine neue Website?' }, text: '<p>Das hängt vom Umfang ab. Einen Überblick geben unsere <a href="{{link_url::preise}}">Pakete und Preise</a>.</p>' }
               - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+      - title: CTA
+        elements:
+          - *cta
     children:
       - title: Webdesign
         alias: webdesign
         articles:
-          - title: Webdesign
+          - title: Intro
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Leistungen', headline: { unit: 'h1', value: 'Webdesign, das' }, creuvaHeadlineAccent: 'Wirkung zeigt.', text: '<p>Wir gestalten Websites, die Ihre Marke stärken, Besucher führen und auf allen Geräten überzeugen.</p>', creuvaHeroMask: 'none', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen' }
-              - { type: 'text', headline: 'Gestaltung mit System', text: '<p>Farben, Typografie und Komponenten bilden ein Designsystem, das mit Ihrem Unternehmen wächst.</p><ul><li>Responsive Layouts für alle Bildschirmgrößen</li><li>Barrierearme Gestaltung nach WCAG</li><li>Prototypen zum Durchklicken</li></ul>', addImage: true, singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card', floating: 'right' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Leistungen · Webdesign', headline: { unit: 'h1', value: 'Webdesign, das' }, creuvaHeadlineAccent: 'Wirkung zeigt.', text: '<p>Wir gestalten Websites, die Ihre Marke stärken, Besucher führen und auf allen Geräten überzeugen.</p>', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Individuell.\nResponsiv.\nBarrierearm.", creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Referenzen ansehen' }
+          - title: Leistungen
+            cssID: ['', 'u-bg-accent']
+            elements:
+              - { type: 'headline', headline: 'Das ist enthalten.', subline: 'Leistungsumfang', headline_inline: '1' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Designkonzept' }, text: '<p>Moodboards, Farben, Typografie und Komponenten als durchdachtes Designsystem.</p>', addImage: true, singleSRC: 'file:icons/raute.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Responsive Layouts' }, text: '<p>Optimale Darstellung vom Smartphone bis zum großen Monitor.</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Barrierefreiheit' }, text: '<p>Kontraste, Tastaturbedienung und klare Strukturen nach WCAG.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+          - title: Details
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_media
+                creuvaKicker: Gestaltung mit System
+                headline: wächst.
+                subline: Ein Design, das mit Ihnen
+                headline_inline: '1'
+                text: '<p>Farben, Typografie und Komponenten bilden ein Designsystem, das mit Ihrem Unternehmen wächst – und das Ihre Redakteure ohne Programmierkenntnisse nutzen.</p><ul><li>Prototypen zum Durchklicken</li><li>Abgestimmte Bildsprache</li><li>Styleguide für alle Elemente</li></ul><p><a href="{{link_url::kontakt}}">Projekt anfragen</a> <a href="{{link_url::preise}}">Preise ansehen</a></p>'
+                addImage: true
+                singleSRC: file:bilder/detail-1.jpg
+                size: 'image_size:card'
+                floating: right
+          - title: CTA
+            elements:
+              - *cta
       - title: Entwicklung
         alias: entwicklung
         articles:
-          - title: Entwicklung
+          - title: Intro
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Leistungen', headline: { unit: 'h1', value: 'Entwicklung mit' }, creuvaHeadlineAccent: 'Contao.', text: '<p>Saubere, performante und sichere Umsetzungen – von der Unternehmenswebsite bis zur individuellen Erweiterung.</p>', creuvaHeroMask: 'none', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen' }
-              - { type: 'text', headline: 'Technik, die einfach funktioniert', text: '<p>Wir setzen auf Contao, Twig und moderne Standards. Ihre Website bleibt updatefähig und schnell.</p><ul><li>Contao 5 und Contao 6</li><li>Individuelle Erweiterungen und Schnittstellen</li><li>Performance- und Sicherheitsoptimierung</li></ul>', addImage: true, singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card', floating: 'left' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Leistungen · Entwicklung', headline: { unit: 'h1', value: 'Entwicklung mit' }, creuvaHeadlineAccent: 'Contao.', text: '<p>Saubere, performante und sichere Umsetzungen – von der Unternehmenswebsite bis zur individuellen Erweiterung.</p>', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Schnell.\nSicher.\nUpdatefähig.", creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Referenzen ansehen' }
+          - title: Leistungen
+            cssID: ['', 'u-bg-accent']
+            elements:
+              - { type: 'headline', headline: 'einfach funktioniert.', subline: 'Technik, die', headline_inline: '1' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Contao 5 und 6' }, text: '<p>Moderne Twig-Templates und eine saubere Struktur, die auch künftige Updates mitmacht.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Erweiterungen' }, text: '<p>Individuelle Module, Schnittstellen und Integrationen für Ihre Abläufe.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Performance' }, text: '<p>Schnelle Ladezeiten und Top-Werte bei den Core Web Vitals.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
+          - title: Details
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_media
+                creuvaKicker: Sauber umgesetzt
+                headline: zukunftssicher.
+                subline: Performant, sicher und
+                headline_inline: '1'
+                text: '<p>Wir setzen auf Contao, Twig und moderne Standards. Ihre Website bleibt updatefähig, schnell und sicher – heute und in Zukunft.</p><ul><li>Code-Reviews und automatisierte Tests</li><li>Performance- und Sicherheitsoptimierung</li><li>Wartung und Updates</li></ul><p><a href="{{link_url::kontakt}}">Projekt anfragen</a></p>'
+                addImage: true
+                singleSRC: file:bilder/projekt-stadtwerke.jpg
+                size: 'image_size:card'
+                floating: left
+          - title: CTA
+            elements:
+              - *cta
       - title: Beratung
         alias: beratung
         articles:
-          - title: Beratung
+          - title: Intro
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Leistungen', headline: { unit: 'h1', value: 'Beratung mit' }, creuvaHeadlineAccent: 'Weitblick.', text: '<p>Wir helfen Ihnen, die richtigen Entscheidungen für Ihren digitalen Auftritt zu treffen.</p>', creuvaHeroMask: 'none', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Termin vereinbaren' }
-              - { type: 'text', headline: 'Strategie vor Technik', text: '<p>Gemeinsam definieren wir Ziele, Zielgruppen und Inhalte – die Grundlage für jede erfolgreiche Website.</p><ul><li>Workshops und Zielgruppenanalyse</li><li>Content-Strategie und Seitenstruktur</li><li>Begleitung bei Ausschreibungen</li></ul>', addImage: true, singleSRC: 'file:bilder/about.jpg', size: 'image_size:card', floating: 'right' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Leistungen · Beratung', headline: { unit: 'h1', value: 'Beratung mit' }, creuvaHeadlineAccent: 'Weitblick.', text: '<p>Wir helfen Ihnen, die richtigen Entscheidungen für Ihren digitalen Auftritt zu treffen.</p>', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Ehrlich.\nStrategisch.\nPersönlich.", creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Termin vereinbaren' }
+          - title: Leistungen
+            cssID: ['', 'u-bg-accent']
+            elements:
+              - { type: 'headline', headline: 'vor Technik.', subline: 'Strategie', headline_inline: '1' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Workshops' }, text: '<p>Ziele, Zielgruppen und Inhalte gemeinsam definieren.</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Content-Strategie' }, text: '<p>Seitenstruktur und Inhalte, die Besucher führen und überzeugen.</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Begleitung' }, text: '<p>Unterstützung bei Ausschreibungen, Relaunch und Betrieb.</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+          - title: CTA
+            elements:
+              - *cta
 
   # 03 · Projekte
   - title: Projekte
@@ -330,7 +468,7 @@ pages:
     articles:
       - title: Intro
         elements:
-          - { type: 'creuva_hero', creuvaKicker: 'Referenzen', headline: { unit: 'h1', value: 'Projekte, auf die wir' }, creuvaHeadlineAccent: 'stolz sind.', text: '<p>Ein Auszug aus unserer Arbeit – von der Unternehmenswebsite bis zum Online-Magazin.</p>', creuvaHeroMask: 'none' }
+          - { type: 'creuva_hero', creuvaKicker: 'Unsere Projekte', headline: { unit: 'h1', value: 'Digitale Projekte mit' }, creuvaHeadlineAccent: 'echtem Mehrwert.', text: '<p>Eine Auswahl unserer aktuellen Projekte – von Unternehmenswebsites über Webanwendungen bis hin zu Markenauftritten. Jedes Projekt ist einzigartig, jedes Ergebnis überzeugt.</p>', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Strategie.\nDesign.\nEntwicklung.\nAlles aus\neiner Hand." }
       - title: Übersicht
         elements:
           - type: element_group
@@ -342,6 +480,16 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Öffentlicher Sektor', headline: { unit: 'h2', value: 'Stadtwerke Elbtal' }, text: '<p>Barrierefreies Serviceportal mit Störungsmelder.</p><p><a href="{{link_url::projekt-stadtwerke}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-stadtwerke.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'E-Commerce · Mobile', headline: { unit: 'h2', value: 'Kaffeerösterei Bohne' }, text: '<p>Mobile-first Shop für handgeröstete Spezialitäten.</p><p><a href="{{link_url::projekt-roesterei}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-roesterei.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Verein · News', headline: { unit: 'h2', value: 'SV Grün-Weiß' }, text: '<p>Vereinswebsite mit Spielplänen und Mannschaften.</p><p><a href="{{link_url::projekt-sportverein}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-sportverein.jpg', size: 'image_size:card' }
+      - title: CTA
+        elements:
+          - &projectCta
+            type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Ihr Projekt könnte als Nächstes hier stehen
+            headline: etwas Großes?
+            subline: Bereit für
+            headline_inline: '1'
+            text: '<p>Ob neue Website, Webanwendung oder Markenauftritt – wir freuen uns darauf, Ihr Projekt kennenzulernen.</p><p><a href="{{link_url::kontakt}}">Projekt starten</a> <a href="{{link_url::kontakt}}">Unverbindlich anfragen</a></p>'
     children:
       - title: Grünwerk Energie
         alias: projekt-gruenwerk
@@ -349,57 +497,122 @@ pages:
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Webdesign · Contao', headline: { unit: 'h1', value: 'Grünwerk' }, creuvaHeadlineAccent: 'Energie.', text: '<p>Ein regionaler Energieversorger präsentiert sich nahbar, modern und nachhaltig – mit klarer Nutzerführung zu Tarifen und Services.</p>', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Energie · Website', headline: { unit: 'h1', value: 'Grünwerk' }, creuvaHeadlineAccent: 'Energie.', text: '<p>Ein regionaler Energieversorger präsentiert sich nahbar, modern und nachhaltig – mit klarer Nutzerführung zu Tarifen und Services.</p>', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+          - title: Über das Projekt
+            elements:
               - type: element_group
                 cssID: u-grid-2
                 children:
-                  - { type: 'description_list', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Grünwerk Energie GmbH' }, { key: 'Branche', value: 'Energieversorgung' }, { key: 'Leistungen', value: 'Konzept, Webdesign, Contao' }, { key: 'Launch', value: '2026' }] }
-                  - { type: 'text', headline: { unit: 'h2', value: 'Die Aufgabe' }, text: '<p>Die bisherige Website war unübersichtlich und nicht mobil nutzbar. Ziel war ein moderner Auftritt, der Tarife verständlich erklärt und Anfragen erleichtert.</p><ul><li>Neue Informationsarchitektur</li><li>Tarifrechner und Kontaktstrecken</li><li>Redaktionssystem für das Marketing-Team</li></ul>' }
-              - { type: 'gallery', headline: 'Einblicke', multiSRC: ['file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg'], size: 'image_size:card', fullsize: true, perRow: 3 }
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Grünwerk Energie GmbH' }, { key: 'Branche', value: 'Energieversorgung' }, { key: 'Leistungen', value: 'Konzeption, Webdesign, Contao-Umsetzung' }, { key: 'Umsetzung', value: '2026' }, { key: 'Website', value: 'www.example.com' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Über das Projekt' }, text: '<p>Die bisherige Website war unübersichtlich und nicht mobil nutzbar. Ziel war ein moderner Auftritt, der Tarife verständlich erklärt und Anfragen erleichtert.</p><p>Die neue Website überzeugt durch ein klares, ruhiges Design, große Bilder und eine intuitive Navigation. Das Marketing-Team pflegt alle Inhalte selbst in Contao.</p>' }
+          - title: Ziele
+            cssID: ['', 'u-bg-accent']
+            elements:
+              - { type: 'headline', headline: 'Die wichtigsten Ziele' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Verständliche Tarife' }, text: '<p>Tarifrechner und klare Vergleiche.</p>', addImage: true, singleSRC: 'file:icons/haken.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einfache Pflege' }, text: '<p>Redaktionssystem für das Marketing.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Mehr Anfragen' }, text: '<p>Kurze Wege zu Kontakt und Service.</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+          - title: Design
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_media
+                headline: Vertrauen schafft.
+                subline: Design, das
+                headline_inline: '1'
+                text: '<p>Klare Strukturen, freundliche Farben und echte Bilder aus der Region sorgen für einen nahbaren, professionellen Auftritt.</p><ul><li>Modernes, zeitloses Design</li><li>Optimiert für alle Endgeräte</li><li>Individuelle Contao-Module</li><li>Suchmaschinenfreundliche Umsetzung</li></ul>'
+                addImage: true
+                singleSRC: file:bilder/detail-2.jpg
+                size: 'image_size:card'
+                floating: left
+              - { type: 'gallery', headline: 'Weitere Eindrücke', multiSRC: ['file:bilder/detail-1.jpg', 'file:bilder/detail-3.jpg', 'file:bilder/projekt-gruenwerk.jpg'], size: 'image_size:card', fullsize: true, perRow: 3 }
               - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Geschäftsführerin, Grünwerk Energie', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos. Unsere neue Website bringt spürbar mehr Anfragen.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', cssID: 'u-narrow', overwriteMeta: true, alt: 'Julia Berger' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+          - title: CTA
+            elements:
+              - *projectCta
       - title: Nordlicht Studio
         alias: projekt-nordlicht
         hide: true
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Branding · Website', headline: { unit: 'h1', value: 'Nordlicht' }, creuvaHeadlineAccent: 'Studio.', text: '<p>Für ein Fotostudio entstand ein dunkles, bildstarkes Design, das die Arbeiten in den Mittelpunkt stellt.</p>', singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
-              - { type: 'text', headline: 'Die Lösung', text: '<p>Großformatige Bilder, ruhige Typografie und eine Portfolio-Struktur, die sich mit wenigen Klicks erweitern lässt.</p>' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Branding · Website', headline: { unit: 'h1', value: 'Nordlicht' }, creuvaHeadlineAccent: 'Studio.', text: '<p>Für ein Fotostudio entstand ein dunkles, bildstarkes Design, das die Arbeiten in den Mittelpunkt stellt.</p>', singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Nordlicht Studio' }, { key: 'Branche', value: 'Fotografie' }, { key: 'Leistungen', value: 'Branding, Webdesign, Portfolio' }, { key: 'Umsetzung', value: '2025' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Die Lösung' }, text: '<p>Großformatige Bilder, ruhige Typografie und eine Portfolio-Struktur, die sich mit wenigen Klicks erweitern lässt.</p>' }
+          - title: CTA
+            elements:
+              - *projectCta
       - title: Hotel Alpenhof
         alias: projekt-alpenhof
         hide: true
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Tourismus · Buchung', headline: { unit: 'h1', value: 'Hotel' }, creuvaHeadlineAccent: 'Alpenhof.', text: '<p>Warme Farben, große Bilder und eine einfache Anfragestrecke laden zum Verweilen ein.</p>', singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
-              - { type: 'text', headline: 'Die Lösung', text: '<p>Zimmerübersicht, Angebote und Anfrageformular sind übersichtlich aufgebaut und auf dem Smartphone optimal bedienbar.</p>' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Tourismus · Buchung', headline: { unit: 'h1', value: 'Hotel' }, creuvaHeadlineAccent: 'Alpenhof.', text: '<p>Warme Farben, große Bilder und eine einfache Anfragestrecke laden zum Verweilen ein.</p>', singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Hotel Alpenhof' }, { key: 'Branche', value: 'Hotellerie' }, { key: 'Leistungen', value: 'Webdesign, Anfrageformular' }, { key: 'Umsetzung', value: '2025' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Die Lösung' }, text: '<p>Zimmerübersicht, Angebote und Anfrageformular sind übersichtlich aufgebaut und auf dem Smartphone optimal bedienbar.</p>' }
+          - title: CTA
+            elements:
+              - *projectCta
       - title: Stadtwerke Elbtal
         alias: projekt-stadtwerke
         hide: true
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Öffentlicher Sektor', headline: { unit: 'h1', value: 'Stadtwerke' }, creuvaHeadlineAccent: 'Elbtal.', text: '<p>Ein barrierefreies Serviceportal mit Störungsmelder, Formularen und aktuellen Meldungen.</p>', singleSRC: 'file:bilder/projekt-stadtwerke.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Öffentlicher Sektor', headline: { unit: 'h1', value: 'Stadtwerke' }, creuvaHeadlineAccent: 'Elbtal.', text: '<p>Ein barrierefreies Serviceportal mit Störungsmelder, Formularen und aktuellen Meldungen.</p>', singleSRC: 'file:bilder/projekt-stadtwerke.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Stadtwerke Elbtal' }, { key: 'Branche', value: 'Versorgung' }, { key: 'Leistungen', value: 'Konzept, Barrierefreiheit, Contao' }, { key: 'Umsetzung', value: '2024' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Die Lösung' }, text: '<p>Ein Serviceportal nach WCAG 2.1 AA mit klarer Struktur, Störungsmelder und Online-Formularen für alle Anliegen.</p>' }
+          - title: CTA
+            elements:
+              - *projectCta
       - title: Kaffeerösterei Bohne
         alias: projekt-roesterei
         hide: true
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'E-Commerce · Mobile', headline: { unit: 'h1', value: 'Kaffeerösterei' }, creuvaHeadlineAccent: 'Bohne.', text: '<p>Mobile-first gestaltet – für Kunden, die ihren Lieblingskaffee unterwegs bestellen.</p>', singleSRC: 'file:bilder/projekt-roesterei.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'E-Commerce · Mobile', headline: { unit: 'h1', value: 'Kaffeerösterei' }, creuvaHeadlineAccent: 'Bohne.', text: '<p>Mobile-first gestaltet – für Kunden, die ihren Lieblingskaffee unterwegs bestellen.</p>', singleSRC: 'file:bilder/projekt-roesterei.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'Kaffeerösterei Bohne' }, { key: 'Branche', value: 'Lebensmittel' }, { key: 'Leistungen', value: 'Shop-Design, Mobile UX' }, { key: 'Umsetzung', value: '2025' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Die Lösung' }, text: '<p>Ein schlanker Shop mit großen Produktbildern, schnellem Checkout und Abo-Funktion für Stammkunden.</p>' }
+          - title: CTA
+            elements:
+              - *projectCta
       - title: SV Grün-Weiß
         alias: projekt-sportverein
         hide: true
         articles:
           - title: Projekt
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Verein · News', headline: { unit: 'h1', value: 'SV' }, creuvaHeadlineAccent: 'Grün-Weiß.', text: '<p>Mannschaften, Spielpläne und News – von den Vereinsmitgliedern selbst gepflegt.</p>', singleSRC: 'file:bilder/projekt-sportverein.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded' }
-              - { type: 'hyperlink', url: '{{link_url::projekte}}', linkTitle: 'Zurück zur Übersicht', cssID: 'u-button-secondary' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Verein · News', headline: { unit: 'h1', value: 'SV' }, creuvaHeadlineAccent: 'Grün-Weiß.', text: '<p>Mannschaften, Spielpläne und News – von den Vereinsmitgliedern selbst gepflegt.</p>', singleSRC: 'file:bilder/projekt-sportverein.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Projekt anfragen', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Alle Projekte' }
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - { type: 'description_list', customTpl: 'content_element/description_list/creuva_facts', headline: { unit: 'h2', value: 'Projektdaten' }, data: [{ key: 'Kunde', value: 'SV Grün-Weiß e. V.' }, { key: 'Branche', value: 'Sport & Verein' }, { key: 'Leistungen', value: 'Webdesign, News, Schulung' }, { key: 'Umsetzung', value: '2024' }] }
+                  - { type: 'text', headline: { unit: 'h2', value: 'Die Lösung' }, text: '<p>Jede Abteilung pflegt ihre Mannschaften, Termine und Berichte selbst – mit klaren Rechten und einfacher Bedienung.</p>' }
+          - title: CTA
+            elements:
+              - *projectCta
 
   # 04 · Über uns
   - title: Über uns
@@ -407,55 +620,104 @@ pages:
     articles:
       - title: Intro
         elements:
-          - { type: 'creuva_hero', creuvaKicker: 'Über uns', headline: { unit: 'h1', value: 'Menschen, die' }, creuvaHeadlineAccent: 'Ideen umsetzen.', text: '<p>Seit 2010 entwickeln wir Websites mit Contao. Heute sind wir ein Team aus 24 Köpfen mit einer gemeinsamen Leidenschaft für gutes Design.</p>', singleSRC: 'file:bilder/about.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Seit\n2010" }
+          - { type: 'creuva_hero', creuvaKicker: 'Über Creuva', headline: { unit: 'h1', value: 'Mehr als nur Websites.' }, creuvaHeadlineAccent: 'Echte Lösungen.', text: '<p>Wir sind ein Team aus Designern, Entwicklern und Strategen, das digitale Projekte mit Leidenschaft, Erfahrung und einem klaren Anspruch an Qualität umsetzt.</p>', singleSRC: 'file:bilder/about.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Kreativ.\nZuverlässig.\nAuf Augenhöhe.", creuvaUrl1: '#geschichte', creuvaLinkTitle1: 'Unsere Geschichte', creuvaUrl2: '{{link_url::kontakt}}', creuvaLinkTitle2: 'Projekt anfragen' }
       - title: Werte
         elements:
-          - { type: 'headline', headline: 'Wofür wir stehen', subline: 'Unsere Werte' }
           - type: element_group
-            cssID: u-grid-3
+            cssID: u-grid-2 u-align-end
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Offenheit' }, text: '<p>Wir kommunizieren ehrlich, transparent und auf Augenhöhe.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Qualität' }, text: '<p>Sorgfalt in Design und Code – für Ergebnisse, die lange halten.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Neugier' }, text: '<p>Wir probieren Neues aus und bleiben technisch am Ball.</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+              - { type: 'headline', headline: 'Was uns antreibt.', subline: 'Unsere Philosophie' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Wir glauben an digitale Lösungen, die Menschen wirklich weiterbringen – mit klarem Design, moderner Technologie und einer Zusammenarbeit auf Augenhöhe.</p>' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Qualität' }, text: '<p>Wir setzen auf saubere Arbeit und nachhaltige Ergebnisse.</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Partnerschaft' }, text: '<p>Ehrliche Beratung und offene Kommunikation sind für uns selbstverständlich.</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Kreativität' }, text: '<p>Wir denken mit, stellen Fragen und entwickeln individuelle Lösungen.</p>', addImage: true, singleSRC: 'file:icons/raute.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Zukunft' }, text: '<p>Wir bleiben neugierig und haben neue Technologien stets im Blick.</p>', addImage: true, singleSRC: 'file:icons/rakete.svg' }
+      - title: Mission
+        elements:
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: Unser Unternehmen
+            headline: Zukunft.
+            subline: Eine klare Mission für die digitale
+            headline_inline: '1'
+            text: '<p>Wir entwickeln digitale Projekte, die nicht nur heute überzeugen, sondern auch morgen noch Bestand haben. Unser Ziel ist es, Unternehmen, Organisationen und Marken langfristig zu unterstützen – mit durchdachten Konzepten, moderner Technologie und einem Team, das mitdenkt.</p><p><a href="{{link_url::team}}">Unser Team kennenlernen</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-2.jpg
+            size: 'image_size:card'
+            floating: left
       - title: Zahlen
-        cssID: ['', 'u-bg-primary']
         elements:
-          - type: description_list
-            customTpl: content_element/description_list/creuva_stats
-            headline: Creuva in Zahlen
-            data:
-              - { key: '2010', value: 'Gegründet in Dresden' }
-              - { key: '24', value: 'Mitarbeitende' }
-              - { key: '120+', value: 'Projekte' }
-              - { key: '6', value: 'Contao-Erweiterungen' }
+          - *stats
       - title: Geschichte
+        cssID: ['geschichte', '']
         elements:
-          - type: description_list
-            customTpl: content_element/description_list/creuva_timeline
-            headline: Unsere Geschichte
-            data:
-              - { key: '2010', value: 'Gründung als Zwei-Personen-Agentur' }
-              - { key: '2014', value: 'Erste eigene Contao-Erweiterung' }
-              - { key: '2018', value: 'Umzug ins neue Studio' }
-              - { key: '2022', value: 'Team wächst auf 20 Personen' }
-              - { key: '2026', value: 'Launch von Creuva' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: 'Von der Idee zur heutigen Agentur.', subline: 'Unsere Geschichte' }
+                  - { type: 'text', cssID: 'u-muted', text: '<p>Was mit der Leidenschaft für gutes Webdesign begann, ist heute ein eingespieltes Team von Spezialisten mit einem gemeinsamen Ziel: digitale Projekte, die begeistern.</p>' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+              - type: description_list
+                customTpl: content_element/description_list/creuva_timeline
+                data:
+                  - { key: '2010', value: 'Die ersten Projekte – der Startschuss mit Fokus auf Webdesign.' }
+                  - { key: '2014', value: 'Erweiterung des Leistungsspektrums und erste feste Kunden.' }
+                  - { key: '2018', value: 'Neuer Standort – mehr Raum für kreative Ideen und ein wachsendes Team.' }
+                  - { key: '2022', value: 'Stärkere Spezialisierung auf Entwicklung und strategische Beratung.' }
+                  - { key: 'Heute', value: 'Gemeinsam in die Zukunft – mit neuen Ideen, Technologien und starken Partnerschaften.' }
+      - title: Werte im Alltag
+        cssID: ['', 'u-bg-muted']
+        elements:
+          - { type: 'headline', headline: 'Darauf können Sie zählen.', subline: 'Unsere Werte' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Verantwortung' }, text: '<p>Nachhaltige und zukunftssichere Lösungen.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Transparenz' }, text: '<p>Offene Kommunikation in allen Projektphasen.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Verlässlichkeit' }, text: '<p>Einhaltung von Terminen und Absprachen.</p>', addImage: true, singleSRC: 'file:icons/kalender.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Leidenschaft' }, text: '<p>Wir lieben, was wir tun – und das merkt man.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
       - title: Team
         elements:
-          - { type: 'headline', headline: 'Die Köpfe hinter Creuva', subline: 'Team' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Die Köpfe hinter Creuva', subline: 'Team' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Designer, Entwickler und Strategen mit kurzen Wegen und viel Erfahrung.</p><p><a href="{{link_url::team}}">Das ganze Team kennenlernen</a></p>' }
           - type: element_group
             cssID: u-grid-3
             children:
               - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Lena Hoffmann' }, subline: 'Geschäftsführung', text: '<p>Strategie und Kundenberatung</p>', addImage: true, singleSRC: 'file:bilder/team-4.jpg', size: 'image_size:team' }
               - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Lead Developer', text: '<p>Contao, PHP und Schnittstellen</p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:team' }
               - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Mira Schulz' }, subline: 'Art Direction', text: '<p>Design, Branding und UX</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:team' }
-          - { type: 'hyperlink', url: '{{link_url::team}}', linkTitle: 'Das ganze Team kennenlernen', cssID: 'u-button-secondary' }
+      - title: CTA
+        elements:
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Lernen Sie uns kennen
+            headline: mit einem Gespräch.
+            subline: Ein Projekt beginnt
+            headline_inline: '1'
+            text: '<p>Ob neue Website, Weiterentwicklung oder individuelle Beratung – wir freuen uns darauf, mehr über Ihr Projekt zu erfahren.</p><p><a href="{{link_url::kontakt}}">Projekt starten</a> <a href="{{link_url::kontakt}}">Unverbindlich anfragen</a></p>'
     children:
       - title: Team
         alias: team
         articles:
+          - title: Intro
+            elements:
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Unser Team', headline: { unit: 'h1', value: 'Menschen mit Leidenschaft' }, creuvaHeadlineAccent: 'für das Web.', text: '<p>Hinter Creuva steht ein eingespieltes Team aus Designern, Entwicklern, Strategen und Organisationstalenten. Was uns verbindet? Die Leidenschaft für digitale Lösungen, die einen echten Mehrwert schaffen.</p>', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Gemeinsam.\nKreativ.\nZielstrebig." }
           - title: Team
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Team', headline: { unit: 'h1', value: 'Gemeinsam sind wir' }, creuvaHeadlineAccent: 'Creuva.', text: '<p>Designer, Entwickler und Strategen – mit kurzen Wegen und viel Erfahrung.</p>', creuvaHeroMask: 'none' }
+              - type: element_group
+                cssID: u-grid-2 u-align-end
+                children:
+                  - { type: 'headline', headline: 'Ein gemeinsames Ziel.', subline: 'Verschiedene Talente.', headline_inline: '1' }
+                  - { type: 'text', cssID: 'u-muted', text: '<p>Wir ergänzen uns mit unterschiedlichen Stärken und Blickwinkeln – und genau das macht unsere Projekte besser.</p>' }
               - type: element_group
                 cssID: u-grid-3
                 children:
@@ -465,6 +727,40 @@ pages:
                   - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h2', value: 'Daniel Owusu' }, subline: 'Frontend Developer', text: '<p>Twig, CSS und Barrierefreiheit<br><a href="mailto:daniel@example.com">daniel@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-3.jpg', size: 'image_size:team' }
                   - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h2', value: 'Jonas Weber' }, subline: 'Projektmanagement', text: '<p>Planung und Kommunikation<br><a href="mailto:jonas@example.com">jonas@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-5.jpg', size: 'image_size:team' }
                   - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h2', value: 'Clara Neumann' }, subline: 'Content & SEO', text: '<p>Texte, Inhalte und Suchmaschinen<br><a href="mailto:clara@example.com">clara@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-6.jpg', size: 'image_size:team' }
+          - title: Zusammenarbeit
+            cssID: ['', 'u-bg-muted']
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_media
+                creuvaKicker: Zusammenarbeit auf Augenhöhe
+                headline: Kollegen.
+                subline: Mehr als nur
+                headline_inline: '1'
+                text: '<p>Wir setzen auf ein offenes Miteinander, kurze Wege und eine positive Arbeitsatmosphäre. So entstehen nicht nur großartige Projekte, sondern auch ein Team, das sich gegenseitig unterstützt.</p><ul><li>Flache Hierarchien</li><li>Offene Kommunikation</li><li>Eigenverantwortung und Freiraum</li><li>Gemeinsame Weiterentwicklung</li></ul>'
+                addImage: true
+                singleSRC: file:bilder/about.jpg
+                size: 'image_size:card'
+                floating: left
+              - type: text
+                customTpl: content_element/text/creuva_media
+                creuvaKicker: Wir suchen Verstärkung
+                headline: zu werden?
+                subline: Lust, Teil des Teams
+                headline_inline: '1'
+                text: '<p>Du möchtest an spannenden Projekten mitarbeiten und die digitale Zukunft mitgestalten? Wir freuen uns auf neue Talente.</p><p><a href="{{link_url::kontakt}}">Zu den offenen Stellen</a></p>'
+                addImage: true
+                singleSRC: file:bilder/detail-3.jpg
+                size: 'image_size:card'
+                floating: right
+          - title: CTA
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_cta
+                creuvaKicker: Lernen Sie uns kennen
+                headline: für Ihr Projekt.
+                subline: Ein starkes Team
+                headline_inline: '1'
+                text: '<p>Sie möchten mehr über unser Team oder unsere Arbeitsweise erfahren? Wir freuen uns auf Ihre Nachricht.</p><p><a href="{{link_url::kontakt}}">Projekt starten</a> <a href="{{link_url::kontakt}}">Unverbindlich anfragen</a></p>'
 
   # 05 · Pakete & Preise
   - title: Preise
@@ -472,34 +768,86 @@ pages:
     articles:
       - title: Intro
         elements:
-          - { type: 'creuva_hero', creuvaKicker: 'Pakete & Preise', headline: { unit: 'h1', value: 'Transparente Preise –' }, creuvaHeadlineAccent: 'klare Leistungen.', text: '<p>Wählen Sie das Paket, das zu Ihnen passt. Alle Preise zzgl. MwSt.</p>', creuvaHeroMask: 'none' }
+          - { type: 'creuva_hero', creuvaKicker: 'Pakete & Preise', headline: { unit: 'h1', value: 'Transparente Preise. Klare' }, creuvaHeadlineAccent: 'Leistungen.', text: '<p>Unsere Pakete bieten Ihnen eine klare Struktur und volle Planungssicherheit. Ob moderne Website, individueller Webshop oder komplexe Webanwendung – wir finden die passende Lösung für Ihr Projekt.</p>', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Individuell\nerweiterbar.\nGenau passend\nfür Ihr Projekt.", creuvaUrl1: '{{link_url::kontakt}}', creuvaLinkTitle1: 'Kostenlos beraten', creuvaUrl2: '{{link_url::leistungen}}', creuvaLinkTitle2: 'Unsere Leistungen' }
+      - title: Vorteile
+        cssID: ['', 'u-bg-accent']
+        elements:
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Klare Leistungen' }, text: '<p>Transparente Pakete ohne versteckte Kosten.</p>', addImage: true, singleSRC: 'file:icons/ebenen.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Individuell anpassbar' }, text: '<p>Alle Pakete flexibel erweiterbar.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Persönliche Beratung' }, text: '<p>Wir finden die passende Lösung für Ihr Projekt.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Langfristige Betreuung' }, text: '<p>Auch nach dem Launch an Ihrer Seite.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
       - title: Pakete
         elements:
           - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'jedes Projekt.', subline: 'Die passende Lösung für', headline_inline: '1' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Unsere Pakete sind eine Orientierung. Je nach Anforderungen, Funktionen und Designwünschen erstellen wir Ihnen ein individuelles Angebot.</p>' }
+          - type: element_group
             cssID: u-grid-3
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Start' }, subline: '990 €', text: '<p>Ideal für kleine Unternehmen und Selbstständige.</p><ul><li>Bis zu 5 Seiten</li><li>Responsives Design</li><li>Kontaktformular</li><li>Contao-Einweisung</li></ul><p><a href="{{link_url::kontakt}}">Paket anfragen</a></p>' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Business' }, subline: '2.490 €', cssID: 'u-featured', text: '<p>Für wachsende Unternehmen mit mehr Inhalten.</p><ul><li>Bis zu 15 Seiten</li><li>Individuelles Design</li><li>News und Referenzen</li><li>SEO-Grundoptimierung</li><li>3 Monate Support</li></ul><p><a href="{{link_url::kontakt}}">Paket anfragen</a></p>' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Individuell' }, subline: 'auf Anfrage', text: '<p>Maßgeschneiderte Lösungen für komplexe Projekte.</p><ul><li>Unbegrenzte Seiten</li><li>Erweiterungen und Schnittstellen</li><li>Mehrsprachigkeit</li><li>Persönlicher Ansprechpartner</li></ul><p><a href="{{link_url::kontakt}}">Beratung vereinbaren</a></p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Starter' }, subline: '1.990 €', text: '<p>Die solide Basis für Ihren Online-Auftritt – perfekt für kleine Unternehmen, Vereine und Selbstständige. Einmalig, zzgl. MwSt.</p><ul><li>Individuelles Design (auf Basis eines Themes)</li><li>Bis zu 5 Seiten</li><li>Responsive Darstellung</li><li>Kontaktformular</li><li>Grundlegende SEO-Einstellungen</li><li>Schulung zur Inhaltspflege</li></ul><p><a href="{{link_url::kontakt}}">Starter-Paket anfragen</a></p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Business' }, subline: '3.990 €', cssID: 'u-featured', text: '<p>Die optimale Lösung für wachsende Unternehmen mit höheren Anforderungen an Design, Funktionen und Inhalte. Einmalig, zzgl. MwSt.</p><ul><li>Individuelles Design</li><li>Bis zu 15 Seiten</li><li>Kontaktformular und erweiterte Formulare</li><li>SEO-Basispaket</li><li>News, Blog oder Referenzen</li><li>3 Monate Support nach Launch</li></ul><p><a href="{{link_url::kontakt}}">Business-Paket anfragen</a></p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Premium' }, subline: 'ab 6.990 €', text: '<p>Die maßgeschneiderte Lösung für komplexe Projekte mit individuellen Funktionen und Integrationen. Einmalig, zzgl. MwSt.</p><ul><li>Individuelles Designkonzept</li><li>Unbegrenzte Seiten</li><li>Individuelle Funktionen und Erweiterungen</li><li>Schnittstellen und Integrationen</li><li>Mehrsprachigkeit (optional)</li><li>Persönliche Projektbetreuung</li></ul><p><a href="{{link_url::kontakt}}">Individuelles Angebot anfragen</a></p>' }
       - title: Vergleich
+        cssID: ['', 'u-bg-muted']
         elements:
-          - type: table
-            headline: Leistungen im Vergleich
-            thead: true
-            tableitems:
-              - [Leistung, Start, Business, Individuell]
-              - [Seitenanzahl, bis 5, bis 15, unbegrenzt]
-              - [Design, Theme-Anpassung, individuell, individuell]
-              - [News & Referenzen, '–', '✓', '✓']
-              - [Mehrsprachigkeit, '–', optional, '✓']
-              - [Support, 1 Monat, 3 Monate, nach Vereinbarung]
-      - title: Fragen
-        elements:
-          - type: accordion
-            headline: Fragen zu den Paketen
+          - { type: 'headline', headline: 'im Überblick.', subline: 'Alle Leistungen', headline_inline: '1' }
+          - type: element_group
+            cssID: u-grid-2
             children:
-              - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Kann ich später auf ein größeres Paket wechseln?' }, text: '<p>Ja, wir verrechnen bereits erbrachte Leistungen.</p>' }
-              - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Sind Hosting und Domain enthalten?' }, text: '<p>Hosting und Domain sind nicht enthalten, wir beraten Sie aber gerne.</p>' }
+              - type: table
+                thead: true
+                tableitems:
+                  - [Leistung, Starter, Business, Premium]
+                  - [Design, Theme-Anpassung, individuell, individuell]
+                  - [Seitenanzahl, bis 5, bis 15, unbegrenzt]
+                  - [Responsive Design, '✓', '✓', '✓']
+                  - [Erweiterte Formulare, '–', '✓', '✓']
+                  - [News / Blog / Referenzen, '–', '✓', '✓']
+                  - [Mehrsprachigkeit, '–', optional, '✓']
+                  - [Schnittstellen, '–', optional, '✓']
+                  - [Support nach Launch, '–', 3 Monate, 6 Monate]
+              - type: element_group
+                cssID: u-reveal-stagger
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Modernes und ansprechendes Design, das Ihre Marke optimal präsentiert.</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Saubere, performante und zukunftssichere Umsetzung mit Contao.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategische Beratung und Konzeption für nachhaltige Lösungen.</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'SEO & Performance' }, text: '<p>Technische Optimierung für Sichtbarkeit und schnelle Ladezeiten.</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Support' }, text: '<p>Persönliche Betreuung – auch nach dem Launch.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+      - title: Ablauf & Fragen
+        elements:
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: description_list
+                customTpl: content_element/description_list/creuva_timeline
+                creuvaKicker: So läuft Ihr Projekt ab
+                headline: neuen Website.
+                subline: In vier Schritten zur
+                headline_inline: '1'
+                data:
+                  - { key: '01 Beratung', value: 'Wir besprechen Ihre Ziele und Anforderungen.' }
+                  - { key: '02 Konzeption', value: 'Wir entwickeln ein individuelles Konzept.' }
+                  - { key: '03 Umsetzung', value: 'Design und Entwicklung gehen Hand in Hand.' }
+                  - { key: '04 Launch', value: 'Ihre neue Website geht online – und wir bleiben an Ihrer Seite.' }
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: 'Fragen?', subline: 'Noch', headline_inline: '1' }
+                  - type: accordion
+                    cssID: u-accordion-icon
+                    children:
+                      - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Sind die Preise Endpreise?' }, text: '<p>Alle Preise verstehen sich einmalig zzgl. MwSt. Laufende Kosten für Hosting und Wartung vereinbaren wir separat.</p>' }
+                      - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was ist enthalten, was nicht?' }, text: '<p>Konzept, Design, Umsetzung und Schulung sind enthalten. Hosting, Domain und Lizenzen für Bilder sind nicht enthalten.</p>' }
+                      - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Können die Pakete angepasst werden?' }, text: '<p>Ja, jedes Paket lässt sich um Funktionen und Seiten erweitern.</p>' }
+                      - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Kann ich später auf ein größeres Paket wechseln?' }, text: '<p>Ja, wir verrechnen bereits erbrachte Leistungen.</p>' }
+      - title: CTA
+        elements:
+          - *cta
 
   # 06 · News & Wissen
   - title: Wissen
@@ -507,8 +855,17 @@ pages:
     articles:
       - title: News
         elements:
-          - { type: 'creuva_hero', creuvaKicker: 'News & Wissen', headline: { unit: 'h1', value: 'Wissen, das' }, creuvaHeadlineAccent: 'weiterbringt.', text: '<p>Tipps, Neuigkeiten und Hintergründe rund um Webdesign, Contao und digitale Kommunikation.</p>', creuvaHeroMask: 'none' }
+          - { type: 'creuva_hero', creuvaKicker: 'News & Wissen', headline: { unit: 'h1', value: 'Aktuelle Einblicke.' }, creuvaHeadlineAccent: 'Hilfreiches Wissen.', text: '<p>In unserem Blog teilen wir Tipps, Erfahrungsberichte und aktuelle Themen rund um Webdesign, Entwicklung und digitale Strategien.</p>', singleSRC: 'file:bilder/news-1.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Tipps.\nEinblicke.\nStrategien.\nAus der Praxis." }
           - { type: 'module', module: 'module:newslist' }
+      - title: CTA
+        elements:
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Immer auf dem Laufenden
+            headline: weiterbringt.
+            subline: Wissen, das
+            headline_inline: '1'
+            text: '<p>Sie haben Fragen zu einem Beitrag oder möchten ein Thema für Ihr Projekt vertiefen? Wir beraten Sie gerne.</p><p><a href="{{link_url::kontakt}}">Kontakt aufnehmen</a> <a href="{{link_url::faq}}">Häufige Fragen</a></p>'
     children:
       - title: Beitrag
         alias: beitrag
@@ -518,28 +875,64 @@ pages:
             elements:
               - { type: 'module', module: 'module:breadcrumb' }
               - { type: 'module', module: 'module:newsreader' }
+          - title: CTA
+            elements:
+              - *cta
 
       # 07 · FAQ
       - title: FAQ
         alias: faq
         articles:
-          - title: FAQ
+          - title: Intro
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'FAQ', headline: { unit: 'h1', value: 'Häufige' }, creuvaHeadlineAccent: 'Fragen.', text: '<p>Hier finden Sie Antworten auf die wichtigsten Fragen. Ihre Frage ist nicht dabei? Schreiben Sie uns.</p>', creuvaHeroMask: 'none' }
-              - type: accordion
-                headline: Allgemein
-                cssID: u-narrow
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Häufige Fragen', headline: { unit: 'h1', value: 'Schnelle Antworten auf die wichtigsten' }, creuvaHeadlineAccent: 'Fragen.', text: '<p>Hier finden Sie Antworten auf häufige Fragen zu unseren Leistungen, dem Projektablauf, den Kosten und der Zusammenarbeit. Sollte Ihre Frage nicht dabei sein, helfen wir Ihnen gerne persönlich weiter.</p>', singleSRC: 'file:bilder/news-3.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Keine passende\nAntwort?\nWir helfen gerne." }
+          - title: Fragen
+            elements:
+              - type: element_group
+                cssID: u-grid-2
                 children:
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was macht Creuva genau?' }, text: '<p>Wir konzipieren, gestalten und entwickeln Websites mit Contao.</p>' }
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Für wen arbeitet ihr?' }, text: '<p>Für Unternehmen, Vereine und öffentliche Einrichtungen jeder Größe.</p>' }
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wo sitzt ihr?' }, text: '<p>In Dresden – wir arbeiten aber mit Kunden aus ganz Deutschland.</p>' }
-              - type: accordion
-                headline: Projekte & Ablauf
-                cssID: u-narrow
+                  - type: element_group
+                    children:
+                      - { type: 'headline', headline: 'allgemein.', subline: 'Häufige Fragen', headline_inline: '1' }
+                      - type: accordion
+                        cssID: u-accordion-icon
+                        children:
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was macht Creuva genau?' }, text: '<p>Creuva entwickelt moderne Websites, Webanwendungen und digitale Lösungen auf Basis von Contao – von der ersten Idee über Konzeption und Design bis zur technischen Umsetzung und Betreuung.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Für welche Unternehmen ist Creuva geeignet?' }, text: '<p>Für Unternehmen, Vereine und öffentliche Einrichtungen jeder Größe.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wie läuft ein typisches Projekt ab?' }, text: '<p>Von der ersten Idee über Konzeption und Design bis zum Launch begleiten wir Sie Schritt für Schritt.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Welche Vorteile bietet Contao?' }, text: '<p>Contao ist sicher, schnell, barrierearm und lässt sich von Redakteuren einfach bedienen.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wie lange dauert die Umsetzung?' }, text: '<p>Je nach Umfang zwischen vier und zwölf Wochen.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Welche Kosten entstehen?' }, text: '<p>Einen Überblick finden Sie auf der Seite <a href="{{link_url::preise}}">Preise</a>.</p>' }
+                          - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was muss ich als Kunde bereitstellen?' }, text: '<p>Unsere <a href="{{link_url::downloads}}">Projekt-Checkliste</a> hilft bei der Vorbereitung.</p>' }
+                  - type: element_group
+                    children:
+                      - { type: 'text', cssID: 'u-bg-accent u-button', creuvaKicker: 'Noch offene Fragen?', headline: { unit: 'h3', value: 'Wir sind für Sie da.' }, text: '<p>Sie haben eine individuelle Frage oder möchten Ihr Projekt mit uns besprechen? Wir freuen uns auf Ihre Nachricht.</p><p><a href="{{link_url::kontakt}}">Jetzt Kontakt aufnehmen</a></p>' }
+                      - { type: 'image', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+          - title: Support
+            cssID: ['', 'u-bg-muted']
+            elements:
+              - type: element_group
+                cssID: u-grid-2 u-align-end
                 children:
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Wie läuft ein Projekt ab?' }, text: '<p>Von der ersten Idee über Konzeption und Design bis zum Launch begleiten wir Sie Schritt für Schritt.</p>' }
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Welche Kosten entstehen?' }, text: '<p>Das hängt vom Umfang ab. Einen Überblick finden Sie auf der Seite <a href="{{link_url::preise}}">Preise</a>.</p>' }
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Was brauche ich für den Start?' }, text: '<p>Unsere <a href="{{link_url::downloads}}">Projekt-Checkliste</a> hilft bei der Vorbereitung.</p>' }
+                  - { type: 'headline', headline: 'Kompetent.', subline: 'Schnell. Persönlich.', headline_inline: '1' }
+                  - { type: 'text', cssID: 'u-muted', text: '<p>Auch nach dem Launch lassen wir Sie nicht allein. Wir bieten Ihnen zuverlässigen Support und Unterstützung – ganz nach Ihren Bedürfnissen.</p>' }
+              - type: element_group
+                cssID: u-grid-4
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Kurze Reaktionszeiten' }, text: '<p>Wir melden uns zeitnah auf Ihre Anfrage.</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Persönlicher Kontakt' }, text: '<p>Direkter Austausch mit festen Ansprechpartnern.</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Individuelle Lösungen' }, text: '<p>Keine starren Prozesse, sondern maßgeschneiderte Unterstützung.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Langfristige Betreuung' }, text: '<p>Auch nach dem Projekt sind wir an Ihrer Seite.</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+          - title: CTA
+            elements:
+              - type: text
+                customTpl: content_element/text/creuva_cta
+                creuvaKicker: Ihr Projekt in guten Händen
+                headline: konkretes Projekt?
+                subline: Haben Sie noch Fragen oder ein
+                headline_inline: '1'
+                text: '<p>Wir beraten Sie unverbindlich und finden gemeinsam die passende Lösung.</p><p><a href="{{link_url::kontakt}}">Projekt starten</a></p>'
 
       # 08 · Downloads
       - title: Downloads
@@ -547,89 +940,16 @@ pages:
         articles:
           - title: Downloads
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Downloads', headline: { unit: 'h1', value: 'Unterlagen zum' }, creuvaHeadlineAccent: 'Herunterladen.', text: '<p>Broschüren, Checklisten und Informationen als PDF.</p>', creuvaHeroMask: 'none' }
-              - { type: 'downloads', headline: 'Alle Dateien', multiSRC: ['file:downloads/creuva-broschuere.pdf', 'file:downloads/projekt-checkliste.pdf'], cssID: 'u-narrow' }
-              - { type: 'download', headline: 'Einzelner Download', singleSRC: 'file:downloads/creuva-broschuere.pdf', overwriteLink: true, linkTitle: 'Creuva-Broschüre (PDF)', cssID: 'u-narrow' }
-
-      # 10 · Elemente & Module
-      - title: Elemente & Module
-        alias: elemente
-        articles:
-          - title: Intro
-            elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Styleguide', headline: { unit: 'h1', value: 'Elemente &' }, creuvaHeadlineAccent: 'Module.', text: '<p>Alle Komponenten von Creuva auf einen Blick – Contao-Standardelemente, Creuva-Elemente, Templatevarianten und Klassen.</p>', creuvaHeroMask: 'none' }
-          - title: Überschriften
-            elements:
-              - { type: 'headline', headline: { unit: 'h1', value: 'Überschrift H1' } }
-              - { type: 'headline', headline: 'Überschrift H2' }
-              - { type: 'headline', headline: { unit: 'h3', value: 'Überschrift H3' } }
-              - { type: 'headline', headline: 'Überschrift mit Dachzeile', subline: 'Dachzeile' }
-              - { type: 'headline', headline: 'Akzent.', subline: 'Zweifarbige Überschrift mit', headline_inline: '1' }
-          - title: Text
-            elements:
-              - type: text
-                headline: Text & Rich Text
-                text: '<p class="u-lead">Ein einleitender Absatz mit der Klasse u-lead.</p><p>Fließtext mit <strong>fetter</strong> und <em>kursiver</em> Auszeichnung, einem <a href="{{link_url::kontakt}}">Link</a>, <mark>Hervorhebung</mark> und <code>Code</code>.</p><ul><li>Liste mit Häkchen</li><li>Zweiter Punkt</li></ul><ol><li>Nummerierte Liste</li><li>Zweiter Punkt</li></ol><blockquote><p>Ein Zitat im Fließtext.</p></blockquote>'
-              - { type: 'text', headline: { unit: 'h3', value: 'Text mit Bild links' }, text: '<p>Das Bild steht ab Tablet-Breite links neben dem Text, auf dem Smartphone darüber.</p><ul><li>Bildposition im Element wählbar</li><li>Abgerundete Ecken über das Design</li></ul>', addImage: true, singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card', floating: 'left' }
-          - title: Listen & Tabellen
-            elements:
-              - { type: 'list', headline: 'Aufzählung', listitems: ['Responsives Design', 'Barrierearme Gestaltung', 'Contao 5.7 und 6'] }
-              - { type: 'description_list', headline: 'Beschreibungsliste', data: [{ key: 'Theme', value: 'Creuva' }, { key: 'Version', value: '1.0' }, { key: 'Contao', value: '5.7 und 6' }] }
-              - { type: 'table', headline: 'Tabelle', thead: true, tableitems: [['Spalte A', 'Spalte B', 'Spalte C'], ['Wert 1', 'Wert 2', 'Wert 3'], ['Wert 4', 'Wert 5', 'Wert 6']] }
-          - title: Medien
-            elements:
-              - { type: 'image', headline: 'Bild', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:wide' }
-              - { type: 'gallery', headline: 'Galerie', multiSRC: ['file:bilder/projekt-nordlicht.jpg', 'file:bilder/projekt-alpenhof.jpg', 'file:bilder/projekt-stadtwerke.jpg', 'file:bilder/projekt-roesterei.jpg'], size: 'image_size:card', fullsize: true, perRow: 4 }
-          - title: Links & Downloads
-            elements:
-              - { type: 'hyperlink', url: '{{link_url::kontakt}}', linkTitle: 'Hyperlink als Pfeil-Link' }
-              - { type: 'hyperlink', url: '{{link_url::kontakt}}', linkTitle: 'Hyperlink als Button (u-button)', cssID: 'u-button' }
-              - { type: 'hyperlink', url: '{{link_url::kontakt}}', linkTitle: 'Sekundärer Button (u-button-secondary)', cssID: 'u-button-secondary' }
-              - { type: 'download', singleSRC: 'file:downloads/projekt-checkliste.pdf', overwriteLink: true, linkTitle: 'Download-Element' }
-          - title: Akkordeon
-            elements:
-              - type: accordion
-                headline: Akkordeon
-                children:
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Erster Eintrag' }, text: '<p>Inhalt des ersten Eintrags.</p>' }
-                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Zweiter Eintrag' }, text: '<p>Inhalt des zweiten Eintrags.</p>' }
-          - title: Templatevarianten
-            cssID: ['', 'u-bg-muted']
-            elements:
-              - { type: 'headline', headline: 'Templatevarianten', subline: 'Text-Element' }
-              - type: element_group
-                cssID: u-grid-3
-                children:
-                  - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'creuva_card', headline: { unit: 'h3', value: 'Karte' }, text: '<p>Bild, Kategorie (Subline), Titel und Text. Der letzte Link macht die ganze Karte klickbar.</p><p><a href="{{link_url::projekte}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-sportverein.jpg', size: 'image_size:card' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Icon-Box' }, text: '<p>Variante creuva_feature mit kleinem Icon (SVG oder Bild).</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Kundenstimme' }, subline: 'Variante creuva_testimonial', text: '<p>Das Zitat steht im Text, Name und Funktion in Überschrift und Subline.</p>', addImage: true, singleSRC: 'file:bilder/team-3.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Kundenstimme' }
-              - type: element_group
-                cssID: u-grid-3
-                children:
-                  - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Teammitglied' }, subline: 'Variante creuva_team', text: '<p>Porträt, Name, Funktion und Kontakt.</p>', addImage: true, singleSRC: 'file:bilder/team-5.jpg', size: 'image_size:team' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h3', value: 'Preis-Karte' }, subline: '49 €', text: '<p>Variante creuva_price, Preis in der Subline.</p><ul><li>Leistung eins</li><li>Leistung zwei</li></ul><p><a href="{{link_url::kontakt}}">Anfragen</a></p>' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h3', value: 'Hervorgehoben' }, subline: '99 €', cssID: 'u-featured', text: '<p>Mit der Klasse u-featured.</p><ul><li>Leistung eins</li><li>Leistung zwei</li></ul><p><a href="{{link_url::kontakt}}">Anfragen</a></p>' }
-              - { type: 'headline', headline: 'Templatevarianten', subline: 'Beschreibungsliste' }
-              - { type: 'description_list', customTpl: 'content_element/description_list/creuva_stats', headline: { unit: 'h3', value: 'Kennzahlen (creuva_stats)' }, data: [{ key: '120+', value: 'Projekte' }, { key: '98 %', value: 'Zufriedenheit' }, { key: '15', value: 'Jahre' }] }
-              - { type: 'description_list', customTpl: 'content_element/description_list/creuva_timeline', headline: { unit: 'h3', value: 'Timeline (creuva_timeline)' }, data: [{ key: '2024', value: 'Idee' }, { key: '2025', value: 'Entwicklung' }, { key: '2026', value: 'Launch' }] }
-          - title: Theme Components
-            elements:
-              - { type: 'headline', headline: 'Theme Components Bundle', subline: 'Erweiterungen' }
-              - { type: 'text', customTpl: 'content_element/text/simplebox', headline: { unit: 'h3', value: 'Simplebox' }, text: '<p>Hinweisbox aus dem Theme Components Bundle (Templatevariante des Text-Elements).</p>' }
-          - title: Klassen
-            elements:
-              - { type: 'headline', headline: 'Hintergründe & Abstände', subline: 'CSS-Klassen' }
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'creuva_hero', creuvaKicker: 'Downloads', headline: { unit: 'h1', value: 'Unterlagen zum' }, creuvaHeadlineAccent: 'Herunterladen.', text: '<p>Broschüren, Checklisten und Informationen als PDF – kostenlos und ohne Anmeldung.</p>', singleSRC: 'file:bilder/news-4.jpg', size: 'image_size:hero', creuvaHeroMask: 'organic', creuvaBadge: "Kostenlos.\nKompakt.\nPraktisch." }
               - type: element_group
                 cssID: u-grid-2
                 children:
-                  - { type: 'text', headline: { unit: 'h3', value: 'u-bg-muted' }, text: '<p>Dezenter Hintergrund.</p>', cssID: 'u-bg-muted' }
-                  - { type: 'text', headline: { unit: 'h3', value: 'u-bg-accent' }, text: '<p>Akzentfarbe, hell.</p>', cssID: 'u-bg-accent' }
-                  - { type: 'text', headline: { unit: 'h3', value: 'u-bg-primary' }, text: '<p>Primärfarbe mit Kontrasttext.</p>', cssID: 'u-bg-primary' }
-                  - { type: 'text', headline: { unit: 'h3', value: 'u-card' }, text: '<p>Karte mit Rahmen und Schatten.</p>', cssID: 'u-card' }
-              - { type: 'text', headline: { unit: 'h3', value: 'u-full-bleed' }, text: '<p>Hintergrund über die volle Fensterbreite, Inhalt bleibt im Raster.</p>', cssID: 'u-bg-accent u-full-bleed u-text-center' }
-          - title: Formular
+                  - { type: 'downloads', headline: 'Alle Dateien', multiSRC: ['file:downloads/creuva-broschuere.pdf', 'file:downloads/projekt-checkliste.pdf'] }
+                  - { type: 'text', cssID: 'u-bg-accent u-button', creuvaKicker: 'Persönliche Beratung', headline: { unit: 'h3', value: 'Lieber direkt sprechen?' }, text: '<p>Wir beantworten Ihre Fragen gerne persönlich – am Telefon oder bei einem Termin vor Ort.</p><p><a href="{{link_url::kontakt}}">Kontakt aufnehmen</a></p>' }
+          - title: CTA
             elements:
-              - { type: 'form', form: 'form:kontakt', headline: 'Formular', cssID: 'u-narrow' }
+              - *cta
 
   # 09 · Kontakt
   - title: Kontakt
@@ -637,26 +957,68 @@ pages:
     articles:
       - title: Intro
         elements:
-          - { type: 'creuva_hero', creuvaKicker: 'Kontakt', headline: { unit: 'h1', value: 'Lassen Sie uns' }, creuvaHeadlineAccent: 'sprechen.', text: '<p>Wir freuen uns auf Ihre Nachricht und melden uns innerhalb eines Werktags.</p>', creuvaHeroMask: 'none' }
+          - { type: 'creuva_hero', creuvaKicker: 'Kontakt', headline: { unit: 'h1', value: 'Lassen Sie uns gemeinsam etwas' }, creuvaHeadlineAccent: 'Großes schaffen.', text: '<p>Sie haben ein neues Projekt, eine konkrete Idee oder einfach eine Frage? Wir freuen uns auf Ihre Nachricht und melden uns schnellstmöglich bei Ihnen zurück.</p>', singleSRC: 'file:bilder/about.jpg', size: 'image_size:hero', creuvaHeroMask: 'rounded', creuvaBadge: "Unverbindlich\nanfragen.\nWir beraten Sie\ngerne persönlich." }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Schnelle Rückmeldung' }, text: '<p>Meist innerhalb von 24 Stunden.</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Persönliche Beratung' }, text: '<p>Direkter Austausch mit Experten.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Unverbindlich und kostenlos' }, text: '<p>Kein Risiko, volle Transparenz.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
       - title: Formular
         elements:
           - type: element_group
             cssID: u-grid-2
             children:
-              - type: text
-                headline: So erreichen Sie uns
-                text: '<p><strong>Creuva Demo GmbH</strong><br>Musterstraße 1<br>01067 Dresden</p><p>Telefon: <a href="tel:+49351000000">+49 351 000000</a><br>E-Mail: <a href="mailto:hallo@example.com">hallo@example.com</a></p><p>Montag bis Freitag, 9 bis 17 Uhr</p>'
-                cssID: u-bg-muted
-              - { type: 'form', form: 'form:kontakt', headline: 'Schreiben Sie uns' }
+              - type: element_group
+                cssID: u-card
+                children:
+                  - { type: 'headline', headline: 'anfragen.', subline: 'Jetzt unverbindlich', headline_inline: '1' }
+                  - { type: 'text', cssID: 'u-muted', text: '<p>Füllen Sie einfach das Formular aus und schildern Sie uns kurz Ihr Anliegen. Wir melden uns schnellstmöglich bei Ihnen.</p>' }
+                  - { type: 'form', form: 'form:kontakt' }
+              - type: element_group
+                cssID: u-bg-accent
+                children:
+                  - { type: 'headline', headline: 'Sie da.', subline: 'Wir sind für', headline_inline: '1' }
+                  - { type: 'text', cssID: 'u-muted', text: '<p>Sie erreichen uns telefonisch, per E-Mail oder direkt vor Ort. Wir freuen uns auf den Austausch mit Ihnen.</p>' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: '+49 351 000000' }, text: '<p><a href="tel:+49351000000">Mo – Fr, 9:00 – 17:00 Uhr</a></p>', addImage: true, singleSRC: 'file:icons/telefon.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'hallo@example.com' }, text: '<p><a href="mailto:hallo@example.com">Antwort in der Regel innerhalb von 24 h</a></p>', addImage: true, singleSRC: 'file:icons/mail.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Creuva Demo GmbH' }, text: '<p>Musterstraße 1<br>01067 Dresden</p>', addImage: true, singleSRC: 'file:icons/standort.svg' }
       - title: Ansprechpartner
         elements:
-          - { type: 'headline', headline: 'Ihre Ansprechpartner', subline: 'Persönlich für Sie da' }
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Auf Augenhöhe.', subline: 'Persönlich. Kompetent.', headline_inline: '1' }
+              - { type: 'text', cssID: 'u-muted', text: '<p>Unser Team steht Ihnen bei allen Fragen rund um Ihr Projekt gerne zur Seite. Sprechen Sie uns direkt an – wir freuen uns auf den Austausch.</p>' }
           - type: element_group
             cssID: u-grid-3
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Lena Hoffmann' }, subline: 'Neue Projekte', text: '<p><a href="mailto:lena@example.com">lena@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-4.jpg', size: 'image_size:team' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Jonas Weber' }, subline: 'Laufende Projekte', text: '<p><a href="mailto:jonas@example.com">jonas@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-5.jpg', size: 'image_size:team' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Daniel Owusu' }, subline: 'Support', text: '<p><a href="mailto:support@example.com">support@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-3.jpg', size: 'image_size:team' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Lena Hoffmann' }, subline: 'Neue Projekte', text: '<p>Strategie, Konzeption und Angebote<br><a href="mailto:lena@example.com">lena@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-4.jpg', size: 'image_size:team' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Jonas Weber' }, subline: 'Laufende Projekte', text: '<p>Kundenbetreuung und Planung<br><a href="mailto:jonas@example.com">jonas@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-5.jpg', size: 'image_size:team' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Daniel Owusu' }, subline: 'Support', text: '<p>Technik, Updates und Wartung<br><a href="mailto:support@example.com">support@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-3.jpg', size: 'image_size:team' }
+      - title: Standort
+        cssID: ['', 'u-bg-muted']
+        elements:
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: Unser Standort
+            headline: Dresden.
+            subline: Zentral in
+            headline_inline: '1'
+            text: '<p>Unsere Büroräume befinden sich zentral in der Dresdner Innenstadt und sind sowohl mit dem Auto als auch mit öffentlichen Verkehrsmitteln gut erreichbar.</p><ul><li>Haltestelle Postplatz – 5 Minuten zu Fuß</li><li>Parkmöglichkeiten im direkten Umfeld</li></ul><p><a href="https://www.openstreetmap.org/search?query=Dresden">Route planen</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-1.jpg
+            size: 'image_size:card'
+            floating: left
+      - title: CTA
+        elements:
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Noch unsicher?
+            headline: unverbindlich sprechen.
+            subline: Lassen Sie uns
+            headline_inline: '1'
+            text: '<p>In einem kurzen Erstgespräch klären wir gemeinsam Ihre Fragen und finden heraus, wie wir Sie am besten unterstützen können.</p><p><a href="tel:+49351000000">Kostenloses Erstgespräch</a></p>'
     children:
       - title: Vielen Dank
         alias: danke
@@ -664,7 +1026,7 @@ pages:
         articles:
           - title: Danke
             elements:
-              - { type: 'creuva_hero', creuvaKicker: 'Kontakt', headline: { unit: 'h1', value: 'Vielen' }, creuvaHeadlineAccent: 'Dank!', text: '<p>Ihre Nachricht ist bei uns angekommen. Wir melden uns so schnell wie möglich.</p>', creuvaHeroMask: 'none', creuvaUrl1: '{{link_url::index}}', creuvaLinkTitle1: 'Zur Startseite' }
+              - { type: 'creuva_hero', creuvaKicker: 'Kontakt', headline: { unit: 'h1', value: 'Vielen' }, creuvaHeadlineAccent: 'Dank!', text: '<p>Ihre Nachricht ist bei uns angekommen. Wir melden uns so schnell wie möglich.</p>', creuvaHeroMask: 'none', creuvaUrl1: '{{link_url::index}}', creuvaLinkTitle1: 'Zur Startseite', creuvaUrl2: '{{link_url::projekte}}', creuvaLinkTitle2: 'Projekte ansehen' }
 
   # Rechtliches
   - title: Impressum

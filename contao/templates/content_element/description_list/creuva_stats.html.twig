@@ -1,9 +1,19 @@
 {#
     Key figures ("Kennzahlen"): term = value (e.g. 120+), details = label.
+    Prefix and suffix ("+", "%") are highlighted and the numbers count up when
+    they scroll into view (CSS class "u-no-countup" disables counting).
 #}
 {% extends '@Contao/content_element/description_list.html.twig' %}
 
 {% set attributes = attrs(attributes|default).addClass('c-stats') %}
+
+{% block inner %}
+    {% if data.creuvaKicker|default %}
+        <p class="c-kicker">{{ data.creuvaKicker|insert_tag }}</p>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
 
 {% block description %}
     <div class="c-stats__item">{{ parent() }}</div>

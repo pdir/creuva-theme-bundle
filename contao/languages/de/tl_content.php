@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Copyright (C) pdir GmbH <develop@pdir.de>
  */
 
-$GLOBALS['TL_LANG']['tl_content']['creuvaKicker'] = ['Dachzeile', 'Kurzer Text über der Überschrift, z. B. „Ideen. Design. Technologie.“'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaKicker'] = ['Dachzeile', 'Kurzer Text in Großbuchstaben über der Überschrift, z. B. „Kreative Partner auf Augenhöhe“.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge-Text', 'Text im runden Badge auf dem Bild. Zeilenumbrüche werden übernommen.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Bildform', 'Form, in der das Bild dargestellt wird.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organisch', 'rounded' => 'Abgerundet', 'none' => 'Ohne Maske'];

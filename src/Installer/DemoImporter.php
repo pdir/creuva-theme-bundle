@@ -59,6 +59,11 @@ class DemoImporter
 
     private string $demoDir = '';
 
+    /**
+     * @var array<string, array<string, bool>> table => column => exists
+     */
+    private array $columns = [];
+
     public function __construct(
         private readonly Connection $connection,
         #[Autowire(service: 'contao.filesystem.virtual.files')]
@@ -67,6 +72,7 @@ class DemoImporter
         private readonly string $projectDir,
         #[Autowire(param: 'contao.upload_path')]
         private readonly string $uploadPath,
+        private readonly StyleManagerValues $styleManagerValues,
     ) {
     }
 
@@ -180,11 +186,23 @@ class DemoImporter
      */
     public function prepare(string $demo, array $definition, string $language = 'de'): void
     {
+        $this->prepareDirectory($this->getDemoDir($demo), $this->getFilesFolder($demo, $definition), $definition, $language);
+    }
+
+    /**
+     * Same as prepare() for a definition outside the demo folder (e.g. the
+     * styleguide), with its files in <dir>/files.
+     *
+     * @param string               $filesFolder target in the file manager (relative to the upload path)
+     * @param array<string, mixed> $definition
+     */
+    public function prepareDirectory(string $dir, string $filesFolder, array $definition, string $language = 'de'): void
+    {
         $this->refs = [];
         $this->warnings = [];
-        $this->demoDir = $this->getDemoDir($demo);
+        $this->demoDir = $dir;
 
-        $this->importFiles($this->getFilesFolder($demo, $definition));
+        $this->importFiles($filesFolder);
 
         // File metadata (alt texts, titles for downloads)
         foreach ($definition['files'] ?? [] as $path => $meta) {
@@ -208,10 +226,12 @@ class DemoImporter
      *
      * @return array<string, int> key => image size ID
      */
-    public function importImageSizes(array $definition, int $themeId): array
+    public function importImageSizes(array $definition, int $themeId, bool $reuseExisting = false): array
     {
         foreach ($definition['imageSizes'] ?? [] as $key => $size) {
-            $this->refs['image_size'][(string) $key] = $this->importImageSize($size, $themeId);
+            $existing = $reuseExisting ? $this->connection->fetchOne('SELECT id FROM tl_image_size WHERE pid = ? AND name = ?', [$themeId, (string) ($size['name'] ?? '')]) : false;
+
+            $this->refs['image_size'][(string) $key] = false !== $existing ? (int) $existing : $this->importImageSize($size, $themeId);
         }
 
         return $this->refs['image_size'] ?? [];
@@ -243,9 +263,9 @@ class DemoImporter
      *
      * @return array<string, int> alias => page ID
      */
-    public function importPages(array $definition, int $rootId): array
+    public function importPages(array $definition, int $rootId, int $sortingOffset = 0): array
     {
-        $this->importPageTree($definition['pages'] ?? [], $rootId);
+        $this->importPageTree($definition['pages'] ?? [], $rootId, $sortingOffset);
 
         return $this->refs['page'] ?? [];
     }
@@ -611,14 +631,14 @@ class DemoImporter
     /**
      * @param list<array<string, mixed>> $pages
      */
-    private function importPageTree(array $pages, int $pid): void
+    private function importPageTree(array $pages, int $pid, int $sortingOffset = 0): void
     {
         foreach ($pages as $i => $page) {
             $children = $page['children'] ?? [];
             unset($page['children'], $page['articles']);
 
             $data = $this->resolveRow($page) ?? [];
-            $data += ['pid' => $pid, 'sorting' => ($i + 1) * 128, 'type' => 'regular', 'published' => 1];
+            $data += ['pid' => $pid, 'sorting' => $sortingOffset + ($i + 1) * 128, 'type' => 'regular', 'published' => 1];
 
             $this->refs['page'][$data['alias']] = $this->insert('tl_page', $data);
 
@@ -756,9 +776,36 @@ class DemoImporter
      */
     private function insert(string $table, array $data): int
     {
+        $data += $this->getStyleManagerData($table, $data);
+
         $this->connection->insert($table, $data + ['tstamp' => time()]);
 
         return (int) $this->connection->lastInsertId();
+    }
+
+    /**
+     * Preselects the classes of the CSS class field in the Style Manager (if
+     * installed), otherwise they would only appear as free text.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, string>
+     */
+    private function getStyleManagerData(string $table, array $data): array
+    {
+        if (!isset($data['cssID']) || isset($data['styleManager']) || !$this->columnExists($table, 'styleManager')) {
+            return [];
+        }
+
+        $cssID = @unserialize((string) $data['cssID'], ['allowed_classes' => false]);
+        $value = $this->styleManagerValues->resolve($table, isset($data['type']) ? (string) $data['type'] : null, (string) (\is_array($cssID) ? ($cssID[1] ?? '') : ''));
+
+        return null === $value ? [] : ['styleManager' => $value];
+    }
+
+    private function columnExists(string $table, string $column): bool
+    {
+        return $this->columns[$table][$column] ??= \in_array(strtolower($column), array_map(strtolower(...), array_keys($this->connection->createSchemaManager()->listTableColumns($table))), true);
     }
 
     private function tableExists(string $table): bool

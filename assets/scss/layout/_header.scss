@@ -91,6 +91,28 @@ $nav-breakpoint: 64rem;
     }
   }
 
+  // Animated underline of the first navigation level (desktop)
+  @media (min-width: 64rem) {
+    .c-header__panel :is(.mod_navigation, .mod_customnav) .level_1 > li > :is(a, strong)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0.15rem;
+      left: 0;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--c-accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition-hover);
+    }
+
+    .c-header__panel :is(.mod_navigation, .mod_customnav) .level_1 > li > :is(a:hover, a.trail, strong.active)::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
   // Burger button
   .c-header__toggle {
     display: none;

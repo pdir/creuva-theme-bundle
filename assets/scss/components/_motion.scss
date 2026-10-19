@@ -1,0 +1,120 @@
+// Animations: elements fade in when they scroll into view (assets/js/creuva.js
+// sets data-reveal and adds .is-revealed), the hero animates on page load.
+//
+// Page layout › Creuva-Design › Animationen (data-animations on <html>):
+//   auto    – all sections of the main area are animated (default)
+//   classes – only elements with a u-reveal-* class
+//   none    – no animations
+//
+// Visitors who prefer reduced motion never see the animations.
+
+@layer creuva.components {
+  // Hidden state; data-reveal is only set by the script for elements below
+  // the fold, so the page never shows blank areas without JavaScript
+  [data-reveal] {
+    transition:
+      opacity var(--reveal-duration) var(--ease-out),
+      transform var(--reveal-duration) var(--ease-out),
+      filter var(--reveal-duration) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal]:not(.is-revealed, [data-reveal='split']) {
+    opacity: 0;
+  }
+
+  [data-reveal='up']:not(.is-revealed) { transform: translateY(var(--reveal-distance)); }
+  [data-reveal='down']:not(.is-revealed) { transform: translateY(calc(-1 * var(--reveal-distance))); }
+  [data-reveal='left']:not(.is-revealed) { transform: translateX(calc(-1 * var(--reveal-distance))); }
+  [data-reveal='right']:not(.is-revealed) { transform: translateX(var(--reveal-distance)); }
+  [data-reveal='zoom']:not(.is-revealed) { transform: scale(0.92); }
+  [data-reveal='blur']:not(.is-revealed) { filter: blur(12px); }
+
+  // Image and text side by side: both halves come in from their side
+  [data-reveal='split'] {
+    .c-media__visual,
+    .c-media__body {
+      transition:
+        opacity var(--reveal-duration) var(--ease-out),
+        transform var(--reveal-duration) var(--ease-out);
+    }
+
+    .c-media__body {
+      transition-delay: 0.15s;
+    }
+
+    &:not(.is-revealed) {
+      .c-media__visual,
+      .c-media__body {
+        opacity: 0;
+      }
+
+      .c-media__visual { transform: translateX(calc(-1 * var(--reveal-distance))); }
+      .c-media__body { transform: translateX(var(--reveal-distance)); }
+
+      &.c-media--right,
+      &:has(> .c-media__body:first-child) {
+        .c-media__visual { transform: translateX(var(--reveal-distance)); }
+        .c-media__body { transform: translateX(calc(-1 * var(--reveal-distance))); }
+      }
+    }
+  }
+
+  // Hero: content and image on page load
+  @keyframes creuva-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+  }
+
+  @keyframes creuva-fade-zoom {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+  }
+
+  @keyframes creuva-blob {
+    0%, 100% { border-radius: 60% 40% 55% 45% / 55% 45% 55% 45%; transform: translate(0, 0) rotate(0deg); }
+    33% { border-radius: 45% 55% 40% 60% / 50% 60% 40% 50%; transform: translate(2%, -3%) rotate(6deg); }
+    66% { border-radius: 55% 45% 60% 40% / 40% 55% 45% 60%; transform: translate(-2%, 2%) rotate(-4deg); }
+  }
+
+  @keyframes creuva-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-animations='none']) {
+      .c-hero__content > * {
+        animation: creuva-fade-up 0.9s var(--ease-out) both;
+      }
+
+      .c-hero__content > :nth-child(2) { animation-delay: 0.1s; }
+      .c-hero__content > :nth-child(3) { animation-delay: 0.2s; }
+      .c-hero__content > :nth-child(n + 4) { animation-delay: 0.3s; }
+
+      .c-hero__media {
+        animation: creuva-fade-zoom 1.1s var(--ease-out) 0.15s both;
+      }
+
+      // Living blob behind the hero image and floating badge
+      .c-hero__media::before {
+        animation: creuva-blob 16s ease-in-out infinite;
+      }
+
+      .c-hero__badge {
+        animation: creuva-float 5s ease-in-out infinite;
+      }
+    }
+  }
+
+  // No animations at all (setting "none" or reduced motion)
+  :root[data-animations='none'] [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

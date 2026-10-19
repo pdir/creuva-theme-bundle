@@ -56,6 +56,22 @@
     }
   }
 
+  // Lead text (u-lead) and section intros (grid with u-align-end): a link as
+  // the only content of the last paragraph becomes an arrow link ("Alle
+  // Leistungen ansehen →"). :where() keeps the specificity low.
+  :where(.u-lead, .u-align-end, .u-align-center) .rte > p:last-child:not(:first-child) > a:only-child {
+    @include arrow-link;
+  }
+
+  :where(.u-lead, .u-align-end, .u-align-center) .rte > p:last-child:not(:first-child):has(> a:only-child) {
+    margin-top: var(--space-s);
+    font-size: var(--fs-base);
+
+    > a {
+      font-size: inherit;
+    }
+  }
+
   // Images, gallery, media
   :is(.content-image, .content-text, .content-gallery, .content-player, .content-youtube, .content-vimeo) :is(img, video, iframe) {
     border-radius: var(--radius-m);
@@ -87,7 +103,7 @@
   }
 
   // Description list: term and details side by side
-  .content-description-list:not(.c-stats, .c-timeline) dl {
+  .content-description-list:not(.c-stats, .c-timeline, .c-facts) dl {
     display: grid;
     grid-template-columns: minmax(8rem, max-content) 1fr;
     margin: 0;
@@ -116,10 +132,21 @@
     padding: 0;
     list-style: none;
 
+    li {
+      overflow: hidden;
+      border-radius: var(--radius-m);
+    }
+
     img {
       width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
+      transition: transform 0.7s var(--ease-out), filter var(--transition-hover);
+    }
+
+    a:hover img,
+    li:hover img {
+      transform: scale(1.06);
     }
   }
 
@@ -166,43 +193,35 @@
 
   // Hyperlink element: arrow link by default, button with utility classes
   .content-hyperlink > a {
-    font-weight: 600;
-    text-decoration: none;
-
-    &::after {
-      content: " →";
-    }
+    @include arrow-link;
   }
 
-  .content-hyperlink:is(.u-button, .u-button-secondary) > a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: 0.8em 1.6em;
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font-size: var(--fs-small);
-    line-height: 1.2;
-    transition: background-color var(--transition), border-color var(--transition);
-
-    &::after {
-      content: "→";
-    }
+  .content-hyperlink:not(.u-button, .u-button-secondary) > a {
+    font-size: var(--fs-base);
   }
 
-  .content-hyperlink.u-button > a {
-    background: var(--c-primary);
-    color: var(--c-primary-contrast);
-
-    &:hover { background: color-mix(in srgb, var(--c-primary) 85%, #000); }
+  // Buttons: hyperlink element with u-button / u-button-secondary; in text
+  // elements with these classes the links of the last paragraph (side by side)
+  .content-text:is(.u-button, .u-button-secondary) .rte > p:last-child:has(> a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
   }
 
-  .content-hyperlink.u-button-secondary > a {
-    border-color: var(--c-border);
-    background: var(--c-surface);
-    color: var(--c-text);
+  .content-hyperlink:is(.u-button, .u-button-secondary) > a,
+  .content-text:is(.u-button, .u-button-secondary) .rte > p:last-child > a {
+    @include button-base;
+  }
 
-    &:hover { border-color: var(--c-primary); }
+  .content-hyperlink.u-button > a,
+  .content-text.u-button .rte > p:last-child > a {
+    @include button-primary;
+  }
+
+  .content-hyperlink.u-button-secondary > a,
+  .content-text.u-button-secondary .rte > p:last-child > a {
+    @include button-secondary;
   }
 
   // Downloads
@@ -226,7 +245,7 @@
       color: var(--c-text);
       font-weight: 600;
       text-decoration: none;
-      transition: border-color var(--transition), box-shadow var(--transition);
+      transition: border-color var(--transition), box-shadow var(--transition-hover), transform var(--transition-hover);
 
       &::before {
         content: "";
@@ -244,20 +263,30 @@
         margin-left: auto;
         background: var(--c-text-muted);
         mask: var(--icon-download) center / contain no-repeat;
+        transition: transform var(--transition-hover), background-color var(--transition);
       }
 
       &:hover {
         border-color: var(--c-accent-text);
-        box-shadow: var(--shadow-s);
+        box-shadow: var(--shadow-m);
+        transform: translateX(4px);
+      }
+
+      &:hover::after {
+        background: var(--c-accent-text);
+        transform: translateY(2px);
       }
     }
   }
 
   // Accordion (handorgel, core styles are replaced by the Creuva template):
-  // every entry is a card with a round plus icon in front of the question
-  // and a plus/minus toggle at the end
+  // every entry is a card with a round toggle (plus/minus) at the end. An
+  // optional icon in front of the question is added with a CSS class on the
+  // accordion element (u-accordion-icon, u-accordion-info, u-accordion-chat),
+  // a custom icon via --accordion-icon-mask (see README).
   .content-accordion {
     display: grid;
+    align-content: start;
     gap: var(--space-xs);
   }
 
@@ -266,11 +295,16 @@
     border-radius: var(--radius-m);
     background: var(--c-surface);
     box-shadow: var(--shadow-s);
-    transition: border-color var(--transition), box-shadow var(--transition);
+    transition: border-color var(--transition), box-shadow var(--transition-hover), transform var(--transition-hover);
 
     &:hover,
     &:has(.handorgel__header--open) {
       border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+    }
+
+    &:hover:not(:has(.handorgel__header--open)) {
+      box-shadow: var(--shadow-m);
+      transform: translateY(-2px);
     }
 
     &:has(.handorgel__header--open) {
@@ -281,18 +315,18 @@
   .handorgel__header {
     margin: 0;
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0;
   }
 
   .handorgel__header__button {
-    --accordion-icon: 0.625rem;
+    --accordion-bar: 0.75rem;
 
     display: flex;
     align-items: center;
     gap: var(--space-s);
     width: 100%;
-    padding: 0.875rem var(--space-m) 0.875rem var(--space-s);
+    padding: 1rem var(--space-s) 1rem var(--space-m);
     border: 0;
     border-radius: inherit;
     background: none;
@@ -303,36 +337,25 @@
     text-align: left;
     cursor: pointer;
 
-    // Plus/minus drawn with two bars: the vertical bar collapses when open
-    &::before,
+    // Toggle at the end: plus/minus drawn with two bars, the vertical bar
+    // collapses when open
     &::after {
       content: "";
       flex-shrink: 0;
-      background:
-        linear-gradient(currentColor 0 0) center / var(--accordion-icon) 2px no-repeat,
-        linear-gradient(currentColor 0 0) center / 2px var(--accordion-icon) no-repeat;
-      transition: background-size var(--transition), background-color var(--transition), color var(--transition);
-    }
-
-    // Round icon in front of the question
-    &::before {
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 50%;
-      background-color: var(--c-accent-soft);
-      color: var(--c-accent-text);
-    }
-
-    // Toggle at the end
-    &::after {
-      width: 1rem;
-      height: 1rem;
+      width: 2rem;
+      height: 2rem;
       margin-left: auto;
-      color: var(--c-text-muted);
+      border-radius: 50%;
+      background:
+        linear-gradient(currentColor 0 0) center / var(--accordion-bar) 2px no-repeat,
+        linear-gradient(currentColor 0 0) center / 2px var(--accordion-bar) no-repeat,
+        var(--c-accent-soft);
+      color: var(--c-accent-text);
+      transition: background-size var(--transition-hover), background-color var(--transition), color var(--transition), transform var(--transition-hover);
     }
 
     &:hover::after {
-      color: var(--c-text);
+      transform: rotate(90deg);
     }
 
     &:focus-visible {
@@ -340,17 +363,74 @@
     }
   }
 
-  .handorgel__header--open .handorgel__header__button {
-    &::before,
-    &::after {
-      background-size: var(--accordion-icon) 2px, 2px 0;
+  .handorgel__header--open .handorgel__header__button::after {
+    background:
+      linear-gradient(currentColor 0 0) center / var(--accordion-bar) 2px no-repeat,
+      linear-gradient(currentColor 0 0) center / 2px 0 no-repeat,
+      var(--c-accent-text);
+    color: var(--c-surface);
+    transform: rotate(180deg);
+  }
+
+  // Optional icon in front of the question: the circle is drawn by the
+  // header, the icon (a CSS mask, colored via background) by the button
+  .content-accordion:is(.u-accordion-icon, .u-accordion-info, .u-accordion-chat) {
+    --accordion-icon-mask: var(--icon-question);
+
+    .handorgel__header {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: var(--space-s);
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: var(--c-accent-soft);
+        transform: translateY(-50%);
+        transition: background-color var(--transition), transform var(--transition-hover);
+        pointer-events: none;
+      }
+
+      &:hover::before {
+        transform: translateY(-50%) scale(1.08);
+      }
     }
 
-    &::before {
-      background-color: var(--c-accent-text);
-      color: var(--c-surface);
+    .handorgel__header__button {
+      position: relative;
+      padding-left: var(--space-s);
+
+      &::before {
+        content: "";
+        flex-shrink: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        background: var(--c-accent-text);
+        mask: var(--accordion-icon-mask) center / 1.25rem no-repeat;
+        transition: background-color var(--transition);
+      }
+    }
+
+    .handorgel__header--open {
+      &::before {
+        background: var(--c-accent-text);
+      }
+
+      .handorgel__header__button::before {
+        background: var(--c-surface);
+      }
+    }
+
+    .handorgel__content__inner {
+      padding-left: calc(var(--space-s) * 2 + 2.25rem);
     }
   }
+
+  .content-accordion.u-accordion-info { --accordion-icon-mask: var(--icon-info); }
+  .content-accordion.u-accordion-chat { --accordion-icon-mask: var(--icon-chat); }
 
   .handorgel__content {
     display: none;
@@ -361,24 +441,25 @@
 
   .handorgel__content--open {
     display: block;
-    transition: height 0.2s ease;
+    transition: height 0.3s var(--ease-out);
   }
 
   .handorgel__content--opened {
     overflow: visible;
   }
 
-  // Answer aligned with the question text (icon width + gap)
   .handorgel__content__inner {
-    padding: 0 var(--space-m) var(--space-m) calc(var(--space-s) * 2 + 1.75rem);
+    padding: 0 var(--space-m) var(--space-m);
     color: var(--c-text-muted);
     opacity: 0;
-    transition: opacity 0.1s ease;
+    transform: translateY(-0.5rem);
+    transition: opacity 0.1s ease, transform 0.1s ease;
   }
 
   .handorgel__content--opened .handorgel__content__inner {
     opacity: 1;
-    transition: opacity 0.3s ease;
+    transform: none;
+    transition: opacity 0.4s ease, transform 0.4s var(--ease-out);
   }
 
   // Element group: optional grid via utility classes (the group headline spans

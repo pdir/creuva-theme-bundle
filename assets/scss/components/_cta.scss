@@ -1,0 +1,150 @@
+// Call to action box (template variant content_element/text/creuva_cta):
+// dark panel, text on the left, the links of the last paragraph as buttons on
+// the right (from tablet width on).
+@use '../mixins' as *;
+
+@layer creuva.components {
+  .c-cta {
+    --c-text: var(--c-primary-contrast);
+    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+    border-radius: var(--radius-l);
+    background: var(--c-primary);
+    color: var(--c-text);
+
+    // Soft light spots in the corners
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--c-accent) 35%, transparent), transparent);
+      pointer-events: none;
+      transition: transform 1.2s var(--ease-out);
+    }
+
+    &::before {
+      top: -40%;
+      right: -10%;
+      width: 28rem;
+      height: 28rem;
+    }
+
+    &::after {
+      bottom: -55%;
+      left: 20%;
+      width: 22rem;
+      height: 22rem;
+      opacity: 0.6;
+    }
+
+    &:hover::before {
+      transform: translate(-2rem, 1.5rem);
+    }
+
+    &:hover::after {
+      transform: translate(2rem, -1rem);
+    }
+
+    .c-kicker {
+      color: var(--c-accent-on-primary);
+    }
+
+    :is(h2, h3) {
+      margin-bottom: var(--space-s);
+      color: var(--c-text);
+    }
+
+    .first-headline:not(.block) + .main-headline {
+      color: var(--c-accent-on-primary);
+    }
+  }
+
+  .c-cta__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--space-xl);
+
+    // Paragraphs of the text become grid items next to the headline
+    > .rte {
+      display: contents;
+    }
+
+    > .rte > p {
+      max-width: 40rem;
+      margin: 0;
+      color: var(--c-text-muted);
+    }
+
+    > .rte > p:last-child:not(:first-child):has(> a) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-s);
+      max-width: none;
+      margin-top: var(--space-m);
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .c-cta__body {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      > * {
+        grid-column: 1;
+      }
+
+      > .rte > p:last-child:not(:first-child):has(> a) {
+        grid-column: 2;
+        grid-row: 1 / span 10;
+        align-self: center;
+        justify-content: flex-end;
+        margin-top: 0;
+      }
+    }
+  }
+
+  // Buttons: first one light (primary), others outlined
+  .c-cta__body > .rte > p:last-child:not(:first-child) > a {
+    @include button-base;
+  }
+
+  .c-cta__body > .rte > p:last-child:not(:first-child) > a {
+    border-color: color-mix(in srgb, var(--c-primary-contrast) 45%, transparent);
+    background: transparent;
+    color: var(--c-primary-contrast);
+
+    &:hover {
+      border-color: var(--c-primary-contrast);
+      background: color-mix(in srgb, var(--c-primary-contrast) 10%, transparent);
+    }
+  }
+
+  .c-cta__body > .rte > p:last-child:not(:first-child) > a:first-child {
+    border-color: var(--c-primary-contrast);
+    background: var(--c-primary-contrast);
+    color: var(--c-primary);
+
+    &::after {
+      content: "";
+      width: 1em;
+      height: 1em;
+      background: currentColor;
+      mask: var(--icon-arrow) center / contain no-repeat;
+      transition: transform var(--transition-hover);
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+      box-shadow: 0 12px 24px -12px rgb(0 0 0 / 0.5);
+    }
+
+    &:hover::after {
+      transform: translateX(0.25em);
+    }
+  }
+}

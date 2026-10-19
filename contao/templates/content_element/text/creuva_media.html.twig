@@ -1,0 +1,33 @@
+{#
+    Image and text side by side: image (left or right, setting "Bildausrichtung"),
+    kicker ("Dachzeile"), headline (two-tone with an inline subline), text with
+    check list. Links in the last paragraph become buttons (the first one is the
+    primary button). The CSS class "u-media-plain" removes the accent shape
+    behind the image.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default)
+    .addClass(['c-media', 'c-media--' ~ (layout == 'right' ? 'right' : 'left')])
+%}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-media__visual">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    <div class="c-media__body">
+        {% if data.creuvaKicker|default %}
+            <p class="c-kicker">{{ data.creuvaKicker|insert_tag }}</p>
+        {% endif %}
+
+        {% if headline.text %}
+            {{ block('headline_component') }}
+        {% endif %}
+
+        {{ block('text') }}
+    </div>
+{% endblock %}
