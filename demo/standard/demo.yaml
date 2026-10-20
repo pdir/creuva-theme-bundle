@@ -186,6 +186,7 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Beratung' }, text: '<p>Strategische Beratung für nachhaltige und erfolgreiche digitale Projekte.</p><p><a href="{{link_url::beratung}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Persönliche Betreuung – auch lange nach dem Launch.</p><p><a href="{{link_url::kontakt}}">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/support.svg' }
       - title: Agentur
+        cssID: ['', 'u-bg-surface u-py-l']
         elements:
           - type: text
             customTpl: content_element/text/creuva_media
@@ -199,7 +200,7 @@ pages:
             size: 'image_size:card'
             floating: left
       - title: Referenzen
-        cssID: ['', 'u-bg-muted']
+        cssID: ['', 'u-bg-surface']
         elements:
           - type: element_group
             cssID: u-grid-2 u-align-end
@@ -209,10 +210,11 @@ pages:
           - type: element_group
             cssID: u-grid-3
             children:
-              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="{{link_url::projekt-gruenwerk}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', cssID: 'u-card-muted', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="{{link_url::projekt-gruenwerk}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Branding · Website', headline: { unit: 'h3', value: 'Nordlicht Studio' }, text: '<p>Dunkles, kreatives Design für ein Fotostudio.</p><p><a href="{{link_url::projekt-nordlicht}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Tourismus · Buchung', headline: { unit: 'h3', value: 'Hotel Alpenhof' }, text: '<p>Warme Bildsprache und Online-Anfrage für ein Hotel.</p><p><a href="{{link_url::projekt-alpenhof}}">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
       - title: Kennzahlen
+        cssID: ['', 'u-bg-accent u-py-l']
         elements:
           - &stats
             type: description_list
@@ -221,13 +223,15 @@ pages:
             headline: Ergebnisse.
             subline: Vertrauen. Erfahrung.
             headline_inline: '1'
-            cssID: u-bg-accent u-text-center
+            cssID: u-text-center
+            creuvaIcons: ['file:icons/webdesign.svg', 'file:icons/herz.svg', 'file:icons/stern.svg', 'file:icons/team.svg']
             data:
               - { key: '120+', value: 'Erfolgreiche Projekte' }
               - { key: '98 %', value: 'Zufriedene Kunden' }
               - { key: '15+', value: 'Jahre Erfahrung' }
               - { key: '24', value: 'Engagierte Köpfe' }
       - title: Kundenstimmen
+        cssID: ['', 'u-bg-surface']
         elements:
           - { type: 'headline', headline: 'Starkes Feedback.', subline: 'Echte Meinungen.', headline_inline: '1' }
           -
@@ -650,7 +654,9 @@ pages:
             floating: left
       - title: Zahlen
         elements:
-          - *stats
+          - <<: *stats
+            cssID: u-bg-accent u-text-center
+            creuvaIcons: ['file:icons/raute.svg', 'file:icons/herz.svg', 'file:icons/uhr.svg', 'file:icons/team.svg']
       - title: Geschichte
         cssID: ['geschichte', '']
         elements:
@@ -971,22 +977,23 @@ pages:
       - title: Formular
         elements:
           - type: element_group
-            cssID: u-grid-2
+            cssID: u-grid-2 u-cols-wide-start u-align-start
             children:
               - type: element_group
                 cssID: u-card
                 children:
-                  - { type: 'headline', headline: 'anfragen.', subline: 'Jetzt unverbindlich', headline_inline: '1' }
-                  - { type: 'text', cssID: 'u-muted', text: '<p>Füllen Sie einfach das Formular aus und schildern Sie uns kurz Ihr Anliegen. Wir melden uns schnellstmöglich bei Ihnen.</p>' }
+                  - { type: 'text', creuvaKicker: 'Kontaktformular', headline: 'anfragen.', subline: 'Jetzt unverbindlich', headline_inline: '1', text: '<p>Füllen Sie einfach das Formular aus und schildern Sie uns kurz Ihr Anliegen. Wir melden uns schnellstmöglich bei Ihnen.</p>', cssID: 'u-muted' }
                   - { type: 'form', form: 'form:kontakt' }
               - type: element_group
-                cssID: u-bg-accent
                 children:
-                  - { type: 'headline', headline: 'Sie da.', subline: 'Wir sind für', headline_inline: '1' }
-                  - { type: 'text', cssID: 'u-muted', text: '<p>Sie erreichen uns telefonisch, per E-Mail oder direkt vor Ort. Wir freuen uns auf den Austausch mit Ihnen.</p>' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: '+49 351 000000' }, text: '<p><a href="tel:+49351000000">Mo – Fr, 9:00 – 17:00 Uhr</a></p>', addImage: true, singleSRC: 'file:icons/telefon.svg' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'hallo@example.com' }, text: '<p><a href="mailto:hallo@example.com">Antwort in der Regel innerhalb von 24 h</a></p>', addImage: true, singleSRC: 'file:icons/mail.svg' }
-                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Creuva Demo GmbH' }, text: '<p>Musterstraße 1<br>01067 Dresden</p>', addImage: true, singleSRC: 'file:icons/standort.svg' }
+                  - type: element_group
+                    cssID: u-bg-accent u-icon-white
+                    children:
+                      - { type: 'text', creuvaKicker: 'Kontaktinformationen', headline: 'Sie da.', subline: 'Wir sind für', headline_inline: '1', text: '<p>Sie erreichen uns telefonisch, per E-Mail oder direkt vor Ort.</p>', cssID: 'u-muted' }
+                      - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Telefon' }, text: '<p><a href="tel:+49351000000">+49 351 000000</a><br>Mo – Fr, 9:00 – 17:00 Uhr</p>', addImage: true, singleSRC: 'file:icons/telefon.svg' }
+                      - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'E-Mail' }, text: '<p><a href="mailto:hallo@example.com">hallo@example.com</a><br>Antwort meist innerhalb von 24 Stunden</p>', addImage: true, singleSRC: 'file:icons/mail.svg' }
+                      - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Adresse' }, text: '<p>Creuva Demo GmbH<br>Musterstraße 1, 01067 Dresden</p>', addImage: true, singleSRC: 'file:icons/standort.svg' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
       - title: Ansprechpartner
         elements:
           - type: element_group

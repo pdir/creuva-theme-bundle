@@ -1,3 +1,5 @@
+@use '../mixins' as *;
+
 @layer creuva.layout {
   body {
     overflow-x: clip;
@@ -33,6 +35,14 @@
     > .c-hero {
       width: auto;
     }
+  }
+
+  // Two sections without a background in a row look like one surface: only
+  // one section spacing between them (the bottom spacing of the first one),
+  // otherwise the gap would be doubled. Same for sections with the same
+  // background (see _utilities.scss, after the section backgrounds).
+  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child)) + .mod_article:not(#{$bg-classes}) {
+    padding-top: 0;
   }
 
   .l-main > .mod_article:has(> .c-hero:first-child) {

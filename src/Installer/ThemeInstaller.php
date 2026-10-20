@@ -551,6 +551,7 @@ class ThemeInstaller
                 'title' => $texts[$key],
                 'alias' => $this->uniqueAlias('tl_article', $alias),
                 'inColumn' => 'main',
+                'author' => $this->demoImporter->getAuthor(),
                 'published' => 1,
             ]);
 

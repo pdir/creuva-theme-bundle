@@ -20,6 +20,19 @@ PaletteManipulator::create()
     ->applyToPalette('description_list', 'tl_content')
 ;
 
+// Optional icons of the key figures (template variant creuva_stats), in the
+// order of the entries
+PaletteManipulator::create()
+    ->addField('creuvaIcons', 'data', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('description_list', 'tl_content')
+;
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaIcons'] = [
+    'inputType' => 'fileTree',
+    'eval' => ['multiple' => true, 'fieldType' => 'checkbox', 'isSortable' => true, 'files' => true, 'filesOnly' => true, 'extensions' => 'svg,png,webp,jpg,jpeg,gif', 'tl_class' => 'clr'],
+    'sql' => ['type' => 'blob', 'length' => 65535, 'notnull' => false],
+];
+
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaKicker'] = [
     'search' => true,
     'inputType' => 'text',

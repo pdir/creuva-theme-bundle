@@ -11,7 +11,7 @@
     overflow: hidden;
 
     > :is(h2, h3) {
-      margin-bottom: var(--space-l);
+      margin-bottom: var(--space-m);
     }
 
     dl {
@@ -38,18 +38,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
-    padding: var(--space-m) var(--space-m) var(--space-l);
-    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
-    border-radius: var(--radius-l);
-    background: color-mix(in srgb, var(--c-surface) 80%, transparent);
-    box-shadow: var(--shadow-s);
+    padding: var(--space-m);
     transition: box-shadow var(--transition-hover), transform var(--transition-hover), border-color var(--transition);
-
-    &:hover {
-      border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
-      box-shadow: var(--shadow-l);
-      transform: translateY(var(--hover-lift));
-    }
   }
 
   .c-stats dt {
@@ -63,10 +53,9 @@
   }
 
   .c-stats__unit {
-    margin-inline: 0.04em;
+    margin-inline: .1em;
     color: var(--c-accent-text);
-    font-size: 0.6em;
-    vertical-align: 0.35em;
+    font-size: .8em;
   }
 
   // Number while counting; the final value is kept in the layout (invisible)
@@ -91,8 +80,8 @@
   .c-stats dd {
     margin: 0;
     color: var(--c-text-muted);
-    font-size: var(--fs-small);
-    font-weight: 500;
+    font-size: var(--fs-large);
+    font-weight: 400;
 
     &::before {
       content: "";
@@ -108,6 +97,40 @@
 
   .c-stats__item:hover dd::before {
     width: 3.5rem;
+  }
+
+  // Optional icon above the figure (field "Icons (Kennzahlen)"); same custom
+  // properties as the icon box, so the icon classes u-icon-* work here too
+  .c-stats__icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: var(--space-xs);
+    border-radius: 50%;
+    background: var(--icon-bg, var(--c-surface));
+    transition: background-color var(--transition-hover), transform var(--transition-hover);
+
+    img {
+      width: 1.6rem;
+      height: 1.6rem;
+      object-fit: contain;
+      filter: var(--icon-filter, none);
+      transition: filter var(--transition-hover);
+    }
+  }
+
+  .c-stats__item:hover .c-stats__icon {
+    background: var(--icon-bg-hover, var(--c-primary));
+    transform: scale(1.06);
+
+    img {
+      filter: var(--icon-filter-hover, brightness(0) invert(1));
+    }
+  }
+
+  :root[data-radius='none'] .c-stats__icon {
+    border-radius: 0;
   }
 
   .u-bg-primary .c-stats,

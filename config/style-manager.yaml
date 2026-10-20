@@ -87,6 +87,7 @@ creuvaGrid:
       cssClasses:
         u-align-center: 'Mittig'
         u-align-end: 'Unten (Abschnittskopf)'
+        u-align-start: 'Oben (Spalten nicht strecken)'
     widths:
       title: 'Spaltenbreite (2 Spalten)'
       description: 'Ab Tablet-Breite ist eine Spalte breiter (3 : 2), z. B. Tabelle mit Liste daneben'
@@ -129,6 +130,43 @@ creuvaText:
         u-accent: 'Akzentfarbe'
         u-kicker: 'Dachzeile'
 
+creuvaColors:
+  title: 'Farben des Elements'
+  desc: 'Für Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und die Boxen des Theme Components Bundles'
+  groupAlias: 'Creuva'
+  sorting: 350
+  children:
+    card:
+      title: 'Hintergrund / Rahmen'
+      description: 'Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur ein farbiger Rahmen'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: &cardElements [text, ct_contentBox, ct_teaserBox, ct_priceBox, ct_featureElement]
+      sorting: 100
+      cssClasses:
+        u-card-white: 'Weiß'
+        u-card-muted: 'Grau'
+        u-card-soft: 'Akzent hell'
+        u-card-primary: 'Hauptfarbe'
+        u-card-accent: 'Akzentfarbe'
+        u-card-outline-primary: 'Rahmen in Hauptfarbe'
+        u-card-outline-accent: 'Rahmen in Akzentfarbe'
+        u-card-flat: 'Ohne Rahmen und Schatten'
+    icon:
+      title: 'Icon'
+      description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen; bei Haupt- und Akzentfarbe wird das Icon weiß (einfarbige SVG-Icons)'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: [text, description_list]
+      sorting: 200
+      cssClasses:
+        u-icon-primary: 'Weiß auf Hauptfarbe'
+        u-icon-accent: 'Weiß auf Akzentfarbe'
+        u-icon-white: 'Weißer Kreis'
+        u-icon-plain: 'Ohne Kreis'
+
 creuvaButton:
   title: 'Buttons'
   desc: 'Hyperlink-Element als Button; im Text-Element werden die Links im letzten Absatz zu Buttons'
@@ -146,15 +184,18 @@ creuvaButton:
       cssClasses:
         u-button: 'Primär-Button'
         u-button-secondary: 'Sekundär-Button'
+        u-button-accent: 'Akzent-Button'
+        u-button-outline: 'Outline (Hauptfarbe)'
+        u-button-outline-accent: 'Outline (Akzentfarbe)'
 
 creuvaSpacing:
   title: 'Abstände'
-  desc: 'Zusätzlicher Abstand innen (oben/unten) und nach oben'
+  desc: 'Innenabstand (innerhalb der Fläche) und Außenabstand (zu den Nachbarn) – oben und unten, nur oben oder nur unten. Artikel ohne Hintergrund haben untereinander automatisch einen Abschnittsabstand.'
   groupAlias: 'Creuva'
   sorting: 500
   children:
     padding:
-      title: 'Innenabstand oben/unten'
+      title: 'Innenabstand oben und unten'
       cssClass: 'w50'
       blankOption: true
       extendContentElement: true
@@ -168,8 +209,53 @@ creuvaSpacing:
         u-py-m: 'M'
         u-py-l: 'L'
         u-py-xl: 'XL'
+    paddingTop:
+      title: 'Innenabstand nur oben'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: *allElements
+      extendArticle: true
+      extendModule: true
+      sorting: 110
+      cssClasses:
+        u-pt-0: 'Kein'
+        u-pt-s: 'S'
+        u-pt-m: 'M'
+        u-pt-l: 'L'
+        u-pt-xl: 'XL'
+    paddingBottom:
+      title: 'Innenabstand nur unten'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: *allElements
+      extendArticle: true
+      extendModule: true
+      sorting: 120
+      cssClasses:
+        u-pb-0: 'Kein'
+        u-pb-s: 'S'
+        u-pb-m: 'M'
+        u-pb-l: 'L'
+        u-pb-xl: 'XL'
+    marginY:
+      title: 'Außenabstand oben und unten'
+      cssClass: 'w50 clr'
+      blankOption: true
+      extendContentElement: true
+      contentElements: *allElements
+      extendArticle: true
+      extendModule: true
+      sorting: 190
+      cssClasses:
+        u-my-0: 'Kein'
+        u-my-s: 'S'
+        u-my-m: 'M'
+        u-my-l: 'L'
+        u-my-xl: 'XL'
     marginTop:
-      title: 'Abstand oben'
+      title: 'Außenabstand nur oben'
       cssClass: 'w50'
       blankOption: true
       extendContentElement: true
@@ -180,8 +266,24 @@ creuvaSpacing:
       cssClasses:
         u-mt-0: 'Kein'
         u-mt-s: 'S'
+        u-mt-m: 'M'
         u-mt-l: 'L'
         u-mt-xl: 'XL'
+    marginBottom:
+      title: 'Außenabstand nur unten'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: *allElements
+      extendArticle: true
+      extendModule: true
+      sorting: 220
+      cssClasses:
+        u-mb-0: 'Kein'
+        u-mb-s: 'S'
+        u-mb-m: 'M'
+        u-mb-l: 'L'
+        u-mb-xl: 'XL'
 
 creuvaAnimation:
   title: 'Animation'

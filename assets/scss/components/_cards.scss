@@ -142,7 +142,7 @@
   // Round icon; on hover it is filled with the primary color and the icon
   // turns into the contrast color (works for single-colored SVG icons)
   .c-feature__icon {
-    --icon-filter-hover: brightness(0) invert(1);
+    --icon-filter-hover-default: brightness(0) invert(1);
 
     display: grid;
     place-items: center;
@@ -150,7 +150,7 @@
     height: 4rem;
     margin-bottom: var(--space-m);
     border-radius: 50%;
-    background: var(--c-accent-soft);
+    background: var(--icon-bg, var(--c-accent-soft));
     transition: background-color var(--transition-hover), transform var(--transition-hover), box-shadow var(--transition-hover);
 
     figure {
@@ -162,17 +162,18 @@
       height: 1.75rem;
       object-fit: contain;
       border-radius: 0 !important;
+      filter: var(--icon-filter, none);
       transition: filter var(--transition-hover), transform var(--transition-hover);
     }
   }
 
   // On a light accent surface the icon circle would disappear
-  .u-bg-accent .c-feature__icon {
-    background: var(--c-surface);
+  .u-bg-accent {
+    --icon-bg: var(--c-surface);
   }
 
   :root[data-theme='dark'] .c-feature__icon {
-    --icon-filter-hover: brightness(0);
+    --icon-filter-hover-default: brightness(0);
   }
 
   :root[data-radius='none'] .c-feature__icon {
@@ -180,26 +181,23 @@
   }
 
   .c-feature:hover .c-feature__icon {
-    background: var(--c-primary);
-    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--c-primary) 60%, transparent);
+    background: var(--icon-bg-hover, var(--c-primary));
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--icon-bg-hover, var(--c-primary)) 60%, transparent);
     transform: scale(1.05);
 
     img {
-      filter: var(--icon-filter-hover);
+      filter: var(--icon-filter-hover, var(--icon-filter-hover-default));
       transform: rotate(-6deg);
     }
   }
 
   // Features in a white section: tinted cards that turn white on hover
-  .u-bg-surface .c-feature {
-    border-color: transparent;
-    background: var(--c-bg);
-    box-shadow: none;
-
-    &:hover {
-      background: var(--c-surface);
-      box-shadow: var(--shadow-l);
-    }
+  // (only as defaults, the card style classes u-card-* win)
+  .u-bg-surface {
+    --card-bg: var(--c-bg);
+    --card-bg-hover: var(--c-surface);
+    --card-border: transparent;
+    --card-shadow: none;
   }
 
   // Icon box without card (CSS class u-feature-plain): icon, headline and
@@ -212,6 +210,7 @@
 
     &:hover {
       border-color: transparent;
+      background: none;
       box-shadow: none;
       transform: none;
     }

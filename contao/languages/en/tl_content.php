@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 $GLOBALS['TL_LANG']['tl_content']['creuvaKicker'] = ['Kicker', 'Short text above the headline.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaIcons'] = ['Icons (key figures)', 'Optional icons above the figures of the template variant "Key figures", in the order of the entries (e.g. single-colored SVG icons).'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge text', 'Text in the round badge on the image. Line breaks are kept.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Image shape', 'Shape in which the image is displayed.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organic', 'rounded' => 'Rounded', 'none' => 'No mask'];

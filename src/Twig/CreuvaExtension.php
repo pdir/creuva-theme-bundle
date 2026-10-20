@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace Pdir\CreuvaThemeBundle\Twig;
 
+use Contao\StringUtil;
+use Contao\Validator;
 use Pdir\CreuvaThemeBundle\Design\DesignResolver;
 use Pdir\CreuvaThemeBundle\Design\StylesheetResolver;
 use Twig\Extension\AbstractExtension;
@@ -30,6 +32,24 @@ class CreuvaExtension extends AbstractExtension
             new TwigFunction('creuva_design', $this->designResolver->resolve(...)),
             // Usage: {% for stylesheet in creuva_stylesheets(layout) %}
             new TwigFunction('creuva_stylesheets', $this->stylesheetResolver->resolve(...)),
+            // Usage: {% set icons = creuva_uuids(data.creuvaIcons|default) %} → list of UUIDs for figure()
+            new TwigFunction('creuva_uuids', $this->uuids(...)),
         ];
+    }
+
+    /**
+     * Serialized binary UUIDs of a multiple file tree field (in the selected
+     * order) as a list of string UUIDs.
+     *
+     * @return list<string>
+     */
+    private function uuids(mixed $value): array
+    {
+        $uuids = StringUtil::deserialize($value, true);
+
+        return array_values(array_map(
+            static fn (string $uuid): string => Validator::isBinaryUuid($uuid) ? StringUtil::binToUuid($uuid) : $uuid,
+            array_filter($uuids, \is_string(...)),
+        ));
     }
 }

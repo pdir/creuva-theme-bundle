@@ -103,6 +103,10 @@
             "2": {
               "title": "Unten (Abschnittskopf)",
               "value": "u-align-end"
+            },
+            "3": {
+              "title": "Oben (Spalten nicht strecken)",
+              "value": "u-align-start"
             }
           }
         },
@@ -133,52 +137,78 @@
           "id": "creuvaPadding",
           "class": "icon-resize-vertical ac-col7",
           "type": "select",
-          "label": "Innenabstand oben/unten",
+          "label": "Innenabstand oben und unten",
           "values": {
-            "1": {
-              "title": "Kein",
-              "value": "u-py-0"
-            },
-            "2": {
-              "title": "S",
-              "value": "u-py-s"
-            },
-            "3": {
-              "title": "M",
-              "value": "u-py-m"
-            },
-            "4": {
-              "title": "L",
-              "value": "u-py-l"
-            },
-            "5": {
-              "title": "XL",
-              "value": "u-py-xl"
-            }
+            "1": { "title": "Kein", "value": "u-py-0" },
+            "2": { "title": "S", "value": "u-py-s" },
+            "3": { "title": "M", "value": "u-py-m" },
+            "4": { "title": "L", "value": "u-py-l" },
+            "5": { "title": "XL", "value": "u-py-xl" }
           }
         },
         "2": {
+          "id": "creuvaPaddingTop",
+          "class": "icon-up-big ac-col7",
+          "type": "select",
+          "label": "Innenabstand nur oben",
+          "values": {
+            "1": { "title": "Kein", "value": "u-pt-0" },
+            "2": { "title": "S", "value": "u-pt-s" },
+            "3": { "title": "M", "value": "u-pt-m" },
+            "4": { "title": "L", "value": "u-pt-l" },
+            "5": { "title": "XL", "value": "u-pt-xl" }
+          }
+        },
+        "3": {
+          "id": "creuvaPaddingBottom",
+          "class": "icon-down-big ac-col7",
+          "type": "select",
+          "label": "Innenabstand nur unten",
+          "values": {
+            "1": { "title": "Kein", "value": "u-pb-0" },
+            "2": { "title": "S", "value": "u-pb-s" },
+            "3": { "title": "M", "value": "u-pb-m" },
+            "4": { "title": "L", "value": "u-pb-l" },
+            "5": { "title": "XL", "value": "u-pb-xl" }
+          }
+        },
+        "4": {
+          "id": "creuvaMarginY",
+          "class": "icon-resize-vertical ac-col7",
+          "type": "select",
+          "label": "Außenabstand oben und unten",
+          "values": {
+            "1": { "title": "Kein", "value": "u-my-0" },
+            "2": { "title": "S", "value": "u-my-s" },
+            "3": { "title": "M", "value": "u-my-m" },
+            "4": { "title": "L", "value": "u-my-l" },
+            "5": { "title": "XL", "value": "u-my-xl" }
+          }
+        },
+        "5": {
           "id": "creuvaMarginTop",
           "class": "icon-up-big ac-col7",
           "type": "select",
-          "label": "Abstand oben",
+          "label": "Außenabstand nur oben",
           "values": {
-            "1": {
-              "title": "Kein",
-              "value": "u-mt-0"
-            },
-            "2": {
-              "title": "S",
-              "value": "u-mt-s"
-            },
-            "3": {
-              "title": "L",
-              "value": "u-mt-l"
-            },
-            "4": {
-              "title": "XL",
-              "value": "u-mt-xl"
-            }
+            "1": { "title": "Kein", "value": "u-mt-0" },
+            "2": { "title": "S", "value": "u-mt-s" },
+            "3": { "title": "M", "value": "u-mt-m" },
+            "4": { "title": "L", "value": "u-mt-l" },
+            "5": { "title": "XL", "value": "u-mt-xl" }
+          }
+        },
+        "6": {
+          "id": "creuvaMarginBottom",
+          "class": "icon-down-big ac-col7",
+          "type": "select",
+          "label": "Außenabstand nur unten",
+          "values": {
+            "1": { "title": "Kein", "value": "u-mb-0" },
+            "2": { "title": "S", "value": "u-mb-s" },
+            "3": { "title": "M", "value": "u-mb-m" },
+            "4": { "title": "L", "value": "u-mb-l" },
+            "5": { "title": "XL", "value": "u-mb-xl" }
           }
         }
       }
@@ -245,6 +275,18 @@
             "2": {
               "title": "Sekundär-Button",
               "value": "u-button-secondary"
+            },
+            "3": {
+              "title": "Akzent-Button",
+              "value": "u-button-accent"
+            },
+            "4": {
+              "title": "Outline (Hauptfarbe)",
+              "value": "u-button-outline"
+            },
+            "5": {
+              "title": "Outline (Akzentfarbe)",
+              "value": "u-button-outline-accent"
             }
           }
         }
@@ -407,6 +449,41 @@
               "title": "Ab Tablet",
               "value": "u-hide-desktop"
             }
+          }
+        }
+      }
+    },
+    "8": {
+      "secId": "creuvaColors",
+      "secHeadline": "Farben des Elements",
+      "secClass": "icon-eye",
+      "cssSet": {
+        "1": {
+          "id": "creuvaCardStyle",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "Hintergrund / Rahmen (Karten, Icon-Boxen …)",
+          "values": {
+            "1": { "title": "Weiß", "value": "u-card-white" },
+            "2": { "title": "Grau", "value": "u-card-muted" },
+            "3": { "title": "Akzent hell", "value": "u-card-soft" },
+            "4": { "title": "Hauptfarbe", "value": "u-card-primary" },
+            "5": { "title": "Akzentfarbe", "value": "u-card-accent" },
+            "6": { "title": "Rahmen in Hauptfarbe", "value": "u-card-outline-primary" },
+            "7": { "title": "Rahmen in Akzentfarbe", "value": "u-card-outline-accent" },
+            "8": { "title": "Ohne Rahmen und Schatten", "value": "u-card-flat" }
+          }
+        },
+        "2": {
+          "id": "creuvaIconStyle",
+          "class": "icon-eye ac-col7",
+          "type": "select",
+          "label": "Icon (Icon-Box)",
+          "values": {
+            "1": { "title": "Weiß auf Hauptfarbe", "value": "u-icon-primary" },
+            "2": { "title": "Weiß auf Akzentfarbe", "value": "u-icon-accent" },
+            "3": { "title": "Weißer Kreis", "value": "u-icon-white" },
+            "4": { "title": "Ohne Kreis", "value": "u-icon-plain" }
           }
         }
       }

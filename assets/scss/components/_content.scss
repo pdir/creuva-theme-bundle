@@ -285,21 +285,21 @@
     @include arrow-link;
   }
 
-  .content-hyperlink:not(.u-button, .u-button-secondary) > a {
+  .content-hyperlink:not(#{$button-classes}) > a {
     font-size: var(--fs-base);
   }
 
-  // Buttons: hyperlink element with u-button / u-button-secondary; in text
-  // elements with these classes the links of the last paragraph (side by side)
-  .content-text:is(.u-button, .u-button-secondary) .rte > p:last-child:has(> a) {
+  // Buttons: hyperlink element with a button class; in text elements with a
+  // button class the links of the last paragraph (side by side)
+  .content-text:is(#{$button-classes}) .rte > p:last-child:has(> a) {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
     margin-top: var(--space-m);
   }
 
-  .content-hyperlink:is(.u-button, .u-button-secondary) > a,
-  .content-text:is(.u-button, .u-button-secondary) .rte > p:last-child > a {
+  .content-hyperlink:is(#{$button-classes}) > a,
+  .content-text:is(#{$button-classes}) .rte > p:last-child > a {
     @include button-base;
   }
 
@@ -311,6 +311,21 @@
   .content-hyperlink.u-button-secondary > a,
   .content-text.u-button-secondary .rte > p:last-child > a {
     @include button-secondary;
+  }
+
+  .content-hyperlink.u-button-accent > a,
+  .content-text.u-button-accent .rte > p:last-child > a {
+    @include button-accent;
+  }
+
+  .content-hyperlink.u-button-outline > a,
+  .content-text.u-button-outline .rte > p:last-child > a {
+    @include button-outline('--c-primary', '--c-primary-contrast');
+  }
+
+  .content-hyperlink.u-button-outline-accent > a,
+  .content-text.u-button-outline-accent .rte > p:last-child > a {
+    @include button-outline('--c-accent', '--c-accent-contrast');
   }
 
   // Downloads
@@ -555,6 +570,11 @@
   // all columns, headline elements stay in their column)
   .content-element-group:is(.u-grid-2, .u-grid-3, .u-grid-4) > :is(h1, h2, h3, h4, h5, h6):not(.content-headline) {
     grid-column: 1 / -1;
+  }
+
+  // Element group without grid: the elements are stacked with some air
+  .content-element-group:not(.u-grid-2, .u-grid-3, .u-grid-4) > * + * {
+    margin-top: var(--space-m);
   }
 
   // Breadcrumb

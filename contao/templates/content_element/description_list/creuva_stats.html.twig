@@ -2,10 +2,13 @@
     Key figures ("Kennzahlen"): term = value (e.g. 120+), details = label.
     Prefix and suffix ("+", "%") are highlighted and the numbers count up when
     they scroll into view (CSS class "u-no-countup" disables counting).
+    Optional icons above the figures: field "Icons (Kennzahlen)", in the order
+    of the entries.
 #}
 {% extends '@Contao/content_element/description_list.html.twig' %}
 
 {% set attributes = attrs(attributes|default).addClass('c-stats') %}
+{% set creuva_icons = creuva_uuids(data.creuvaIcons|default) %}
 
 {% block inner %}
     {% if data.creuvaKicker|default %}
@@ -16,5 +19,14 @@
 {% endblock %}
 
 {% block description %}
-    <div class="c-stats__item">{{ parent() }}</div>
+    <div class="c-stats__item">
+        {% set icon = creuva_icons[loop.index0] ?? null %}
+        {% if icon %}
+            {% set icon_figure = figure(icon, null) %}
+            {% if icon_figure %}
+                <span class="c-stats__icon" aria-hidden="true"><img src="{{ icon_figure.image.imageSrc }}" alt="" width="48" height="48" loading="lazy"></span>
+            {% endif %}
+        {% endif %}
+        {{ parent() }}
+    </div>
 {% endblock %}

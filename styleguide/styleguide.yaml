@@ -122,7 +122,7 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
           - type: text
             cssID: u-button-secondary
-            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
+            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
 
       - title: Farben & Typografie
         cssID: ['sg-typografie', 'u-bg-muted']
@@ -186,6 +186,9 @@ pages:
                   - { type: 'headline', headline: { unit: 'h3', value: 'Hyperlink-Element' } }
                   - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Primär-Button', cssID: 'u-button' }
                   - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Sekundär-Button', cssID: 'u-button-secondary' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Akzent-Button', cssID: 'u-button-accent' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Outline (Hauptfarbe)', cssID: 'u-button-outline' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Outline (Akzentfarbe)', cssID: 'u-button-outline-accent' }
                   - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Textlink mit Pfeil' }
               - type: text
                 cssID: u-card u-button
@@ -296,6 +299,39 @@ pages:
             headline_inline: '1'
             text: '<p>Variante „Call to Action“: Text links, die Links im letzten Absatz als Buttons rechts.</p><p><a href="#sg-varianten">Projekt starten</a> <a href="#sg-varianten">Unverbindlich anfragen</a></p>'
 
+      - title: Farben der Elemente
+        cssID: ['sg-farben', '']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Farben der Elemente', subline: 'Style Manager › Farben des Elements' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Karten, Icon-Boxen, Kundenstimmen und Preis-Karten bekommen eine Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur einen farbigen Rahmen. Das Icon der Icon-Box lässt sich separat einstellen.</p>' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-white', headline: { unit: 'h3', value: 'Weiß' }, text: '<p>u-card-white</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-muted', headline: { unit: 'h3', value: 'Grau' }, text: '<p>u-card-muted</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft', headline: { unit: 'h3', value: 'Akzent hell' }, text: '<p>u-card-soft</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-flat', headline: { unit: 'h3', value: 'Ohne Rahmen' }, text: '<p>u-card-flat</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-primary', headline: { unit: 'h3', value: 'Hauptfarbe' }, text: '<p>u-card-primary</p>', addImage: true, singleSRC: 'file:icons/rakete.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-accent', headline: { unit: 'h3', value: 'Akzentfarbe' }, text: '<p>u-card-accent</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-outline-primary', headline: { unit: 'h3', value: 'Rahmen Hauptfarbe' }, text: '<p>u-card-outline-primary</p>', addImage: true, singleSRC: 'file:icons/raute.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-outline-accent', headline: { unit: 'h3', value: 'Rahmen Akzentfarbe' }, text: '<p>u-card-outline-accent</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-primary', headline: { unit: 'h3', value: 'Icon auf Hauptfarbe' }, text: '<p>u-icon-primary</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-accent', headline: { unit: 'h3', value: 'Icon auf Akzentfarbe' }, text: '<p>u-icon-accent</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft u-icon-white', headline: { unit: 'h3', value: 'Weißer Kreis' }, text: '<p>u-icon-white (auf u-card-soft)</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-plain', headline: { unit: 'h3', value: 'Ohne Kreis' }, text: '<p>u-icon-plain</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', cssID: 'u-card-primary', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Kundenstimme in Hauptfarbe', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', cssID: 'u-card-muted', subline: 'Karte in Grau', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="#sg-farben">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', cssID: 'u-card-outline-accent', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Kundenstimme mit Rahmen', text: '<p>Creuva hat unsere Bildsprache perfekt in Szene gesetzt.</p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Tobias Krüger' }
+
       - title: Kennzahlen & Timeline
         cssID: ['sg-kennzahlen', '']
         elements:
@@ -307,6 +343,7 @@ pages:
             subline: Vertrauen. Erfahrung.
             headline_inline: '1'
             cssID: u-bg-accent u-text-center
+            creuvaIcons: ['file:icons/raute.svg', 'file:icons/herz.svg', 'file:icons/uhr.svg', 'file:icons/team.svg']
             data:
               - { key: '120+', value: 'Projekte' }
               - { key: '98 %', value: 'Zufriedene Kunden' }

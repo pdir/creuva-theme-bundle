@@ -70,6 +70,8 @@ Sprache legen):
 - **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
   der Demo verweisen
 - **News-Archiv** mit vier Beiträgen (nur wenn das News-Bundle installiert ist)
+- **Autor** der Artikel und News: der erste Administrator (sonst der erste Backend-Benutzer).
+  Ältere Importe ohne Autor ergänzt `contao:migrate`.
 - **Kontaktformular** mit Weiterleitung auf die Danke-Seite (ohne E-Mail-Versand,
   bitte im Formulargenerator ergänzen)
 - **Dateien** unter `files/creuva-demo/standard/` (Illustrationen, Icons, PDFs) inklusive
@@ -323,7 +325,7 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
 | Text | `creuva_price` | Preis-Karte: Paket als Überschrift, Preis als Subline, Leistungsliste, letzter Link als Button; mit `u-featured` hervorgehoben |
-| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch |
+| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben |
 | Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
 | Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
 
@@ -364,6 +366,12 @@ Die Hintergrundklassen (`u-bg-muted`, `u-bg-accent`, `u-bg-primary`) können auc
 **Artikel** unter *Experten-Einstellungen › CSS-Klasse* eingetragen werden – der Artikel
 wird dann zum Abschnitt mit Hintergrund über die volle Breite.
 
+**Abstände zwischen Abschnitten:** Jeder Artikel hat oben und unten einen Abschnittsabstand.
+Folgen zwei Artikel ohne Hintergrund oder mit demselben Hintergrund aufeinander, entfällt der
+obere Abstand des zweiten. Sonst würde sich der Abstand verdoppeln, obwohl beide wie eine Fläche
+wirken. Einzelne Artikel lassen sich im Style Manager unter *Abstände* anpassen: Innen- und
+Außenabstand jeweils oben und unten, nur oben oder nur unten.
+
 ### Überschriften mit Dachzeile oder Akzent
 
 Das Theme Components Bundle erweitert Überschriften um eine *Subline*:
@@ -403,8 +411,17 @@ nicht umbenannt werden.
   aus dem Feld *CSS-Klasse* in die Auswahl des Style Managers. Das gilt nur für
   Datensätze ohne Style-Manager-Auswahl, die Klassen selbst bleiben unverändert.
 
-**Buttons:** Ein *Hyperlink*-Element wird mit „Primär-Button“ bzw. „Sekundär-Button“
-zum Button. Bei einem *Text*-Element mit dieser Auswahl werden die Links im
+**Farben des Elements:** Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und die Boxen des
+Theme Components Bundles bekommen über den Style Manager eine Fläche (Weiß, Grau, Akzent hell,
+Haupt- oder Akzentfarbe) oder nur einen farbigen Rahmen. Auf dunklen Flächen wechseln Text,
+Links und Dachzeilen automatisch in die Kontrastfarbe. Der Kreis hinter dem Icon einer
+Icon-Box ist separat einstellbar. Bei Haupt- und Akzentfarbe wird das Icon weiß, das
+funktioniert mit einfarbigen SVG-Icons. Andere Icon-Farben sind bei Bild-Icons nicht möglich.
+Technisch setzen die Klassen nur CSS-Variablen (`--card-bg`, `--card-border`, `--icon-bg` …,
+siehe `assets/scss/_element-styles.scss`), die alle Karten lesen.
+
+**Buttons:** Ein *Hyperlink*-Element wird mit „Primär-Button“, „Sekundär-Button“,
+„Akzent-Button“ oder „Outline“ (Haupt- bzw. Akzentfarbe, nur Rahmen) zum Button. Bei einem *Text*-Element mit dieser Auswahl werden die Links im
 **letzten Absatz** zu Buttons, nebeneinander. In der Templatevariante „Bild & Text“
 und in Call-to-Action-Boxen (`u-bg-primary`, `u-bg-accent`) passiert das automatisch.
 
@@ -418,11 +435,12 @@ Classes Bundle (`public/sets/creuva.json`).
 | Hintergrund | `u-bg-surface`, `u-bg-muted`, `u-bg-accent`, `u-bg-primary` |
 | Breite | `u-full-bleed` (Hintergrund über die volle Breite), `u-narrow` |
 | Rahmen | `u-card`, `u-featured` (hervorgehobene Preis-Karte) |
-| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-center`, `u-align-end`, Spaltenbreite bei zwei Spalten `u-cols-wide-start`, `u-cols-wide-end` (3 : 2) |
+| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-start` (Spalten nicht strecken), `u-align-center`, `u-align-end`, Spaltenbreite bei zwei Spalten `u-cols-wide-start`, `u-cols-wide-end` (3 : 2) |
 | Tabelle | `u-table-compare` (Paket-Vergleich: Spalten 2–4 farbig, „✓“/„–“ als Icons) |
-| Abstände | `u-py-0` … `u-py-xl`, `u-mt-0` … `u-mt-xl` |
+| Abstände | Innenabstand `u-py-*` (oben und unten), `u-pt-*` (nur oben), `u-pb-*` (nur unten); Außenabstand `u-my-*`, `u-mt-*`, `u-mb-*` – jeweils `0`, `s`, `m`, `l`, `xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
-| Buttons | `u-button`, `u-button-secondary` (Hyperlink-Element, Links im letzten Absatz eines Text-Elements) |
+| Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
+| Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`; Icon der Icon-Box: `u-icon-primary`, `u-icon-accent` (Icon weiß), `u-icon-white`, `u-icon-plain` |
 | Icon-Box | `u-feature-plain` (ohne Karte), `u-feature-inline` (Icon links) |
 | Animation | `u-reveal-up`, `u-reveal-left`, `u-reveal-right`, `u-reveal-down`, `u-reveal-zoom`, `u-reveal-blur`, `u-reveal-fade`, `u-reveal-none` (keine Animation), `u-reveal-stagger` (Inhalte nacheinander), `u-no-countup` (Kennzahlen nicht hochzählen) |
 | Elemente | `u-accordion-icon`, `u-accordion-info`, `u-accordion-chat` (Akkordeon-Icon), `u-media-plain` (Bild & Text ohne Akzentfläche) |

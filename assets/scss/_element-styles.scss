@@ -1,0 +1,129 @@
+// Element styles for editors (Style Manager › Elementoptionen): colors of
+// cards and icon boxes. The classes only set custom properties that all
+// card-like elements read (mixin "card", .c-feature__icon), so they work for
+// cards, icon boxes, testimonials, price cards and the theme components boxes.
+//
+//   u-card-*   background or outline of the card
+//   u-icon-*   icon circle of the icon box
+//
+// In the utilities layer, so they win over section defaults (e.g. u-bg-surface).
+
+// Text colors on a dark surface (primary color)
+@mixin on-primary {
+  --c-text: var(--c-primary-contrast);
+  --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+  --c-link: var(--c-primary-contrast);
+  --c-accent-text: var(--c-accent-on-primary);
+  --c-border: color-mix(in srgb, var(--c-primary-contrast) 18%, transparent);
+  --icon-bg: color-mix(in srgb, var(--c-primary-contrast) 12%, transparent);
+  --icon-bg-hover: var(--c-accent);
+
+  color: var(--c-text);
+}
+
+@layer creuva.utilities {
+  // Card surfaces
+  .u-card-white {
+    --card-bg: var(--c-surface);
+    --card-bg-hover: var(--c-surface);
+    --card-border: var(--c-border);
+  }
+
+  .u-card-muted {
+    --card-bg: var(--c-surface-muted);
+    --card-bg-hover: var(--c-surface-muted);
+    --card-border: transparent;
+    --icon-bg: var(--c-surface);
+  }
+
+  .u-card-soft {
+    --card-bg: var(--c-accent-soft);
+    --card-bg-hover: var(--c-accent-soft);
+    --card-border: transparent;
+    --icon-bg: var(--c-surface);
+  }
+
+  .u-card-primary {
+    @include on-primary;
+
+    --card-bg: var(--c-primary);
+    --card-bg-hover: color-mix(in srgb, var(--c-primary) 92%, #000);
+    --card-border: transparent;
+  }
+
+  .u-card-accent {
+    --c-text: var(--c-accent-contrast);
+    --c-text-muted: color-mix(in srgb, var(--c-accent-contrast) 82%, transparent);
+    --c-link: var(--c-accent-contrast);
+    --c-accent-text: var(--c-accent-contrast);
+    --c-border: color-mix(in srgb, var(--c-accent-contrast) 25%, transparent);
+    --card-bg: var(--c-accent);
+    --card-bg-hover: color-mix(in srgb, var(--c-accent) 90%, #000);
+    --card-border: transparent;
+    --icon-bg: var(--c-surface);
+    --icon-bg-hover: var(--c-primary);
+
+    color: var(--c-text);
+  }
+
+  // Outline only: transparent card with a colored border
+  .u-card-outline-primary,
+  .u-card-outline-accent {
+    --card-bg: transparent;
+    --card-bg-hover: var(--c-surface);
+    --card-border-width: 2px;
+    --card-shadow: none;
+  }
+
+  .u-card-outline-primary {
+    --card-border: var(--c-primary);
+    --card-border-hover: var(--c-primary);
+  }
+
+  .u-card-outline-accent {
+    --card-border: var(--c-accent);
+    --card-border-hover: var(--c-accent);
+  }
+
+  // Without border and shadow (until hover)
+  .u-card-flat {
+    --card-border: transparent;
+    --card-shadow: none;
+  }
+
+  // Icon circle of the icon box
+  .u-icon-primary {
+    --icon-bg: var(--c-primary);
+    --icon-filter: brightness(0) invert(1);
+    --icon-bg-hover: var(--c-accent);
+    --icon-filter-hover: brightness(0) invert(1);
+  }
+
+  .u-icon-accent {
+    --icon-bg: var(--c-accent);
+    --icon-filter: brightness(0) invert(1);
+    --icon-bg-hover: var(--c-primary);
+    --icon-filter-hover: brightness(0) invert(1);
+  }
+
+  .u-icon-white {
+    --icon-bg: var(--c-surface);
+  }
+
+  .u-icon-plain {
+    --icon-bg: transparent;
+    --icon-bg-hover: transparent;
+    --icon-filter-hover: none;
+
+    .c-feature__icon {
+      width: auto;
+      height: auto;
+      box-shadow: none !important;
+    }
+
+    .c-feature__icon img {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+}

@@ -64,6 +64,8 @@ class DemoImporter
      */
     private array $columns = [];
 
+    private int|null $author = null;
+
     public function __construct(
         private readonly Connection $connection,
         #[Autowire(service: 'contao.filesystem.virtual.files')]
@@ -562,7 +564,7 @@ class DemoImporter
 
             $data = $this->resolveRow($item) ?? [];
             $data['headline'] = (string) $item['headline']; // plain text in tl_news
-            $data += ['pid' => $id, 'date' => $date, 'time' => $date, 'published' => 1, 'source' => 'default'];
+            $data += ['pid' => $id, 'date' => $date, 'time' => $date, 'published' => 1, 'source' => 'default', 'author' => $this->getAuthor()];
 
             if (!empty($data['singleSRC'])) {
                 $data += ['addImage' => 1];
@@ -663,6 +665,7 @@ class DemoImporter
                     'pid' => $pageId,
                     'sorting' => ($i + 1) * 128,
                     'inColumn' => 'main',
+                    'author' => $this->getAuthor(),
                     'published' => 1,
                     'alias' => $this->uniqueAlias('tl_article', $page['alias'].'-'.($this->slug((string) ($article['title'] ?? '')) ?: $i + 1)),
                 ];
@@ -801,6 +804,15 @@ class DemoImporter
         $value = $this->styleManagerValues->resolve($table, isset($data['type']) ? (string) $data['type'] : null, (string) (\is_array($cssID) ? ($cssID[1] ?? '') : ''));
 
         return null === $value ? [] : ['styleManager' => $value];
+    }
+
+    /**
+     * Author of the demo articles and news (mandatory in the back end): the
+     * first administrator, otherwise the first back end user, 0 if there is none.
+     */
+    public function getAuthor(): int
+    {
+        return $this->author ??= (int) ($this->connection->fetchOne('SELECT id FROM tl_user ORDER BY admin DESC, id LIMIT 1') ?: 0);
     }
 
     private function columnExists(string $table, string $column): bool

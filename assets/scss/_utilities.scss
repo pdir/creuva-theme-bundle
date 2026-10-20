@@ -46,6 +46,18 @@
     }
   }
 
+  // Outline buttons in the primary color would disappear on a dark surface
+  :is(.u-bg-primary, .u-card-primary) :is(.content-hyperlink.u-button-outline > a, .content-text.u-button-outline .rte > p:last-child > a),
+  .content-text:is(.u-bg-primary, .u-card-primary).u-button-outline .rte > p:last-child > a {
+    border-color: var(--c-primary-contrast);
+    color: var(--c-primary-contrast);
+
+    &:hover {
+      background: var(--c-primary-contrast);
+      color: var(--c-primary);
+    }
+  }
+
   // Call to action box: a link as the only content of the last paragraph
   // becomes a button
   :is(.u-bg-primary, .u-bg-accent) > .rte > p:last-child:not(:first-child) > a:only-child {
@@ -73,6 +85,14 @@
     border-radius: 0;
   }
 
+  // Sections with the same background in a row look like one surface: no
+  // doubled spacing between them
+  @each $bg in ('.u-bg-surface', '.u-bg-muted', '.u-bg-accent', '.u-bg-primary') {
+    .l-main > .mod_article#{$bg}:not(:has(> .c-hero:last-child)) + .mod_article#{$bg} {
+      padding-top: 0;
+    }
+  }
+
   // Full-bleed section: background spans the viewport, content stays contained
   .u-full-bleed {
     width: auto !important;
@@ -88,17 +108,31 @@
     padding: var(--space-m);
   }
 
-  // Spacing
-  .u-py-0 { padding-block: 0 !important; }
-  .u-py-s { padding-block: var(--space-s) !important; }
-  .u-py-m { padding-block: var(--space-m) !important; }
-  .u-py-l { padding-block: var(--space-l) !important; }
-  .u-py-xl { padding-block: var(--space-xl) !important; }
+  // Spacing: inner (p) and outer (m) spacing for top and bottom (y), only
+  // top (t) or only bottom (b), e.g. u-py-l, u-pt-0, u-mb-xl
+  // (Style Manager › Abstände, also for articles)
+  $spacing-properties: (
+    'py': padding-block,
+    'pt': padding-top,
+    'pb': padding-bottom,
+    'my': margin-block,
+    'mt': margin-top,
+    'mb': margin-bottom,
+  );
 
-  .u-mt-0 { margin-top: 0 !important; }
-  .u-mt-s { margin-top: var(--space-s) !important; }
-  .u-mt-l { margin-top: var(--space-l) !important; }
-  .u-mt-xl { margin-top: var(--space-xl) !important; }
+  $spacing-sizes: (
+    '0': 0,
+    's': var(--space-s),
+    'm': var(--space-m),
+    'l': var(--space-l),
+    'xl': var(--space-xl),
+  );
+
+  @each $short, $property in $spacing-properties {
+    @each $size, $value in $spacing-sizes {
+      .u-#{$short}-#{$size} { #{$property}: $value !important; }
+    }
+  }
 
   // Width & alignment
   .u-narrow { max-width: 48rem; }
@@ -141,10 +175,11 @@
 
   // Vertical alignment of the grid cells, e.g. a section intro with the
   // headline on the left and text + link on the right
+  .u-align-start { align-items: start; }
   .u-align-center { align-items: center; }
   .u-align-end { align-items: end; }
 
-  :is(.u-grid-2, .u-grid-3, .u-grid-4):is(.u-align-center, .u-align-end) > * {
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):is(.u-align-start, .u-align-center, .u-align-end) > * {
     margin-bottom: 0;
   }
 
