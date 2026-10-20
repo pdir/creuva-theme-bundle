@@ -1,7 +1,7 @@
 // Hero with organic image mask (see theme-idee/ start page draft)
 @layer creuva.components {
   .c-hero {
-    padding-block: var(--space-l);
+    padding-block: var(--space-l) var(--space-xl);
     container-type: inline-size;
     overflow-x: clip;
   }

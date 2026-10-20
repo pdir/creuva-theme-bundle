@@ -132,7 +132,7 @@ creuvaText:
 
 creuvaColors:
   title: 'Farben des Elements'
-  desc: 'Für Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und die Boxen des Theme Components Bundles'
+  desc: 'Für Karten, Icon-Boxen, Kundenstimmen, Preis-Karten, Call-to-Action-Boxen und die Boxen des Theme Components Bundles'
   groupAlias: 'Creuva'
   sorting: 350
   children:
@@ -155,15 +155,16 @@ creuvaColors:
         u-card-flat: 'Ohne Rahmen und Schatten'
     icon:
       title: 'Icon'
-      description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen; bei Haupt- und Akzentfarbe wird das Icon weiß (einfarbige SVG-Icons)'
+      description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen: hell, mittel (Akzentfarbe) oder dunkel (Hauptfarbe); bei mittel und dunkel wird das Icon weiß (einfarbige SVG-Icons)'
       cssClass: 'w50'
       blankOption: true
       extendContentElement: true
       contentElements: [text, description_list]
       sorting: 200
       cssClasses:
-        u-icon-primary: 'Weiß auf Hauptfarbe'
-        u-icon-accent: 'Weiß auf Akzentfarbe'
+        u-icon-soft: 'Hell (Akzent hell, Icon farbig)'
+        u-icon-accent: 'Mittel (Akzentfarbe, Icon weiß)'
+        u-icon-primary: 'Dunkel (Hauptfarbe, Icon weiß)'
         u-icon-white: 'Weißer Kreis'
         u-icon-plain: 'Ohne Kreis'
 
@@ -369,6 +370,29 @@ creuvaElements:
       cssClasses:
         u-feature-plain: 'Ohne Karte'
         u-feature-inline: 'Icon links, ohne Karte'
+    gallery:
+      title: 'Galerie-Anordnung'
+      description: 'Ohne Auswahl: Raster mit „Bilder pro Reihe“ (1–6 Spalten). Mosaik: großes Bild mit einem breiten und zwei kleinen daneben (je vier Bilder). Masonry: Bilder in eigener Höhe, dafür eine Bildgröße ohne Zuschnitt wählen.'
+      cssClass: 'w50 clr'
+      blankOption: true
+      extendContentElement: true
+      contentElements: [gallery]
+      sorting: 320
+      cssClasses:
+        u-gallery-mosaic: 'Mosaik, großes Bild links'
+        u-gallery-mosaic-right: 'Mosaik, großes Bild rechts'
+        u-gallery-featured: 'Erstes Bild groß, Rest darunter'
+        u-gallery-masonry: 'Masonry (Bilder in eigener Höhe)'
+    cta:
+      title: 'Call to Action'
+      description: 'Nur für die Templatevariante „Call to Action“; Farbe unter „Farben des Elements“, volle Breite unter „Abschnitt & Hintergrund › Breite“'
+      cssClass: 'w50 clr'
+      blankOption: true
+      extendContentElement: true
+      contentElements: [text]
+      sorting: 350
+      cssClasses:
+        u-cta-stacked: 'Zentriert, Buttons unter dem Text'
     table:
       title: 'Tabelle'
       description: 'Spalten 2–4 farbig wie Pakete, „✓“ und „–“ als Icons; erste Zeile als Kopfzeile'

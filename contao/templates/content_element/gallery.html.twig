@@ -1,0 +1,24 @@
+{#
+    Gallery: like the Contao template, plus per image
+      - "sizes" depending on the layout (u-gallery-*), the position and the
+        images per row, so the browser loads the fitting width of an image size
+        with several widths (e.g. "Galerie (responsiv)")
+      - the important part of the image (file manager) as object-position, so
+        cropping the cells keeps the subject
+    See src/Image/GalleryImages.php.
+#}
+{% extends '@Contao/content_element/gallery.html.twig' %}
+
+{% block list_item %}
+    {# CSS classes of the element (cssID, Style Manager, Advanced Classes) #}
+    {% set creuva_gallery_classes = element_css_classes|default('') is iterable ? element_css_classes|join(' ') : element_css_classes|default('') %}
+    {% set creuva_sizes = creuva_gallery_sizes(creuva_gallery_classes, loop.index0, items_per_row|default(4)) %}
+    {% set creuva_focus = creuva_image_focus(item) %}
+    {% with {
+        figure: item,
+        img_attributes: attrs()
+            .set('sizes', creuva_sizes)
+            .setIfExists('style', creuva_focus ? 'object-position: ' ~ creuva_focus : null),
+        source_attributes: attrs().set('sizes', creuva_sizes),
+    } %}{{ block('figure_component') }}{% endwith %}
+{% endblock %}

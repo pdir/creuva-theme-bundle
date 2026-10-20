@@ -320,7 +320,7 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 |---------|----------|------------|
 | Text | `creuva_card` | Karte mit Bild, Kategorie (Subline), Titel und Text; der letzte Link macht die ganze Karte klickbar |
 | Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im Style Manager unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
-| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste hell, weitere als Umriss) |
+| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im Style Manager: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
 | Text | `creuva_media` | Bild & Text nebeneinander: Bild links oder rechts (*Bildausrichtung*), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
@@ -374,11 +374,27 @@ Außenabstand jeweils oben und unten, nur oben oder nur unten.
 
 ### Überschriften mit Dachzeile oder Akzent
 
-Das Theme Components Bundle erweitert Überschriften um eine *Subline*:
+Das Theme Components Bundle erweitert Überschriften um eine *Subline*. Creuva nennt das Feld
+**„Zusatz zur Überschrift“**:
 
-- Subline **ohne** „Inline“ → kleine Dachzeile über der Überschrift („WAS WIR TUN“)
-- Subline **mit** „Inline“ → zweifarbige Überschrift, die eigentliche Überschrift
-  erscheint in der Akzentfarbe („Mehr als nur eine **Agentur.**“)
+- Zusatz **ohne** Häkchen → kleine Zeile über der Überschrift („WAS WIR TUN“)
+- Zusatz mit **„Zweifarbige Überschrift“** → Zusatz und Überschrift in einer Zeile, die
+  eigentliche Überschrift erscheint in der Akzentfarbe („Mehr als nur eine **Agentur.**“)
+- Zusatz mit **„Zusatz darunter anzeigen“** → Unterzeile
+
+Das Creuva-Feld **„Dachzeile“** (Text, Beschreibungsliste) steht zusätzlich über der
+Überschrift. So lassen sich Dachzeile und zweifarbige Überschrift kombinieren.
+
+### Text formatieren (Akzentfarbe, Buttons …)
+
+Der Texteditor hat das Menü **„Formate“** mit den Textstilen des Themes:
+
+- *Text:* Akzentfarbe (grün), Markierung, Gedämpft – für markierte Wörter
+- *Absatz:* Einleitung (größer), Dachzeile
+- *Links:* Button, Button (sekundär) – den Link markieren und das Format wählen
+
+Technisch: Das Text-Element nutzt die Editor-Konfiguration `tinyCreuva`
+(`contao/templates/backend/be_tinyCreuva.html5`, erweitert `be_tinyMCE`).
 
 ### CSS-Klassen im Style Manager
 
@@ -440,14 +456,39 @@ Classes Bundle (`public/sets/creuva.json`).
 | Abstände | Innenabstand `u-py-*` (oben und unten), `u-pt-*` (nur oben), `u-pb-*` (nur unten); Außenabstand `u-my-*`, `u-mt-*`, `u-mb-*` – jeweils `0`, `s`, `m`, `l`, `xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
 | Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
-| Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`; Icon der Icon-Box: `u-icon-primary`, `u-icon-accent` (Icon weiß), `u-icon-white`, `u-icon-plain` |
+| Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`; Icon der Icon-Box und der Kennzahlen: `u-icon-soft` (hell, Standard), `u-icon-accent` (mittel, Icon weiß), `u-icon-primary` (dunkel, Icon weiß), `u-icon-white`, `u-icon-plain` |
 | Icon-Box | `u-feature-plain` (ohne Karte), `u-feature-inline` (Icon links) |
+| Call to Action | `u-cta-stacked` (zentriert, Buttons unter dem Text) |
+| Galerie | Bildgröße „Galerie (responsiv)“ wählen (mehrere Breiten, der Browser lädt passend zur Kachel), „Großansicht“ öffnet die Creuva-Lightbox; Spalten über „Bilder pro Reihe“ (1–6); Anordnungen `u-gallery-mosaic` (großes Bild links, daneben ein breites und zwei kleine, je vier Bilder), `u-gallery-mosaic-right`, `u-gallery-featured` (erstes Bild über die volle Breite), `u-gallery-masonry` (Bilder in eigener Höhe – Bildgröße ohne Zuschnitt wählen) |
 | Animation | `u-reveal-up`, `u-reveal-left`, `u-reveal-right`, `u-reveal-down`, `u-reveal-zoom`, `u-reveal-blur`, `u-reveal-fade`, `u-reveal-none` (keine Animation), `u-reveal-stagger` (Inhalte nacheinander), `u-no-countup` (Kennzahlen nicht hochzählen) |
 | Elemente | `u-accordion-icon`, `u-accordion-info`, `u-accordion-chat` (Akkordeon-Icon), `u-media-plain` (Bild & Text ohne Akzentfläche) |
 | Sichtbarkeit | `u-hide-mobile`, `u-hide-desktop` |
 
 Die Klassen funktionieren auch ohne das Advanced Classes Bundle über das Feld
 *CSS-Klasse*.
+
+## Bilder in Galerien und Lightbox
+
+**Bildgröße:** Eine Galerie hat nur eine Bildgröße für alle Bilder. Damit trotzdem jede
+Kachel passend geladen wird, bringen Demo und Styleguide die Bildgröße
+**„Galerie (responsiv)“** mit: proportional, Breiten 480/800/1200/1600 px als `srcset`.
+Das Galerie-Template (`contao/templates/content_element/gallery.html.twig`) ersetzt das
+`sizes` der Bildgröße pro Bild: passend zu Anordnung (`u-gallery-*`), Position und
+„Bilder pro Reihe“, begrenzt auf die Inhaltsbreite (1216 px). Beim Mosaik bekommt das große
+Bild z. B. `(min-width: 80rem) 608px, (min-width: 48rem) 50vw, 100vw`, die kleinen 304px
+bzw. 25vw. So lädt der Browser für kleine Kacheln kleine und für große Bilder große Varianten
+(`src/Image/GalleryImages.php`). Zugeschnitten wird per CSS (`object-fit`), die Bilder bleiben
+unbeschnitten gespeichert. Der **„Wichtige Bereich“** aus der Dateiverwaltung wird dabei als
+`object-position` gesetzt, damit das Motiv in der Kachel sichtbar bleibt. Für eigene Galerien
+diese Bildgröße wählen oder nach demselben Prinzip anlegen (Breiten genügen, `sizes` setzt das
+Template). Feste Zuschnitte wie „Karte (4:3)“ passen nur zum gleichmäßigen Raster.
+
+**Lightbox:** Mit *Großansicht/Neues Fenster* öffnen Bilder der Galerie und des Bild-Elements
+die Creuva-Lightbox (`assets/js/creuva.js`, `components/_lightbox.scss`). Sie bietet einen
+dunklen Hintergrund, Bildunterschrift bzw. Alt-Text, Zähler, Vor/Zurück, Tastatur (Esc,
+Pfeiltasten) und Wischen auf dem Smartphone. Bilder mit demselben `data-lightbox`-Wert,
+also einer Galerie, bilden eine Gruppe. Die Lightbox-Skripte von Contao (jQuery/MooTools)
+werden nicht benötigt.
 
 ## Animationen und Hover-Effekte
 

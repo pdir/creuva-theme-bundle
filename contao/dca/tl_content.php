@@ -20,6 +20,12 @@ PaletteManipulator::create()
     ->applyToPalette('description_list', 'tl_content')
 ;
 
+// Text editor with the formats of the theme (accent color, lead, buttons …),
+// template contao/templates/backend/be_tinyCreuva.html5
+if ('tinyMCE' === ($GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] ?? null)) {
+    $GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] = 'tinyCreuva';
+}
+
 // Optional icons of the key figures (template variant creuva_stats), in the
 // order of the entries
 PaletteManipulator::create()

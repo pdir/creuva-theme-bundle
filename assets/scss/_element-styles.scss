@@ -91,7 +91,14 @@
     --card-shadow: none;
   }
 
-  // Icon circle of the icon box
+  // Icon circle of the icon box and the key figures: light (accent light with
+  // the icon in its own color, the default), medium (accent color) or dark
+  // (primary color) with a white icon
+  .u-icon-soft {
+    --icon-bg: var(--c-accent-soft);
+    --icon-filter: none;
+  }
+
   .u-icon-primary {
     --icon-bg: var(--c-primary);
     --icon-filter: brightness(0) invert(1);

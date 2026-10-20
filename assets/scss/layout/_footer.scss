@@ -1,8 +1,8 @@
 @layer creuva.layout {
   .l-footer {
-    padding-block: var(--space-xl) var(--space-l);
+    padding-block: var(--space-l);
     background: var(--c-surface);
-    font-size: var(--fs-small);
+    font-size: var(--fs-base);
     color: var(--c-text-muted);
   }
 
@@ -122,11 +122,15 @@
   .c-social__link {
     display: grid;
     place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: var(--radius-pill);
     color: var(--c-text);
     transition: background-color var(--transition), color var(--transition);
+
+    svg {
+      width: 70%;
+    }
 
     &:hover {
       background: var(--c-accent-soft);

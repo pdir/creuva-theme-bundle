@@ -124,6 +124,18 @@
     }
   }
 
+  // Visual elements (images, tables, media) need more air below their
+  // headline than running text
+  :is(.content-gallery, .content-image, .content-table, .content-player, .content-youtube, .content-vimeo, .content-swiper, .content-download, .content-downloads) {
+    > :is(h1, h2) {
+      margin-bottom: var(--space-l);
+    }
+
+    > :is(h3, h4, h5, h6) {
+      margin-bottom: var(--space-m);
+    }
+  }
+
   .content-gallery > ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
@@ -152,10 +164,105 @@
 
   // Images per row (gallery setting) from tablet width on
   @media (min-width: 48rem) {
-    @for $i from 2 through 6 {
+    @for $i from 1 through 6 {
       .content-gallery--cols-#{$i} > ul {
         grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
       }
+    }
+  }
+
+  // Gallery layouts (Style Manager › Elementoptionen › Galerie), they win over
+  // the images per row. The images fill their cells (cropped by object-fit).
+  .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right, .u-gallery-featured) > ul {
+    grid-auto-flow: dense;
+
+    :is(li, figure, a) {
+      height: 100%;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    a {
+      display: block;
+    }
+
+    img {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  // Mosaic: a large image (2 × 2) with a wide one and two small ones next to
+  // it, repeated every four images; on small screens two columns
+  .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right) > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(8rem, 4rem + 14vw, 12rem);
+
+    > li:nth-child(4n + 1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    // Small screens: the fourth image fills the row (no gap)
+    > li:nth-child(4n + 4) {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right) > ul {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-rows: clamp(9rem, 2rem + 12vw, 16rem);
+
+      > li:nth-child(4n + 2) {
+        grid-column: span 2;
+      }
+
+      > li:nth-child(4n + 4) {
+        grid-column: auto;
+      }
+    }
+
+    // Large image on the right
+    .content-gallery.u-gallery-mosaic-right > ul > li:nth-child(4n + 1) {
+      grid-column: 3 / span 2;
+    }
+  }
+
+  // Featured: the first image over the full width, the others below
+  .content-gallery.u-gallery-featured > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(8rem, 4rem + 12vw, 14rem);
+
+    > li:first-child {
+      grid-column: 1 / -1;
+      grid-row: span 2;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .content-gallery.u-gallery-featured > ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  // Masonry: columns with the images in their own proportions (use an image
+  // size without cropping, e.g. "proportional")
+  .content-gallery.u-gallery-masonry > ul {
+    display: block;
+    columns: 3 14rem;
+    column-gap: var(--space-s);
+
+    > li {
+      margin-bottom: var(--space-s);
+      break-inside: avoid;
+    }
+
+    img {
+      height: auto;
+      aspect-ratio: auto;
     }
   }
 
@@ -194,6 +301,11 @@
   // Package comparison (CSS class u-table-compare): columns 2–4 are tinted like
   // the packages (light, accent, warm), centered values, "✓" and "–" become
   // icons (assets/js/creuva.js). The first row is the head (thead).
+  // In a white section the label column is light gray (no white on white)
+  .u-bg-surface .content-table.u-table-compare {
+    --compare-label-bg: var(--c-bg);
+  }
+
   .content-table.u-table-compare {
     --compare-1: color-mix(in srgb, var(--c-accent) 14%, var(--c-surface));
     --compare-2: color-mix(in srgb, var(--c-accent) 42%, var(--c-surface));
@@ -221,12 +333,12 @@
       padding-block: 1rem;
       border-bottom: 0;
       border-radius: var(--radius-m) var(--radius-m) 0 0;
-      background: var(--c-surface);
+      background: var(--compare-label-bg, var(--c-surface));
       font-weight: 700;
     }
 
     tbody > tr > :first-child {
-      background: var(--c-surface);
+      background: var(--compare-label-bg, var(--c-surface));
       font-weight: 500;
     }
 
@@ -577,30 +689,54 @@
     margin-top: var(--space-m);
   }
 
-  // Breadcrumb
+  // Breadcrumb: compact pill with chevrons, the current page is highlighted
   .mod_breadcrumb {
     font-size: var(--fs-small);
+    line-height: 1.4;
     color: var(--c-text-muted);
 
     ul {
-      display: flex;
+      display: inline-flex;
       flex-wrap: wrap;
-      gap: var(--space-xs);
+      align-items: center;
+      gap: 0.25rem 0.5rem;
       margin: 0;
-      padding: 0;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-pill);
+      background: color-mix(in srgb, var(--c-surface) 70%, transparent);
       list-style: none;
+      backdrop-filter: blur(6px);
+    }
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     li + li::before {
-      content: "›";
-      margin-right: var(--space-xs);
+      content: "";
+      width: 0.75em;
+      height: 0.75em;
+      background: currentColor;
+      opacity: 0.5;
+      mask: var(--icon-chevron) center / contain no-repeat;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      transition: color var(--transition);
 
-      &:hover { color: var(--c-text); }
+      &:hover {
+        color: var(--c-accent-text);
+      }
+    }
+
+    .active {
+      color: var(--c-text);
+      font-weight: 600;
     }
   }
 }

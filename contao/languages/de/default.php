@@ -35,4 +35,16 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleSave'] = 'Für die Website speichern';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Speichert die Auswahl im Startpunkt der Website, sie gilt dann für alle Besucher.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Gespeichert. Die Auswahl gilt jetzt für alle Besucher.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Speichern fehlgeschlagen. Bitte die Seite neu laden und erneut versuchen.';
+
+// Formats menu of the text editor (be_tinyCreuva.html5)
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatText'] = 'Text';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatAccent'] = 'Akzentfarbe (grün)';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatMark'] = 'Markierung';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatMuted'] = 'Gedämpft';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatParagraph'] = 'Absatz';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatLead'] = 'Einleitung (größer)';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatKicker'] = 'Dachzeile';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatLinks'] = 'Links';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatButton'] = 'Button';
+$GLOBALS['TL_LANG']['MSC']['creuvaFormatButtonSecondary'] = 'Button (sekundär)';
 $GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva Logoleiste', 'Logos von Partnern oder Sponsoren, verlinkt über die Metadaten der Dateien. Am besten im Slot „prefooter“ platzieren.'];

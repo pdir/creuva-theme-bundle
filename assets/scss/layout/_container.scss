@@ -49,6 +49,16 @@
     padding-top: 0;
   }
 
+  // Breadcrumb directly above the hero: close to the header and to the hero
+  .l-main > .mod_article:has(> .mod_breadcrumb:first-child + .c-hero) {
+    padding-top: var(--space-m);
+  }
+
+  .l-main > .mod_article > .mod_breadcrumb + .c-hero {
+    margin-top: 0;
+    padding-top: var(--space-m);
+  }
+
   .l-main > .mod_article:has(> .c-hero:last-child) {
     padding-bottom: 0;
   }

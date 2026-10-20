@@ -416,6 +416,30 @@
             }
           }
         },
+        "6": {
+          "id": "creuvaGalleryLayout",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "Galerie-Anordnung",
+          "values": {
+            "1": { "title": "Mosaik, großes Bild links", "value": "u-gallery-mosaic" },
+            "2": { "title": "Mosaik, großes Bild rechts", "value": "u-gallery-mosaic-right" },
+            "3": { "title": "Erstes Bild groß, Rest darunter", "value": "u-gallery-featured" },
+            "4": { "title": "Masonry (Bilder in eigener Höhe)", "value": "u-gallery-masonry" }
+          }
+        },
+        "5": {
+          "id": "creuvaCtaStyle",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "Call to Action",
+          "values": {
+            "1": {
+              "title": "Zentriert, Buttons unter dem Text",
+              "value": "u-cta-stacked"
+            }
+          }
+        },
         "4": {
           "id": "creuvaTableStyle",
           "class": "icon-th-large ac-col7",
@@ -480,10 +504,11 @@
           "type": "select",
           "label": "Icon (Icon-Box)",
           "values": {
-            "1": { "title": "Weiß auf Hauptfarbe", "value": "u-icon-primary" },
-            "2": { "title": "Weiß auf Akzentfarbe", "value": "u-icon-accent" },
-            "3": { "title": "Weißer Kreis", "value": "u-icon-white" },
-            "4": { "title": "Ohne Kreis", "value": "u-icon-plain" }
+            "1": { "title": "Hell (Akzent hell, Icon farbig)", "value": "u-icon-soft" },
+            "2": { "title": "Mittel (Akzentfarbe, Icon weiß)", "value": "u-icon-accent" },
+            "3": { "title": "Dunkel (Hauptfarbe, Icon weiß)", "value": "u-icon-primary" },
+            "4": { "title": "Weißer Kreis", "value": "u-icon-white" },
+            "5": { "title": "Ohne Kreis", "value": "u-icon-plain" }
           }
         }
       }

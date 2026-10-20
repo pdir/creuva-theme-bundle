@@ -100,7 +100,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: var(--space-l) var(--space-m) var(--space-m);
+    padding: var(--space-m);
 
     @include hover-lift;
 
@@ -130,12 +130,13 @@
     }
 
     > :is(h2, h3, h4) {
-      font-size: 1.125rem;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
     }
 
     .rte {
       color: var(--c-text-muted);
-      font-size: var(--fs-small);
+      font-size: var(--fs-base);
     }
   }
 
@@ -191,8 +192,9 @@
     }
   }
 
-  // Features in a white section: tinted cards that turn white on hover
-  // (only as defaults, the card style classes u-card-* win)
+  // Cards in a white section: tinted (no white on white), white on hover.
+  // Only defaults: the card style classes u-card-* of the element win (later
+  // utilities layer); the call to action box ignores them (_cta.scss).
   .u-bg-surface {
     --card-bg: var(--c-bg);
     --card-bg-hover: var(--c-surface);
@@ -216,13 +218,13 @@
     }
 
     .c-feature__icon {
-      width: 3.25rem;
-      height: 3.25rem;
+      width: 4rem;
+      height: 4rem;
       margin-bottom: var(--space-s);
 
       img {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
       }
     }
   }
@@ -237,13 +239,13 @@
 
     .c-feature__icon {
       grid-row: span 2;
-      width: 3.5rem;
-      height: 3.5rem;
+      width: 4rem;
+      height: 4rem;
       margin-bottom: 0;
 
       img {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
       }
     }
 
@@ -415,7 +417,7 @@
     }
 
     &.u-featured {
-      border: 2px solid var(--c-primary);
+      border: 2px solid var(--c-accent);
       box-shadow: var(--shadow-m);
 
       &:hover {
@@ -439,7 +441,7 @@
       }
 
       .rte > p:last-child > a:only-child {
-        border-color: var(--c-primary);
+        border-color: var(--c-accent);
         background: var(--c-primary);
         color: var(--c-primary-contrast);
 

@@ -45,7 +45,7 @@
   .c-stats dt {
     font-family: var(--font-heading);
     font-size: clamp(2.5rem, 2rem + 1.8vw, 3.5rem);
-    font-weight: var(--font-weight-heading);
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -82,21 +82,6 @@
     color: var(--c-text-muted);
     font-size: var(--fs-large);
     font-weight: 400;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 2rem;
-      height: 3px;
-      margin-bottom: var(--space-s);
-      border-radius: 3px;
-      background: var(--c-accent);
-      transition: width var(--transition-hover);
-    }
-  }
-
-  .c-stats__item:hover dd::before {
-    width: 3.5rem;
   }
 
   // Optional icon above the figure (field "Icons (Kennzahlen)"); same custom
@@ -104,16 +89,16 @@
   .c-stats__icon {
     display: grid;
     place-items: center;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 4rem;
+    height: 4rem;
     margin-bottom: var(--space-xs);
     border-radius: 50%;
     background: var(--icon-bg, var(--c-surface));
     transition: background-color var(--transition-hover), transform var(--transition-hover);
 
     img {
-      width: 1.6rem;
-      height: 1.6rem;
+      width: 2rem;
+      height: 2rem;
       object-fit: contain;
       filter: var(--icon-filter, none);
       transition: filter var(--transition-hover);

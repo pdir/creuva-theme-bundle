@@ -14,6 +14,7 @@ use Contao\StringUtil;
 use Contao\Validator;
 use Pdir\CreuvaThemeBundle\Design\DesignResolver;
 use Pdir\CreuvaThemeBundle\Design\StylesheetResolver;
+use Pdir\CreuvaThemeBundle\Image\GalleryImages;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -22,6 +23,7 @@ class CreuvaExtension extends AbstractExtension
     public function __construct(
         private readonly DesignResolver $designResolver,
         private readonly StylesheetResolver $stylesheetResolver,
+        private readonly GalleryImages $galleryImages,
     ) {
     }
 
@@ -34,6 +36,9 @@ class CreuvaExtension extends AbstractExtension
             new TwigFunction('creuva_stylesheets', $this->stylesheetResolver->resolve(...)),
             // Usage: {% set icons = creuva_uuids(data.creuvaIcons|default) %} → list of UUIDs for figure()
             new TwigFunction('creuva_uuids', $this->uuids(...)),
+            // Usage: creuva_gallery_sizes(classes, loop.index0, items_per_row), creuva_image_focus(figure)
+            new TwigFunction('creuva_gallery_sizes', $this->galleryImages->sizes(...)),
+            new TwigFunction('creuva_image_focus', $this->galleryImages->focus(...)),
         ];
     }
 

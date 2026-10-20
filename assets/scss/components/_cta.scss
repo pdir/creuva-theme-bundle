@@ -1,19 +1,40 @@
 // Call to action box (template variant content_element/text/creuva_cta):
 // dark panel, text on the left, the links of the last paragraph as buttons on
 // the right (from tablet width on).
+//
+// Options (Style Manager):
+//   Farben des Elements  u-card-* (white, gray, light, accent, outline …),
+//                        dark primary color without a class
+//   Call to Action       u-cta-stacked: centered, buttons below the text
+//   Breite               u-full-bleed: background over the full window width
 @use '../mixins' as *;
 
 @layer creuva.components {
   .c-cta {
+    // Card colors of a parent (e.g. a section) do not apply, only the card
+    // style classes u-card-* of the element itself (later utilities layer)
+    --card-bg: initial;
+    --card-border: initial;
+    --card-border-width: initial;
+
+    // Dark default (primary color)
     --c-text: var(--c-primary-contrast);
     --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+    --cta-highlight: var(--c-accent-on-primary);
+    --cta-button-bg: var(--c-primary-contrast);
+    --cta-button-color: var(--c-primary);
+    --cta-button-bg-hover: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+    --cta-button2-border: color-mix(in srgb, var(--c-primary-contrast) 45%, transparent);
+    --cta-button2-color: var(--c-primary-contrast);
+    --cta-button2-bg: transparent;
 
     position: relative;
     overflow: hidden;
     isolation: isolate;
     padding: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+    border: var(--card-border-width, 0) solid var(--card-border, transparent);
     border-radius: var(--radius-l);
-    background: var(--c-primary);
+    background: var(--card-bg, var(--c-primary));
     color: var(--c-text);
 
     // Soft light spots in the corners
@@ -52,7 +73,7 @@
     }
 
     .c-kicker {
-      color: var(--c-accent-on-primary);
+      color: var(--cta-highlight);
     }
 
     :is(h2, h3) {
@@ -61,7 +82,45 @@
     }
 
     .first-headline:not(.block) + .main-headline {
-      color: var(--c-accent-on-primary);
+      color: var(--cta-highlight);
+    }
+  }
+
+  // Light surfaces (white, gray, accent light, outline): normal text colors of
+  // the page, primary button and outline button in the primary color
+  .c-cta:is(.u-card-white, .u-card-muted, .u-card-soft, .u-card-outline-primary, .u-card-outline-accent) {
+    --c-text: inherit;
+    --c-text-muted: inherit;
+    --cta-highlight: var(--c-accent-text);
+    --cta-button-bg: var(--c-primary);
+    --cta-button-color: var(--c-primary-contrast);
+    --cta-button-bg-hover: color-mix(in srgb, var(--c-primary) 85%, #000);
+    --cta-button2-border: var(--c-border);
+    --cta-button2-color: var(--c-text);
+    --cta-button2-bg: var(--c-surface);
+
+    &::before,
+    &::after {
+      opacity: 0.35;
+    }
+
+    .c-kicker {
+      color: var(--c-text-muted);
+    }
+  }
+
+  // Accent color: text in the contrast color of the accent, dark button
+  .c-cta.u-card-accent {
+    --cta-highlight: var(--c-accent-contrast);
+    --cta-button-bg: var(--c-primary);
+    --cta-button-color: var(--c-primary-contrast);
+    --cta-button-bg-hover: color-mix(in srgb, var(--c-primary) 85%, #000);
+    --cta-button2-border: color-mix(in srgb, var(--c-accent-contrast) 45%, transparent);
+    --cta-button2-color: var(--c-accent-contrast);
+
+    &::before,
+    &::after {
+      opacity: 0.25;
     }
   }
 
@@ -108,26 +167,47 @@
     }
   }
 
-  // Buttons: first one light (primary), others outlined
+  // Centered, buttons below the text (CSS class u-cta-stacked)
+  .c-cta.u-cta-stacked {
+    text-align: center;
+
+    .c-cta__body {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+    }
+
+    .c-cta__body > .rte > p {
+      max-width: 44rem;
+    }
+
+    .c-cta__body > .rte > p:last-child:not(:first-child):has(> a) {
+      grid-column: 1;
+      grid-row: auto;
+      justify-content: center;
+      margin-top: var(--space-l);
+    }
+  }
+
+  // Buttons: first one filled, others outlined
   .c-cta__body > .rte > p:last-child:not(:first-child) > a {
     @include button-base;
   }
 
   .c-cta__body > .rte > p:last-child:not(:first-child) > a {
-    border-color: color-mix(in srgb, var(--c-primary-contrast) 45%, transparent);
-    background: transparent;
-    color: var(--c-primary-contrast);
+    border-color: var(--cta-button2-border);
+    background: var(--cta-button2-bg);
+    color: var(--cta-button2-color);
 
     &:hover {
-      border-color: var(--c-primary-contrast);
-      background: color-mix(in srgb, var(--c-primary-contrast) 10%, transparent);
+      border-color: var(--cta-button2-color);
+      background: color-mix(in srgb, var(--cta-button2-color) 10%, var(--cta-button2-bg));
     }
   }
 
   .c-cta__body > .rte > p:last-child:not(:first-child) > a:first-child {
-    border-color: var(--c-primary-contrast);
-    background: var(--c-primary-contrast);
-    color: var(--c-primary);
+    border-color: var(--cta-button-bg);
+    background: var(--cta-button-bg);
+    color: var(--cta-button-color);
 
     &::after {
       content: "";
@@ -139,12 +219,19 @@
     }
 
     &:hover {
-      background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+      border-color: var(--cta-button-bg-hover);
+      background: var(--cta-button-bg-hover);
       box-shadow: 0 12px 24px -12px rgb(0 0 0 / 0.5);
     }
 
     &:hover::after {
       transform: translateX(0.25em);
     }
+  }
+
+  // Full window width (u-full-bleed): no rounded corners, the content stays
+  // in the grid of the page (padding of u-full-bleed)
+  .c-cta.u-full-bleed {
+    border-inline: 0;
   }
 }

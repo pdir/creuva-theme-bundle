@@ -286,7 +286,7 @@ const initReveal = () => {
   });
 
   if ('auto' === mode) {
-    document.querySelectorAll('.l-main > .mod_article > :not(.c-hero)').forEach((element) => {
+    document.querySelectorAll('.l-main > .mod_article > :not(.c-hero, .mod_breadcrumb)').forEach((element) => {
       if (element.matches('.c-media')) {
         add(element, 'split');
       } else if (element.matches(STAGGER_CONTAINERS)) {
@@ -467,6 +467,143 @@ const initCompareTables = () => {
   });
 };
 
+/**
+ * Lightbox for images with "full size view" (gallery and image element: links
+ * with data-lightbox). Images with the same data-lightbox value form a group
+ * with previous/next, keyboard (Esc, arrow keys) and swipe navigation. Contao's
+ * own lightbox scripts (jQuery/MooTools) are not part of the Creuva layout.
+ */
+const initLightbox = () => {
+  const isImage = (link) => /\.(jpe?g|png|gif|webp|avif|svg)(\?.*)?$/i.test(link.getAttribute('href') || '');
+  const links = () => [...document.querySelectorAll('a[data-lightbox]')].filter(isImage);
+
+  if (!links().length) {
+    return;
+  }
+
+  const de = document.documentElement.lang.startsWith('de');
+  const label = {
+    dialog: de ? 'Bildansicht' : 'Image view',
+    close: de ? 'Schließen' : 'Close',
+    prev: de ? 'Vorheriges Bild' : 'Previous image',
+    next: de ? 'Nächstes Bild' : 'Next image',
+  };
+
+  let dialog;
+  let group = [];
+  let index = 0;
+  let opener = null;
+
+  const build = () => {
+    dialog = document.createElement('dialog');
+    dialog.className = 'c-lightbox';
+    dialog.setAttribute('aria-label', label.dialog);
+    dialog.innerHTML = `
+      <figure class="c-lightbox__figure">
+        <img class="c-lightbox__image" alt="">
+        <figcaption class="c-lightbox__caption"></figcaption>
+      </figure>
+      <p class="c-lightbox__counter" aria-live="polite"></p>
+      <button type="button" class="c-lightbox__button c-lightbox__close" aria-label="${label.close}"></button>
+      <button type="button" class="c-lightbox__button c-lightbox__prev" aria-label="${label.prev}"></button>
+      <button type="button" class="c-lightbox__button c-lightbox__next" aria-label="${label.next}"></button>
+    `;
+    document.body.append(dialog);
+
+    dialog.querySelector('.c-lightbox__close').addEventListener('click', () => dialog.close());
+    dialog.querySelector('.c-lightbox__prev').addEventListener('click', () => show(index - 1));
+    dialog.querySelector('.c-lightbox__next').addEventListener('click', () => show(index + 1));
+
+    // Click on the backdrop (outside the image) closes the lightbox
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog || event.target.classList.contains('c-lightbox__figure')) {
+        dialog.close();
+      }
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        show(index - 1);
+      } else if (event.key === 'ArrowRight') {
+        show(index + 1);
+      }
+    });
+
+    // Swipe on touch devices
+    let startX = null;
+    dialog.addEventListener('touchstart', (event) => { startX = event.touches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', (event) => {
+      const distance = startX === null ? 0 : event.changedTouches[0].clientX - startX;
+      startX = null;
+
+      if (Math.abs(distance) > 50) {
+        show(index + (distance < 0 ? 1 : -1));
+      }
+    });
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('has-lightbox');
+      opener?.focus();
+    });
+  };
+
+  const caption = (link) => {
+    const figure = link.closest('figure');
+    const text = figure?.querySelector('figcaption')?.textContent.trim() || link.getAttribute('title') || '';
+
+    return text || link.querySelector('img')?.getAttribute('alt') || '';
+  };
+
+  const preload = (i) => {
+    const link = group[(i + group.length) % group.length];
+
+    if (link) {
+      new Image().src = link.href;
+    }
+  };
+
+  const show = (i) => {
+    index = (i + group.length) % group.length;
+
+    const link = group[index];
+    const image = dialog.querySelector('.c-lightbox__image');
+    const text = caption(link);
+
+    dialog.classList.add('is-loading');
+    image.onload = () => dialog.classList.remove('is-loading');
+    image.src = link.href;
+    image.alt = link.querySelector('img')?.getAttribute('alt') || '';
+
+    dialog.querySelector('.c-lightbox__caption').textContent = text;
+    dialog.querySelector('.c-lightbox__caption').hidden = !text;
+    dialog.querySelector('.c-lightbox__counter').textContent = group.length > 1 ? `${index + 1} / ${group.length}` : '';
+    dialog.classList.toggle('is-single', group.length < 2);
+
+    preload(index + 1);
+    preload(index - 1);
+  };
+
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[data-lightbox]');
+
+    if (!link || !isImage(link) || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (!dialog) {
+      build();
+    }
+
+    opener = link;
+    group = links().filter((item) => item.dataset.lightbox === link.dataset.lightbox);
+    show(group.indexOf(link));
+    document.documentElement.classList.add('has-lightbox');
+    dialog.showModal();
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initNavigation();
@@ -474,4 +611,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initCountUp();
   initCompareTables();
+  initLightbox();
 });
