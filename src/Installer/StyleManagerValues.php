@@ -17,11 +17,11 @@ use Symfony\Component\Yaml\Yaml;
  * classes of a record, so that the classes of the demo elements show up as
  * selected in the back end instead of as free text in the CSS class field.
  *
- * Uses the bundle configuration contao/templates/style-manager-creuva.yaml.
+ * Uses the Creuva groups of config/style-manager.yaml.
  */
 class StyleManagerValues
 {
-    private const CONFIG = __DIR__.'/../../contao/templates/style-manager-creuva.yaml';
+    public const CONFIG = __DIR__.'/../../config/style-manager.yaml';
 
     /**
      * Option in the record → field of the style group (extend* flags).

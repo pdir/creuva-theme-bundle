@@ -210,7 +210,9 @@ modules:
 
 `creuva:export` speichert eine bestehende Website als Demo-Vorlage unter `var/exports/<name>/`.
 Exportiert werden der Seitenbaum mit Artikeln und Inhaltselementen, die darin verwendeten Module,
-Formulare, News und Termine, die Bildgrößen sowie alle referenzierten Dateien inklusive Alt-Texten:
+Formulare, News und Termine, die Bildgrößen sowie alle referenzierten Dateien inklusive Alt-Texten.
+Die Styleguide-Seite wird nicht exportiert. Stattdessen steht `styleguide: true` in der
+Definition, und der Import legt den Styleguide aus `styleguide/styleguide.yaml` neu an:
 
 ```bash
 # Startpunkt wird abgefragt (bei mehreren Websites) oder per ID übergeben
@@ -376,9 +378,25 @@ Alle Creuva-Klassen stehen im [Style Manager](https://github.com/oveleon/contao-
 als Auswahlfelder bereit, und zwar im Bereich *Stil* von Inhaltselementen, Artikeln und
 Modulen. Sie sind nach den Bereichen der Tabelle unten gruppiert, und jedes Element
 zeigt nur die Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei
-Elementgruppen, *Buttons* nur bei Hyperlink- und Text-Elementen). Die Konfiguration
-bringt das Bundle mit (`contao/templates/style-manager-creuva.yaml`). Sie wird
-automatisch geladen, ein Import im Backend ist nicht nötig.
+Elementgruppen, *Buttons* nur bei Hyperlink- und Text-Elementen).
+
+Die Gruppen liegen als normale Datensätze in der Datenbank. Unter *Layout › Style Manager*
+lassen sie sich ändern, und eigene Gruppen kommen dazu. Die Vorlage ist
+`config/style-manager.yaml`. Importiert wird sie
+
+- automatisch von `creuva:install`,
+- bei bestehenden Websites einmalig von `contao:migrate`, solange noch kein Creuva-Archiv
+  existiert,
+- nach einem Theme-Update mit neuen Klassen mit diesem Befehl:
+
+```bash
+vendor/bin/contao-console creuva:style-manager
+```
+
+Der Import ergänzt nur fehlende Archive, Gruppen und Klassen. Änderungen im Backend
+(Titel, Elementtypen, entfernte Klassen, eigene Gruppen) bleiben erhalten. Archiv- und
+Gruppen-Aliase (`creuvaGrid`, `columns` …) sind Teil der gespeicherten Auswahl und sollten
+nicht umbenannt werden.
 
 - Der Demo-Import belegt die Klassen der Demo-Elemente im Style Manager vor.
 - Bei bestehenden Websites übernimmt die Migration (`contao:migrate`) Creuva-Klassen
@@ -400,7 +418,8 @@ Classes Bundle (`public/sets/creuva.json`).
 | Hintergrund | `u-bg-surface`, `u-bg-muted`, `u-bg-accent`, `u-bg-primary` |
 | Breite | `u-full-bleed` (Hintergrund über die volle Breite), `u-narrow` |
 | Rahmen | `u-card`, `u-featured` (hervorgehobene Preis-Karte) |
-| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-center`, `u-align-end` |
+| Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-center`, `u-align-end`, Spaltenbreite bei zwei Spalten `u-cols-wide-start`, `u-cols-wide-end` (3 : 2) |
+| Tabelle | `u-table-compare` (Paket-Vergleich: Spalten 2–4 farbig, „✓“/„–“ als Icons) |
 | Abstände | `u-py-0` … `u-py-xl`, `u-mt-0` … `u-mt-xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
 | Buttons | `u-button`, `u-button-secondary` (Hyperlink-Element, Links im letzten Absatz eines Text-Elements) |
@@ -552,12 +571,11 @@ composer require pdir/creuva-theme-bundle:@dev
 
 ```
 assets/            Quellcode (SCSS, JS) – wird nicht mit ausgeliefert
-config/            Symfony-Services, Farbschemen (color-schemes.json)
+config/            Symfony-Services, Farbschemen (color-schemes.json), Style-Manager-Gruppen (style-manager.yaml)
 contao/config/     Registrierung des Klassen-Sets
 contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module)
 contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
-                   und style-manager-creuva.yaml (Style-Manager-Konfiguration)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
 public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
 src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide)

@@ -214,6 +214,16 @@ pages:
               - [Individuelles Design, '✓', '✓', '✓']
               - [Seitenanzahl, bis 5, bis 15, unbegrenzt]
               - [Support, 3 Monate, 6 Monate, 12 Monate]
+          - type: table
+            headline: { unit: 'h3', value: 'Paket-Vergleich (u-table-compare)' }
+            cssID: u-table-compare
+            thead: true
+            tableitems:
+              - [Leistung, Starter, Business, Premium]
+              - [Seitenanzahl, bis zu 5, bis zu 15, unbegrenzt]
+              - [Responsive Design, '✓', '✓', '✓']
+              - [Mehrsprachigkeit, '–', optional, '✓']
+              - [Support nach Launch, '–', 3 Monate, 6 Monate]
 
       - title: Bilder, Medien & Dateien
         cssID: ['sg-medien', '']

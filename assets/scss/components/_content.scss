@@ -191,6 +191,95 @@
     }
   }
 
+  // Package comparison (CSS class u-table-compare): columns 2–4 are tinted like
+  // the packages (light, accent, warm), centered values, "✓" and "–" become
+  // icons (assets/js/creuva.js). The first row is the head (thead).
+  .content-table.u-table-compare {
+    --compare-1: color-mix(in srgb, var(--c-accent) 14%, var(--c-surface));
+    --compare-2: color-mix(in srgb, var(--c-accent) 42%, var(--c-surface));
+    --compare-3: color-mix(in srgb, #f4c56a 32%, var(--c-surface));
+
+    table {
+      min-width: 36rem;
+      border: 0;
+      border-spacing: 0.375rem 0;
+      background: none;
+      font-size: var(--fs-small);
+    }
+
+    th,
+    td {
+      padding: 0.7rem 0.875rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    }
+
+    :is(th, td):first-child {
+      width: 34%;
+    }
+
+    thead th {
+      padding-block: 1rem;
+      border-bottom: 0;
+      border-radius: var(--radius-m) var(--radius-m) 0 0;
+      background: var(--c-surface);
+      font-weight: 700;
+    }
+
+    tbody > tr > :first-child {
+      background: var(--c-surface);
+      font-weight: 500;
+    }
+
+    :is(th, td):not(:first-child) {
+      text-align: center;
+    }
+
+    // Tinted package columns
+    :is(thead th, td):nth-child(2) { background: color-mix(in srgb, var(--compare-1) 45%, var(--c-surface)); }
+    :is(thead th, td):nth-child(3) { background: color-mix(in srgb, var(--compare-2) 25%, var(--c-surface)); }
+    :is(thead th, td):nth-child(4) { background: color-mix(in srgb, var(--compare-3) 40%, var(--c-surface)); }
+    thead th:nth-child(2) { background: var(--compare-1); }
+    thead th:nth-child(3) { background: var(--compare-2); }
+    thead th:nth-child(4) { background: var(--compare-3); }
+
+    tbody tr:last-child > * {
+      border-radius: 0 0 var(--radius-m) var(--radius-m);
+    }
+
+    tbody tr {
+      transition: background-color var(--transition);
+    }
+
+    tbody tr:hover > * {
+      box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--c-accent) 6%, transparent);
+    }
+
+    td.is-yes,
+    td.is-no {
+      color: transparent;
+      font-size: 0;
+    }
+
+    td.is-yes::before,
+    td.is-no::before {
+      content: "";
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      vertical-align: middle;
+      background: var(--c-accent);
+      mask: var(--icon-check) center / contain no-repeat;
+    }
+
+    td.is-no::before {
+      width: 0.75rem;
+      height: 2px;
+      background: var(--c-text-muted);
+      mask: none;
+      opacity: 0.5;
+    }
+  }
+
   // Hyperlink element: arrow link by default, button with utility classes
   .content-hyperlink > a {
     @include arrow-link;

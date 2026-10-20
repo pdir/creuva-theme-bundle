@@ -25,6 +25,11 @@
       margin-top: var(--space-l);
     }
 
+    // Image & text blocks in a row need more air between them
+    > .c-media + .c-media {
+      margin-top: var(--space-xl);
+    }
+
     > .c-hero {
       width: auto;
     }

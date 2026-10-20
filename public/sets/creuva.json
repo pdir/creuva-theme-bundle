@@ -105,6 +105,22 @@
               "value": "u-align-end"
             }
           }
+        },
+        "3": {
+          "id": "creuvaGridWidths",
+          "class": "icon-resize-horizontal ac-col7",
+          "type": "select",
+          "label": "Spaltenbreite (2 Spalten)",
+          "values": {
+            "1": {
+              "title": "Erste Spalte breiter",
+              "value": "u-cols-wide-start"
+            },
+            "2": {
+              "title": "Zweite Spalte breiter",
+              "value": "u-cols-wide-end"
+            }
+          }
         }
       }
     },
@@ -355,6 +371,18 @@
             "2": {
               "title": "Icon links, ohne Karte",
               "value": "u-feature-inline"
+            }
+          }
+        },
+        "4": {
+          "id": "creuvaTableStyle",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "Tabelle",
+          "values": {
+            "1": {
+              "title": "Paket-Vergleich",
+              "value": "u-table-compare"
             }
           }
         }

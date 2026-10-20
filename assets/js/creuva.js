@@ -450,10 +450,28 @@ const initCountUp = () => {
   });
 };
 
+/**
+ * Comparison table (CSS class u-table-compare): cells with "✓" or "–" (also
+ * "x", "-") are shown as a check icon or a muted dash. The text stays for
+ * screen readers.
+ */
+const initCompareTables = () => {
+  document.querySelectorAll('.u-table-compare td').forEach((cell) => {
+    const text = cell.textContent.trim();
+
+    if (/^[✓✔xX]$/.test(text)) {
+      cell.classList.add('is-yes');
+    } else if (/^[–—-]$/.test(text)) {
+      cell.classList.add('is-no');
+    }
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initNavigation();
   initStyleSwitcher();
   initReveal();
   initCountUp();
+  initCompareTables();
 });

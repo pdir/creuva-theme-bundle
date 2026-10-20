@@ -113,6 +113,24 @@ class StyleguideInstaller
         });
     }
 
+    /**
+     * Points the page selections of navigation modules (e.g. a footer column
+     * with the styleguide) to the new page after a reinstallation.
+     */
+    public function relinkPage(int $oldId, int $newId): void
+    {
+        foreach ($this->connection->fetchAllAssociative("SELECT id, pages FROM tl_module WHERE pages LIKE ?", ['%"'.$oldId.'"%']) as $module) {
+            $pages = @unserialize((string) $module['pages'], ['allowed_classes' => false]);
+
+            if (!\is_array($pages)) {
+                continue;
+            }
+
+            $pages = array_map(static fn ($id) => (string) $id === (string) $oldId ? (string) $newId : $id, $pages);
+            $this->connection->update('tl_module', ['pages' => serialize($pages)], ['id' => $module['id']]);
+        }
+    }
+
     private function getDir(): string
     {
         return \dirname(__DIR__, 2).'/styleguide';

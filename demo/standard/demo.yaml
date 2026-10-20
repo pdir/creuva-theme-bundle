@@ -793,23 +793,27 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Business' }, subline: '3.990 €', cssID: 'u-featured', text: '<p>Die optimale Lösung für wachsende Unternehmen mit höheren Anforderungen an Design, Funktionen und Inhalte. Einmalig, zzgl. MwSt.</p><ul><li>Individuelles Design</li><li>Bis zu 15 Seiten</li><li>Kontaktformular und erweiterte Formulare</li><li>SEO-Basispaket</li><li>News, Blog oder Referenzen</li><li>3 Monate Support nach Launch</li></ul><p><a href="{{link_url::kontakt}}">Business-Paket anfragen</a></p>' }
               - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h2', value: 'Premium' }, subline: 'ab 6.990 €', text: '<p>Die maßgeschneiderte Lösung für komplexe Projekte mit individuellen Funktionen und Integrationen. Einmalig, zzgl. MwSt.</p><ul><li>Individuelles Designkonzept</li><li>Unbegrenzte Seiten</li><li>Individuelle Funktionen und Erweiterungen</li><li>Schnittstellen und Integrationen</li><li>Mehrsprachigkeit (optional)</li><li>Persönliche Projektbetreuung</li></ul><p><a href="{{link_url::kontakt}}">Individuelles Angebot anfragen</a></p>' }
       - title: Vergleich
-        cssID: ['', 'u-bg-muted']
         elements:
-          - { type: 'headline', headline: 'im Überblick.', subline: 'Alle Leistungen', headline_inline: '1' }
+          - { type: 'text', creuvaKicker: 'Leistungsvergleich', headline: 'im Überblick.', subline: 'Alle Leistungen', headline_inline: '1' }
           - type: element_group
-            cssID: u-grid-2
+            cssID: u-grid-2 u-cols-wide-start
             children:
               - type: table
+                cssID: u-table-compare
                 thead: true
                 tableitems:
                   - [Leistung, Starter, Business, Premium]
-                  - [Design, Theme-Anpassung, individuell, individuell]
-                  - [Seitenanzahl, bis 5, bis 15, unbegrenzt]
+                  - [Individuelles Design, Theme-Anpassung, Individuelles Design, Individuelles Design]
+                  - [Seitenanzahl, bis zu 5, bis zu 15, unbegrenzt]
                   - [Responsive Design, '✓', '✓', '✓']
+                  - [Kontaktformular, '✓', '✓', '✓']
                   - [Erweiterte Formulare, '–', '✓', '✓']
                   - [News / Blog / Referenzen, '–', '✓', '✓']
+                  - [SEO-Basispaket, '–', '✓', '✓']
                   - [Mehrsprachigkeit, '–', optional, '✓']
-                  - [Schnittstellen, '–', optional, '✓']
+                  - [Individuelle Funktionen, '–', optional, '✓']
+                  - [Schnittstellen / Integrationen, '–', optional, '✓']
+                  - [Schulung, '✓', '✓', '✓']
                   - [Support nach Launch, '–', 3 Monate, 6 Monate]
               - type: element_group
                 cssID: u-reveal-stagger

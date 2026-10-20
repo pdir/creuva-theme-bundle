@@ -233,29 +233,34 @@
   .c-feature.u-feature-inline {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    column-gap: var(--space-s);
+    column-gap: var(--space-m);
     align-items: start;
 
     .c-feature__icon {
       grid-row: span 2;
-      width: 3rem;
-      height: 3rem;
+      width: 3.5rem;
+      height: 3.5rem;
       margin-bottom: 0;
 
       img {
-        width: 1.35rem;
-        height: 1.35rem;
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
 
     > :is(h2, h3, h4) {
-      margin: 0.25rem 0 0.125rem;
-      font-size: 1rem;
+      margin: 0.375rem 0 0.25rem;
+      font-size: 1.125rem;
     }
 
     > .rte {
       display: block;
     }
+  }
+
+  // Several of them stacked (outside of a grid), e.g. next to a table
+  :not(.u-grid-2, .u-grid-3, .u-grid-4) > .c-feature.u-feature-inline + .c-feature.u-feature-inline {
+    margin-top: var(--space-l);
   }
 
   // Customer quote

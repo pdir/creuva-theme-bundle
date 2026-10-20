@@ -113,6 +113,11 @@ class StyleguideCommand extends Command
 
         $result = $this->styleguideInstaller->install($rootId, $themeId, $rootPages[$rootId]['language'] ?: 'de');
 
+        // Keep links in navigation modules (e.g. the footer)
+        if (null !== $pageId) {
+            $this->styleguideInstaller->relinkPage($pageId, $result['pageId']);
+        }
+
         // The files are in a public folder that needs a symlink in the web directory
         // (only if it does not exist yet, e.g. a junction on Windows would be removed)
         if (!file_exists($this->webDir.'/'.$this->uploadPath.'/'.DemoImporter::FILES_FOLDER) && $this->getApplication()?->has('contao:symlinks')) {

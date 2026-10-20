@@ -108,6 +108,7 @@ class ThemeInstaller
         private readonly Connection $connection,
         private readonly DemoImporter $demoImporter,
         private readonly StyleguideInstaller $styleguideInstaller,
+        private readonly StyleManagerImporter $styleManagerImporter,
     ) {
     }
 
@@ -201,6 +202,9 @@ class ThemeInstaller
         return $this->connection->transactional(function () use ($options, $rootIds): InstallResult {
             $result = new InstallResult();
             $texts = self::TEXTS[$this->textLanguage($options->language)];
+
+            // CSS classes as selections in the Style Manager (editable in the back end)
+            $this->styleManagerImporter->import();
 
             $result->themeId = $this->insert('tl_theme', [
                 'name' => $options->themeName,
