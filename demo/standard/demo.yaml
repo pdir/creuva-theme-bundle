@@ -73,7 +73,7 @@ files:
 # with image_size:<key>; "logo" is used for the logo of the header and brand module
 imageSizes:
   logo: { name: 'Logo', width: 480, height: 120, resizeMode: 'box', densities: '2x', skipIfDimensionsMatch: true }
-  hero: { name: 'Hero', width: 612, height: 459, resizeMode: 'crop', densities: '1x, 2x' }
+  hero: { name: 'Hero', width: 720, height: 480, resizeMode: 'crop', densities: '1x, 2x' }
   card: { name: 'Karte (4:3)', width: 800, height: 600, resizeMode: 'crop', densities: '2x', lazyLoading: true }
   wide:
     name: Breit (16:9)
@@ -360,6 +360,7 @@ pages:
             headline: { unit: h1, value: 'Digitale Erlebnisse, die' }
             text: '<p>Wir gestalten und entwickeln Websites, die nicht nur gut aussehen, sondern Wirkung zeigen – für Marken, Menschen und messbare Ergebnisse.</p>'
             singleSRC: 'file:bilder/hero.jpg'
+            creuvaHeroMask: rounded
             creuvaKicker: 'Ideen. Design. Technologie.'
             creuvaHeadlineAccent: begeistern.
             creuvaBadge: |-
@@ -547,6 +548,7 @@ pages:
       - title: Intro
         elements:
           - type: creuva_hero
+            creuvaHeroMask: rounded
             size: 'image_size:hero'
             headline: { unit: h1, value: 'Digitale Lösungen für nachhaltigen' }
             text: '<p>Wir gestalten, entwickeln und begleiten digitale Projekte, die nicht nur gut aussehen, sondern messbare Ergebnisse liefern – für Marken, Unternehmen und Organisationen.</p>'
@@ -554,11 +556,10 @@ pages:
             creuvaKicker: 'Unsere Leistungen'
             creuvaHeadlineAccent: Erfolg.
             creuvaBadge: |-
-              Strategie.
-              Design.
-              Entwicklung.
-              Alles aus
-              einer Hand.
+              Strategie
+              Design
+              Entwicklung
+              Alles aus einer Hand
             creuvaUrl1: '{{link_url::kontakt}}'
             creuvaLinkTitle1: 'Jetzt anfragen'
       - title: Überblick
@@ -740,6 +741,7 @@ pages:
             elements:
               - { type: module, module: 'module:breadcrumb' }
               - type: creuva_hero
+                creuvaHeroMask: rounded
                 size: 'image_size:hero'
                 headline: { unit: h1, value: 'Webdesign, das' }
                 text: '<p>Wir gestalten Websites, die Ihre Marke stärken, Besucher führen und auf allen Geräten überzeugen.</p>'
@@ -747,9 +749,9 @@ pages:
                 creuvaKicker: 'Leistungen · Webdesign'
                 creuvaHeadlineAccent: 'Wirkung zeigt.'
                 creuvaBadge: |-
-                  Individuell.
-                  Responsiv.
-                  Barrierearm.
+                  Individuell
+                  Responsiv
+                  Barrierearm
                 creuvaUrl1: '{{link_url::kontakt}}'
                 creuvaLinkTitle1: 'Projekt anfragen'
                 creuvaUrl2: '{{link_url::projekte}}'
@@ -809,6 +811,7 @@ pages:
             elements:
               - { type: module, module: 'module:breadcrumb' }
               - type: creuva_hero
+                creuvaHeroMask: rounded
                 size: 'image_size:hero'
                 headline: { unit: h1, value: 'Entwicklung mit' }
                 text: '<p>Saubere, performante und sichere Umsetzungen – von der Unternehmenswebsite bis zur individuellen Erweiterung.</p>'
@@ -816,9 +819,9 @@ pages:
                 creuvaKicker: 'Leistungen · Entwicklung'
                 creuvaHeadlineAccent: Contao.
                 creuvaBadge: |-
-                  Schnell.
-                  Sicher.
-                  Updatefähig.
+                  Schnell
+                  Sicher
+                  Updatefähig
                 creuvaUrl1: '{{link_url::kontakt}}'
                 creuvaLinkTitle1: 'Projekt anfragen'
                 creuvaUrl2: '{{link_url::projekte}}'
@@ -878,6 +881,7 @@ pages:
             elements:
               - { type: module, module: 'module:breadcrumb' }
               - type: creuva_hero
+                creuvaHeroMask: rounded
                 size: 'image_size:hero'
                 headline: { unit: h1, value: 'Beratung mit' }
                 text: '<p>Wir helfen Ihnen, die richtigen Entscheidungen für Ihren digitalen Auftritt zu treffen.</p>'
@@ -885,9 +889,9 @@ pages:
                 creuvaKicker: 'Leistungen · Beratung'
                 creuvaHeadlineAccent: Weitblick.
                 creuvaBadge: |-
-                  Ehrlich.
-                  Strategisch.
-                  Persönlich.
+                  Ehrlich
+                  Strategisch
+                  Persönlich
                 creuvaUrl1: '{{link_url::kontakt}}'
                 creuvaLinkTitle1: 'Termin vereinbaren'
           - title: Leistungen
@@ -931,6 +935,7 @@ pages:
       - title: Intro
         elements:
           - type: creuva_hero
+            creuvaHeroMask: rounded
             size: 'image_size:hero'
             headline: { unit: h1, value: 'Digitale Projekte mit' }
             text: '<p>Eine Auswahl unserer aktuellen Projekte – von Unternehmenswebsites über Webanwendungen bis hin zu Markenauftritten. Jedes Projekt ist einzigartig, jedes Ergebnis überzeugt.</p>'
@@ -938,11 +943,10 @@ pages:
             creuvaKicker: 'Unsere Projekte'
             creuvaHeadlineAccent: 'echtem Mehrwert.'
             creuvaBadge: |-
-              Strategie.
-              Design.
-              Entwicklung.
-              Alles aus
-              einer Hand.
+              Strategie
+              Design
+              Entwicklung
+              Alles aus einer Hand
       - title: Übersicht
         teaserCssID: ['', '']
         cssID: u-bg-surface
@@ -2010,6 +2014,7 @@ pages:
       - title: Intro
         elements:
           - type: creuva_hero
+            creuvaHeroMask: rounded
             size: 'image_size:hero'
             headline: { unit: h1, value: 'Mehr als nur Websites.' }
             text: '<p>Wir sind ein Team aus Designern, Entwicklern und Strategen, das digitale Projekte mit Leidenschaft, Erfahrung und einem klaren Anspruch an Qualität umsetzt.</p>'
@@ -2017,9 +2022,9 @@ pages:
             creuvaKicker: 'Über Creuva'
             creuvaHeadlineAccent: 'Echte Lösungen.'
             creuvaBadge: |-
-              Kreativ.
-              Zuverlässig.
-              Auf Augenhöhe.
+              Kreativ
+              Zuverlässig
+              Auf Augenhöhe
             creuvaUrl1: '#geschichte'
             creuvaLinkTitle1: 'Unsere Geschichte'
             creuvaUrl2: '{{link_url::kontakt}}'
@@ -2213,9 +2218,9 @@ pages:
                 creuvaKicker: 'Unser Team'
                 creuvaHeadlineAccent: 'für das Web.'
                 creuvaBadge: |-
-                  Gemeinsam.
-                  Kreativ.
-                  Zielstrebig.
+                  Gemeinsam
+                  Kreativ
+                  Zielstrebig
           - title: Team
             elements:
               - type: element_group
@@ -2317,6 +2322,7 @@ pages:
       - title: Intro
         elements:
           - type: creuva_hero
+            creuvaHeroMask: rounded
             size: 'image_size:hero'
             headline: { unit: h1, value: 'Transparente Preise. Klare' }
             text: '<p>Unsere Pakete bieten Ihnen eine klare Struktur und volle Planungssicherheit. Ob moderne Website, individueller Webshop oder komplexe Webanwendung – wir finden die passende Lösung für Ihr Projekt.</p>'
@@ -2324,10 +2330,8 @@ pages:
             creuvaKicker: 'Pakete & Preise'
             creuvaHeadlineAccent: Leistungen.
             creuvaBadge: |-
-              Individuell
-              erweiterbar.
-              Genau passend
-              für Ihr Projekt.
+              Individuell erweiterbar
+              Passend für Ihr Projekt
             creuvaUrl1: '{{link_url::kontakt}}'
             creuvaLinkTitle1: 'Kostenlos beraten'
             creuvaUrl2: '{{link_url::leistungen}}'
@@ -2510,6 +2514,7 @@ pages:
         teaserCssID: ['', '']
         elements:
           - type: creuva_hero
+            creuvaHeroMask: rounded
             size: 'image_size:hero'
             headline: { unit: h1, value: 'Aktuelle Einblicke.' }
             text: '<p>In unserem Blog teilen wir Tipps, Erfahrungsberichte und aktuelle Themen rund um Webdesign, Entwicklung und digitale Strategien.</p>'
@@ -2517,10 +2522,9 @@ pages:
             creuvaKicker: 'News & Wissen'
             creuvaHeadlineAccent: 'Hilfreiches Wissen.'
             creuvaBadge: |-
-              Tipps.
-              Einblicke.
-              Strategien.
-              Aus der Praxis.
+              Tipps
+              Einblicke
+              Aus der Praxis
       - { title: News, teaserCssID: ['', ''], cssID: u-bg-surface, elements: [{ type: module, module: 'module:newslist' }] }
       - title: CTA
         teaserCssID: ['', '']
@@ -2560,6 +2564,7 @@ pages:
             elements:
               - { type: module, module: 'module:breadcrumb' }
               - type: creuva_hero
+                creuvaHeroMask: rounded
                 size: 'image_size:hero'
                 headline: { unit: h1, value: 'Schnelle Antworten auf die wichtigsten' }
                 text: '<p>Hier finden Sie Antworten auf häufige Fragen zu unseren Leistungen, dem Projektablauf, den Kosten und der Zusammenarbeit. Sollte Ihre Frage nicht dabei sein, helfen wir Ihnen gerne persönlich weiter.</p>'
@@ -2567,9 +2572,8 @@ pages:
                 creuvaKicker: 'Häufige Fragen'
                 creuvaHeadlineAccent: Fragen.
                 creuvaBadge: |-
-                  Keine passende
-                  Antwort?
-                  Wir helfen gerne.
+                  Schnelle Antworten
+                  Persönliche Hilfe
           - title: Fragen
             elements:
               - type: element_group
@@ -2668,6 +2672,7 @@ pages:
             elements:
               - { type: module, module: 'module:breadcrumb' }
               - type: creuva_hero
+                creuvaHeroMask: rounded
                 size: 'image_size:hero'
                 headline: { unit: h1, value: 'Unterlagen zum' }
                 text: '<p>Broschüren, Checklisten und Informationen als PDF – kostenlos und ohne Anmeldung.</p>'
@@ -2675,9 +2680,9 @@ pages:
                 creuvaKicker: Downloads
                 creuvaHeadlineAccent: Herunterladen.
                 creuvaBadge: |-
-                  Kostenlos.
-                  Kompakt.
-                  Praktisch.
+                  Kostenlos
+                  Kompakt
+                  Praktisch
               - type: element_group
                 cssID: u-grid-2
                 children:
@@ -2710,10 +2715,8 @@ pages:
             creuvaKicker: Kontakt
             creuvaHeadlineAccent: 'Großes schaffen.'
             creuvaBadge: |-
-              Unverbindlich
-              anfragen.
-              Wir beraten Sie
-              gerne persönlich.
+              Unverbindlich anfragen
+              Persönliche Beratung
             creuvaHeroMask: rounded
       - title: Werte
         teaserCssID: ['', '']

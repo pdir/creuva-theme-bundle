@@ -15,9 +15,9 @@ $GLOBALS['TL_LANG']['tl_content']['subline'] = ['Zusatz zur Überschrift', 'Ohne
 $GLOBALS['TL_LANG']['tl_content']['headline_inline'] = ['Zweifarbige Überschrift', 'Zusatz und Überschrift nebeneinander, die Überschrift in der Akzentfarbe.'];
 $GLOBALS['TL_LANG']['tl_content']['subheadline'] = ['Zusatz darunter anzeigen', 'Den Zusatz als Unterzeile unter der Überschrift anzeigen.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaIcons'] = ['Icons (Kennzahlen)', 'Optionale Icons über den Zahlen der Templatevariante „Kennzahlen“, in der Reihenfolge der Einträge (z. B. einfarbige SVG-Icons).'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge-Text', 'Text im runden Badge auf dem Bild. Zeilenumbrüche werden übernommen.'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Bildform', 'Form, in der das Bild dargestellt wird.'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organisch', 'rounded' => 'Abgerundet', 'none' => 'Ohne Maske'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge-Text', 'Kleine Karte auf dem Bild, eine Zeile pro Punkt (mit Häkchen), z. B. „Kreativ“, „Strategisch“, „Zukunftssicher“.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Bildform', 'Organisch: Bild in 4:3 mit organischer Maske. Abgerundet: ganzes Bild mit runden Ecken, die Akzentform liegt dahinter. Bild unverändert: ohne Form, Fläche und Beschnitt.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organisch', 'rounded' => 'Abgerundet', 'none' => 'Bild unverändert'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl1'] = ['Link primärer Button', 'Ziel des ersten Buttons.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle1'] = ['Text primärer Button', 'Beschriftung des ersten Buttons.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl2'] = ['Link sekundärer Button', 'Ziel des zweiten Buttons.'];

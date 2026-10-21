@@ -42,8 +42,14 @@
             <div class="c-hero__media">
                 {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
 
-                {% if badge %}
-                    <p class="c-hero__badge">{{ badge|nl2br }}</p>
+                {# Badge: one line per point, shown as a small card with check icons #}
+                {% set badge_items = badge|split("\n")|map(line => line|trim)|filter(line => line is not empty) %}
+                {% if badge_items %}
+                    <ul class="c-hero__badge">
+                        {% for item in badge_items %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
             </div>
         {% endif %}

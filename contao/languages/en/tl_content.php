@@ -15,9 +15,9 @@ $GLOBALS['TL_LANG']['tl_content']['subline'] = ['Headline addition', 'Without a 
 $GLOBALS['TL_LANG']['tl_content']['headline_inline'] = ['Two-tone headline', 'Addition and headline side by side, the headline in the accent color.'];
 $GLOBALS['TL_LANG']['tl_content']['subheadline'] = ['Show addition below', 'Show the addition as a line below the headline.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaIcons'] = ['Icons (key figures)', 'Optional icons above the figures of the template variant "Key figures", in the order of the entries (e.g. single-colored SVG icons).'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge text', 'Text in the round badge on the image. Line breaks are kept.'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Image shape', 'Shape in which the image is displayed.'];
-$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organic', 'rounded' => 'Rounded', 'none' => 'No mask'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaBadge'] = ['Badge text', 'Small card on the image, one line per point (with check icon), e.g. "Creative", "Strategic", "Future-proof".'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask'] = ['Image shape', 'Organic: image in 4:3 with an organic mask. Rounded: the whole image with rounded corners, the accent shape behind it. Image unchanged: no shape, background shape or cropping.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'] = ['organic' => 'Organic', 'rounded' => 'Rounded', 'none' => 'Image unchanged'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl1'] = ['Primary button link', 'Target of the first button.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle1'] = ['Primary button text', 'Label of the first button.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl2'] = ['Secondary button link', 'Target of the second button.'];

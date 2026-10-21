@@ -302,7 +302,7 @@ vendor/bin/contao-console creuva:install --demo --reset
 
 | Typ | Beschreibung |
 |-----|--------------|
-| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild mit organischer Maske und Badge (Bild und Text optional) |
+| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in drei Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Akzentform dahinter, *Bild unverändert*) und Badge als kleine Karte mit Häkchen, eine Zeile pro Punkt (Bild und Text optional) |
 | Creuva › Creuva Header | Logo, Hauptnavigation (mit Dropdowns), CTA-Button, mobiles Menü |
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |
 

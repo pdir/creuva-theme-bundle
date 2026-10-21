@@ -1,4 +1,6 @@
 // Hero with organic image mask (see theme-idee/ start page draft)
+@use '../mixins' as *;
+
 @layer creuva.components {
   .c-hero {
     padding-block: var(--space-l) var(--space-xl);
@@ -50,40 +52,65 @@
     }
 
     img {
+      display: block;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
+      height: auto;
     }
   }
 
+  // Organic: the image is cropped to 4:3 and masked with a blob shape
   .c-hero--organic .c-hero__media img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
     border-radius: 42% 58% 38% 62% / 52% 38% 62% 48%;
   }
 
-  .c-hero--rounded .c-hero__media img {
-    border-radius: var(--radius-l);
+  // Rounded: the whole image as a card, the blob peeks out behind it
+  .c-hero--rounded .c-hero__media {
+    &::before {
+      inset: -7% 22% 18% -7%;
+    }
+
+    img {
+      border-radius: var(--radius-l);
+      box-shadow: var(--shadow-m);
+    }
   }
 
+  // Image unchanged: no shape, no blob, no cropping
   .c-hero--none .c-hero__media::before {
     display: none;
   }
 
+  // Badge: small card with check items, overlapping the lower left corner
   .c-hero__badge {
     position: absolute;
-    right: 4%;
-    bottom: 18%;
-    display: grid;
-    place-items: center;
-    width: clamp(6rem, 18cqi, 8rem);
-    aspect-ratio: 1;
+    left: var(--space-s);
+    bottom: var(--space-m);
     margin: 0;
-    padding: var(--space-s);
-    border-radius: 50%;
+    padding: var(--space-s) var(--space-m) var(--space-s) var(--space-s);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-m);
     background: var(--c-surface);
     box-shadow: var(--shadow-m);
-    font-size: var(--fs-kicker);
+    font-size: var(--fs-small);
+    font-weight: 600;
     line-height: 1.4;
-    text-align: center;
-    color: var(--c-text-muted);
+    color: var(--c-text);
+    list-style: none;
+
+    li {
+      @include check-item;
+
+      + li {
+        margin-top: var(--space-2xs);
+      }
+    }
+  }
+
+  @container (min-width: 56rem) {
+    .c-hero__badge {
+      left: calc(-1 * var(--space-m));
+    }
   }
 }

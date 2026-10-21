@@ -109,8 +109,8 @@ pages:
             text: <p>Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite – als Live-Beispiele. Die Klassen wählen Redakteure im Style Manager (Bereich „Stil“) aus.</p>
             singleSRC: file:bilder/hero.jpg
             size: 'image_size:hero'
-            creuvaHeroMask: organic
-            creuvaBadge: "Alle Elemente\nals Live-\nBeispiele"
+            creuvaHeroMask: rounded
+            creuvaBadge: "Alle Elemente\nLive-Beispiele"
             creuvaUrl1: '#sg-typografie'
             creuvaLinkTitle1: Zu den Elementen
             creuvaUrl2: '#sg-varianten'
