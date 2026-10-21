@@ -141,34 +141,195 @@ news:
       - headline: Barrierefreiheit wird Pflicht – was Websites jetzt brauchen
         alias: barrierefreiheit-wird-pflicht
         date: -3 days
-        subheadline: Das Barrierefreiheitsstärkungsgesetz im Überblick
-        teaser: <p>Seit Juni 2025 gelten neue Anforderungen an viele Websites und Online-Shops. Wir zeigen, worauf es ankommt und wie Sie Ihre Website fit machen.</p>
+        subheadline: 'Das Barrierefreiheitsstärkungsgesetz im Überblick'
+        teaser: '<p>Seit dem 28. Juni 2025 gilt das Barrierefreiheitsstärkungsgesetz. Wir zeigen, welche Websites betroffen sind, was die WCAG verlangen und wie Sie Ihre Website Schritt für Schritt fit machen.</p>'
         singleSRC: file:bilder/news-1.jpg
         elements:
           - type: text
+            cssID: u-lead
+            text: '<p>Barrierefreiheit ist mehr als eine gesetzliche Vorgabe – sie sorgt dafür, dass alle Menschen Ihre Inhalte nutzen können: mit Screenreader, nur per Tastatur, mit Sehschwäche oder einfach unterwegs im grellen Sonnenlicht. Davon profitieren auch Suchmaschinen und mobile Nutzer.</p>'
+          - type: text
+            headline: { unit: h2, value: 'Wen betrifft das Gesetz?' }
             text: |
-              <p>Barrierefreiheit ist mehr als eine gesetzliche Vorgabe – sie sorgt dafür, dass alle Menschen Ihre Inhalte nutzen können. Davon profitieren auch Suchmaschinen und mobile Nutzer.</p>
-              <h2>Die wichtigsten Punkte</h2>
-              <ul><li>Ausreichende Farbkontraste und skalierbare Schrift</li><li>Bedienbarkeit per Tastatur</li><li>Alternativtexte für Bilder</li><li>Verständliche Formulare mit klaren Fehlermeldungen</li></ul>
+              <p>Das Barrierefreiheitsstärkungsgesetz (BFSG) setzt den European Accessibility Act in deutsches Recht um. Es gilt für Produkte und Dienstleistungen, die sich an Verbraucherinnen und Verbraucher richten – im Web vor allem für <strong>Online-Shops, Buchungsstrecken, Bankdienstleistungen und alles, was zu einem Vertragsabschluss führt</strong>.</p>
+              <p>Reine Informationsseiten ohne Bestellfunktion fallen in der Regel nicht direkt unter das Gesetz. Spätestens mit dem ersten Kontakt- oder Terminformular lohnt sich aber ein genauer Blick – und barrierearme Seiten sind ohnehin besser bedienbar.</p>
+          - type: description_list
+            customTpl: content_element/description_list/creuva_facts
+            headline: { unit: h3, value: 'Das BFSG auf einen Blick' }
+            data:
+              - { key: 'Gilt seit', value: '28. Juni 2025' }
+              - { key: 'Grundlage', value: 'European Accessibility Act (EU-Richtlinie 2019/882)' }
+              - { key: 'Technischer Maßstab', value: 'EN 301 549, entspricht im Web WCAG 2.1 Stufe AA' }
+              - { key: 'Ausnahme', value: 'Kleinstunternehmen mit weniger als 10 Beschäftigten und höchstens 2 Mio. € Jahresumsatz (bei Dienstleistungen)' }
+              - { key: 'Pflichtangabe', value: 'Erklärung zur Barrierefreiheit auf der Website' }
+          - type: text
+            headline: { unit: h2, value: 'Die vier Prinzipien der WCAG' }
+            text: '<p>Die Web Content Accessibility Guidelines ordnen alle Anforderungen vier Grundprinzipien zu. Wer sie im Blick behält, hat die meisten Punkte schon abgedeckt.</p>'
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: text, customTpl: content_element/text/creuva_feature, cssID: u-feature-inline, headline: { unit: h3, value: Wahrnehmbar }, text: '<p>Inhalte lassen sich sehen, hören oder ertasten – mit Alternativtexten, Untertiteln und ausreichendem Kontrast.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, cssID: u-feature-inline, headline: { unit: h3, value: Bedienbar }, text: '<p>Alle Funktionen sind per Tastatur erreichbar, der Fokus ist sichtbar und niemand steckt in einem Dialog fest.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, cssID: u-feature-inline, headline: { unit: h3, value: Verständlich }, text: '<p>Klare Sprache, eine vorhersehbare Navigation und Formulare, die Fehler verständlich erklären.</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, cssID: u-feature-inline, headline: { unit: h3, value: Robust }, text: '<p>Sauberes, semantisches HTML, das Browser und Hilfsmittel wie Screenreader zuverlässig auslesen.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: 'Praxis'
+            headline: 'gut lesbar.'
+            subline: 'Kontraste, die'
+            headline_inline: '1'
+            text: '<p>Fließtext braucht ein Kontrastverhältnis von mindestens 4,5 : 1, große Schrift und Bedienelemente mindestens 3 : 1. Die Farbschemas von Creuva sind darauf abgestimmt – auch in der dunklen Variante.</p><ul><li>Schrift lässt sich auf 200 % vergrößern</li><li>Farbe ist nie die einzige Information</li><li>Links sind auch ohne Farbe erkennbar</li></ul>'
+            addImage: true
+            singleSRC: 'file:bilder/detail-3.jpg'
+            size: 'image_size:card'
+            floating: left
+          - type: text
+            headline: { unit: h2, value: 'Checkliste für Ihre Website' }
+            text: |
+              <ul><li>Ausreichende Farbkontraste und skalierbare Schrift</li><li>Bedienbarkeit per Tastatur mit sichtbarem Fokus</li><li>Aussagekräftige Alternativtexte für Bilder</li><li>Logische Überschriftenstruktur (H1, H2, H3 …)</li><li>Verständliche Formulare mit klaren Fehlermeldungen</li><li>Untertitel oder Transkripte für Videos</li><li>Erklärung zur Barrierefreiheit mit Feedback-Möglichkeit</li></ul>
               <blockquote><p>Eine barrierefreie Website ist eine bessere Website – für alle.</p></blockquote>
-              <p>Creuva unterstützt Sie dabei mit semantischem Markup, gut lesbaren Kontrasten und Tastaturbedienung.</p>
+          - type: accordion
+            cssID: u-accordion-icon
+            children:
+              - { type: text, sectionHeadline: { unit: h3, value: 'Gilt das BFSG auch für meine Unternehmenswebsite?' }, text: '<p>Wenn Verbraucher über Ihre Website einen Vertrag abschließen können – etwa im Shop, bei einer Buchung oder einer Online-Anmeldung –, sehr wahrscheinlich ja. Reine Imageseiten sind meist nicht direkt betroffen.</p>' }
+              - { type: text, sectionHeadline: { unit: h3, value: 'Was passiert bei Verstößen?' }, text: '<p>Die Marktüberwachungsbehörden der Länder können Mängel beanstanden, die Beseitigung anordnen und Bußgelder von bis zu 100.000 € verhängen. Hinzu kommt das Risiko von Abmahnungen durch Mitbewerber.</p>' }
+              - { type: text, sectionHeadline: { unit: h3, value: 'Wie lange dauert die Umstellung?' }, text: '<p>Bei einer modernen Contao-Website mit sauberem Theme reichen oft wenige Tage für Prüfung und Korrekturen. Ältere Websites mit vielen Sonderlösungen brauchen mehr Zeit – manchmal ist ein Relaunch der schnellere Weg.</p>' }
+          - type: text
+            customTpl: content_element/text/simplebox
+            headline: { unit: h3, value: 'Hinweis' }
+            text: '<p>Dieser Beitrag gibt einen Überblick und ersetzt keine Rechtsberatung. Ob und in welchem Umfang Ihr Angebot unter das BFSG fällt, klären Sie im Zweifel mit einer Fachanwältin oder einem Fachanwalt.</p>'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-soft u-cta-stacked
+            creuvaKicker: 'Barrierefreiheits-Check'
+            headline: 'barrierefrei?'
+            subline: 'Wie gut ist Ihre Website'
+            headline_inline: '1'
+            text: '<p>Wir prüfen Ihre Website nach WCAG 2.1 AA und zeigen Ihnen, welche Punkte Sie zuerst angehen sollten.</p><p><a href="{{link_url::kontakt}}">Check anfragen</a></p>'
       - headline: Fünf Tipps für schnellere Ladezeiten
         alias: tipps-schnellere-ladezeiten
         date: -12 days
-        teaser: <p>Schnelle Websites halten Besucher und ranken besser. Mit diesen fünf Maßnahmen holen Sie mehr aus Ihrer Contao-Installation heraus.</p>
+        teaser: '<p>Schnelle Websites halten Besucher und ranken besser. Mit diesen fünf Maßnahmen holen Sie mehr aus Ihrer Contao-Installation heraus – inklusive Zahlen aus einem echten Relaunch.</p>'
+        subheadline: 'Core Web Vitals verstehen und verbessern'
         singleSRC: file:bilder/news-2.jpg
         elements:
           - type: text
-            text: |
-              <ol><li><strong>Bilder optimieren</strong> – moderne Formate und passende Größen.</li><li><strong>Caching nutzen</strong> – der Contao-Cache liefert Seiten in Millisekunden.</li><li><strong>Schriften selbst hosten</strong> – spart Anfragen an Drittanbieter.</li><li><strong>Skripte reduzieren</strong> – nur laden, was wirklich gebraucht wird.</li><li><strong>Ladezeiten messen</strong> – regelmäßig mit Lighthouse prüfen.</li></ol>
+            cssID: u-lead
+            text: '<p>Jede Sekunde Ladezeit kostet Aufmerksamkeit. Google bewertet die Nutzererfahrung seit Jahren mit den Core Web Vitals – drei Messwerten, die zeigen, wie schnell eine Seite lädt, wie flott sie reagiert und wie ruhig sie sich aufbaut.</p>'
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            creuvaKicker: 'Core Web Vitals'
+            headline: 'Diese Werte zählen.'
+            cssID: u-bg-accent u-text-center
+            creuvaIcons: ['file:icons/performance.svg', 'file:icons/uhr.svg', 'file:icons/raute.svg']
+            data:
+              - { key: '≤ 2,5 s', value: 'Largest Contentful Paint' }
+              - { key: '≤ 200 ms', value: 'Interaction to Next Paint' }
+              - { key: '≤ 0,1', value: 'Cumulative Layout Shift' }
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: 'Tipp 1'
+            headline: 'optimieren.'
+            subline: 'Bilder'
+            headline_inline: '1'
+            text: '<p>Bilder sind fast immer der größte Brocken. Contao erzeugt über die Bildgrößen im Theme automatisch passende Varianten für jedes Gerät – Sie müssen sie nur sinnvoll anlegen.</p><ul><li>Moderne Formate wie AVIF und WebP</li><li>srcset und sizes für unterschiedliche Bildschirme</li><li>Lazy Loading für alles unterhalb des sichtbaren Bereichs</li></ul>'
+            addImage: true
+            singleSRC: 'file:bilder/detail-1.jpg'
+            size: 'image_size:card'
+            floating: right
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: text, customTpl: content_element/text/creuva_feature, headline: { unit: h3, value: '2. Caching nutzen' }, text: '<p>Der HTTP-Cache von Contao liefert Seiten ohne erneuten Datenbankzugriff aus – oft in wenigen Millisekunden. Legen Sie in den Seiteneinstellungen eine sinnvolle Cache-Zeit fest.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, headline: { unit: h3, value: '3. Schriften selbst hosten' }, text: '<p>Lokal eingebundene Webfonts sparen Anfragen an Drittanbieter, sind datenschutzfreundlich und lassen sich mit font-display: swap ohne Flackern laden.</p>', addImage: true, singleSRC: 'file:icons/ebenen.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, headline: { unit: h3, value: '4. Skripte reduzieren' }, text: '<p>Jedes Tracking-Tool und jedes Slider-Plugin kostet Ladezeit. Laden Sie nur, was wirklich gebraucht wird – und das möglichst mit defer.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+              - { type: text, customTpl: content_element/text/creuva_feature, headline: { unit: h3, value: '5. Regelmäßig messen' }, text: '<p>Lighthouse und PageSpeed Insights zeigen Schwachstellen in Minuten. Wichtiger noch sind die Felddaten echter Besucher in der Search Console.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
+          - type: table
+            headline: { unit: h2, value: 'Vorher und nachher: ein Beispiel' }
+            cssID: u-table-compare
+            thead: true
+            tableitems:
+              - [Messwert, 'Alte Website', 'Nach dem Relaunch']
+              - ['Largest Contentful Paint', '4,1 s', '1,6 s']
+              - ['Seitengewicht Startseite', '3,8 MB', '0,9 MB']
+              - ['Anfragen beim Laden', '86', '31']
+              - ['Lighthouse Performance (mobil)', '54', '97']
+          - type: text
+            cssID: u-muted
+            text: '<p>Werte gemessen mit Lighthouse (mobil, gedrosselt) auf der Startseite des Serviceportals der Stadtwerke Elbtal vor und nach dem Relaunch.</p>'
+          - type: text
+            customTpl: content_element/text/creuva_testimonial
+            cssID: u-card-outline-accent
+            headline: { unit: h3, value: 'Sandra Wolff' }
+            subline: 'Leitung Online-Services, Stadtwerke Elbtal'
+            text: '<p>Seit dem Relaunch lädt unser Störungsmelder auch im Mobilfunknetz in unter zwei Sekunden. Die Zahl der Anrufe an der Hotline ist spürbar gesunken.</p>'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-muted
+            creuvaKicker: 'Performance-Check'
+            headline: 'Ihre Website?'
+            subline: 'Wie schnell ist'
+            headline_inline: '1'
+            text: '<p>Wir messen Ihre Website und zeigen Ihnen die drei Maßnahmen mit der größten Wirkung.</p><p><a href="{{link_url::kontakt}}">Check anfragen</a></p>'
       - headline: Relaunch mit Contao 6 – so gelingt der Umstieg
         alias: relaunch-contao-6
         date: -26 days
-        teaser: <p>Contao 6 setzt konsequent auf Twig-Templates. Wir erklären, wie Sie Ihr Projekt planen und was beim Umstieg zu beachten ist.</p>
+        teaser: '<p>Contao 6 setzt konsequent auf Twig-Templates. Wir erklären, wie Sie den Umstieg planen, wann sich ein Update lohnt und wann ein Relaunch der bessere Weg ist.</p>'
+        subheadline: 'Planung, Ablauf und typische Stolpersteine'
         singleSRC: file:bilder/news-3.jpg
         elements:
           - type: text
-            text: <p>Mit Contao 6 entfallen die alten PHP-Templates. Themes und Erweiterungen, die bereits auf Twig setzen – wie Creuva – lassen sich ohne Umwege weiterverwenden.</p>
+            cssID: u-lead
+            text: '<p>Mit Contao 6 entfallen die alten PHP-Templates endgültig. Themes und Erweiterungen, die bereits auf Twig setzen – wie Creuva –, lassen sich ohne Umwege weiterverwenden. Für viele ältere Websites ist der Versionssprung dagegen ein guter Anlass, Inhalte und Design neu zu denken.</p>'
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: text, cssID: u-card, headline: { unit: h3, value: 'Was bleibt' }, text: '<ul><li>Seitenstruktur, Artikel und Inhaltselemente</li><li>Dateiverwaltung mit allen Metadaten</li><li>Benutzer, Rechte und Formulare</li><li>Twig-Templates aus Contao 5</li></ul>' }
+              - { type: text, cssID: u-card u-bg-accent, headline: { unit: h3, value: 'Was sich ändert' }, text: '<ul><li>Keine .html5-Templates mehr</li><li>Neue Mindestversionen von PHP und Symfony</li><li>Veraltete Erweiterungen brauchen ein Update</li><li>Eigene Anpassungen werden geprüft</li></ul>' }
+          - type: table
+            headline: { unit: h2, value: 'Update oder Relaunch?' }
+            cssID: u-table-compare
+            thead: true
+            tableitems:
+              - ['', Update, Relaunch]
+              - [Aufwand, 'gering bis mittel', 'mittel bis hoch']
+              - [Design, 'bleibt', 'wird neu gestaltet']
+              - [Inhalte, 'werden übernommen', 'werden überarbeitet']
+              - [Barrierefreiheit, 'bleibt wie sie ist', 'von Anfang an mitgedacht']
+              - ['Sinnvoll, wenn …', 'die Website noch gut funktioniert', 'Design und Technik in die Jahre gekommen sind']
+          - type: description_list
+            customTpl: content_element/description_list/creuva_timeline
+            headline: { unit: h2, value: 'So läuft ein Relaunch bei uns ab' }
+            data:
+              - { key: '01 Analyse', value: 'Seiten, Erweiterungen und Zugriffszahlen prüfen.' }
+              - { key: '02 Konzept', value: 'Struktur, Inhalte und Design neu denken.' }
+              - { key: '03 Umsetzung', value: 'Twig-Templates, Style Manager und Tests.' }
+              - { key: '04 Go-live', value: 'Weiterleitungen und Monitoring.' }
+          - type: gallery
+            headline: { unit: h2, value: 'Relaunches der letzten Monate' }
+            cssID: u-gallery-featured
+            multiSRC: ['file:bilder/projekte/projekt-stadtwerke-geraete.jpg', 'file:bilder/projekte/projekt-alpenhof-geraete.jpg', 'file:bilder/projekte/projekt-nordlicht-geraete.jpg', 'file:bilder/projekte/projekt-sportverein-geraete.jpg']
+            size: 'image_size:gallery'
+            fullsize: true
+            perRow: 3
+          - type: accordion
+            children:
+              - { type: text, sectionHeadline: { unit: h3, value: 'Kann ich direkt von Contao 4.13 auf Contao 6 wechseln?' }, text: '<p>Technisch führt der Weg über Contao 5.7, die Datenbank wird dabei in Etappen migriert. Bei sehr alten Installationen ist ein Relaunch mit Übernahme der Inhalte oft schneller und sauberer.</p>' }
+              - { type: text, sectionHeadline: { unit: h3, value: 'Was passiert mit meinen Erweiterungen?' }, text: '<p>Wir prüfen jede Erweiterung auf Kompatibilität. Für nicht mehr gepflegte Pakete suchen wir Alternativen oder setzen die Funktion mit Bordmitteln um.</p>' }
+              - { type: text, sectionHeadline: { unit: h3, value: 'Verliere ich mein Google-Ranking?' }, text: '<p>Nicht, wenn alte Adressen sauber weitergeleitet werden. Wir erstellen vor dem Go-live eine Liste aller URLs und richten 301-Weiterleitungen ein.</p>' }
+          - type: download
+            headline: { unit: h3, value: 'Zum Mitnehmen' }
+            singleSRC: 'file:downloads/projekt-checkliste.pdf'
+            overwriteLink: true
+            linkTitle: 'Projekt-Checkliste für Ihren Relaunch (PDF)'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-accent u-cta-stacked
+            creuvaKicker: 'Relaunch planen'
+            headline: 'Contao 6.'
+            subline: 'Bereit für'
+            headline_inline: '1'
+            text: '<p>Wir prüfen Ihre Installation und sagen Ihnen, ob sich ein Update oder ein Relaunch mehr lohnt.</p><p><a href="{{link_url::kontakt}}">Erstgespräch vereinbaren</a> <a href="{{link_url::leistungen}}">Leistungen ansehen</a></p>'
       - headline: Designsysteme statt Einzelseiten
         alias: designsysteme-statt-einzelseiten
         date: -40 days
