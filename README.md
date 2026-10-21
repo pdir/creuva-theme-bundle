@@ -75,9 +75,17 @@ aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Demo-Inhalte
 
-`creuva:install --demo` importiert die Demo „Standard / Creative“ (`--demo=portfolio`: Demo „Portfolio / Studio“, `--demo=sportverein`: Demo „Sportverein“, siehe unten) als eigenen Startpunkt
-(bei einer bestehenden Website mit `--dns` oder `--language` auf eine andere Domain bzw.
-Sprache legen):
+Es gibt vier Demos, jede wird als eigener Startpunkt importiert (bei einer bestehenden Website
+mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
+
+| Demo | Befehl | Für |
+|------|--------|-----|
+| Standard / Creative | `creuva:install --demo` | Agenturen, Freelancer, kleine Unternehmen |
+| Unternehmen | `creuva:install --demo=unternehmen` | Mittelstand, Industrie, Handwerk |
+| Portfolio / Studio | `creuva:install --demo=portfolio` | Fotografen, Architekten, Kreativstudios |
+| Sportverein | `creuva:install --demo=sportverein` | Fußball- und Sportvereine, Verbände |
+
+`creuva:install --demo` importiert die Demo „Standard / Creative“:
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
@@ -160,6 +168,31 @@ bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset
 Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
 der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
 `--dns`) nicht versehentlich auf gleichnamige Seiten der ersten.
+
+### Demo „Unternehmen“
+
+`creuva:install --demo=unternehmen` importiert eine klassische Firmenwebsite für Mittelstand,
+Industrie, Dienstleister und Handwerksbetriebe („Kessler Metalltechnik GmbH“, Variante Light,
+Farbschema Ozean, eckig) – seriöser und strukturierter als die Standard-Demo:
+
+- **Seiten:** Startseite mit Vollbild-Hero, Kennzahlen, Leistungen, Branchen, Projektablauf,
+  Kundenlogos, Stellen und Aktuellem; Leistungen (Konstruktion, Fertigung, Montage & Service)
+  mit Maschinenpark; Branchenlösungen (Maschinenbau, Bau & Architektur, Energie &
+  Anlagenbau, Lebensmittelindustrie); Referenzen; Unternehmen mit Geschichte, Zertifikaten,
+  Geschäftsführung und Standorten; Karriere mit Stellenangeboten, Bewerbungsablauf und
+  Online-Bewerbung (Datei-Upload); Download-Center; Aktuelles; Kontakt mit Ansprechpartnern
+- **Stellenangebote** sind Nachrichten im Archiv „Stellenangebote“; die Subline wird zu
+  Schlagworten wie „Vollzeit · Neuburg · ab sofort“.
+- **Bilder, Logos, Zertifikate und PDFs:** generierte Platzhalter unter
+  `demo/unternehmen/files/`
+
+Neu im Theme und demounabhängig:
+
+- Listenvorlage **`news_creuva_job`** für Nachrichtenlisten: Stellenanzeige als Karte mit
+  Titel, Schlagworten (aus der Subline, getrennt durch „·“) und Teaser
+- Templatevariante **„Prozess-Schritte“** (`description_list/creuva_steps`): nummerierte
+  Schritte, ab Tablet-Breite nebeneinander mit Verbindungslinie
+- **Downloads** zeigen Dateityp und Größe („PDF · 245 KB“)
 
 ### Demo „Sportverein“
 

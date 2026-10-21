@@ -1,0 +1,1466 @@
+# Creuva – Unternehmen demo
+#
+# Imported with: vendor/bin/contao-console creuva:install --demo=unternehmen
+# A classic company website for medium-sized businesses, industry, service
+# providers and craft businesses: services, industry solutions, references,
+# company, careers with job offers, downloads and contact. More serious and
+# structured than the standard demo.
+# See src/Installer/DemoImporter.php for the value syntax (file:, page:, date:, …).
+#
+# The images, logos and certificates are generated illustrations, replace them
+# with real photos and documents of the same proportions.
+
+title: Unternehmen
+root:
+  favicon: 'file:design/favicon.ico'
+  dateFormat: d.m.Y
+  timeFormat: 'H:i'
+  datimFormat: 'd.m.Y H:i'
+  creuvaScheme: ocean
+  creuvaVariant: light
+  creuvaRadius: none
+files:
+  bilder/start.jpg: { alt: 'Fertigungshalle mit CNC-Maschinen und Mitarbeitenden' }
+  bilder/fertigung.jpg: { alt: 'Bearbeitungszentrum in der Fertigung' }
+  bilder/halle.jpg: { alt: 'Maschinenreihe in der Fertigungshalle' }
+  bilder/ausbildung.jpg: { alt: 'Auszubildende an einer Maschine' }
+  bilder/lebensmittel.jpg: { alt: 'Edelstahl-Anlagen in einer Produktion' }
+  bilder/schweissen.jpg: { alt: 'Schweißer bei der Arbeit an einem Stahlträger' }
+  bilder/schweissen-hoch.jpg: { alt: 'Funkenflug beim Schweißen' }
+  bilder/stahlbau.jpg: { alt: 'Stahlkonstruktion einer Halle im Bau' }
+  bilder/stahlbau-abend.jpg: { alt: 'Stahlkonstruktion im Abendlicht' }
+  bilder/montage.jpg: { alt: 'Montage einer Stahlkonstruktion mit Kran' }
+  bilder/teile.jpg: { alt: 'Zahnräder und Winkel aus Metall auf der Werkbank' }
+  bilder/teile-2.jpg: { alt: 'Präzisionsteile vor dunklem Hintergrund' }
+  bilder/firmensitz.jpg: { alt: 'Firmensitz der Kessler Metalltechnik' }
+  bilder/fassade.jpg: { alt: 'Metallfassade mit Lamellen' }
+  bilder/buero.jpg: { alt: 'Besprechungsraum mit Blick ins Grüne' }
+  bilder/team-1.jpg: { alt: 'Porträt Thomas Kessler' }
+  bilder/team-2.jpg: { alt: 'Porträt Anna Kessler' }
+  bilder/team-3.jpg: { alt: 'Porträt Daniel Brandt' }
+  bilder/team-4.jpg: { alt: 'Porträt Amina Yilmaz' }
+  bilder/team-5.jpg: { alt: 'Porträt Lukas Wendt' }
+  bilder/team-6.jpg: { alt: 'Porträt Sabine Ott' }
+  design/logo.svg: { alt: 'Kessler Metalltechnik' }
+  kunden/bergmann-maschinenbau.svg: { alt: 'Bergmann Maschinenbau', link: 'https://example.org/' }
+  kunden/rheintal-anlagenbau.svg: { alt: 'Rheintal Anlagenbau', link: 'https://example.org/' }
+  kunden/nordbau.svg: { alt: 'NordBau', link: 'https://example.org/' }
+  kunden/alpina-food.svg: { alt: 'Alpina Food', link: 'https://example.org/' }
+  kunden/solaris-energie.svg: { alt: 'Solaris Energie', link: 'https://example.org/' }
+  kunden/wieland-foerdertechnik.svg: { alt: 'Wieland Fördertechnik', link: 'https://example.org/' }
+  zertifikate/iso-9001.svg: { alt: 'Zertifiziert nach ISO 9001' }
+  zertifikate/iso-14001.svg: { alt: 'Zertifiziert nach ISO 14001' }
+  zertifikate/en-1090.svg: { alt: 'Zertifiziert nach EN 1090, EXC 3' }
+  zertifikate/iso-3834.svg: { alt: 'Zertifiziert nach ISO 3834' }
+  zertifikate/meisterbetrieb.svg: { alt: 'Meisterbetrieb' }
+  downloads/imagebroschuere.pdf: { title: 'Imagebroschüre' }
+  downloads/datenblatt-laserschneiden.pdf: { title: 'Datenblatt Laserschneiden' }
+  downloads/zertifikat-iso-9001.pdf: { title: 'Zertifikat ISO 9001' }
+  downloads/zertifikat-en-1090.pdf: { title: 'Zertifikat EN 1090' }
+  downloads/lieferbedingungen.pdf: { title: 'Allgemeine Liefer- und Zahlungsbedingungen' }
+header: { cta: { page: kontakt, title: 'Anfrage stellen' }, search: suche, logo: 'file:design/logo.svg', logoSize: 'image_size:logo' }
+brand:
+  claim: |-
+    Kessler Metalltechnik GmbH
+    Konstruktion, Fertigung und Montage seit 1987.
+  social: ['https://www.linkedin.com/', 'https://www.xing.com/', 'https://www.youtube.com/']
+  logo: 'file:design/logo.svg'
+  logoSize: 'image_size:logo'
+footer:
+  - { headline: Leistungen, pages: [leistungen, konstruktion, fertigung, montage-service, branchen] }
+  - { headline: Unternehmen, pages: [unternehmen, referenzen, karriere, aktuelles, downloads] }
+  - { headline: Service, pages: [kontakt, impressum, datenschutz, styleguide] }
+styleguide: true
+imageSizes:
+  logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
+  cover:
+    name: 'Vollbild (16:9)'
+    width: 2000
+    height: 1125
+    resizeMode: crop
+    items: [{ media: '(max-width: 47.99rem)', densities: '1.5x', width: 800, height: 1100, resizeMode: crop }]
+  hero: { name: Hero, densities: '1x, 2x', width: 720, height: 480, resizeMode: crop }
+  card: { name: 'Karte (4:3)', lazyLoading: true, densities: 2x, width: 800, height: 600, resizeMode: crop }
+  wide:
+    name: 'Breit (21:9)'
+    lazyLoading: true
+    width: 1600
+    height: 686
+    resizeMode: crop
+    items: [{ media: '(max-width: 40rem)', densities: 2x, width: 640, height: 480, resizeMode: crop }]
+  team: { name: 'Team (1:1)', lazyLoading: true, densities: 1.5x, width: 480, height: 480, resizeMode: crop }
+  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 120, height: 120, resizeMode: crop }
+  news: { name: 'News-Teaser (3:2)', lazyLoading: true, densities: 2x, width: 800, height: 533, resizeMode: crop }
+  news-detail: { name: News-Detail, width: 1200, height: 700, resizeMode: crop }
+  gallery:
+    name: 'Galerie (responsiv)'
+    lazyLoading: true
+    densities: '480w, 800w, 1200w, 1600w'
+    sizes: '(min-width: 64rem) 50vw, 100vw'
+    width: 1600
+    resizeMode: proportional
+forms:
+  anfrage:
+    title: Anfrage
+    alias: anfrage
+    jumpTo: 'page:danke'
+    fields:
+      - { type: text, name: company, label: Unternehmen }
+      - { type: text, name: name, mandatory: true, label: 'Ansprechpartner' }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email }
+      - { type: text, name: phone, label: Telefon, rgxp: phone }
+      - type: select
+        name: topic
+        label: Anliegen
+        options:
+          - { value: anfrage, label: 'Angebotsanfrage' }
+          - { value: konstruktion, label: Konstruktion }
+          - { value: fertigung, label: 'Fertigung und Lohnarbeit' }
+          - { value: montage, label: 'Montage und Service' }
+          - { value: sonstiges, label: Sonstiges }
+      - { type: textarea, name: message, mandatory: true, label: 'Ihr Projekt (Material, Stückzahl, Termin)', size: ['6', '40'] }
+      - { type: upload, name: drawing, label: 'Zeichnung oder Stückliste (PDF, DXF, STEP, max. 10 MB)', extensions: 'pdf,dxf,step,stp,zip', maxlength: 10485760 }
+      - type: checkbox
+        name: privacy
+        mandatory: true
+        options: [{ value: '1', label: 'Ich habe die <a href="{{link_url::datenschutz}}">Datenschutzerklärung</a> gelesen und stimme zu.' }]
+      - { type: submit, slabel: 'Anfrage senden' }
+  bewerbung:
+    title: Bewerbung
+    alias: bewerbung
+    jumpTo: 'page:danke'
+    fields:
+      - type: select
+        name: position
+        mandatory: true
+        label: 'Stelle'
+        options:
+          - { value: zerspanung, label: 'Zerspanungsmechaniker (m/w/d)' }
+          - { value: konstruktion, label: 'Konstrukteur Stahlbau (m/w/d)' }
+          - { value: schweissen, label: 'Schweißer MAG/WIG (m/w/d)' }
+          - { value: ausbildung, label: 'Ausbildung Metallbauer (m/w/d)' }
+          - { value: initiativ, label: Initiativbewerbung }
+      - { type: text, name: name, mandatory: true, label: 'Vor- und Nachname' }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email }
+      - { type: text, name: phone, label: Telefon, rgxp: phone }
+      - { type: text, name: start, label: 'Frühester Eintrittstermin' }
+      - { type: textarea, name: message, label: 'Ein paar Sätze zu Ihnen', size: ['5', '40'] }
+      - { type: upload, name: documents, mandatory: true, label: 'Lebenslauf und Zeugnisse (PDF, max. 10 MB)', extensions: pdf, maxlength: 10485760 }
+      - type: checkbox
+        name: privacy
+        mandatory: true
+        options: [{ value: '1', label: 'Ich habe die <a href="{{link_url::datenschutz}}">Datenschutzerklärung</a> gelesen und stimme zu.' }]
+      - { type: submit, slabel: 'Bewerbung senden' }
+news:
+  karriere:
+    title: Stellenangebote
+    jumpTo: 'page:stelle'
+    items:
+      - alias: zerspanungsmechaniker
+        headline: 'Zerspanungsmechaniker (m/w/d)'
+        subheadline: 'Vollzeit · Neuburg · ab sofort'
+        teaser: '<p>Sie richten unsere CNC-Bearbeitungszentren ein, fertigen Einzelteile und Serien und prüfen die Qualität – in moderner Halle und im Zweischichtbetrieb.</p>'
+        date: '-3 days'
+        elements:
+          - type: text
+            headline: { unit: h2, value: 'Ihre Aufgaben' }
+            text: '<ul><li>Einrichten und Bedienen von CNC-Fräs- und Drehmaschinen</li><li>Fertigung nach Zeichnung, Einzelteile und Kleinserien</li><li>Prüfen der Maße und Dokumentation</li><li>Mitarbeit bei der Optimierung von Programmen</li></ul>'
+          - type: text
+            headline: { unit: h2, value: 'Ihr Profil' }
+            text: '<ul><li>Abgeschlossene Ausbildung als Zerspanungsmechaniker oder vergleichbar</li><li>Erfahrung mit Heidenhain- oder Siemens-Steuerungen</li><li>Sorgfalt und Freude an Präzision</li></ul>'
+          - type: text
+            headline: { unit: h2, value: 'Wir bieten' }
+            text: '<ul><li>Unbefristeter Vertrag und tarifnahe Bezahlung</li><li>30 Tage Urlaub, Weihnachts- und Urlaubsgeld</li><li>Jobrad, betriebliche Altersvorsorge, Weiterbildung</li></ul><p><a href="{{link_url::bewerbung}}">Jetzt bewerben</a></p>'
+            cssID: u-button
+      - alias: konstrukteur-stahlbau
+        headline: 'Konstrukteur Stahlbau (m/w/d)'
+        subheadline: 'Vollzeit · Neuburg · Hybrid möglich'
+        teaser: '<p>Sie planen Stahlkonstruktionen und Baugruppen in 3D, erstellen Werkstattzeichnungen und stimmen sich mit Kunden und Fertigung ab.</p>'
+        date: '-8 days'
+        elements:
+          - type: text
+            headline: { unit: h2, value: 'Ihre Aufgaben' }
+            text: '<ul><li>Konstruktion in Tekla Structures und Inventor</li><li>Erstellen von Werkstatt- und Montagezeichnungen</li><li>Abstimmung mit Statikern, Kunden und Fertigung</li></ul>'
+          - type: text
+            headline: { unit: h2, value: 'Ihr Profil' }
+            text: '<ul><li>Technikerin, Techniker oder Studium im Bereich Stahlbau</li><li>Sicherer Umgang mit 3D-CAD</li><li>Kenntnisse der EN 1090 sind von Vorteil</li></ul><p><a href="{{link_url::bewerbung}}">Jetzt bewerben</a></p>'
+            cssID: u-button
+      - alias: schweisser
+        headline: 'Schweißer MAG/WIG (m/w/d)'
+        subheadline: 'Vollzeit · Neuburg · ab sofort'
+        teaser: '<p>Sie schweißen Baugruppen und Stahlkonstruktionen nach Zeichnung – mit gültiger Prüfung nach ISO 9606 oder der Bereitschaft, sie bei uns zu machen.</p>'
+        date: '-15 days'
+        elements:
+          - type: text
+            text: '<p>Wir suchen Verstärkung für unsere Schweißerei mit zwölf Arbeitsplätzen und einem Schweißroboter. Sie arbeiten im Team mit erfahrenen Kolleginnen und Kollegen und werden von unserer Schweißaufsicht begleitet.</p><p><a href="{{link_url::bewerbung}}">Jetzt bewerben</a></p>'
+            cssID: u-button
+      - alias: ausbildung-metallbauer
+        headline: 'Ausbildung Metallbauer (m/w/d)'
+        subheadline: 'Ausbildung · Neuburg · Start 1. September'
+        teaser: '<p>Dreieinhalb Jahre Ausbildung in Fertigung, Schweißerei und Montage – mit eigener Ausbildungswerkstatt und hoher Übernahmequote.</p>'
+        date: '-20 days'
+        elements:
+          - type: text
+            text: '<p>Bei uns lernen Sie alles, was eine gute Fachkraft braucht: vom Lesen technischer Zeichnungen über Schweißen und Montage bis zur Arbeit an modernen CNC-Maschinen. In den letzten fünf Jahren haben wir alle Auszubildenden übernommen.</p><p><a href="{{link_url::bewerbung}}">Jetzt bewerben</a></p>'
+            cssID: u-button
+  aktuelles:
+    title: Aktuelles
+    jumpTo: 'page:meldung'
+    items:
+      - alias: neuer-faserlaser
+        headline: 'Neuer 12-kW-Faserlaser in Betrieb'
+        subheadline: 'Doppelte Schneidgeschwindigkeit bei Blechen bis 25 mm'
+        teaser: '<p>Mit dem neuen Faserlaser schneiden wir Baustahl bis 25 mm und Edelstahl bis 20 mm – schneller, präziser und mit weniger Energie.</p>'
+        singleSRC: 'file:bilder/fertigung.jpg'
+        date: '-4 days'
+        elements:
+          - type: text
+            text: '<p>Seit diesem Monat läuft in Halle 2 ein 12-kW-Faserlaser mit automatischem Plattenwechsler. Damit verdoppeln wir die Schneidleistung bei dicken Blechen und können auch nachts mannarm fertigen.</p><p>Für unsere Kunden heißt das: kürzere Lieferzeiten und gleichbleibende Qualität, auch bei großen Stückzahlen.</p>'
+          - { type: download, overwriteLink: true, singleSRC: 'file:downloads/datenblatt-laserschneiden.pdf', linkTitle: 'Datenblatt Laserschneiden' }
+      - alias: zertifizierung-en-1090-exc-3
+        headline: 'Zertifizierung nach EN 1090 EXC 3 bestätigt'
+        subheadline: 'Höchste Ausführungsklasse für tragende Stahlbauteile'
+        teaser: '<p>Das Überwachungsaudit hat unsere Zertifizierung nach EN 1090 in der Ausführungsklasse EXC 3 ohne Abweichungen bestätigt.</p>'
+        singleSRC: 'file:bilder/schweissen.jpg'
+        date: '-18 days'
+        elements:
+          - type: text
+            text: '<p>Damit dürfen wir weiterhin tragende Stahlbauteile für Brücken, Hallen und Industrieanlagen mit hohen Anforderungen fertigen. Ein Dank an das gesamte Team – vor allem an unsere Schweißaufsicht.</p>'
+      - alias: tag-der-ausbildung
+        headline: 'Tag der Ausbildung: 60 Schülerinnen und Schüler zu Gast'
+        subheadline: 'Ausprobieren, schweißen, fragen'
+        teaser: '<p>Am Tag der Ausbildung konnten Jugendliche aus der Region in unserer Lehrwerkstatt selbst Hand anlegen.</p>'
+        singleSRC: 'file:bilder/ausbildung.jpg'
+        date: '-30 days'
+        elements:
+          - type: text
+            text: '<p>Unsere Auszubildenden haben gezeigt, was sie können, und die Gäste beim Feilen, Biegen und Schweißen am Simulator begleitet. Für das kommende Ausbildungsjahr sind noch Plätze frei.</p><p><a href="{{link_url::karriere}}">Zu den Stellenangeboten</a></p>'
+modules:
+  breadcrumb: { type: breadcrumb, name: Breadcrumb }
+  aktuelles-neueste: { type: newslist, name: 'Aktuelles – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:aktuelles'] }
+  aktuelles-liste:
+    type: newslist
+    name: 'Aktuelles – Liste'
+    imgSize: 'image_size:news'
+    perPage: 6
+    numberOfItems: 0
+    news_archives: ['news_archive:aktuelles']
+  aktuelles-leser:
+    type: newsreader
+    name: 'Aktuelles – Leser'
+    imgSize: 'image_size:news-detail'
+    overviewPage: 'page:aktuelles'
+    news_archives: ['news_archive:aktuelles']
+  stellen:
+    type: newslist
+    name: 'Karriere – Stellenangebote'
+    numberOfItems: 0
+    news_template: news_creuva_job
+    news_archives: ['news_archive:karriere']
+  stellen-neueste:
+    type: newslist
+    name: 'Karriere – Neueste Stellen'
+    numberOfItems: 3
+    news_template: news_creuva_job
+    news_archives: ['news_archive:karriere']
+  stelle-leser:
+    type: newsreader
+    name: 'Karriere – Stellenanzeige'
+    overviewPage: 'page:karriere'
+    news_archives: ['news_archive:karriere']
+  sitemap: { type: sitemap, name: Sitemap }
+  suche: { type: search, name: Suche, searchType: simple, perPage: 10, contextLength: ['48', '280'], minKeywordLength: 3 }
+pages:
+  - type: regular
+    title: Start
+    alias: index
+    hide: true
+    description: 'Kessler Metalltechnik: Konstruktion, Laserschneiden, Schweißen und Montage von Metallbauteilen und Stahlkonstruktionen für Maschinenbau, Bau und Energie.'
+    articles:
+      - title: Hero
+        elements:
+          - type: creuva_hero
+            size: 'image_size:cover'
+            headline: { unit: h1, value: 'Metalltechnik, auf die' }
+            text: '<p>Wir konstruieren, fertigen und montieren Bauteile, Baugruppen und Stahlkonstruktionen – zuverlässig, termintreu und nach EN 1090 und ISO 9001.</p>'
+            singleSRC: 'file:bilder/start.jpg'
+            creuvaKicker: 'Kessler Metalltechnik GmbH'
+            creuvaHeadlineAccent: 'Sie bauen können.'
+            creuvaBadge: 'Fertigung Halle 1, Neuburg'
+            creuvaHeroMask: cover
+            creuvaUrl1: '{{link_url::kontakt|urlattr}}'
+            creuvaLinkTitle1: 'Anfrage stellen'
+            creuvaUrl2: '{{link_url::leistungen|urlattr}}'
+            creuvaLinkTitle2: 'Unsere Leistungen'
+      - title: Kennzahlen
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: description_list
+            headline: { unit: h2, value: 'Kessler in Zahlen' }
+            customTpl: content_element/description_list/creuva_stats
+            data:
+              - { key: '1987', value: Gegründet }
+              - { key: '120', value: Mitarbeitende }
+              - { key: '9.500 m²', value: Fertigungsfläche }
+              - { key: '98 %', value: 'Liefertreue' }
+            cssID: 'u-bg-primary u-full-bleed u-text-center u-no-countup'
+      - title: Leistungen
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Alles aus einer Hand.', subline: Leistungen }
+              - type: text
+                text: '<p>Von der ersten Skizze bis zur Montage auf der Baustelle: Wir begleiten Ihr Projekt mit eigener Konstruktion, moderner Fertigung und erfahrenen Montageteams.</p><p><a href="{{link_url::leistungen}}">Alle Leistungen</a></p>'
+                cssID: u-muted
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: Konstruktion }
+                text: '<p>3D-Konstruktion, Werkstattzeichnungen und Statik-Abstimmung.</p><p><a href="{{link_url::konstruktion}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/konstruktion.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Laser & Kanten' }
+                text: '<p>Faserlaser bis 25 mm, Abkanten bis 4 m Länge.</p><p><a href="{{link_url::fertigung}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/laser.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: Schweißen }
+                text: '<p>MAG, WIG und Roboterschweißen nach ISO 3834.</p><p><a href="{{link_url::fertigung}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/schweissen.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Montage & Service' }
+                text: '<p>Eigene Montageteams, Wartung und Ersatzteile.</p><p><a href="{{link_url::montage-service}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/montage.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+      - title: Branchen
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Lösungen für Ihre Branche.', subline: Branchen }
+              - type: text
+                text: '<p>Wir kennen die Anforderungen unserer Kunden – von der Toleranz im Maschinenbau bis zur Hygiene in der Lebensmittelindustrie.</p><p><a href="{{link_url::branchen}}">Alle Branchen</a></p>'
+                cssID: u-muted
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: Maschinenbau }
+                text: '<p>Gestelle, Verkleidungen und Baugruppen.</p><p><a href="{{link_url::maschinenbau}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/halle.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Industrie
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: 'Bau & Architektur' }
+                text: '<p>Stahlbau, Treppen und Fassaden.</p><p><a href="{{link_url::bau-architektur}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Bau
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: 'Energie & Anlagen' }
+                text: '<p>Unterkonstruktionen und Bühnen.</p><p><a href="{{link_url::energie-anlagenbau}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/stahlbau-abend.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Energie
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: Lebensmittelindustrie }
+                text: '<p>Edelstahl nach Hygienic Design.</p><p><a href="{{link_url::lebensmittelindustrie}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/lebensmittel.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Edelstahl
+      - title: Ablauf
+        teaserCssID: ['', '']
+        elements:
+          - { type: headline, headline: 'So läuft Ihr Projekt.', subline: 'In vier Schritten' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_steps
+            data:
+              - { key: Anfrage, value: 'Sie schicken uns Zeichnung oder Idee – Angebot meist innerhalb von 48 Stunden.' }
+              - { key: Konstruktion, value: 'Wir planen in 3D und stimmen Details und Termine mit Ihnen ab.' }
+              - { key: Fertigung, value: 'Laser, Kanten, Schweißen und Oberfläche – alles im eigenen Haus.' }
+              - { key: Montage, value: 'Lieferung und Montage durch unsere eigenen Teams.' }
+      - title: Unternehmen
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: 'Verlässlich.'
+            text: '<p>Seit 1987 steht Kessler für solide Metalltechnik aus Oberschwaben. Als Familienunternehmen in zweiter Generation denken wir langfristig – bei unseren Kunden, unseren Mitarbeitenden und unseren Investitionen.</p><ul><li>Zertifiziert nach ISO 9001, ISO 14001 und EN 1090 EXC 3</li><li>Feste Ansprechpartner für jedes Projekt</li><li>Eigene Ausbildungswerkstatt</li></ul><p><a href="{{link_url::unternehmen}}">Über das Unternehmen</a></p>'
+            singleSRC: 'file:bilder/firmensitz.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: 'Familienunternehmen seit 1987'
+            subline: 'Persönlich und'
+            headline_inline: '1'
+      - title: Referenzen
+        teaserCssID: ['', '']
+        elements:
+          - type: creuva_logos
+            headline: { unit: h2, value: 'Unternehmen, die uns vertrauen' }
+            multiSRC: ['file:kunden/bergmann-maschinenbau.svg', 'file:kunden/rheintal-anlagenbau.svg', 'file:kunden/nordbau.svg', 'file:kunden/alpina-food.svg', 'file:kunden/solaris-energie.svg', 'file:kunden/wieland-foerdertechnik.svg']
+            creuvaLogosHeight: 2.5rem
+          - type: text
+            addImage: true
+            overwriteMeta: true
+            size: 'image_size:avatar'
+            headline: { unit: h3, value: 'Dr. Martin Bergmann' }
+            text: '<p>Kessler fertigt seit über zehn Jahren unsere Maschinengestelle. Die Qualität stimmt, die Termine auch – und wenn es einmal eng wird, findet das Team eine Lösung.</p>'
+            singleSRC: 'file:bilder/team-3.jpg'
+            alt: 'Dr. Martin Bergmann'
+            customTpl: content_element/text/creuva_testimonial
+            cssID: 'u-narrow u-card-muted'
+            subline: 'Geschäftsführer, Bergmann Maschinenbau'
+      - title: Karriere
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+            children:
+              - type: text
+                headline: 'Team.'
+                text: '<p>Wir suchen Fachkräfte und Auszubildende, die mit uns anpacken. Unbefristet, fair bezahlt und mit echten Perspektiven.</p><p><a href="{{link_url::karriere}}">Alle Stellen</a></p>'
+                creuvaKicker: Karriere
+                subline: 'Verstärken Sie unser'
+                headline_inline: '1'
+              - { type: module, module: 'module:stellen-neueste' }
+      - title: Aktuelles
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: Aktuelles., subline: 'Neues von Kessler', headline_inline: '1' }
+              - type: text
+                text: '<p>Investitionen, Zertifizierungen und Neuigkeiten aus dem Unternehmen.</p><p><a href="{{link_url::aktuelles}}">Alle Meldungen</a></p>'
+                cssID: u-muted
+          - { type: module, module: 'module:aktuelles-neueste' }
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'Ihr Projekt.'
+            text: |-
+              <p>Schicken Sie uns Ihre Zeichnung oder beschreiben Sie Ihr Vorhaben – Sie erhalten in der Regel innerhalb von 48 Stunden ein Angebot.</p>
+              <p><a href="{{link_url::kontakt|urlattr}}">Anfrage stellen</a> <a href="tel:+497300000000">+49 730 0000000</a></p>
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-primary u-full-bleed'
+            creuvaKicker: 'Angebot in 48 Stunden'
+            subline: 'Sprechen wir über'
+            headline_inline: '1'
+  - type: regular
+    title: Leistungen
+    alias: leistungen
+    description: 'Leistungen der Kessler Metalltechnik: Konstruktion, Laserschneiden, Abkanten, Schweißen, Oberflächen, Montage und Service.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h1, value: 'Von der Idee bis zur' }
+            text: '<p>Konstruktion, Fertigung und Montage unter einem Dach: Das spart Schnittstellen, Zeit und Abstimmung – und Sie haben einen Ansprechpartner für alles.</p>'
+            singleSRC: 'file:bilder/fertigung.jpg'
+            creuvaKicker: Leistungen
+            creuvaHeadlineAccent: Montage.
+            creuvaBadge: |-
+              Eigene Konstruktion
+              Fertigung im Haus
+              Eigene Montageteams
+            creuvaHeroMask: none
+      - title: Übersicht
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: Konstruktion.
+            text: '<p>Unsere Konstrukteure planen Bauteile, Baugruppen und Stahlkonstruktionen in 3D und erstellen alle Zeichnungen für Fertigung und Montage.</p><ul><li>3D-CAD mit Tekla Structures und Inventor</li><li>Abstimmung mit Statik und Architektur</li><li>Fertigungsgerechte Optimierung</li></ul><p><a href="{{link_url::konstruktion}}">Mehr zur Konstruktion</a></p>'
+            singleSRC: 'file:bilder/buero.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: '01'
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: Fertigung.
+            text: '<p>Auf 9.500 m² schneiden, kanten, bohren, fräsen und schweißen wir – vom Einzelteil bis zur Serie.</p><ul><li>Faserlaser 12 kW, Abkantpressen bis 4 m</li><li>CNC-Bearbeitung und Schweißroboter</li><li>Pulverbeschichtung und Feuerverzinkung über Partner</li></ul><p><a href="{{link_url::fertigung}}">Mehr zur Fertigung</a></p>'
+            singleSRC: 'file:bilder/schweissen.jpg'
+            floating: right
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: '02'
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: 'Montage & Service.'
+            text: '<p>Unsere Montageteams bauen Ihre Konstruktion vor Ort auf – deutschlandweit und mit eigenem Gerät. Danach kümmern wir uns um Wartung und Ersatzteile.</p><ul><li>Montage mit Kran und Hubarbeitsbühnen</li><li>Wartungsverträge und Prüfungen</li><li>Ersatzteile auch nach Jahren</li></ul><p><a href="{{link_url::montage-service}}">Mehr zu Montage und Service</a></p>'
+            singleSRC: 'file:bilder/stahlbau.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: '03'
+      - title: Maschinenpark
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+            children:
+              - type: text
+                headline: 'Maschinenpark.'
+                text: '<p>Wir investieren jedes Jahr in neue Technik. Eine Auswahl unserer Anlagen:</p><p><a href="{{link_url::downloads}}">Datenblätter</a></p>'
+                creuvaKicker: Technik
+                subline: 'Unser'
+                headline_inline: '1'
+              - type: table
+                thead: true
+                tableitems:
+                  - [Verfahren, Anlage, Kapazität]
+                  - [Laserschneiden, 'Faserlaser 12 kW', 'Bleche bis 3.000 × 1.500 mm, Stahl bis 25 mm']
+                  - [Abkanten, '2 Abkantpressen', 'bis 4.000 mm, 320 t']
+                  - [Zerspanen, '6 CNC-Bearbeitungszentren', 'bis 2.000 × 800 mm']
+                  - [Schweißen, '12 Plätze, 1 Roboter', 'MAG, WIG, ISO 3834-2']
+                  - [Montage, 'eigener Fuhrpark und Kran', 'deutschlandweit']
+    children:
+      - type: regular
+        title: Konstruktion
+        alias: konstruktion
+        description: 'Konstruktion bei Kessler Metalltechnik: 3D-Planung, Werkstattzeichnungen und fertigungsgerechte Optimierung.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Konstruktion, die' }
+                text: '<p>Gute Bauteile entstehen am Rechner: Wir konstruieren so, dass sich Ihre Teile wirtschaftlich fertigen und sicher montieren lassen.</p>'
+                singleSRC: 'file:bilder/buero.jpg'
+                creuvaKicker: Leistungen
+                creuvaHeadlineAccent: 'mitdenkt.'
+                creuvaHeroMask: none
+                creuvaUrl1: '{{link_url::kontakt|urlattr}}'
+                creuvaLinkTitle1: 'Projekt besprechen'
+          - title: Leistungen
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: '3D-Konstruktion' }
+                    text: '<p>Modelle in Tekla Structures und Inventor, Austausch per STEP, IFC und DXF.</p>'
+                    singleSRC: 'file:icons/konstruktion.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Zeichnungen' }
+                    text: '<p>Werkstatt-, Montage- und Stücklisten aus einem Modell.</p>'
+                    singleSRC: 'file:icons/ebenen.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Optimierung' }
+                    text: '<p>Weniger Schweißnähte, weniger Verschnitt, weniger Kosten.</p>'
+                    singleSRC: 'file:icons/zahnrad.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+          - title: Ansprechpartner
+            teaserCssID: ['', '']
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-center'
+                children:
+                  - type: text
+                    headline: 'Fragen zur Konstruktion?'
+                    text: '<p>Daniel Brandt leitet unsere Konstruktion und berät Sie gerne schon in der Planungsphase.</p>'
+                  - type: text
+                    addImage: true
+                    size: 'image_size:team'
+                    headline: { unit: h3, value: 'Daniel Brandt' }
+                    text: '<p>Leitung Konstruktion<br><a href="tel:+497300000010">+49 730 0000010</a><br><a href="mailto:konstruktion@example.com">konstruktion@example.com</a></p>'
+                    singleSRC: 'file:bilder/team-3.jpg'
+                    customTpl: content_element/text/creuva_team
+                    subline: Ansprechpartner
+      - type: regular
+        title: Fertigung
+        alias: fertigung
+        description: 'Fertigung bei Kessler Metalltechnik: Laserschneiden, Abkanten, CNC-Bearbeitung und Schweißen nach ISO 3834.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Fertigung mit' }
+                text: '<p>Vom Blech zum fertigen Bauteil: Laserschneiden, Abkanten, Zerspanen und Schweißen – alles unter einem Dach und mit dokumentierter Qualität.</p>'
+                singleSRC: 'file:bilder/halle.jpg'
+                creuvaKicker: Leistungen
+                creuvaHeadlineAccent: 'System.'
+                creuvaHeroMask: none
+                creuvaUrl1: '{{link_url::kontakt|urlattr}}'
+                creuvaLinkTitle1: 'Teile anfragen'
+          - title: Verfahren
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/fertigung.jpg', 'file:bilder/schweissen-hoch.jpg', 'file:bilder/teile.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic
+              - type: element_group
+                cssID: u-grid-2
+                children:
+                  - type: accordion
+                    children:
+                      - type: text
+                        sectionHeadline: { unit: h3, value: Laserschneiden }
+                        text: '<p>Faserlaser mit 12 kW für Baustahl bis 25 mm, Edelstahl bis 20 mm und Aluminium bis 15 mm. Toleranz ± 0,1 mm.</p>'
+                      - type: text
+                        sectionHeadline: { unit: h3, value: Abkanten }
+                        text: '<p>Zwei CNC-Abkantpressen bis 4 m Länge und 320 t Presskraft mit automatischer Winkelmessung.</p>'
+                      - type: text
+                        sectionHeadline: { unit: h3, value: Zerspanen }
+                        text: '<p>Sechs Bearbeitungszentren für Fräsen, Bohren und Gewinden bis 2.000 × 800 mm.</p>'
+                      - type: text
+                        sectionHeadline: { unit: h3, value: Schweißen }
+                        text: '<p>Zwölf Schweißplätze und ein Roboter für MAG und WIG, Qualität nach ISO 3834-2.</p>'
+                  - type: downloads
+                    headline: { unit: h3, value: 'Technische Unterlagen' }
+                    multiSRC: ['file:downloads/datenblatt-laserschneiden.pdf', 'file:downloads/zertifikat-en-1090.pdf']
+      - type: regular
+        title: 'Montage & Service'
+        alias: montage-service
+        description: 'Montage und Service von Kessler Metalltechnik: eigene Montageteams, Wartung, Prüfungen und Ersatzteile.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Montage und Service mit' }
+                text: '<p>Unsere Teams bauen Stahlkonstruktionen, Bühnen und Anlagen vor Ort auf – und bleiben auch danach für Sie da.</p>'
+                singleSRC: 'file:bilder/montage.jpg'
+                creuvaKicker: Leistungen
+                creuvaHeadlineAccent: 'eigenen Teams.'
+                creuvaHeroMask: none
+                creuvaUrl1: '{{link_url::kontakt|urlattr}}'
+                creuvaLinkTitle1: 'Service anfragen'
+          - title: Service
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Montage }
+                    text: '<p>Deutschlandweit mit Kran, Hubarbeitsbühnen und geschultem Personal.</p>'
+                    singleSRC: 'file:icons/montage.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Wartung }
+                    text: '<p>Regelmäßige Prüfungen und Wartung nach festem Plan.</p>'
+                    singleSRC: 'file:icons/kalender.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Ersatzteile }
+                    text: '<p>Wir archivieren alle Zeichnungen – Ersatzteile auch nach Jahren.</p>'
+                    singleSRC: 'file:icons/support.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+  - type: regular
+    title: Branchen
+    alias: branchen
+    description: 'Branchenlösungen von Kessler Metalltechnik für Maschinenbau, Bau und Architektur, Energie- und Anlagenbau sowie die Lebensmittelindustrie.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Lösungen für Ihre' }
+            text: '<p>Jede Branche hat eigene Normen, Werkstoffe und Abläufe. Wir kennen sie – und liefern Bauteile, die genau dazu passen.</p>'
+            creuvaKicker: Branchen
+            creuvaHeadlineAccent: Branche.
+            creuvaHeroMask: none
+      - title: Übersicht
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: Maschinenbau }
+                text: '<p>Maschinengestelle, Verkleidungen, Schutzzäune und komplette Baugruppen – einbaufertig und termingenau.</p><p><a href="{{link_url::maschinenbau}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/halle.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Industrie
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Bau & Architektur' }
+                text: '<p>Stahlkonstruktionen, Treppen, Geländer und Fassadenelemente nach EN 1090 bis EXC 3.</p><p><a href="{{link_url::bau-architektur}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Bau
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Energie & Anlagenbau' }
+                text: '<p>Unterkonstruktionen, Bühnen, Podeste und Rohrbrücken für Kraftwerke, Solar- und Windparks.</p><p><a href="{{link_url::energie-anlagenbau}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/stahlbau-abend.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Energie
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: Lebensmittelindustrie }
+                text: '<p>Edelstahlkonstruktionen nach Hygienic Design – leicht zu reinigen und lebensmittelecht.</p><p><a href="{{link_url::lebensmittelindustrie}}">Zur Branche</a></p>'
+                singleSRC: 'file:bilder/lebensmittel.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Edelstahl
+    children:
+      - type: regular
+        title: Maschinenbau
+        alias: maschinenbau
+        description: 'Metalltechnik für den Maschinenbau: Maschinengestelle, Verkleidungen und Baugruppen von Kessler.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Partner für den' }
+                text: '<p>Maschinenbauer brauchen Bauteile, die passen – auf den Zehntelmillimeter und auf den Tag. Wir liefern Gestelle, Verkleidungen und Baugruppen einbaufertig an Ihre Linie.</p>'
+                singleSRC: 'file:bilder/halle.jpg'
+                creuvaKicker: Branchen
+                creuvaHeadlineAccent: Maschinenbau.
+                creuvaHeroMask: none
+          - title: Lösungen
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-start'
+                children:
+                  - type: text
+                    headline: { unit: h2, value: 'Ihre Anforderungen' }
+                    text: '<ul><li>Enge Toleranzen und dokumentierte Maße</li><li>Wiederkehrende Serien mit stabiler Qualität</li><li>Kurzfristige Änderungen ohne Stillstand</li></ul>'
+                  - type: text
+                    headline: { unit: h2, value: 'Unsere Lösung' }
+                    text: '<ul><li>Messprotokolle zu jeder Lieferung</li><li>Rahmenverträge mit Abrufen und Lager</li><li>Eigene Konstruktion für schnelle Anpassungen</li></ul>'
+              - type: description_list
+                headline: { unit: h2, value: 'Referenzprojekt' }
+                customTpl: content_element/description_list/creuva_facts
+                cssID: u-card
+                data:
+                  - { key: Kunde, value: 'Bergmann Maschinenbau' }
+                  - { key: Bauteile, value: 'Maschinengestelle und Schutzverkleidungen' }
+                  - { key: Umfang, value: '420 Gestelle pro Jahr, Rahmenvertrag seit 2014' }
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Daniel Brandt berät Sie.'
+                text: '<p>Schicken Sie uns Zeichnungen oder Stücklisten – wir melden uns mit einem Angebot.</p><p><a href="{{link_url::kontakt|urlattr}}">Anfrage stellen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-soft u-full-bleed'
+                creuvaKicker: 'Ihr Ansprechpartner'
+      - type: regular
+        title: 'Bau & Architektur'
+        alias: bau-architektur
+        description: 'Stahlbau für Bau und Architektur: Hallen, Treppen, Geländer und Fassaden nach EN 1090.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Stahlbau für' }
+                text: '<p>Hallen, Treppen, Geländer und Fassadenelemente – gefertigt nach EN 1090 bis EXC 3 und montiert von unseren eigenen Teams.</p>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                creuvaKicker: Branchen
+                creuvaHeadlineAccent: 'Bau & Architektur.'
+                creuvaHeroMask: none
+          - title: Leistungen
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/stahlbau-abend.jpg', 'file:bilder/fassade.jpg', 'file:bilder/montage.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic-right
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Hallen }
+                    text: '<p>Stahlkonstruktionen für Gewerbe, Logistik und Landwirtschaft.</p>'
+                    singleSRC: 'file:icons/fabrik.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Treppen & Geländer' }
+                    text: '<p>Innen und außen, verzinkt oder pulverbeschichtet.</p>'
+                    singleSRC: 'file:icons/ebenen.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Fassaden }
+                    text: '<p>Lamellen, Unterkonstruktionen und Sonnenschutz.</p>'
+                    singleSRC: 'file:icons/bau.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-feature-plain
+      - type: regular
+        title: 'Energie & Anlagenbau'
+        alias: energie-anlagenbau
+        description: 'Metalltechnik für Energie und Anlagenbau: Unterkonstruktionen, Bühnen, Podeste und Rohrbrücken.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Tragwerke für' }
+                text: '<p>Unterkonstruktionen für Solarparks, Bühnen und Podeste für Anlagen, Rohrbrücken für Kraftwerke – robust, korrosionsgeschützt und termingerecht.</p>'
+                singleSRC: 'file:bilder/stahlbau-abend.jpg'
+                creuvaKicker: Branchen
+                creuvaHeadlineAccent: 'Energie & Anlagen.'
+                creuvaHeroMask: none
+          - title: Fakten
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: description_list
+                customTpl: content_element/description_list/creuva_stats
+                data:
+                  - { key: '38 MW', value: 'Solarparks mit unserer Unterkonstruktion' }
+                  - { key: '1.200 t', value: 'Stahl pro Jahr' }
+                  - { key: 'EXC 3', value: 'Ausführungsklasse' }
+                cssID: u-no-countup
+      - type: regular
+        title: Lebensmittelindustrie
+        alias: lebensmittelindustrie
+        description: 'Edelstahlkonstruktionen für die Lebensmittelindustrie nach Hygienic Design.'
+        articles:
+          - title: Intro
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: creuva_hero
+                size: 'image_size:hero'
+                headline: { unit: h1, value: 'Edelstahl für die' }
+                text: '<p>Gestelle, Plattformen und Verkleidungen aus Edelstahl nach Hygienic Design: offene Profile, glatte Nähte, leicht zu reinigen.</p>'
+                singleSRC: 'file:bilder/lebensmittel.jpg'
+                creuvaKicker: Branchen
+                creuvaHeadlineAccent: Lebensmittelindustrie.
+                creuvaHeroMask: none
+          - title: Vorteile
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Hygienic Design' }
+                    text: '<p>Keine Spalten, keine Toträume, geschliffene Nähte.</p>'
+                    singleSRC: 'file:icons/lebensmittel.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Werkstoffe' }
+                    text: '<p>1.4301 und 1.4404 mit Materialzeugnis.</p>'
+                    singleSRC: 'file:icons/schild.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Montage im Betrieb' }
+                    text: '<p>Einbau auch am Wochenende, ohne Produktionsstopp.</p>'
+                    singleSRC: 'file:icons/uhr.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+  - type: regular
+    title: Referenzen
+    alias: referenzen
+    description: 'Referenzen der Kessler Metalltechnik: Projekte für Maschinenbau, Bau, Energie und Lebensmittelindustrie.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Projekte, die' }
+            text: '<p>Eine Auswahl unserer Projekte der letzten Jahre – vom Maschinengestell bis zur Hallenkonstruktion.</p>'
+            creuvaKicker: Referenzen
+            creuvaHeadlineAccent: 'tragen.'
+            creuvaHeroMask: none
+      - title: Projekte
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Produktionshalle Rheintal' }
+                text: '<p>Stahlkonstruktion für eine 4.200 m² große Halle, 380 t Stahl, EXC 2.</p><p><a href="{{link_url::bau-architektur}}">Bau & Architektur</a></p>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Stahlbau · 2025'
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Maschinengestelle Bergmann' }
+                text: '<p>420 Gestelle pro Jahr im Rahmenvertrag, mit Messprotokoll.</p><p><a href="{{link_url::maschinenbau}}">Maschinenbau</a></p>'
+                singleSRC: 'file:bilder/halle.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Maschinenbau · seit 2014'
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Solarpark Höhenried' }
+                text: '<p>Unterkonstruktion für 18 MW, Montage in zehn Wochen.</p><p><a href="{{link_url::energie-anlagenbau}}">Energie & Anlagenbau</a></p>'
+                singleSRC: 'file:bilder/stahlbau-abend.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Energie · 2024'
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Abfülllinie Alpina Food' }
+                text: '<p>Edelstahlbühnen und Gestelle nach Hygienic Design.</p><p><a href="{{link_url::lebensmittelindustrie}}">Lebensmittelindustrie</a></p>'
+                singleSRC: 'file:bilder/lebensmittel.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Edelstahl · 2025'
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Fassade Verwaltung NordBau' }
+                text: '<p>Lamellenfassade aus Aluminium, 1.100 m².</p><p><a href="{{link_url::bau-architektur}}">Bau & Architektur</a></p>'
+                singleSRC: 'file:bilder/fassade.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Fassade · 2024'
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h2, value: 'Präzisionsteile Wieland' }
+                text: '<p>Lasergeschnittene und gekantete Teile für Fördertechnik.</p><p><a href="{{link_url::fertigung}}">Fertigung</a></p>'
+                singleSRC: 'file:bilder/teile.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Fertigung · laufend'
+      - title: Kunden
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - type: creuva_logos
+            headline: { unit: h2, value: 'Auswahl unserer Kunden' }
+            multiSRC: ['file:kunden/bergmann-maschinenbau.svg', 'file:kunden/rheintal-anlagenbau.svg', 'file:kunden/nordbau.svg', 'file:kunden/alpina-food.svg', 'file:kunden/solaris-energie.svg', 'file:kunden/wieland-foerdertechnik.svg']
+            creuvaLogosHeight: 2.5rem
+  - type: regular
+    title: Unternehmen
+    alias: unternehmen
+    description: 'Kessler Metalltechnik GmbH: Familienunternehmen seit 1987, Geschichte, Qualität, Geschäftsführung und Standorte.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            size: 'image_size:cover'
+            headline: { unit: h1, value: 'Familienunternehmen in' }
+            text: '<p>Was 1987 als Schlosserei mit drei Mitarbeitern begann, ist heute ein Metalltechnik-Betrieb mit 120 Menschen, zwei Standorten und Kunden in ganz Europa.</p>'
+            singleSRC: 'file:bilder/firmensitz.jpg'
+            creuvaKicker: Unternehmen
+            creuvaHeadlineAccent: 'zweiter Generation.'
+            creuvaBadge: 'Firmensitz Neuburg an der Riß'
+            creuvaHeroMask: cover
+      - title: Geschichte
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-start'
+            children:
+              - type: text
+                headline: 'gewachsen.'
+                text: '<p>Wir sind Schritt für Schritt gewachsen – mit unseren Kunden und ohne fremde Investoren. Jede neue Halle und jede neue Maschine haben wir aus eigener Kraft finanziert.</p><p>Seit 2019 führen Thomas und Anna Kessler das Unternehmen gemeinsam, in zweiter Generation.</p>'
+                creuvaKicker: Geschichte
+                subline: 'Solide'
+                headline_inline: '1'
+              - type: description_list
+                customTpl: content_element/description_list/creuva_timeline
+                data:
+                  - { key: '1987', value: 'Gründung als Schlosserei durch Werner Kessler' }
+                  - { key: '1998', value: 'Neubau der ersten Fertigungshalle in Neuburg' }
+                  - { key: '2008', value: 'Zertifizierung nach ISO 9001 und Einstieg in den Stahlbau' }
+                  - { key: '2016', value: 'Zweiter Standort in Ulm mit Montage und Service' }
+                  - { key: '2019', value: 'Übergabe an die zweite Generation' }
+                  - { key: '2026', value: 'Neuer Faserlaser und 1.500 m² mehr Fertigungsfläche' }
+      - title: Qualität
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Geprüfte Qualität.', subline: Zertifikate }
+              - type: text
+                text: '<p>Unsere Prozesse sind zertifiziert und werden jedes Jahr von unabhängigen Stellen überprüft.</p><p><a href="{{link_url::downloads}}">Zertifikate herunterladen</a></p>'
+                cssID: u-muted
+          - type: creuva_logos
+            multiSRC: ['file:zertifikate/iso-9001.svg', 'file:zertifikate/iso-14001.svg', 'file:zertifikate/en-1090.svg', 'file:zertifikate/iso-3834.svg', 'file:zertifikate/meisterbetrieb.svg']
+            creuvaLogosHeight: 3.5rem
+      - title: Geschäftsführung
+        teaserCssID: ['', '']
+        elements:
+          - { type: headline, headline: 'Geschäftsführung.', subline: 'Die' , headline_inline: '1' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Thomas Kessler' }
+                text: '<p>Technik und Fertigung</p>'
+                singleSRC: 'file:bilder/team-1.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Geschäftsführer
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Anna Kessler' }
+                text: '<p>Kaufmännische Leitung und Personal</p>'
+                singleSRC: 'file:bilder/team-2.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Geschäftsführerin
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Daniel Brandt' }
+                text: '<p>Konstruktion und Projektleitung</p>'
+                singleSRC: 'file:bilder/team-3.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Prokurist
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Amina Yilmaz' }
+                text: '<p>Qualitätsmanagement</p>'
+                singleSRC: 'file:bilder/team-4.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: 'Leitung Qualität'
+      - title: Standorte
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - { type: headline, headline: 'Zwei Standorte.', subline: 'Für Sie da' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: 'Neuburg an der Riß' }
+                text: '<p>Industriestraße 14, 88400 Neuburg<br>Verwaltung, Konstruktion und Fertigung<br><a href="tel:+497300000000">+49 730 0000000</a></p><p><a href="https://www.openstreetmap.org/">Route planen</a></p>'
+                singleSRC: 'file:bilder/firmensitz.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: Hauptsitz
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: { unit: h3, value: Ulm }
+                text: '<p>Donautal 8, 89079 Ulm<br>Montage, Service und Lager<br><a href="tel:+497310000000">+49 731 0000000</a></p><p><a href="https://www.openstreetmap.org/">Route planen</a></p>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                customTpl: content_element/text/creuva_card
+                subline: 'Montage & Service'
+  - type: regular
+    title: Karriere
+    alias: karriere
+    description: 'Karriere bei Kessler Metalltechnik: Stellenangebote, Ausbildung und Bewerbung.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h1, value: 'Arbeiten, wo' }
+            text: '<p>Bei uns arbeiten 120 Menschen an Bauteilen, die in Maschinen, Gebäuden und Anlagen in ganz Europa stecken. Werden Sie Teil davon.</p>'
+            singleSRC: 'file:bilder/ausbildung.jpg'
+            creuvaKicker: Karriere
+            creuvaHeadlineAccent: 'etwas entsteht.'
+            creuvaBadge: |-
+              Unbefristete Verträge
+              Faire Bezahlung
+              Eigene Ausbildungswerkstatt
+            creuvaHeroMask: none
+            creuvaUrl1: '#stellen'
+            creuvaLinkTitle1: 'Offene Stellen'
+            creuvaUrl2: '{{link_url::bewerbung|urlattr}}'
+            creuvaLinkTitle2: 'Initiativ bewerben'
+      - title: Vorteile
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - { type: headline, headline: 'Was wir bieten.', subline: Benefits }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Sicherer Job' }
+                text: '<p>Unbefristete Verträge in einem gesunden Familienunternehmen.</p>'
+                singleSRC: 'file:icons/schild.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-feature-plain
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Faire Bezahlung' }
+                text: '<p>Tarifnahes Gehalt, Urlaubs- und Weihnachtsgeld.</p>'
+                singleSRC: 'file:icons/stern.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-feature-plain
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Weiterbildung' }
+                text: '<p>Schweißprüfungen, Meisterkurse und Schulungen.</p>'
+                singleSRC: 'file:icons/ebenen.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-feature-plain
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Gesund bleiben' }
+                text: '<p>Jobrad, Firmenfitness und frisches Obst.</p>'
+                singleSRC: 'file:icons/herz.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-feature-plain
+      - title: Stellen
+        teaserCssID: ['', '']
+        cssID: ['stellen', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Offene Stellen.', subline: Stellenangebote }
+              - type: text
+                text: '<p>Nichts Passendes dabei? Wir freuen uns auch über Initiativbewerbungen.</p>'
+                cssID: u-muted
+          - { type: module, module: 'module:stellen' }
+      - title: Bewerbung
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - { type: headline, headline: 'So bewerben Sie sich.', subline: 'Einfach und schnell' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_steps
+            data:
+              - { key: Bewerben, value: 'Online in fünf Minuten – ein Lebenslauf reicht.' }
+              - { key: Kennenlernen, value: 'Gespräch innerhalb von zwei Wochen, gerne mit Rundgang.' }
+              - { key: Probetag, value: 'Lernen Sie Ihr Team und Ihren Arbeitsplatz kennen.' }
+              - { key: Start, value: 'Einarbeitung mit fester Patin oder festem Paten.' }
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'Sabine Ott.'
+            text: '<p>Fragen zur Bewerbung oder zur Ausbildung beantwortet Ihnen unsere Personalreferentin gerne.</p><p><a href="{{link_url::bewerbung|urlattr}}">Jetzt bewerben</a> <a href="tel:+497300000020">+49 730 0000020</a></p>'
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-primary u-full-bleed'
+            creuvaKicker: 'Ihre Ansprechpartnerin'
+            subline: 'Fragen? Sprechen Sie mit'
+            headline_inline: '1'
+    children:
+      - type: regular
+        title: Stelle
+        alias: stelle
+        requireItem: true
+        hide: true
+        articles:
+          - { title: Stelle, elements: [{ type: module, module: 'module:breadcrumb' }, { type: module, module: 'module:stelle-leser' }] }
+      - type: regular
+        title: Bewerbung
+        alias: bewerbung
+        hide: true
+        description: 'Online bewerben bei Kessler Metalltechnik.'
+        articles:
+          - title: Bewerbung
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-start u-align-start'
+                children:
+                  - type: element_group
+                    cssID: u-card
+                    children:
+                      - { type: headline, headline: { unit: h1, value: 'Online bewerben' } }
+                      - { type: form, form: 'form:bewerbung' }
+                  - type: element_group
+                    children:
+                      - type: text
+                        addImage: true
+                        size: 'image_size:team'
+                        headline: { unit: h3, value: 'Sabine Ott' }
+                        text: '<p>Personal<br><a href="tel:+497300000020">+49 730 0000020</a><br><a href="mailto:karriere@example.com">karriere@example.com</a></p>'
+                        singleSRC: 'file:bilder/team-6.jpg'
+                        customTpl: content_element/text/creuva_team
+                        subline: 'Ihre Ansprechpartnerin'
+  - type: regular
+    title: Downloads
+    alias: downloads
+    hide: true
+    description: 'Downloads der Kessler Metalltechnik: Imagebroschüre, Datenblätter, Zertifikate und Lieferbedingungen.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Alle Unterlagen' }
+            text: '<p>Broschüre, Datenblätter, Zertifikate und Bedingungen zum Herunterladen. Weitere Unterlagen senden wir Ihnen gerne zu.</p>'
+            creuvaKicker: Downloads
+            creuvaHeadlineAccent: 'auf einen Blick.'
+            creuvaHeroMask: none
+      - title: Dateien
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-start'
+            children:
+              - { type: downloads, headline: { unit: h2, value: Unternehmen }, multiSRC: ['file:downloads/imagebroschuere.pdf'] }
+              - { type: downloads, headline: { unit: h2, value: 'Technische Daten' }, multiSRC: ['file:downloads/datenblatt-laserschneiden.pdf'] }
+              - { type: downloads, headline: { unit: h2, value: Zertifikate }, multiSRC: ['file:downloads/zertifikat-iso-9001.pdf', 'file:downloads/zertifikat-en-1090.pdf'] }
+              - { type: downloads, headline: { unit: h2, value: Bedingungen }, multiSRC: ['file:downloads/lieferbedingungen.pdf'] }
+  - type: regular
+    title: Aktuelles
+    alias: aktuelles
+    hide: true
+    description: 'Aktuelles von Kessler Metalltechnik: Investitionen, Zertifizierungen und Neuigkeiten.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Neues von' }
+            text: '<p>Investitionen, Zertifizierungen und Neuigkeiten aus dem Unternehmen.</p>'
+            creuvaKicker: Aktuelles
+            creuvaHeadlineAccent: Kessler.
+            creuvaHeroMask: none
+      - { title: Meldungen, teaserCssID: ['', ''], cssID: u-pt-0, elements: [{ type: module, module: 'module:aktuelles-liste' }] }
+    children:
+      - type: regular
+        title: Meldung
+        alias: meldung
+        requireItem: true
+        hide: true
+        articles:
+          - { title: Meldung, elements: [{ type: module, module: 'module:breadcrumb' }, { type: module, module: 'module:aktuelles-leser' }] }
+  - type: regular
+    title: Kontakt
+    alias: kontakt
+    description: 'Kontakt zu Kessler Metalltechnik: Anfrage stellen, Ansprechpartner und Standorte.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Sprechen wir über Ihr' }
+            text: '<p>Schicken Sie uns Ihre Zeichnung, Stückliste oder Idee. Sie erhalten in der Regel innerhalb von 48 Stunden ein Angebot.</p>'
+            creuvaKicker: Kontakt
+            creuvaHeadlineAccent: Projekt.
+            creuvaHeroMask: none
+      - title: Formular
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-start u-align-start'
+            children:
+              - type: element_group
+                cssID: u-card
+                children:
+                  - { type: headline, headline: { unit: h2, value: 'Anfrage stellen' } }
+                  - { type: form, form: 'form:anfrage' }
+              - type: element_group
+                cssID: u-icon-white
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Zentrale }
+                    text: '<p><a href="tel:+497300000000">+49 730 0000000</a><br>Mo – Do 7:00 – 17:00 Uhr, Fr 7:00 – 13:00 Uhr</p>'
+                    singleSRC: 'file:icons/telefon.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: E-Mail }
+                    text: '<p><a href="mailto:info@example.com">info@example.com</a></p>'
+                    singleSRC: 'file:icons/mail.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Hauptsitz }
+                    text: '<p>Kessler Metalltechnik GmbH<br>Industriestraße 14, 88400 Neuburg</p>'
+                    singleSRC: 'file:icons/standort.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+      - title: Ansprechpartner
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - { type: headline, headline: 'Ihre Ansprechpartner.', subline: 'Direkt zum richtigen Kontakt' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Lukas Wendt' }
+                text: '<p>Angebote und Vertrieb<br><a href="tel:+497300000030">+49 730 0000030</a><br><a href="mailto:vertrieb@example.com">vertrieb@example.com</a></p>'
+                singleSRC: 'file:bilder/team-5.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Vertrieb
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Daniel Brandt' }
+                text: '<p>Konstruktion und Projekte<br><a href="tel:+497300000010">+49 730 0000010</a><br><a href="mailto:konstruktion@example.com">konstruktion@example.com</a></p>'
+                singleSRC: 'file:bilder/team-3.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Konstruktion
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Amina Yilmaz' }
+                text: '<p>Qualität und Zertifikate<br><a href="tel:+497300000040">+49 730 0000040</a><br><a href="mailto:qualitaet@example.com">qualitaet@example.com</a></p>'
+                singleSRC: 'file:bilder/team-4.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Qualität
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Sabine Ott' }
+                text: '<p>Bewerbung und Ausbildung<br><a href="tel:+497300000020">+49 730 0000020</a><br><a href="mailto:karriere@example.com">karriere@example.com</a></p>'
+                singleSRC: 'file:bilder/team-6.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Personal
+    children:
+      - type: regular
+        title: 'Vielen Dank'
+        alias: danke
+        hide: true
+        description: 'Vielen Dank für Ihre Nachricht – wir melden uns innerhalb von 48 Stunden.'
+        articles:
+          - title: Danke
+            elements:
+              - type: creuva_hero
+                headline: { unit: h1, value: Vielen }
+                text: '<p>Ihre Nachricht ist bei uns angekommen. Wir melden uns innerhalb von 48 Stunden.</p>'
+                creuvaKicker: Kontakt
+                creuvaHeadlineAccent: Dank.
+                creuvaHeroMask: none
+                creuvaUrl1: '{{link_url::index}}'
+                creuvaLinkTitle1: 'Zur Startseite'
+                creuvaUrl2: '{{link_url::leistungen}}'
+                creuvaLinkTitle2: 'Unsere Leistungen'
+  - type: regular
+    title: Impressum
+    alias: impressum
+    hide: true
+    description: 'Impressum der Kessler Metalltechnik GmbH.'
+    sitemap: map_always
+    articles:
+      - title: Impressum
+        elements:
+          - type: text
+            headline: { unit: h1, value: Impressum }
+            text: '<p><strong>Kessler Metalltechnik GmbH</strong><br>Industriestraße 14<br>88400 Neuburg an der Riß</p><p>Geschäftsführung: Thomas Kessler, Anna Kessler<br>Registergericht: Amtsgericht Musterstadt, HRB 000000<br>USt-IdNr.: DE000000000</p><p>Dies ist ein Platzhalter. Bitte ersetzen Sie die Angaben durch Ihr eigenes Impressum.</p>'
+            cssID: u-narrow
+  - type: regular
+    title: Datenschutz
+    alias: datenschutz
+    hide: true
+    description: 'Datenschutzerklärung der Kessler Metalltechnik GmbH.'
+    sitemap: map_always
+    articles:
+      - title: Datenschutz
+        elements:
+          - type: text
+            headline: { unit: h1, value: Datenschutzerklärung }
+            text: '<p>Dies ist ein Platzhalter. Bitte ersetzen Sie diesen Text durch Ihre eigene Datenschutzerklärung.</p>'
+            cssID: u-narrow
+  - type: regular
+    title: Sitemap
+    alias: sitemap
+    hide: true
+    description: 'Alle Seiten der Website auf einen Blick.'
+    articles: [{ title: Sitemap, elements: [{ type: headline, headline: { unit: h1, value: Sitemap } }, { type: module, module: 'module:sitemap' }] }]
+  - type: regular
+    title: Suche
+    alias: suche
+    hide: true
+    searchIndexer: never_index
+    robots: noindex,follow
+    sitemap: map_never
+    description: 'Suchergebnisse der Website.'
+    articles: [{ title: Suche, elements: [{ type: headline, headline: { unit: h1, value: Suche } }, { type: module, module: 'module:suche' }] }]
+  - type: error_404
+    title: 'Seite nicht gefunden'
+    alias: seite-nicht-gefunden
+    articles:
+      - title: 'Seite nicht gefunden'
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h1, value: 'Diese Seite ist nicht' }
+            text: '<p>Die angeforderte Seite gibt es nicht (mehr). Über die Navigation oder die Suche finden Sie schnell, was Sie brauchen.</p>'
+            singleSRC: 'file:bilder/teile-2.jpg'
+            creuvaKicker: 'Fehler 404'
+            creuvaHeadlineAccent: 'auf Lager.'
+            creuvaHeroMask: none
+            creuvaUrl1: '{{link_url::index}}'
+            creuvaLinkTitle1: 'Zur Startseite'
+            creuvaUrl2: '{{link_url::kontakt}}'
+            creuvaLinkTitle2: 'Kontakt aufnehmen'
