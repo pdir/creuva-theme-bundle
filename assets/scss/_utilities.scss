@@ -170,6 +170,14 @@
   .u-grid-3 { --grid-cols: 3; --grid-min: 13rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
   .u-grid-4 { --grid-cols: 4; --grid-min: 10rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
 
+  // Grids of cards: the same gap between columns and rows (the wide column gap
+  // of u-grid-2 is meant for text side by side)
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):has(> :is(.c-card, .c-feature:not(.u-feature-plain, .u-feature-inline), .c-testimonial, .c-price, .u-card, .content-box, .teaser-box, .price-box)) {
+    --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem);
+
+    row-gap: var(--grid-gap);
+  }
+
   // Four columns on tablets: two rows of two instead of three plus one
   @media (max-width: 55.99rem) {
     .u-grid-4 { --grid-cols: 2; }
