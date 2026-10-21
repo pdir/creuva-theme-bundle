@@ -1,0 +1,12 @@
+{#
+    Link text of a download with the file type and size below the title, e.g.
+    "PDF · 245 KB" (content elements "download" and "downloads").
+#}
+{% block creuva_download_inner %}
+    {%- set size = download.file.fileSize|default(0) -%}
+    <span class="c-download__title">{{ text }}</span>
+    <span class="c-download__meta">
+        {{- download.file.extension(true)|upper -}}
+        {%- if size > 0 %} · {{ size >= 1048576 ? (size / 1048576)|number_format(1, ',', '.') ~ ' MB' : max(1, (size / 1024)|round) ~ ' KB' }}{% endif -%}
+    </span>
+{%- endblock %}

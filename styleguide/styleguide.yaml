@@ -95,6 +95,21 @@ news:
         teaser: <p>Der dritte Beitrag füllt die Reihe.</p>
         singleSRC: file:bilder/news-3.jpg
 
+  styleguide-jobs:
+    title: Styleguide – Stellen
+    jumpTo: page:styleguide-beitrag
+    items:
+      - headline: Konstrukteur Stahlbau (m/w/d)
+        alias: styleguide-stelle-konstrukteur
+        subheadline: Vollzeit · Neuburg · Hybrid möglich
+        date: -2 days
+        teaser: <p>Stellenanzeige mit der Listenvorlage news_creuva_job. Die Subline wird zu Schlagworten (getrennt durch „·“).</p>
+      - headline: Ausbildung Metallbauer (m/w/d)
+        alias: styleguide-stelle-ausbildung
+        subheadline: Ausbildung · Start 1. September
+        date: -6 days
+        teaser: <p>Die ganze Karte verlinkt auf die Stellenanzeige.</p>
+
 events:
   styleguide:
     title: Styleguide – Termine
@@ -129,7 +144,8 @@ events:
         teaser: '<p>Zwei Tage, viele Gespräche: Besuchen Sie uns an unserem Stand.</p>'
 modules:
   newslist: { name: 'Styleguide – News-Liste', type: 'newslist', news_archives: ['news_archive:styleguide'], numberOfItems: 3, imgSize: 'image_size:news' }
-  newsreader: { name: 'Styleguide – News-Leser', type: 'newsreader', news_archives: ['news_archive:styleguide'], overviewPage: 'page:styleguide' }
+  newsreader: { name: 'Styleguide – News-Leser', type: 'newsreader', news_archives: ['news_archive:styleguide', 'news_archive:styleguide-jobs'], overviewPage: 'page:styleguide' }
+  jobs: { name: 'Styleguide – Stellenangebote', type: 'newslist', news_archives: ['news_archive:styleguide-jobs'], numberOfItems: 0, news_template: 'news_creuva_job' }
   breadcrumb: { name: 'Styleguide – Breadcrumb', type: 'breadcrumb' }
   eventlist: { name: 'Styleguide – Event-Liste', type: 'eventlist', cal_calendar: ['calendar:styleguide'], cal_format: 'next_365', cal_order: 'ascending', cal_noSpan: true }
   eventreader: { name: 'Styleguide – Event-Leser', type: 'eventreader', cal_calendar: ['calendar:styleguide'], overviewPage: 'page:styleguide' }
@@ -551,6 +567,14 @@ pages:
                   - { key: 'Branche', value: 'Energieversorgung' }
                   - { key: 'Leistungen', value: 'Konzept, Webdesign, Contao' }
                   - { key: 'Website', value: 'www.example.com' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_steps
+            headline: { unit: 'h3', value: 'Prozess-Schritte (creuva_steps)' }
+            data:
+              - { key: 'Anfrage', value: 'Zeichnung oder Idee schicken.' }
+              - { key: 'Konstruktion', value: 'Planung in 3D und Abstimmung.' }
+              - { key: 'Fertigung', value: 'Alles im eigenen Haus.' }
+              - { key: 'Montage', value: 'Durch die eigenen Teams.' }
 
       - title: Akkordeon
         cssID: ['sg-akkordeon', 'u-bg-muted']
@@ -680,6 +704,8 @@ pages:
           - { type: 'module', module: 'module:breadcrumb' }
           - { type: 'headline', headline: { unit: 'h3', value: 'News-Liste' } }
           - { type: 'module', module: 'module:newslist' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Stellenangebote (Listenvorlage news_creuva_job)' } }
+          - { type: 'module', module: 'module:jobs' }
           - { type: 'headline', headline: { unit: 'h3', value: 'Nach oben (Toplink-Element)' } }
           - { type: 'toplink', linkTitle: 'Nach oben' }
 

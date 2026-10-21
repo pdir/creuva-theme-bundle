@@ -112,7 +112,7 @@
   }
 
   // Description list: term and details side by side
-  .content-description-list:not(.c-stats, .c-timeline, .c-facts) dl {
+  .content-description-list:not(.c-stats, .c-timeline, .c-facts, .c-steps) dl {
     display: grid;
     grid-template-columns: minmax(8rem, max-content) 1fr;
     margin: 0;

@@ -151,8 +151,16 @@
         z-index: 1;
         border-radius: 0;
         background:
-          linear-gradient(to top, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.15) 55%, rgb(0 0 0 / 0.3)),
-          linear-gradient(to right, rgb(0 0 0 / 0.35), transparent 70%);
+          linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.3) 55%, rgb(0 0 0 / 0.35)),
+          linear-gradient(to right, rgb(0 0 0 / 0.45), transparent 75%);
+      }
+
+      // Phones: the text covers most of the image, darker everywhere (also
+      // for bright images like white machines)
+      @media (max-width: 47.99rem) {
+        &::before {
+          background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.5) 60%, rgb(0 0 0 / 0.4));
+        }
       }
 
       figure,
