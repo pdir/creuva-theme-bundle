@@ -49,3 +49,6 @@ $GLOBALS['TL_LANG']['MSC']['creuvaFormatLinks'] = 'Links';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButton'] = 'Button';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButtonSecondary'] = 'Secondary button';
 $GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva logo bar', 'Logos of partners or sponsors, linked via the file metadata. Best placed in the "prefooter" slot.'];
+$GLOBALS['TL_LANG']['MSC']['creuvaSliderPrev'] = 'Previous element';
+$GLOBALS['TL_LANG']['MSC']['creuvaSliderNext'] = 'Next element';
+$GLOBALS['TL_LANG']['MSC']['creuvaSliderGoTo'] = 'Go to element %s';

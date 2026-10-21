@@ -604,6 +604,65 @@ const initLightbox = () => {
   });
 };
 
+/**
+ * Thumbnails of the content slider (setting "Thumbnails"): a button per slide
+ * with its first image (or its number), below the slider. Contao initializes
+ * Swiper with an inline script at the end of the body, so the instance exists
+ * when this runs (el.swiper).
+ */
+const initSliderThumbs = () => {
+  document.querySelectorAll('.c-slider--thumbs').forEach((slider) => {
+    const swiper = slider.querySelector('.swiper')?.swiper;
+
+    if (!swiper || slider.querySelector('.c-slider__thumbs')) {
+      return;
+    }
+
+    const label = slider.dataset.thumbLabel || '%s';
+    const thumbs = document.createElement('div');
+    thumbs.className = 'c-slider__thumbs';
+
+    [...swiper.slides].forEach((slide) => {
+      const index = Number(slide.dataset.swiperSlideIndex ?? swiper.slides.indexOf(slide));
+      const image = slide.querySelector('img');
+      const button = document.createElement('button');
+
+      button.type = 'button';
+      button.className = 'c-slider__thumb';
+      button.dataset.index = String(index);
+      button.setAttribute('aria-label', label.replace('%s', String(index + 1)));
+
+      if (image) {
+        const thumb = document.createElement('img');
+        thumb.src = image.currentSrc || image.getAttribute('src');
+        thumb.alt = '';
+        thumb.loading = 'lazy';
+        button.append(thumb);
+      } else {
+        button.textContent = String(index + 1);
+      }
+
+      button.addEventListener('click', () => (swiper.params.loop ? swiper.slideToLoop(index) : swiper.slideTo(index)));
+      thumbs.append(button);
+    });
+
+    // Sorted by index (with "loop" Swiper may have reordered the slides)
+    thumbs.replaceChildren(...[...thumbs.children].sort((a, b) => a.dataset.index - b.dataset.index));
+
+    const update = () => {
+      thumbs.querySelectorAll('.c-slider__thumb').forEach((button) => {
+        const active = Number(button.dataset.index) === swiper.realIndex;
+        button.classList.toggle('is-active', active);
+        button.toggleAttribute('aria-current', active);
+      });
+    };
+
+    swiper.on('slideChange', update);
+    update();
+    slider.querySelector('.swiper').after(thumbs);
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initNavigation();
@@ -612,4 +671,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCountUp();
   initCompareTables();
   initLightbox();
+  initSliderThumbs();
 });

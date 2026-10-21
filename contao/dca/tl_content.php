@@ -80,3 +80,25 @@ foreach ([1, 2] as $i) {
         'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ];
 }
+
+// Content slider: elements per view, arrows, dots and thumbnails
+PaletteManipulator::create()
+    ->addField(['creuvaSliderView', 'creuvaSliderArrows', 'creuvaSliderDots', 'creuvaSliderThumbs'], 'sliderContinuous', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('swiper', 'tl_content')
+;
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaSliderView'] = [
+    'inputType' => 'select',
+    'options' => ['1', '2', '3', '4'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView_options'],
+    'eval' => ['tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 1, 'fixed' => true, 'default' => '1'],
+];
+
+foreach (['creuvaSliderArrows' => '1', 'creuvaSliderDots' => '1', 'creuvaSliderThumbs' => ''] as $field => $default) {
+    $GLOBALS['TL_DCA']['tl_content']['fields'][$field] = [
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 m12'],
+        'sql' => ['type' => 'string', 'length' => 1, 'fixed' => true, 'default' => $default],
+    ];
+}

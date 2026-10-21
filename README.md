@@ -348,6 +348,20 @@ die Kombination aus Dachzeile und zweifarbiger Überschrift wie auf der Startsei
 `u-grid-2 u-align-end`, darin ein Überschrift-Element und ein Text-Element (Klasse `u-lead`)
 mit dem Link allein im letzten Absatz.
 
+### Content-Slider
+
+Im Element **Content-Slider** ist jedes enthaltene Element ein Slide: Bilder, Karten, Kundenstimmen,
+Texte oder ganze Elementgruppen. Creuva ergänzt im Bereich *Slider-Einstellungen*:
+
+- **Elemente pro Ansicht** (1–4): auf Tablets höchstens zwei, auf Smartphones eines
+- **Navigationspfeile** und **Punkte**: einzeln abschaltbar, sie sitzen in einer Leiste unter den
+  Slides und verdecken keine Inhalte; passen alle Elemente in die Ansicht, werden sie ausgeblendet
+- **Thumbnails**: Vorschaubilder unter dem Slider aus dem ersten Bild jedes Slides (Elemente ohne
+  Bild bekommen ihre Nummer), z. B. für eine Bildergalerie
+
+Autoplay (*Verzögerung*), Geschwindigkeit, Startslide und Endlosschleife sind die Contao-Felder.
+Karten und Boxen in einer Reihe sind gleich hoch. Beispiele zeigt der [Styleguide](#styleguide).
+
 ### Akkordeon
 
 Jeder Eintrag ist eine Karte mit einem runden Plus/Minus-Schalter am Ende. Ein Icon vor der

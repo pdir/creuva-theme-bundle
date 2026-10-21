@@ -23,3 +23,8 @@ $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle1'] = ['Text primärer Button'
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl2'] = ['Link sekundärer Button', 'Ziel des zweiten Buttons.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle2'] = ['Text sekundärer Button', 'Beschriftung des zweiten Buttons.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeadlineAccent'] = ['Hervorgehobener Teil', 'Wird in der Akzentfarbe an die Überschrift angehängt, z. B. „begeistern.“'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView'] = ['Elemente pro Ansicht', 'Wie viele Elemente nebeneinander zu sehen sind (auf Tablets höchstens zwei, auf Smartphones eines).'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView_options'] = ['1' => '1 Element', '2' => '2 Elemente', '3' => '3 Elemente', '4' => '4 Elemente'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderArrows'] = ['Navigationspfeile', 'Pfeile zum Blättern unter dem Slider anzeigen.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderDots'] = ['Punkte', 'Einen Punkt pro Element unter dem Slider anzeigen.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderThumbs'] = ['Thumbnails', 'Vorschaubilder unter dem Slider anzeigen (aus dem ersten Bild jedes Elements), z. B. für eine Bildergalerie.'];

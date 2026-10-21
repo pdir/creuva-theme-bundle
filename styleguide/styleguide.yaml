@@ -26,7 +26,7 @@ files:
 
 # Image sizes of the theme; existing ones with the same name are reused
 imageSizes:
-  hero: { name: 'Hero', width: 900, height: 975, resizeMode: 'crop', densities: '1.5x' }
+  hero: { name: 'Hero', width: 720, height: 480, resizeMode: 'crop', densities: '1x, 2x' }
   card: { name: 'Karte (4:3)', width: 800, height: 600, resizeMode: 'crop', densities: '2x', lazyLoading: true }
   wide: { name: 'Breit (16:9)', width: 1200, height: 675, resizeMode: 'crop', lazyLoading: true }
   team: { name: 'Team (1:1)', width: 480, height: 480, resizeMode: 'crop', densities: '1.5x', lazyLoading: true }
@@ -123,7 +123,7 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
           - type: text
             cssID: u-button-secondary
-            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
+            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-slider">Slider</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
 
       - title: Farben & Typografie
         cssID: ['sg-typografie', 'u-bg-muted']
@@ -246,6 +246,76 @@ pages:
           - { type: 'gallery', headline: { unit: 'h3', value: 'Mosaik, großes Bild rechts (u-gallery-mosaic-right)' }, cssID: 'u-gallery-mosaic-right', multiSRC: ['file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg', 'file:bilder/projekt-alpenhof.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 4 }
           - { type: 'gallery', headline: { unit: 'h3', value: 'Erstes Bild groß (u-gallery-featured)' }, cssID: 'u-gallery-featured', multiSRC: ['file:bilder/hero.jpg', 'file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 3 }
           - { type: 'gallery', headline: { unit: 'h3', value: 'Masonry (u-gallery-masonry)' }, cssID: 'u-gallery-masonry', multiSRC: ['file:bilder/hero.jpg', 'file:bilder/team-1.jpg', 'file:bilder/detail-1.jpg', 'file:bilder/projekt-nordlicht.jpg', 'file:bilder/team-2.jpg', 'file:bilder/detail-2.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 3 }
+
+      - title: Slider
+        cssID: ['sg-slider', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Slider', subline: 'Content-Slider' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Jedes Element im Slider ist ein Slide: Bilder, Karten, Texte oder ganze Elementgruppen. Einstellbar sind Elemente pro Ansicht (1–4), Pfeile, Punkte, Thumbnails, Autoplay und Endlosschleife.</p>' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: swiper
+                headline: { unit: 'h3', value: 'Bilder, Pfeile und Punkte' }
+                children:
+                  - { type: 'image', singleSRC: 'file:bilder/hero.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+              - type: swiper
+                headline: { unit: 'h3', value: 'Mit Thumbnails, ohne Punkte' }
+                creuvaSliderDots: ''
+                creuvaSliderThumbs: '1'
+                children:
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+          - type: swiper
+            headline: { unit: 'h3', value: 'Drei Karten pro Ansicht' }
+            creuvaSliderView: '3'
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Branding · Website', headline: { unit: 'h3', value: 'Hotel Alpenhof' }, text: '<p>Buchungsstarke Website für ein Familienhotel in den Alpen.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Portfolio · Contao', headline: { unit: 'h3', value: 'Nordlicht Studio' }, text: '<p>Dunkles, bildstarkes Portfolio für ein Fotostudio.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'UX · Prototyp', headline: { unit: 'h3', value: 'Designsystem' }, text: '<p>Farben, Typografie und Komponenten aus einem Guss.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Mobile · Responsive', headline: { unit: 'h3', value: 'Mobile First' }, text: '<p>Optimiert für jedes Gerät, vom Smartphone bis zum Desktop.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+          - type: swiper
+            headline: { unit: 'h3', value: 'Kundenstimmen: zwei pro Ansicht, nur Punkte, Autoplay und Endlosschleife' }
+            creuvaSliderView: '2'
+            creuvaSliderArrows: ''
+            sliderDelay: 6000
+            sliderSpeed: 600
+            sliderContinuous: true
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Geschäftsführerin, Grünwerk Energie', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos. Die neue Website bringt uns spürbar mehr Anfragen.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Inhaber, Hotel Alpenhof', text: '<p>Creuva hat unsere Bildsprache perfekt in Szene gesetzt. Die Direktbuchungen sind deutlich gestiegen.</p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Tobias Krüger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Sandra Wolff' }, subline: 'Leitung Online-Services, Stadtwerke Elbtal', text: '<p>Der Störungsmelder lädt auch im Mobilfunknetz in unter zwei Sekunden. Genau das haben wir gebraucht.</p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Marco Lehmann' }, subline: 'Vorstand, SV Grün-Weiß', text: '<p>Spielpläne, Ergebnisse und Mitgliederbereich – endlich alles an einem Ort und für das Ehrenamt leicht zu pflegen.</p>' }
+          - type: element_group
+            children:
+              - type: swiper
+                headline: { unit: 'h3', value: 'Vier Icon-Boxen, nur Pfeile' }
+                creuvaSliderView: '4'
+                creuvaSliderDots: ''
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Individuell und responsiv.</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Sauber mit Contao.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'SEO' }, text: '<p>Gefunden werden.</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Performance' }, text: '<p>Schnell auf jedem Gerät.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Auch nach dem Launch.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Sicherheit' }, text: '<p>Updates und Backups.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+              - type: swiper
+                headline: { unit: 'h3', value: 'Texte, nur Punkte' }
+                creuvaSliderArrows: ''
+                children:
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Gutes Design ist so wenig Design wie möglich.“</p></blockquote><p class="u-muted">Dieter Rams</p>' }
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Einfachheit ist die höchste Stufe der Vollendung.“</p></blockquote><p class="u-muted">Leonardo da Vinci</p>' }
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Form folgt Funktion.“</p></blockquote><p class="u-muted">Louis Sullivan</p>' }
 
       - title: Templatevarianten
         cssID: ['sg-varianten', 'u-bg-muted']

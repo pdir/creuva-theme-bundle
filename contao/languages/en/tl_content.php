@@ -23,3 +23,8 @@ $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle1'] = ['Primary button text', 
 $GLOBALS['TL_LANG']['tl_content']['creuvaUrl2'] = ['Secondary button link', 'Target of the second button.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaLinkTitle2'] = ['Secondary button text', 'Label of the second button.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaHeadlineAccent'] = ['Highlighted part', 'Appended to the headline in the accent color.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView'] = ['Elements per view', 'How many elements are visible side by side (at most two on tablets, one on phones).'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView_options'] = ['1' => '1 element', '2' => '2 elements', '3' => '3 elements', '4' => '4 elements'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderArrows'] = ['Navigation arrows', 'Show arrows below the slider.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderDots'] = ['Dots', 'Show one dot per element below the slider.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaSliderThumbs'] = ['Thumbnails', 'Show preview images below the slider (from the first image of each element), e.g. for an image gallery.'];
