@@ -173,8 +173,21 @@
       font-weight: 500;
     }
 
-    > * + :is(.content-text, .content-image, .content-gallery, .content-list, .content-headline) {
+    // Vertical rhythm like the sections of a page: every element type (also
+    // groups, accordions, tables and elements of extensions) gets the same
+    // spacing, so headlines at the start of an element always have air above
+    > * + :is([class^='content-'], [class*=' content-'], [class^='ce_'], [class*=' ce_']) {
+      margin-top: var(--space-l);
+    }
+
+    // Plain text without own headline continues the previous text
+    > :is(.content-text, .content-list) + :is(.content-text, .content-list):not([class*='u-'], [class*=' c-'], .simplebox, :has(> :is(h2, h3, h4))) {
       margin-top: var(--space-m);
+    }
+
+    // Muted text right after an element is its caption (e.g. source of a table)
+    > * + .content-text.u-muted {
+      margin-top: var(--space-s);
     }
 
     :is(.content-text, .content-list) {
