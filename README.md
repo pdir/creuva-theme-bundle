@@ -308,8 +308,11 @@ vendor/bin/contao-console creuva:install --demo --reset
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |
 
 Gestaltet werden außerdem die Contao-Standardelemente (Text, Liste, Beschreibungsliste,
-Tabelle, Bild, Galerie, Akkordeon, Downloads, Hyperlink, Formulare, Breadcrumb), die
-News-Module (Liste als Karten, Leser, Archivmenü, Seitenzahlen) und die Elemente des
+Tabelle, Bild, Galerie, Content-Slider, Akkordeon, Downloads, Hyperlink, Code, Toplink, Formulare,
+Breadcrumb, Suche), die News-Module (Liste als Karten, Leser, Archivmenü, Seitenzahlen), die Module
+der Managed Edition (Event-Liste mit Datums-Badge, Event-Leser, Monats- und Minikalender,
+Event-Menü, FAQ-Liste, -Seite und -Leser, Newsletter-Anmeldung, -Liste und -Leser, Kommentare,
+Listing) und die Elemente des
 Theme Components Bundles 2.0 (Contentbox, Teaserbox, Preisbox, Feature-Element, Simplebox,
 Icon-Tile, Modal).
 

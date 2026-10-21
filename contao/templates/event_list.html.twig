@@ -1,0 +1,49 @@
+{# Event list: card with a date badge (day and short month of the start of the
+   event), title, time, location and teaser. Same variables in Contao 5.7 and 6. #}
+{% set event_start = begin|default(startTime|default(0)) %}
+
+{% if header|default %}
+  <div class="header">
+    {% if firstDay|default %}<span class="day">{{ firstDay }}, </span>{% endif %}<span class="date">{{ firstDate|default }}</span>
+  </div>
+{% endif %}
+
+<div class="event layout_list c-event{{ classList|default }}">
+  {% if event_start %}
+    <p class="c-event__date" aria-hidden="true">
+      <span class="c-event__day">{{ event_start|date('j') }}</span>
+      <span class="c-event__month">{{ ('MONTHS_SHORT.' ~ (event_start|date('n') - 1))|trans([], 'contao_default') }}</span>
+    </p>
+  {% endif %}
+
+  <div class="c-event__body">
+    <h2><a href="{{ href|default }}" title="{{ title|insert_tag }} ({% if day|default %}{{ day }}, {% endif %}{{ date }}{% if time %} {{ time }}{% endif %})"{{ attrs(target) }}>{{ link }}</a></h2>
+    <p class="time"><time datetime="{{ datetime }}">{% if day|default %}{{ day }}, {% endif %}{{ date }}{% if time %} · {{ time }}{% endif %}</time></p>
+
+    {% if location %}
+      <p class="location">{{ location }}{% if address %} ({{ address }}){% endif %}</p>
+    {% endif %}
+
+    {% if details.invoke() %}
+      {{ details.invoke()|raw }}
+    {% elseif teaser|default %}
+      <div class="ce_text content-text block">
+        {{ teaser|sanitize_html('contao')|csp_inline_styles|insert_tag_raw }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if addImage %}
+    <div class="c-event__media">
+      {{ include('@Contao/image.html.twig') }}
+    </div>
+  {% endif %}
+</div>
+
+{#
+  This template is used as an event list template by default, so we only add
+  JSON-LD data in case this is an event without a reader
+#}
+{% if not hasReader %}
+    {% do add_schema_org(getSchemaOrgData.invoke()) %}
+{% endif %}

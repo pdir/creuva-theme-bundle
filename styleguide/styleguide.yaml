@@ -87,10 +87,46 @@ news:
         teaser: <p>Der dritte Beitrag füllt die Reihe.</p>
         singleSRC: file:bilder/news-3.jpg
 
+events:
+  styleguide:
+    title: Styleguide – Termine
+    jumpTo: page:styleguide-termin
+    items:
+      - title: 'Workshop: Websites barrierefrei gestalten'
+        alias: styleguide-workshop-barrierefreiheit
+        date: +2 days
+        startTime: '10:00'
+        endTime: '12:30'
+        location: Creuva Studio
+        address: Musterstraße 1, 01067 Dresden
+        teaser: '<p>Praxisnah durch die WCAG 2.1: Kontraste, Tastaturbedienung und Formulare.</p>'
+      - title: 'Webinar: Contao 6 im Überblick'
+        alias: styleguide-webinar-contao-6
+        date: +6 days
+        startTime: '16:00'
+        endTime: '17:00'
+        location: Online
+        teaser: <p>Was sich mit Contao 6 ändert und wie Sie den Umstieg planen.</p>
+      - title: Contao-Stammtisch Dresden
+        alias: styleguide-stammtisch
+        date: +15 days
+        startTime: '19:00'
+        location: Café am Elbufer
+        teaser: <p>Austausch unter Agenturen, Freelancern und Redakteuren.</p>
+      - title: Digitalmesse Mitteldeutschland
+        alias: styleguide-digitalmesse
+        date: +28 days
+        endDate: +1 day
+        location: Messe Leipzig, Stand B12
+        teaser: '<p>Zwei Tage, viele Gespräche: Besuchen Sie uns an unserem Stand.</p>'
 modules:
   newslist: { name: 'Styleguide – News-Liste', type: 'newslist', news_archives: ['news_archive:styleguide'], numberOfItems: 3, imgSize: 'image_size:news' }
   newsreader: { name: 'Styleguide – News-Leser', type: 'newsreader', news_archives: ['news_archive:styleguide'], overviewPage: 'page:styleguide' }
   breadcrumb: { name: 'Styleguide – Breadcrumb', type: 'breadcrumb' }
+  eventlist: { name: 'Styleguide – Event-Liste', type: 'eventlist', cal_calendar: ['calendar:styleguide'], cal_format: 'next_365', cal_order: 'ascending', cal_noSpan: true }
+  eventreader: { name: 'Styleguide – Event-Leser', type: 'eventreader', cal_calendar: ['calendar:styleguide'], overviewPage: 'page:styleguide' }
+  calendar: { name: 'Styleguide – Kalender', type: 'calendar', cal_calendar: ['calendar:styleguide'], cal_startDay: 1 }
+  minicalendar: { name: 'Styleguide – Minikalender', type: 'calendar', cal_calendar: ['calendar:styleguide'], cal_startDay: 1, cal_ctemplate: 'cal_mini' }
 
 pages:
   - title: Styleguide
@@ -123,7 +159,7 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
           - type: text
             cssID: u-button-secondary
-            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-slider">Slider</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
+            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-slider">Slider</a> <a href="#sg-termine">Termine</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
 
       - title: Farben & Typografie
         cssID: ['sg-typografie', 'u-bg-muted']
@@ -553,6 +589,42 @@ pages:
                   - { type: 'text', text: '<p>Alle Feldtypen des Contao-Formulargenerators übernehmen Farben, Rundungen und Abstände des Themes: Textfelder, Auswahl, Textarea, Radio-Buttons, Checkboxen, Schieberegler und Buttons.</p>' }
               - { type: 'form', form: 'form:styleguide', cssID: 'u-card' }
 
+      - title: Termine
+        cssID: ['sg-termine', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Termine', subline: 'Kalender' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Event-Liste mit Datum, Uhrzeit und Ort, Monatskalender und Minikalender aus dem Kalender-Bundle von Contao.</p>' }
+          - type: element_group
+            cssID: u-grid-2 u-cols-wide-start
+            children:
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: { unit: 'h3', value: 'Event-Liste' } }
+                  - { type: 'module', module: 'module:eventlist' }
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: { unit: 'h3', value: 'Minikalender' } }
+                  - { type: 'module', module: 'module:minicalendar' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Monatskalender' } }
+          - { type: 'module', module: 'module:calendar' }
+
+      - title: Code
+        cssID: ['sg-code', '']
+        elements:
+          - { type: 'headline', headline: 'Code', subline: 'Code-Element' }
+          - type: code
+            highlight: twig
+            code: |
+              {% extends '@Contao/content_element/text.html.twig' %}
+
+              {# Eigene Templatevariante mit Dachzeile #}
+              {% block inner %}
+                  <p class="c-kicker">{{ data.creuvaKicker }}</p>
+                  {{ parent() }}
+              {% endblock %}
       - title: Module
         cssID: ['sg-module', '']
         elements:
@@ -561,6 +633,8 @@ pages:
           - { type: 'module', module: 'module:breadcrumb' }
           - { type: 'headline', headline: { unit: 'h3', value: 'News-Liste' } }
           - { type: 'module', module: 'module:newslist' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Nach oben (Toplink-Element)' } }
+          - { type: 'toplink', linkTitle: 'Nach oben' }
 
     children:
       - title: Beitrag
@@ -574,3 +648,14 @@ pages:
             elements:
               - { type: 'module', module: 'module:breadcrumb' }
               - { type: 'module', module: 'module:newsreader' }
+      - title: Termin
+        alias: styleguide-termin
+        hide: true
+        searchIndexer: never_index
+        sitemap: map_never
+        robots: noindex,nofollow
+        articles:
+          - title: Termin
+            elements:
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'module', module: 'module:eventreader' }

@@ -1,0 +1,725 @@
+// Modules of the bundles that come with the Contao Managed Edition: events
+// (list, reader, calendar, mini calendar, menu), FAQ, newsletter, comments,
+// listing and search. The markup is the same for the PHP templates of
+// Contao 5.7 and the Twig templates of Contao 6 (event list: event_list.html.twig).
+@use '../mixins' as *;
+
+@layer creuva.components {
+  // Event list: card with date badge
+  .c-event {
+    @include card;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-s) var(--space-m);
+    align-items: start;
+    padding: var(--space-m);
+
+    @include hover-lift;
+
+    + .c-event,
+    + .header {
+      margin-top: var(--space-s);
+    }
+
+    h2 {
+      margin: 0 0 var(--space-2xs);
+      font-size: var(--fs-h3);
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        // Stretched link: the whole card is clickable
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+        }
+      }
+    }
+
+    :is(.time, .location) {
+      margin: 0;
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    .location::before {
+      content: "";
+      display: inline-block;
+      width: 0.9em;
+      height: 0.9em;
+      margin-right: 0.35em;
+      vertical-align: -0.1em;
+      background: currentColor;
+      mask: var(--icon-pin) center / contain no-repeat;
+    }
+
+    .content-text {
+      margin-top: var(--space-xs);
+      color: var(--c-text-muted);
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .c-event__date {
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    margin: 0;
+    padding: var(--space-xs) 0;
+    border-radius: var(--radius-m);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-text);
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .c-event__day {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .c-event__month {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .c-event__media {
+    grid-column: 1 / -1;
+
+    img {
+      display: block;
+      width: 100%;
+      border-radius: var(--radius-m);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .c-event:has(.c-event__media) {
+      grid-template-columns: auto minmax(0, 1fr) minmax(0, 14rem);
+
+      .c-event__media {
+        grid-column: auto;
+      }
+    }
+  }
+
+  // Day header of the event list: the date is in the badge and the card already
+  .mod_eventlist .header:has(+ .c-event) {
+    display: none;
+  }
+
+  // Event reader
+  .event.layout_full {
+    max-width: 48rem;
+    margin-inline: auto;
+
+    > h1 {
+      margin-bottom: var(--space-s);
+      font-size: var(--fs-h1);
+      text-wrap: balance;
+    }
+
+    > :is(.info, .location) {
+      display: inline-flex;
+      margin: 0 var(--space-xs) var(--space-l) 0;
+      padding: 0.35em 0.9em;
+      border-radius: var(--radius-pill);
+      background: var(--c-accent-soft);
+      color: var(--c-accent-text);
+      font-size: var(--fs-small);
+      font-weight: 600;
+    }
+
+    > * + :is([class^='content-'], [class*=' content-']) {
+      margin-top: var(--space-l);
+    }
+  }
+
+  .mod_eventreader .back {
+    max-width: 48rem;
+    margin: var(--space-l) auto 0;
+
+    a {
+      @include arrow-link;
+    }
+  }
+
+  // Calendar (month view) and mini calendar
+  :is(table.calendar, table.minicalendar) {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.25rem;
+    table-layout: fixed;
+
+    :is(th, td) {
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+
+    .head {
+      padding-bottom: var(--space-s);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      text-align: center;
+
+      &.previous {
+        text-align: left;
+      }
+
+      &.next {
+        text-align: right;
+      }
+
+      a {
+        display: inline-grid;
+        place-items: center;
+        min-width: 2.25rem;
+        height: 2.25rem;
+        padding-inline: 0.5rem;
+        border: 1px solid var(--c-border);
+        border-radius: var(--radius-pill);
+        color: var(--c-text);
+        font-size: var(--fs-small);
+        text-decoration: none;
+        transition: border-color var(--transition), background-color var(--transition);
+
+        &:hover {
+          border-color: var(--c-primary);
+          background: var(--c-primary);
+          color: var(--c-primary-contrast);
+        }
+      }
+    }
+
+    .label {
+      padding-bottom: var(--space-2xs);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .weekend {
+      color: var(--c-text-muted);
+    }
+  }
+
+  table.calendar {
+    td {
+      height: 6.5rem;
+      padding: var(--space-xs);
+      vertical-align: top;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-s);
+      background: var(--c-surface);
+    }
+
+    td.empty {
+      border-color: transparent;
+      background: var(--c-surface-muted);
+    }
+
+    td.today {
+      border-color: var(--c-accent);
+      box-shadow: inset 0 0 0 1px var(--c-accent);
+    }
+
+    td .header {
+      margin-bottom: var(--space-2xs);
+      font-size: var(--fs-small);
+      font-weight: 700;
+    }
+
+    .event a {
+      display: block;
+      margin-top: 0.2rem;
+      padding: 0.15rem 0.4rem;
+      overflow: hidden;
+      border-radius: var(--radius-s);
+      background: var(--c-accent-soft);
+      color: var(--c-accent-text);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      line-height: 1.35;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // Month view on phones: short names of the days, a dot for events
+  @media (max-width: 47.99rem) {
+    table.calendar {
+      .c-calendar__rest {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      .head a {
+        border-radius: var(--radius-s);
+        font-size: 0.8125rem;
+      }
+
+      td {
+        height: 3rem;
+        padding: 0.25rem;
+        text-align: center;
+      }
+
+      .event a {
+        overflow: hidden;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin: 0.2rem auto 0;
+        padding: 0;
+        border-radius: 50%;
+        background: var(--c-accent);
+        color: transparent;
+      }
+    }
+  }
+
+  table.minicalendar {
+    max-width: 22rem;
+
+    td {
+      height: 2.25rem;
+      text-align: center;
+      font-size: var(--fs-small);
+    }
+
+    td.empty {
+      color: transparent;
+    }
+
+    td.today {
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px var(--c-accent);
+    }
+
+    td a {
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      margin-inline: auto;
+      border-radius: 50%;
+      background: var(--c-accent-soft);
+      color: var(--c-accent-text);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color var(--transition), color var(--transition);
+
+      &:hover {
+        background: var(--c-accent);
+        color: var(--c-accent-contrast);
+      }
+    }
+
+    td.selected a {
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+    }
+
+  }
+
+  // Event menu: pills like the news menu
+  .mod_eventmenu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    :is(a, strong) {
+      display: block;
+      padding: 0.4em 1em;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-pill);
+      background: var(--c-surface);
+      color: var(--c-text);
+      font-size: var(--fs-small);
+      text-decoration: none;
+    }
+
+    strong {
+      border-color: var(--c-primary);
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+    }
+
+    // Event menu by year: the months below the year
+    .year {
+      display: contents;
+    }
+
+    .level_2 {
+      flex-basis: 100%;
+    }
+  }
+
+  // FAQ list: questions as link list with arrows, grouped by category
+  .mod_faqlist {
+    h2 {
+      margin-bottom: var(--space-s);
+      font-size: var(--fs-h3);
+
+      &:not(:first-child) {
+        margin-top: var(--space-l);
+      }
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--c-border);
+    }
+
+    li {
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    a {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-s);
+      padding: var(--space-s) 0;
+      color: var(--c-text);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color var(--transition);
+
+      &::after {
+        content: "→";
+        color: var(--c-accent-text);
+        transition: transform var(--transition-hover);
+      }
+
+      &:hover {
+        color: var(--c-accent-text);
+
+        &::after {
+          transform: translateX(0.25rem);
+        }
+      }
+    }
+  }
+
+  // FAQ page: categories with questions as cards
+  .mod_faqpage {
+    article + article {
+      margin-top: var(--space-xl);
+    }
+
+    article > h2 {
+      margin-bottom: var(--space-m);
+    }
+
+    section {
+      @include card;
+
+      padding: var(--space-m);
+
+      + section {
+        margin-top: var(--space-s);
+      }
+
+      h3 {
+        margin-bottom: var(--space-xs);
+        font-size: 1.125rem;
+        scroll-margin-top: 6rem;
+      }
+
+      .content-text > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .info {
+      margin: var(--space-s) 0 0;
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    .toplink {
+      margin-top: var(--space-m);
+    }
+  }
+
+  .mod_faqreader {
+    max-width: 48rem;
+    margin-inline: auto;
+
+    > .info {
+      margin-top: var(--space-l);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    .back a {
+      @include arrow-link;
+    }
+  }
+
+  // Newsletter subscription: e-mail and button in one row
+  :is(.mod_subscribe, .mod_unsubscribe) {
+    .formbody {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: start;
+    }
+
+    .widget {
+      margin: 0;
+    }
+
+    .widget-text {
+      flex: 1 1 16rem;
+    }
+
+    :is(.widget-checkbox, .widget-explanation, .widget-captcha, p) {
+      flex-basis: 100%;
+    }
+
+    .widget-explanation {
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+  }
+
+  // Newsletter list and reader
+  .mod_newsletterlist ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: var(--space-s) 0;
+      border-bottom: 1px solid var(--c-border);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+
+    a {
+      color: var(--c-text);
+      font-size: var(--fs-base);
+      font-weight: 600;
+    }
+  }
+
+  .mod_newsletterreader {
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+
+  // Comments
+  :is(.ce_comments, .mod_comments) {
+    > :is(h2, h3, h4) {
+      margin: var(--space-l) 0 var(--space-m);
+    }
+  }
+
+  .comment_default {
+    @include card;
+
+    padding: var(--space-m);
+
+    + .comment_default {
+      margin-top: var(--space-s);
+    }
+
+    > .info {
+      margin-bottom: var(--space-xs);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+      font-weight: 600;
+    }
+
+    .comment > :last-child {
+      margin-bottom: 0;
+    }
+
+    .reply {
+      margin-top: var(--space-s);
+      padding: var(--space-s) var(--space-m);
+      border-left: 3px solid var(--c-accent);
+      border-radius: 0 var(--radius-s) var(--radius-s) 0;
+      background: var(--c-accent-soft);
+    }
+  }
+
+  // Listing module: search and records per page above the table
+  .listing {
+    :is(.list_search, .list_per_page) .formbody {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: end;
+
+      .widget {
+        margin: 0;
+      }
+    }
+
+    .list_per_page {
+      margin: var(--space-s) 0;
+    }
+  }
+
+  // Search: field and button in one row, results as a list
+  .mod_search {
+    > form .formbody {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+
+      .widget {
+        margin: 0;
+      }
+
+      .widget-text {
+        flex: 1 1 16rem;
+      }
+
+      .widget-radio {
+        flex-basis: 100%;
+      }
+    }
+
+    > .header {
+      margin: var(--space-l) 0 var(--space-s);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+  }
+
+  .search_default {
+    padding: var(--space-m) 0;
+    border-bottom: 1px solid var(--c-border);
+
+    h3 {
+      margin-bottom: var(--space-2xs);
+      font-size: 1.125rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--c-accent-text);
+        }
+      }
+    }
+
+    .context {
+      margin: 0 0 var(--space-2xs);
+      color: var(--c-text-muted);
+
+      mark,
+      .highlight {
+        padding: 0 0.15em;
+        border-radius: 0.2em;
+        background: var(--c-accent-soft);
+        color: inherit;
+      }
+    }
+
+    .url {
+      margin: 0;
+      color: var(--c-accent-text);
+      font-size: var(--fs-small);
+      word-break: break-all;
+    }
+  }
+
+  // Toplink element and "back to top" link of the FAQ page
+  :is(.content-toplink, .toplink) a {
+    @include arrow-link;
+
+    &::after {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+// Code element: not in a cascade layer, the highlight.js stylesheet that Contao
+// loads has no layer either (unlayered styles win over layered ones)
+.content-code {
+  pre {
+    margin: 0;
+    overflow-x: auto;
+    border-radius: var(--radius-m);
+    background: #1b2420;
+    tab-size: 2;
+  }
+
+  pre code.hljs,
+  pre > code {
+    display: block;
+    padding: var(--space-m);
+    background: none;
+    color: #e6ede8;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    color: #8a9a90;
+    font-style: italic;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal,
+  .hljs-section,
+  .hljs-link {
+    color: #8fd16a;
+  }
+
+  .hljs-string,
+  .hljs-title,
+  .hljs-name,
+  .hljs-type,
+  .hljs-attribute,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-built_in,
+  .hljs-addition,
+  .hljs-variable,
+  .hljs-template-tag,
+  .hljs-template-variable {
+    color: #f2c46d;
+  }
+
+  .hljs-number,
+  .hljs-attr,
+  .hljs-selector-class,
+  .hljs-selector-id,
+  .hljs-meta {
+    color: #7cc7e8;
+  }
+
+  .hljs-deletion {
+    color: #f28b82;
+  }
+}
