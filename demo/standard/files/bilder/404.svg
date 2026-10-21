@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" width="720" height="480" role="img" aria-labelledby="t">
+  <title id="t">Browserfenster mit der Zahl 404, die Null ist ein Kompass, eine gepunktete Spur führt zu einer Stecknadel</title>
+  <defs>
+    <linearGradient id="blob" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e3f1dc"/>
+      <stop offset="1" stop-color="#c4e2b6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#1d3b2a" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <!-- Organic background shape -->
+  <path d="M118 92C176 26 300 14 404 34c112 22 214 50 246 132 30 78-14 168-96 214-86 48-210 66-318 40C126 396 46 330 40 246 35 176 72 144 118 92Z" fill="url(#blob)"/>
+
+  <!-- Browser window -->
+  <g filter="url(#shadow)">
+    <rect x="96" y="78" width="470" height="300" rx="22" fill="#ffffff"/>
+  </g>
+  <path d="M96 100a22 22 0 0 1 22-22h426a22 22 0 0 1 22 22v18H96Z" fill="#f1f5ef"/>
+  <circle cx="122" cy="98" r="6" fill="#d3ddd5"/>
+  <circle cx="142" cy="98" r="6" fill="#d3ddd5"/>
+  <circle cx="162" cy="98" r="6" fill="#d3ddd5"/>
+  <rect x="190" y="90" width="230" height="16" rx="8" fill="#e3eae4"/>
+  <rect x="200" y="95" width="74" height="6" rx="3" fill="#c3cfc6"/>
+
+  <!-- 4 -->
+  <path d="M206 160 152 248h88M222 160v130" fill="none" stroke="#1d3b2a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 0 as a compass -->
+  <circle cx="331" cy="225" r="62" fill="#f1f8ed" stroke="#1d3b2a" stroke-width="22"/>
+  <g stroke="#1d3b2a" stroke-width="5" stroke-linecap="round">
+    <path d="M331 177v9M331 264v9M283 225h9M370 225h9"/>
+  </g>
+  <g transform="rotate(38 331 225)">
+    <path d="M331 183l12 42h-24Z" fill="#3c9a2f"/>
+    <path d="M331 267l12-42h-24Z" fill="#a9cfa0"/>
+  </g>
+  <circle cx="331" cy="225" r="7" fill="#1d3b2a"/>
+
+  <!-- 4 -->
+  <path d="M480 160 426 248h88M496 160v130" fill="none" stroke="#1d3b2a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Lines below the number -->
+  <rect x="200" y="320" width="150" height="10" rx="5" fill="#e3eae4"/>
+  <rect x="200" y="340" width="96" height="10" rx="5" fill="#e3eae4"/>
+  <rect x="380" y="320" width="84" height="30" rx="15" fill="#3c9a2f"/>
+
+  <!-- Dotted trail leaving the window -->
+  <path d="M470 352c40 22 76 44 106 30 34-16 22-62 54-80 18-10 38-4 52 4" fill="none" stroke="#2d7a23" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 15"/>
+
+  <!-- Pin -->
+  <g transform="translate(686 238)">
+    <path d="M0 64C-6 44-26 30-26 6a26 26 0 0 1 52 0C26 30 6 44 0 64Z" fill="#3c9a2f"/>
+    <circle cx="0" cy="6" r="10" fill="#ffffff"/>
+  </g>
+  <ellipse cx="686" cy="306" rx="16" ry="5" fill="#1d3b2a" opacity="0.14"/>
+
+  <!-- Question mark bubble -->
+  <g transform="translate(560 54)">
+    <path d="M0 26C0 12 12 0 26 0h36c14 0 26 12 26 26v4c0 14-12 26-26 26H30L14 70l2-14C6 52 0 42 0 30Z" fill="#ffffff" filter="url(#shadow)"/>
+    <path d="M36 20c2-6 8-9 14-8 7 1 11 6 10 12-1 7-9 8-11 14" fill="none" stroke="#3c9a2f" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="49" cy="46" r="3.5" fill="#3c9a2f"/>
+  </g>
+</svg>

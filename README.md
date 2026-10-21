@@ -63,13 +63,14 @@ Sprache legen):
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz und Sitemap; dazu der
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap und eine 404-Seite („Diese Seite hat
+  sich verlaufen.“ mit Illustration und Links zu Leistungen, Projekten und Wissen); dazu der
   [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
 - **Module:** Hauptnavigation, Header mit CTA, Footer mit vier Spalten und Social-Media-Links,
   News-Liste und -Leser, Sitemap
 - **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
   der Demo verweisen
-- **News-Archiv** mit vier Beiträgen (nur wenn das News-Bundle installiert ist)
+- **News-Archiv** mit drei ausführlichen Beiträgen (nur wenn das News-Bundle installiert ist)
 - **Autor** der Artikel und News: der erste Administrator (sonst der erste Backend-Benutzer).
   Ältere Importe ohne Autor ergänzt `contao:migrate`.
 - **Kontaktformular** mit Weiterleitung auf die Danke-Seite (ohne E-Mail-Versand,
