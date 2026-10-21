@@ -31,6 +31,8 @@ use Symfony\Component\Yaml\Yaml;
  *   calendar:<key>       ID of a demo event calendar
  *   image_size:<key>     ID of a demo image size ("size: image_size:card" is
  *                        short for ['', '', 'image_size:card'])
+ *   date:<relative>      timestamp relative to the day of the import, e.g.
+ *                        "date:+5 days 15:00" (events and news: "date: +5 days")
  *   headline: "Text"     headline as h2 (or {value: …, unit: h1})
  *   cssID: "classes"     CSS classes (or [id, classes])
  *   any other array      serialized
@@ -789,6 +791,15 @@ class DemoImporter
 
         if (!\is_string($value)) {
             return $value;
+        }
+
+        // Date relative to the day of the import, e.g. "date:+5 days 15:00"
+        if (preg_match('/^date:(.+)$/', $value, $matches)) {
+            if (false === ($timestamp = strtotime($matches[1], strtotime('today')))) {
+                throw new \OutOfBoundsException(\sprintf('Demo date "%s" is invalid, the record has been skipped.', $value));
+            }
+
+            return $timestamp;
         }
 
         if (!preg_match('/^(file|page|module|form|news_archive|calendar|image_size):(.+)$/', $value, $matches)) {

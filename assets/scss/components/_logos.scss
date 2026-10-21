@@ -56,12 +56,14 @@
       margin: 0;
     }
 
+    // All logos get the same height (SVG logos would otherwise keep the size of
+    // their file), very wide word marks are limited to four times the height
     img {
       display: block;
       width: auto;
       max-width: calc(var(--logos-height, 5rem) * 4);
-      height: auto;
-      max-height: var(--logos-height, 5rem);
+      height: var(--logos-height, 5rem);
+      object-fit: contain;
       opacity: 0.85;
       transition: opacity 0.2s;
     }

@@ -21,7 +21,7 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Administrators in the 
 $GLOBALS['TL_LANG']['tl_module']['creuva_logos_legend'] = 'Appearance';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant'] = ['Background', '"Primary color" suits white logos.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'] = ['surface' => 'Light', 'muted' => 'Muted', 'primary' => 'Primary color'];
-$GLOBALS['TL_LANG']['tl_module']['creuvaLogosHeight'] = ['Logo height', 'Maximum height of the logos as a CSS value, e.g. "8rem" (default: 5rem). The width may be four times the height (word marks); choose a large enough image size.'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaLogosHeight'] = ['Logo height', 'Height of the logos as a CSS value, e.g. "8rem" (default: 5rem). The width may be four times the height (word marks); choose a large enough image size.'];
 $GLOBALS['TL_LANG']['tl_module']['creuva_search_legend'] = 'Search';
 $GLOBALS['TL_LANG']['tl_module']['creuvaSearch'] = ['Search in the header', 'Shows a magnifying glass in the header that opens a search field (also with Ctrl+K or ⌘K and "/").'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaSearchPage'] = ['Search results page', 'Page with the "Search engine" module that shows the results.'];

@@ -13,6 +13,8 @@
 title: Styleguide
 
 files:
+  wappen/tsv-rotenbach.svg: { alt: 'Wappen TSV Rotenbach' }
+  wappen/sv-gruenwald.svg: { alt: 'Wappen SV Grünwald' }
   logos/buerger-architekten.svg: { alt: 'Bürger Architekten', link: 'https://example.org/' }
   logos/kunsthalle-am-fluss.svg: { alt: 'Kunsthalle am Fluss', link: 'https://example.org/' }
   logos/form-und-ton.svg: { alt: 'Form & Ton', link: 'https://example.org/' }
@@ -276,6 +278,16 @@ pages:
       - title: Bilder, Medien & Dateien
         cssID: ['sg-medien', '']
         elements:
+          - type: table
+            headline: { unit: 'h3', value: 'Liga-Tabelle (u-table-league)' }
+            cssID: u-table-league
+            thead: true
+            tableitems:
+              - [Pl., Mannschaft, Sp., Tore, Pkt.]
+              - ['1', '<strong>TSV Rotenbach</strong>', '12', '31:12', '29']
+              - ['2', 'SV Grünwald', '12', '27:11', '27']
+              - ['3', 'FC Bergheim', '12', '25:16', '23']
+              - ['4', 'SpVgg Oberfeld', '12', '22:17', '21']
           - { type: 'headline', headline: 'Bilder, Medien & Dateien', subline: 'Medien' }
           - type: element_group
             cssID: u-grid-2
@@ -393,6 +405,11 @@ pages:
             children:
               - { type: 'text', customTpl: 'content_element/text/creuva_tile', subline: 'Bildkachel', headline: { unit: 'h3', value: 'Nordlicht Studio' }, text: '<p>Bild in der Proportion seiner Bildgröße, Titel und Kategorie darunter. Der letzte Link macht die Kachel klickbar.</p><p><a href="#sg-varianten">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
               - { type: 'text', customTpl: 'content_element/text/creuva_tile', subline: 'Versetzt', headline: { unit: 'h3', value: 'Hotel Alpenhof' }, text: '<p>Im Raster mit „Versatz: Versetzt“ (u-grid-offset) steht die zweite Spalte tiefer, z. B. für ein Portfolio.</p><p><a href="#sg-varianten">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: 'creuva_match', headline: { unit: 'h3', value: 'Spielpaarung (kommendes Spiel)' }, creuvaKicker: 'Kreisliga A · 13. Spieltag', creuvaHomeTeam: 'TSV Rotenbach', creuvaHomeLogo: 'file:wappen/tsv-rotenbach.svg', creuvaAwayTeam: 'SV Grünwald', creuvaAwayLogo: 'file:wappen/sv-gruenwald.svg', creuvaMatchDate: 'date:next saturday 15:00', creuvaVenue: 'Sportpark am Mühlbach', creuvaUrl1: '#sg-varianten', creuvaLinkTitle1: 'Tickets' }
+              - { type: 'creuva_match', headline: { unit: 'h3', value: 'Spielpaarung (Ergebnis)' }, creuvaKicker: 'Kreisliga A · 12. Spieltag', creuvaHomeTeam: 'SV Grünwald', creuvaHomeLogo: 'file:wappen/sv-gruenwald.svg', creuvaAwayTeam: 'TSV Rotenbach', creuvaAwayLogo: 'file:wappen/tsv-rotenbach.svg', creuvaMatchDate: 'date:-2 days 15:00', creuvaVenue: 'Waldstadion', creuvaScore: '1:3' }
           - type: text
             customTpl: content_element/text/creuva_media
             creuvaKicker: Bild & Text

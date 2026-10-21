@@ -461,6 +461,10 @@
             "1": {
               "title": "Paket-Vergleich",
               "value": "u-table-compare"
+            },
+            "2": {
+              "title": "Liga-Tabelle (eigene Mannschaft fett)",
+              "value": "u-table-league"
             }
           }
         }

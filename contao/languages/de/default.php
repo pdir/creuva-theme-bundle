@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Großer Einstiegsbereich mit Überschrift, Text, Buttons und Bild.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_match'] = ['Spielpaarung', 'Nächstes Spiel oder Ergebnis: Wettbewerb, Mannschaften mit Wappen, Anstoß, Spielort und Button.'];
 $GLOBALS['TL_LANG']['CTE']['creuva_logos'] = ['Logoleiste', 'Logos von Kunden oder Partnern, verlinkt über die Metadaten der Dateien. Den Hintergrund bestimmt der Abschnitt (Artikel).'];
 
 $GLOBALS['TL_LANG']['FMD']['creuva'] = 'Creuva';
@@ -68,3 +69,8 @@ $GLOBALS['TL_LANG']['MSC']['creuvaSearchEmptyText'] = 'Vielleicht hilft einer di
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip1'] = 'Prüfen Sie die Schreibweise.';
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip2'] = 'Verwenden Sie weniger oder allgemeinere Suchbegriffe.';
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip3'] = 'Probieren Sie ein Wort mit ähnlicher Bedeutung.';
+
+// Match element (content_element/creuva_match)
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchKickoff'] = 'Anstoß';
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchVersus'] = 'gegen';
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchTo'] = 'zu';

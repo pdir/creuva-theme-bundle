@@ -22,6 +22,41 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaLogosHeight'] = [
     'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
 ];
 
+// Match of two teams (next match or result); the competition is the kicker
+$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_match'] = '{type_legend},type,creuvaKicker,headline;{creuva_match_legend},creuvaHomeTeam,creuvaHomeLogo,creuvaAwayTeam,creuvaAwayLogo,size,creuvaMatchDate,creuvaVenue,creuvaScore;{link_legend},creuvaUrl1,creuvaLinkTitle1;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+foreach (['Home', 'Away'] as $side) {
+    $GLOBALS['TL_DCA']['tl_content']['fields']['creuva'.$side.'Team'] = [
+        'inputType' => 'text',
+        'eval' => ['maxlength' => 128, 'tl_class' => 'w50 clr'],
+        'sql' => ['type' => 'string', 'length' => 128, 'default' => ''],
+    ];
+
+    $GLOBALS['TL_DCA']['tl_content']['fields']['creuva'.$side.'Logo'] = [
+        'inputType' => 'fileTree',
+        'eval' => ['fieldType' => 'radio', 'filesOnly' => true, 'extensions' => '%contao.image.valid_extensions%', 'tl_class' => 'w50'],
+        'sql' => ['type' => 'binary', 'length' => 16, 'fixed' => true, 'notnull' => false],
+    ];
+}
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaMatchDate'] = [
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard clr'],
+    'sql' => ['type' => 'integer', 'unsigned' => true, 'notnull' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaVenue'] = [
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaScore'] = [
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 32, 'tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 32, 'default' => ''],
+];
+
 // Kicker ("Dachzeile") above the headline of text elements (also used by the
 // template variants creuva_media and creuva_stats)
 PaletteManipulator::create()
