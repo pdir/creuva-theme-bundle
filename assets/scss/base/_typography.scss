@@ -11,8 +11,12 @@
     line-height: var(--lh-heading);
     letter-spacing: -0.02em;
     text-wrap: balance;
+    // Long words: hyphenate words of 10+ characters with at least 4 characters
+    // on each side, break words without a hyphenation point as a last resort
+    overflow-wrap: break-word;
+    -webkit-hyphens: auto;
     hyphens: auto;
-    hyphenate-limit-chars: 10;
+    hyphenate-limit-chars: 10 4 4;
   }
 
   h1 { font-size: var(--fs-h1); }
