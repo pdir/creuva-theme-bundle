@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Large intro section with headline, text, buttons and image.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_logos'] = ['Logo bar', 'Logos of clients or partners, linked via the file metadata. The section (article) defines the background.'];
 
 $GLOBALS['TL_LANG']['FMD']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['FMD']['creuva_header'] = ['Creuva header', 'Header with logo, navigation, CTA button and mobile menu.'];
@@ -48,7 +49,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaFormatKicker'] = 'Kicker';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatLinks'] = 'Links';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButton'] = 'Button';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButtonSecondary'] = 'Secondary button';
-$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva logo bar', 'Logos of partners or sponsors, linked via the file metadata. Best placed in the "prefooter" slot.'];
+$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva logo bar', 'Logos of partners or sponsors, linked via the file metadata. Over the full width, best placed in the "prefooter" slot; inside the content use the "Logo bar" element.'];
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderPrev'] = 'Previous element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderNext'] = 'Next element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderGoTo'] = 'Go to element %s';

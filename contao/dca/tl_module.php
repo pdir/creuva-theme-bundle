@@ -90,7 +90,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['creuvaLogosVariant'] = [
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'surface'],
 ];
 
-// Height of the logos, e.g. "8rem" (default: 5rem); the width may be twice the height
+// Height of the logos, e.g. "8rem" (default: 5rem); the width may be four times the height
 $GLOBALS['TL_DCA']['tl_module']['fields']['creuvaLogosHeight'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 16, 'rgxp' => 'custom', 'customRgxp' => Pdir\CreuvaThemeBundle\Design\DesignSettings::LOGO_HEIGHT_PATTERN, 'placeholder' => '5rem', 'tl_class' => 'w50'],

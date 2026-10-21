@@ -172,7 +172,7 @@
 
   // Grids of cards: the same gap between columns and rows (the wide column gap
   // of u-grid-2 is meant for text side by side)
-  :is(.u-grid-2, .u-grid-3, .u-grid-4):has(> :is(.c-card, .c-feature:not(.u-feature-plain, .u-feature-inline), .c-testimonial, .c-price, .u-card, .content-box, .teaser-box, .price-box)) {
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):has(> :is(.c-card, .c-tile, .c-feature:not(.u-feature-plain, .u-feature-inline), .c-testimonial, .c-price, .u-card, .content-box, .teaser-box, .price-box)) {
     --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem);
 
     row-gap: var(--grid-gap);
@@ -193,6 +193,23 @@
   @media (min-width: 56rem) {
     .u-grid-2.u-cols-wide-start { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
     .u-grid-2.u-cols-wide-end { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  }
+
+  // Staggered columns from tablet width on: the second column of u-grid-2 (the
+  // middle one of u-grid-3) is moved down, e.g. for a portfolio of image tiles.
+  // Moved with "translate" (independent of the reveal animations), so the rows
+  // keep their height; the space below makes room for the moved column.
+  @media (min-width: 56rem) {
+    .u-grid-offset {
+      --grid-offset: clamp(3rem, 1rem + 6vw, 7rem);
+
+      padding-bottom: var(--grid-offset);
+
+      &.u-grid-2 > :nth-child(2n),
+      &.u-grid-3 > :nth-child(3n + 2) {
+        translate: 0 var(--grid-offset);
+      }
+    }
   }
 
   // Vertical alignment of the grid cells, e.g. a section intro with the

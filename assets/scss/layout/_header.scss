@@ -260,6 +260,28 @@ $nav-breakpoint: 64rem;
     }
   }
 
+  // Small desktops: a more compact navigation, so a long logo text, many menu
+  // items, the search and the CTA button still fit in one row
+  @media (min-width: $nav-breakpoint) and (max-width: 79.99rem) {
+    .c-header {
+      gap: var(--space-s);
+    }
+
+    .c-header__panel :is(.mod_navigation, .mod_customnav) {
+      .level_1 {
+        gap: 1rem;
+      }
+
+      .level_1 > li > :is(a, strong) {
+        font-size: 0.875rem;
+      }
+    }
+
+    .c-header__cta {
+      padding-inline: 1.2em;
+    }
+  }
+
   // Mobile: toggle button + panel below the header
   @media (max-width: calc($nav-breakpoint - 0.01rem)) {
     .c-header__search:not([hidden]) ~ .c-header__toggle {

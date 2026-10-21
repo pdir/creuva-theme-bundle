@@ -99,6 +99,16 @@ creuvaGrid:
       cssClasses:
         u-cols-wide-start: 'Erste Spalte breiter'
         u-cols-wide-end: 'Zweite Spalte breiter'
+    offset:
+      title: 'Versatz'
+      description: 'Ab Tablet-Breite steht die zweite (bei 3 Spalten die mittlere) Spalte tiefer, z. B. für Bildkacheln'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: [element_group]
+      sorting: 400
+      cssClasses:
+        u-grid-offset: 'Versetzt (Spalte tiefer)'
 
 creuvaText:
   title: 'Text'

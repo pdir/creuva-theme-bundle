@@ -1,0 +1,21 @@
+{#
+    List of logos of the logo bar (content element and front end module
+    creuva_logos). The logos link to the URL of their file metadata.
+#}
+{% use '@Contao/component/_figure.html.twig' %}
+
+{% block creuva_logos_component %}
+    <ul class="c-logos__list">
+        {% for logo in logos %}
+            <li class="c-logos__item">
+                {% if logo.href %}
+                    <a class="c-logos__link" href="{{ logo.href }}" target="_blank" rel="noopener">
+                        {% with {figure: logo.figure} %}{{ block('figure_component') }}{% endwith %}
+                    </a>
+                {% else %}
+                    {% with {figure: logo.figure} %}{{ block('figure_component') }}{% endwith %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

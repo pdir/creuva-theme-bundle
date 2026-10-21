@@ -12,6 +12,16 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask,creuvaBadge;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
 
+// Logo bar (images from multiSRC, link from the file metadata)
+$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_logos'] = '{type_legend},type,headline;{source_legend},multiSRC,size;{creuva_logos_legend},creuvaLogosHeight;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+// Height of the logos, e.g. "8rem" (default: 5rem); the width may be four times the height
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaLogosHeight'] = [
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 16, 'rgxp' => 'custom', 'customRgxp' => Pdir\CreuvaThemeBundle\Design\DesignSettings::LOGO_HEIGHT_PATTERN, 'placeholder' => '5rem', 'tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
+];
+
 // Kicker ("Dachzeile") above the headline of text elements (also used by the
 // template variants creuva_media and creuva_stats)
 PaletteManipulator::create()
@@ -61,7 +71,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadge'] = [
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeroMask'] = [
     'inputType' => 'select',
-    'options' => ['organic', 'rounded', 'none'],
+    'options' => ['organic', 'rounded', 'none', 'cover'],
     'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'],
     'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'organic'],

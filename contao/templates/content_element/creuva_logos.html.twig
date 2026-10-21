@@ -1,0 +1,17 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use '@Contao/component/_creuva_logos.html.twig' %}
+
+{#
+    Logo bar inside the content, e.g. clients or partners. It has no background
+    of its own: choose one for the section (article), e.g. "Hellgrau" or
+    "Primär (dunkel)" for white logos.
+#}
+
+{% set attributes = attrs(attributes|default)
+    .addClass(['c-logos', 'c-logos--plain'])
+    .addStyle('--logos-height:' ~ height, height)
+%}
+
+{% block content %}
+    {{ block('creuva_logos_component') }}
+{% endblock %}

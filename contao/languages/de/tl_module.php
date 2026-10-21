@@ -21,7 +21,7 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Nur für Administrator
 $GLOBALS['TL_LANG']['tl_module']['creuva_logos_legend'] = 'Darstellung';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant'] = ['Hintergrund', '„Primärfarbe“ eignet sich für weiße Logos.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'] = ['surface' => 'Hell', 'muted' => 'Gedämpft', 'primary' => 'Primärfarbe'];
-$GLOBALS['TL_LANG']['tl_module']['creuvaLogosHeight'] = ['Logohöhe', 'Maximale Höhe der Logos als CSS-Wert, z. B. „8rem“ (Standard: 5rem). Die Breite darf das Doppelte betragen; die Bildgröße sollte groß genug gewählt sein.'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaLogosHeight'] = ['Logohöhe', 'Maximale Höhe der Logos als CSS-Wert, z. B. „8rem“ (Standard: 5rem). Die Breite darf das Vierfache betragen (Wortmarken); die Bildgröße sollte groß genug gewählt sein.'];
 $GLOBALS['TL_LANG']['tl_module']['creuva_search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_module']['creuvaSearch'] = ['Suche im Header', 'Zeigt eine Lupe im Header, die ein Suchfeld öffnet (auch mit Strg+K bzw. ⌘K oder „/“).'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaSearchPage'] = ['Suchergebnisseite', 'Seite mit dem Modul „Suchmaschine“, auf der die Treffer erscheinen.'];

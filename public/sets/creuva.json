@@ -125,6 +125,18 @@
               "value": "u-cols-wide-end"
             }
           }
+        },
+        "4": {
+          "id": "creuvaGridOffset",
+          "class": "icon-resize-vertical ac-col7",
+          "type": "select",
+          "label": "Versatz",
+          "values": {
+            "1": {
+              "title": "Versetzt (Spalte tiefer)",
+              "value": "u-grid-offset"
+            }
+          }
         }
       }
     },
