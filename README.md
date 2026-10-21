@@ -75,7 +75,7 @@ aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Demo-Inhalte
 
-`creuva:install --demo` importiert die Demo „Standard / Creative“ als eigenen Startpunkt
+`creuva:install --demo` importiert die Demo „Standard / Creative“ (`--demo=portfolio`: Demo „Portfolio / Studio“, siehe unten) als eigenen Startpunkt
 (bei einer bestehenden Website mit `--dns` oder `--language` auf eine andere Domain bzw.
 Sprache legen):
 
@@ -133,6 +133,33 @@ Die Demo verwendet ausschließlich Core-Elemente, Creuva-Elemente und Templateva
 und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 `demo/standard/demo.yaml` und lässt sich als Vorlage für weitere Demos nutzen
 (neuer Ordner `demo/<name>/` → `--demo=<name>`).
+
+### Demo „Portfolio / Studio“
+
+`creuva:install --demo=portfolio` importiert die Demo für Fotografen, Architekten,
+Designer und Kreativstudios („Studio Lichtung“, Variante Editorial, Farbschema Terracotta,
+kleine Ecken):
+
+- **Seiten:** Startseite mit Vollbild-Hero, Arbeiten mit sechs Projektseiten (Architektur,
+  Ausstellung, Produkt, Hotel, Bürohaus, freie Serie), Bildarchiv (Masonry-Galerie mit
+  Lightbox), Studio mit Team und Auszeichnungen, Leistungen mit Preisen und FAQ, Journal,
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und 404-Seite
+- **Projektseiten:** Vollbild-Hero, Projektdaten (Fakten), Text, je eine andere
+  Galerie-Anordnung oder ein Slider mit Thumbnails und ein Link zum nächsten Projekt
+- **Module:** Journal-Liste und -Leser, Breadcrumb, Sitemap, Suche; die Kundenlogos sind ein
+  Inhaltselement „Logoleiste“ und lassen sich direkt im Artikel bearbeiten
+- **Bilder:** generierte Illustrationen (stilisierte Fotos) unter `demo/portfolio/files/`,
+  die sich durch echte Fotos gleicher Proportion ersetzen lassen
+
+Alle Elemente sind demounabhängig und auch in der Standard-Demo und im Styleguide nutzbar,
+u. a. die Bildform **„Vollbild (Text auf dem Bild)“** des Heros, die Templatevariante
+**`creuva_tile`** („Bildkachel“: Bild in der Proportion seiner Bildgröße, ganze Kachel
+klickbar), das Inhaltselement **„Logoleiste“** (`creuva_logos`, ohne eigenen Hintergrund, den
+bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset`, zweite Spalte tiefer).
+
+Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
+der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
+`--dns`) nicht versehentlich auf gleichnamige Seiten der ersten.
 
 ### Eigene Demo aus der Dateiverwaltung
 
@@ -194,7 +221,8 @@ brand:
 ```
 
 Demo-Module lassen sich zusätzlichen Slots des Layouts zuordnen, z. B. eine Logoleiste
-(Modul `creuva_logos`, Logos verlinkt über die Metadaten der Dateien) über dem Footer:
+(Modul `creuva_logos`, Logos verlinkt über die Metadaten der Dateien) über dem Footer
+(im Inhalt einer Seite gibt es dafür das gleichnamige Inhaltselement „Logoleiste“):
 
 ```yaml
 files:
