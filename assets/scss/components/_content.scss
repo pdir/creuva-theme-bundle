@@ -39,6 +39,15 @@
       border-radius: 0 var(--radius-m) var(--radius-m) 0;
       background: var(--c-accent-soft);
       font-size: 1.125rem;
+
+      // Same space above and below the text
+      > :first-child {
+        margin-top: 0;
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
     }
 
     mark {

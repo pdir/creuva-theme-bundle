@@ -231,14 +231,34 @@
 
   // Icon on the left, headline and text next to it (CSS class u-feature-inline),
   // e.g. a trust bar or contact details
+  // Icon and text are centered to each other: the free rows above and below
+  // center a short text to the icon, a longer text centers the icon. In a grid
+  // the box keeps its own height instead of being stretched to the row (that
+  // would open a gap between headline and text).
   .c-feature.u-feature-inline {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto 1fr;
     column-gap: var(--space-m);
     align-items: start;
+    align-self: start;
+
+    > * {
+      grid-column: 2;
+    }
+
+    > :is(h2, h3, h4) {
+      grid-row: 2;
+    }
+
+    > .rte {
+      grid-row: 3;
+    }
 
     .c-feature__icon {
-      grid-row: span 2;
+      grid-row: 1 / -1;
+      grid-column: 1;
+      align-self: center;
       width: 4rem;
       height: 4rem;
       margin-bottom: 0;
@@ -250,7 +270,7 @@
     }
 
     > :is(h2, h3, h4) {
-      margin: 0.375rem 0 0.25rem;
+      margin: 0 0 0.25rem;
       font-size: 1.125rem;
     }
 

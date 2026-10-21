@@ -18,8 +18,8 @@
 
     @include hover-lift;
 
-    + .c-event,
-    + .header {
+    // Also with the (hidden) day headers between the cards
+    ~ .c-event {
       margin-top: var(--space-s);
     }
 
