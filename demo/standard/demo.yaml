@@ -568,7 +568,7 @@ pages:
                 addImage: true
                 overwriteMeta: true
                 size: 'image_size:avatar'
-                headline: { unit: h3, value: 'Julia Berger &#40;Kopie&#41;' }
+                headline: { unit: h3, value: 'Julia Berger' }
                 text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos. Unsere neue Website überzeugt durch ein klares Design und bringt spürbar mehr Anfragen.</p>'
                 singleSRC: 'file:bilder/team-2.jpg'
                 alt: 'Julia Berger'
@@ -578,7 +578,7 @@ pages:
                 addImage: true
                 overwriteMeta: true
                 size: 'image_size:avatar'
-                headline: { unit: h3, value: 'Markus Lehmann &#40;Kopie&#41;' }
+                headline: { unit: h3, value: 'Markus Lehmann' }
                 text: '<p>Creuva hat unsere Bildsprache perfekt in Szene gesetzt. Das moderne Design passt zu unserer Marke und die Pflege im Backend ist kinderleicht.</p>'
                 singleSRC: 'file:bilder/team-1.jpg'
                 alt: 'Markus Lehmann'
@@ -588,7 +588,7 @@ pages:
                 addImage: true
                 overwriteMeta: true
                 size: 'image_size:avatar'
-                headline: { unit: h3, value: 'Sabine Huber &#40;Kopie&#41;' }
+                headline: { unit: h3, value: 'Sabine Huber' }
                 text: '<p>Endlich eine Website, die so einladend ist wie unser Haus. Unsere Gäste finden alle wichtigen Informationen auf Anhieb und die Online-Anfragen haben sich verdoppelt.</p>'
                 singleSRC: 'file:bilder/team-4.jpg'
                 alt: 'Sabine Huber'
