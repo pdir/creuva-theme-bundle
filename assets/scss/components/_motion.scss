@@ -63,6 +63,17 @@
         .c-media__visual,
         .c-media__body { transform: translateY(var(--reveal-distance)); }
       }
+
+      // Phones: image and text are stacked, they come in from below as well
+      // (shifted to the side, they would stick out of the screen)
+      @media (max-width: 55.99rem) {
+        &,
+        &.c-media--right,
+        &:has(> .c-media__body:first-child) {
+          .c-media__visual,
+          .c-media__body { transform: translateY(var(--reveal-distance)); }
+        }
+      }
     }
   }
 

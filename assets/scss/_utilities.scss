@@ -183,6 +183,11 @@
     .u-grid-4 { --grid-cols: 2; }
   }
 
+  // Small phones: three and four columns as one, cards with text get too narrow
+  @media (max-width: 29.99rem) {
+    :is(.u-grid-3, .u-grid-4) { --grid-cols: 1; }
+  }
+
   // Column widths of a two-column grid from tablet width on: the first (or the
   // second) column is wider, e.g. a table with a list of features next to it
   @media (min-width: 56rem) {
