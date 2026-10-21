@@ -155,16 +155,25 @@
     color: var(--c-text-muted);
   }
 
-  // Grid for element groups / wrappers
+  // Grid for element groups / wrappers: the number of columns is the maximum,
+  // fewer columns only if a column would get narrower than --grid-min (so the
+  // grid also works in narrow areas like the reading column of a news article)
   :is(.u-grid-2, .u-grid-3, .u-grid-4) {
+    --grid-col: calc((100% - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols));
+
     display: grid;
-    gap: var(--space-m) var(--grid-gap, var(--space-m));
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
+    gap: var(--space-m) var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--grid-min), var(--grid-col))), 1fr));
   }
 
-  .u-grid-2 { --grid-min: 22rem; --grid-gap: clamp(2rem, 0.5rem + 4vw, 4.5rem); }
-  .u-grid-3 { --grid-min: 16rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
-  .u-grid-4 { --grid-min: 12rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
+  .u-grid-2 { --grid-cols: 2; --grid-min: 17rem; --grid-gap: clamp(2rem, 0.5rem + 4vw, 4.5rem); }
+  .u-grid-3 { --grid-cols: 3; --grid-min: 13rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
+  .u-grid-4 { --grid-cols: 4; --grid-min: 10rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
+
+  // Four columns on tablets: two rows of two instead of three plus one
+  @media (max-width: 55.99rem) {
+    .u-grid-4 { --grid-cols: 2; }
+  }
 
   // Column widths of a two-column grid from tablet width on: the first (or the
   // second) column is wider, e.g. a table with a list of features next to it
