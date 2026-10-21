@@ -130,6 +130,7 @@ modules:
 
 pages:
   - title: Styleguide
+    description: 'Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite.'
     alias: styleguide
     hide: true
     searchIndexer: never_index
@@ -154,6 +155,7 @@ pages:
           - type: element_group
             cssID: u-grid-3
             children:
+              - { type: 'headline', headline: 'Highlights', cssID: 'u-visually-hidden' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Modular aufgebaut' }, text: '<p>Alle Elemente sind frei kombinierbar.</p>', addImage: true, singleSRC: 'file:icons/ebenen.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Für Contao gemacht' }, text: '<p>Standardelemente, Twig und Style Manager.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
@@ -640,6 +642,7 @@ pages:
       - title: Beitrag
         alias: styleguide-beitrag
         hide: true
+        requireItem: true
         searchIndexer: never_index
         sitemap: map_never
         robots: noindex,nofollow
@@ -651,6 +654,7 @@ pages:
       - title: Termin
         alias: styleguide-termin
         hide: true
+        requireItem: true
         searchIndexer: never_index
         sitemap: map_never
         robots: noindex,nofollow

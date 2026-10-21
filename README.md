@@ -612,6 +612,17 @@ Admin-Rechte und normale Besucher sehen den Button nicht; der Endpunkt
 Mit der Moduloption „Nur für Administratoren in der Vorschau“ ist der Switcher für Besucher
 unsichtbar – so lässt sich das Design einer Live-Website in der Vorschau auswählen.
 
+## Schriften und Druck
+
+- **Schriften:** Plus Jakarta Sans (alle Gewichte von 200 bis 800) und Fraunces (Überschriften der
+  Variante „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
+  selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans wird vorab geladen (27 KB), Fraunces
+  lädt der Browser nur, wenn die Variante sie verwendet. Lizenz: SIL Open Font License 1.1
+  (siehe `THIRD-PARTY-NOTICES.md`).
+- **Druck:** Gedruckt wird nur der Inhalt in Schwarz auf Weiß, ohne Header, Footer, Breadcrumb,
+  Slider-Steuerung und Hintergründe. Links im Text erscheinen mit ihrer Adresse, Akkordeons sind
+  aufgeklappt, Karten und Bilder werden nicht über Seiten getrennt.
+
 ## Eigenes CSS
 
 Sämtliche Creuva-Styles liegen in CSS-Cascade-Layern (`creuva.*`). Eigene Styles

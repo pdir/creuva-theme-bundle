@@ -337,6 +337,7 @@ news:
           - type: text
             text: '<p>Mit Contao 6 entfallen die alten PHP-Templates endgültig. Themes und Erweiterungen, die bereits auf Twig setzen – wie Creuva –, lassen sich ohne Umwege weiterverwenden. Für viele ältere Websites ist der Versionssprung dagegen ein guter Anlass, Inhalte und Design neu zu denken.</p>'
             cssID: u-lead
+          - { type: headline, headline: 'Was sich mit Contao 6 ändert' }
           - type: element_group
             cssID: u-grid-2
             children:
@@ -425,6 +426,7 @@ pages:
   - type: regular
     title: Startseite
     alias: index
+    description: 'Creuva gestaltet und entwickelt Websites mit Contao, die gut aussehen und Wirkung zeigen – für Marken, Menschen und messbare Ergebnisse.'
     articles:
       - title: Hero
         elements:
@@ -617,6 +619,7 @@ pages:
   - type: regular
     title: Leistungen
     alias: leistungen
+    description: 'Webdesign, Entwicklung und Beratung aus einer Hand: Wir begleiten Ihr Website-Projekt von der ersten Idee bis nach dem Launch.'
     articles:
       - title: Intro
         elements:
@@ -809,6 +812,7 @@ pages:
       - type: regular
         title: Webdesign
         alias: webdesign
+        description: 'Individuelles, responsives und barrierearmes Webdesign, das Ihre Marke stärkt und Besucher zu Kunden macht.'
         articles:
           - title: Intro
             elements:
@@ -882,6 +886,7 @@ pages:
       - type: regular
         title: Entwicklung
         alias: entwicklung
+        description: 'Saubere, schnelle und sichere Websites mit Contao: Twig-Templates, Erweiterungen, Schnittstellen und regelmäßige Updates.'
         articles:
           - title: Intro
             elements:
@@ -955,6 +960,7 @@ pages:
       - type: regular
         title: Beratung
         alias: beratung
+        description: 'Ehrliche, strategische Beratung für Ihr Website-Projekt: Ziele, Struktur, Inhalte und die passende Technik.'
         articles:
           - title: Intro
             elements:
@@ -1013,6 +1019,7 @@ pages:
   - type: regular
     title: Projekte
     alias: projekte
+    description: 'Ausgewählte Projekte aus Webdesign, Entwicklung und Beratung – von Energieversorgern über Hotels bis zu Sportvereinen.'
     articles:
       - title: Intro
         elements:
@@ -1103,6 +1110,7 @@ pages:
         title: 'Grünwerk Energie'
         alias: projekt-gruenwerk
         hide: true
+        description: 'Grünwerk Energie: neuer Webauftritt für einen regionalen Energieversorger mit verständlichen Tarifen und mehr Anfragen.'
         articles:
           - title: Projekt
             elements:
@@ -1131,6 +1139,7 @@ pages:
                       - type: element_group
                         cssID: u-icon-white
                         children:
+                          - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                           - type: text
                             addImage: true
                             headline: { unit: h3, value: Kunde }
@@ -1269,6 +1278,7 @@ pages:
         title: 'Nordlicht Studio'
         alias: projekt-nordlicht
         hide: true
+        description: 'Nordlicht Studio: dunkles, bildstarkes Portfolio für ein Fotostudio, das die Arbeiten in den Mittelpunkt stellt.'
         articles:
           - title: Projekt
             elements:
@@ -1295,6 +1305,7 @@ pages:
                   - type: element_group
                     cssID: u-icon-white
                     children:
+                      - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                       - type: text
                         addImage: true
                         headline: { unit: h3, value: Kunde }
@@ -1435,6 +1446,7 @@ pages:
         title: 'Hotel Alpenhof'
         alias: projekt-alpenhof
         hide: true
+        description: 'Hotel Alpenhof: buchungsstarke Website für ein Familienhotel in den Alpen mit mehr Direktbuchungen.'
         articles:
           - title: Projekt
             elements:
@@ -1461,6 +1473,7 @@ pages:
                   - type: element_group
                     cssID: u-icon-white
                     children:
+                      - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                       - type: text
                         addImage: true
                         headline: { unit: h3, value: Kunde }
@@ -1601,6 +1614,7 @@ pages:
         title: 'Stadtwerke Elbtal'
         alias: projekt-stadtwerke
         hide: true
+        description: 'Stadtwerke Elbtal: Serviceportal mit Störungsmelder, das auch im Mobilfunknetz in unter zwei Sekunden lädt.'
         articles:
           - title: Projekt
             elements:
@@ -1629,6 +1643,7 @@ pages:
                       - type: element_group
                         cssID: u-icon-white
                         children:
+                          - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                           - type: text
                             addImage: true
                             headline: { unit: h3, value: Kunde }
@@ -1769,6 +1784,7 @@ pages:
         title: 'Kaffeerösterei Bohne'
         alias: projekt-roesterei
         hide: true
+        description: 'Kaffeerösterei Bohne: Online-Shop mit Produktkarten, Abo-Modell und einer Bildsprache, die nach Kaffee duftet.'
         articles:
           - title: Projekt
             elements:
@@ -1797,6 +1813,7 @@ pages:
                       - type: element_group
                         cssID: u-icon-white
                         children:
+                          - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                           - type: text
                             addImage: true
                             headline: { unit: h3, value: Kunde }
@@ -1937,6 +1954,7 @@ pages:
         title: 'SV Grün-Weiß'
         alias: projekt-sportverein
         hide: true
+        description: 'SV Grün-Weiß: Vereinswebsite mit Spielplänen, Ergebnissen und Mitgliederbereich, leicht zu pflegen fürs Ehrenamt.'
         articles:
           - title: Projekt
             elements:
@@ -1965,6 +1983,7 @@ pages:
                       - type: element_group
                         cssID: u-icon-white
                         children:
+                          - { type: headline, headline: Projektdaten, cssID: u-visually-hidden }
                           - type: text
                             addImage: true
                             headline: { unit: h3, value: Kunde }
@@ -2104,6 +2123,7 @@ pages:
   - type: regular
     title: 'Über uns'
     alias: ueber-uns
+    description: 'Wir sind ein eingespieltes Team aus Designern, Entwicklern und Strategen – kreativ, zuverlässig und auf Augenhöhe.'
     articles:
       - title: Intro
         elements:
@@ -2300,6 +2320,7 @@ pages:
       - type: regular
         title: Team
         alias: team
+        description: 'Lernen Sie das Team von Creuva kennen: die Menschen hinter Ihren Projekten in Design, Entwicklung und Beratung.'
         articles:
           - title: Intro
             elements:
@@ -2414,6 +2435,7 @@ pages:
   - type: regular
     title: Preise
     alias: preise
+    description: 'Transparente Pakete für Websites mit Contao: Starter, Business und Premium – individuell erweiterbar und passend für Ihr Projekt.'
     articles:
       - title: Intro
         elements:
@@ -2439,6 +2461,7 @@ pages:
           - type: element_group
             cssID: u-grid-4
             children:
+              - { type: headline, headline: 'Ihre Vorteile', cssID: u-visually-hidden }
               - type: text
                 addImage: true
                 headline: { unit: h3, value: 'Klare Leistungen' }
@@ -2605,6 +2628,7 @@ pages:
   - type: regular
     title: Wissen
     alias: wissen
+    description: 'Tipps, Einblicke und Strategien aus der Praxis: Barrierefreiheit, Ladezeiten, Contao 6 und mehr.'
     articles:
       - title: Hero
         teaserCssID: ['', '']
@@ -2640,6 +2664,7 @@ pages:
       - type: regular
         title: Beitrag
         alias: beitrag
+        requireItem: true
         hide: true
         articles:
           - { title: Beitrag, elements: [{ type: module, module: 'module:breadcrumb' }, { type: module, module: 'module:news-leser' }] }
@@ -2655,6 +2680,7 @@ pages:
       - type: regular
         title: FAQ
         alias: faq
+        description: 'Antworten auf häufige Fragen zu Ablauf, Kosten, Technik und Betreuung von Website-Projekten mit Contao.'
         articles:
           - title: Intro
             elements:
@@ -2770,6 +2796,7 @@ pages:
       - type: regular
         title: Downloads
         alias: downloads
+        description: 'Kostenlose Downloads: Projekt-Checkliste und Broschüre für die Planung Ihrer neuen Website.'
         articles:
           - title: Hero
             teaserCssID: ['', '']
@@ -2814,6 +2841,7 @@ pages:
   - type: regular
     title: Kontakt
     alias: kontakt
+    description: 'Erzählen Sie uns von Ihrem Projekt: unverbindliche Anfrage, persönliche Beratung und schnelle Rückmeldung.'
     articles:
       - title: Intro
         elements:
@@ -2835,6 +2863,7 @@ pages:
           - type: element_group
             cssID: u-grid-3
             children:
+              - { type: headline, headline: 'Darauf können Sie sich verlassen', cssID: u-visually-hidden }
               - type: text
                 addImage: true
                 headline: { unit: h3, value: 'Schnelle Rückmeldung' }
@@ -2977,6 +3006,7 @@ pages:
         title: 'Vielen Dank'
         alias: danke
         hide: true
+        description: 'Vielen Dank für Ihre Nachricht – wir melden uns so schnell wie möglich.'
         articles:
           - title: Danke
             elements:
@@ -2994,6 +3024,7 @@ pages:
     title: Impressum
     alias: impressum
     hide: true
+    description: 'Impressum der Creuva Demo GmbH.'
     sitemap: map_always
     articles:
       - title: Impressum
@@ -3006,6 +3037,7 @@ pages:
     title: Datenschutz
     alias: datenschutz
     hide: true
+    description: 'Datenschutzerklärung der Creuva Demo GmbH.'
     sitemap: map_always
     articles:
       - title: Datenschutz
@@ -3018,6 +3050,7 @@ pages:
     title: Sitemap
     alias: sitemap
     hide: true
+    description: 'Alle Seiten der Website auf einen Blick.'
     articles: [{ title: Sitemap, elements: [{ type: headline, headline: { unit: h1, value: Sitemap } }, { type: module, module: 'module:sitemap' }] }]
   - type: error_404
     title: 'Seite nicht gefunden'
