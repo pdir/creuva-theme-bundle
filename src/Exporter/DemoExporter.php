@@ -301,6 +301,10 @@ class DemoExporter
                 }
             }
 
+            if ('creuva_header' === $module['type'] && $module['creuvaSearch'] && null !== ($alias = $this->pages[(int) $module['creuvaSearchPage']] ?? null)) {
+                $data['header']['search'] = $alias;
+            }
+
             if ('creuva_header' === $module['type']) {
                 $data['header'] = ($data['header'] ?? []) + $this->exportLogo($module);
             }

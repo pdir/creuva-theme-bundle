@@ -1,0 +1,531 @@
+// Search: magnifying glass in the header with a modal search field
+// (creuva_header.html.twig), search module (mod_search.html.twig) and
+// results (search_default.html.twig)
+@use '../mixins' as *;
+
+@layer creuva.components {
+  .c-search-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  // Button in the header, same size as the burger button
+  .c-header__search {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    background: var(--c-surface);
+    color: var(--c-text);
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition), transform var(--transition-hover);
+
+    &:hover {
+      border-color: var(--c-accent-text);
+      color: var(--c-accent-text);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Search field: icon, input and round submit button in one pill
+  .c-search-field {
+    --search-height: 3.5rem;
+
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: var(--search-width, 52rem);
+    margin: 0;
+
+    > .c-search-icon {
+      position: absolute;
+      top: calc(var(--search-height) / 2);
+      left: 1.35rem;
+      color: var(--c-text-muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+      transition: color var(--transition);
+    }
+
+    &:focus-within > .c-search-icon {
+      color: var(--c-accent-text);
+    }
+
+    // Higher specificity than the general input styles of _form.scss
+    input.c-search-field__input {
+      flex: 1;
+      height: var(--search-height);
+      padding: 0 calc(var(--search-height) + 0.5rem) 0 3.25rem;
+      border-radius: var(--radius-pill);
+      background: var(--c-surface);
+      box-shadow: var(--shadow-s);
+      font-size: 1.0625rem;
+      appearance: none;
+
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
+
+    .c-search-field__submit {
+      position: absolute;
+      top: 0.375rem;
+      right: 0.375rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-width: calc(var(--search-height) - 0.75rem);
+      height: calc(var(--search-height) - 0.75rem);
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-pill);
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition), box-shadow var(--transition-hover);
+
+      &::after {
+        content: "";
+        width: 1.1em;
+        height: 1.1em;
+        background: currentColor;
+        mask: var(--icon-arrow) center / contain no-repeat;
+        transition: transform var(--transition-hover);
+      }
+
+      &:hover {
+        background: color-mix(in srgb, var(--c-primary) 85%, #000);
+        box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--c-primary) 70%, transparent);
+      }
+
+      &:hover::after,
+      &:focus-visible::after {
+        transform: translateX(0.2em);
+      }
+    }
+
+    // Visible label of the search module button on larger screens
+    .c-search-field__label {
+      display: none;
+    }
+
+    @media (min-width: 40rem) {
+      input.c-search-field__input:has(~ .c-search-field__submit .c-search-field__label) {
+        padding-right: 9rem;
+      }
+
+      .c-search-field__submit:has(.c-search-field__label) {
+        padding-inline: 1.4em 1.2em;
+      }
+
+      .c-search-field__label {
+        display: inline;
+      }
+    }
+
+    // Advanced search: "all words" / "any word"
+    .c-search-field__options {
+      display: flex;
+      flex-basis: 100%;
+      flex-wrap: wrap;
+      gap: var(--space-2xs) var(--space-m);
+      margin: var(--space-s) 0 0;
+      padding: 0 0 0 1.35rem;
+      border: 0;
+      font-size: var(--fs-small);
+
+      label {
+        cursor: pointer;
+      }
+    }
+  }
+
+  // Large variant in the search dialog: underlined field, headline font
+  .c-search-field--large {
+    --search-height: 4.5rem;
+
+    max-width: none;
+
+    > .c-search-icon {
+      left: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    input.c-search-field__input {
+      padding-left: 2.75rem;
+      border: 0;
+      border-bottom: 2px solid var(--c-border);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      font-family: var(--font-heading);
+      font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: -0.01em;
+
+      &:focus {
+        border-color: var(--c-accent);
+        box-shadow: none;
+      }
+    }
+
+    .c-search-field__submit {
+      top: 0.75rem;
+      right: 0;
+      min-width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  // Modal dialog below the top edge of the window
+  .c-search-dialog {
+    --search-dialog-duration: 0.35s;
+
+    width: 100%;
+    max-width: none;
+    max-height: 100dvh;
+    margin: 0 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0 0 var(--radius-l) var(--radius-l);
+    background: var(--c-bg);
+    color: var(--c-text);
+    box-shadow: var(--shadow-l);
+    opacity: 0;
+    transform: translateY(-1.5rem);
+    transition:
+      opacity var(--search-dialog-duration) var(--ease-out),
+      transform var(--search-dialog-duration) var(--ease-out),
+      overlay var(--search-dialog-duration) allow-discrete,
+      display var(--search-dialog-duration) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      transform: none;
+
+      @starting-style {
+        opacity: 0;
+        transform: translateY(-1.5rem);
+      }
+    }
+
+    &::backdrop {
+      background: color-mix(in srgb, var(--c-text) 45%, transparent);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition:
+        opacity var(--search-dialog-duration) var(--ease-out),
+        overlay var(--search-dialog-duration) allow-discrete,
+        display var(--search-dialog-duration) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  .c-search-dialog__inner {
+    position: relative;
+    width: min(100% - 2 * var(--gutter), 52rem);
+    margin-inline: auto;
+    padding-block: calc(var(--header-height) + var(--space-s)) var(--space-l);
+  }
+
+  .c-search-dialog__hint {
+    margin: var(--space-s) 0 0;
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+
+    kbd {
+      display: inline-block;
+      padding: 0.1em 0.5em;
+      border: 1px solid var(--c-border);
+      border-bottom-width: 2px;
+      border-radius: var(--radius-s);
+      background: var(--c-surface);
+      color: var(--c-text);
+      font: inherit;
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    @media (hover: none) {
+      display: none;
+    }
+  }
+
+  // Close button (×) in the top right corner, at the height of the header
+  .c-search-dialog__close {
+    position: absolute;
+    top: calc((var(--header-height) - 2.75rem) / 2);
+    right: 0;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    background: var(--c-surface);
+    color: var(--c-text);
+    cursor: pointer;
+    transition: border-color var(--transition), transform var(--transition-hover);
+
+    span[aria-hidden] {
+      position: relative;
+      width: 1.125rem;
+      height: 1.125rem;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        margin-top: -1px;
+        border-radius: 2px;
+        background: currentColor;
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
+
+    &:hover {
+      border-color: var(--c-primary);
+      transform: rotate(90deg);
+    }
+  }
+
+  :root.has-open-search {
+    overflow: hidden;
+  }
+
+  // Search module: field, summary and results share one width
+  .mod_search {
+    --search-width: 52rem;
+
+    > .c-search-field {
+      margin-bottom: var(--space-l);
+    }
+  }
+
+  .c-search-summary {
+    margin-bottom: var(--space-m);
+  }
+
+  .c-search-summary__title {
+    margin: 0;
+    color: var(--c-text-muted);
+    font-size: var(--fs-large);
+
+    strong {
+      color: var(--c-text);
+    }
+  }
+
+  .c-search-summary__keywords {
+    color: var(--c-accent-text);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  // Nothing found: card with icon and tips
+  .c-search-empty {
+    @include card;
+
+    max-width: var(--search-width);
+    padding: var(--space-l) var(--space-m);
+
+    .c-search-summary__title {
+      margin-bottom: var(--space-xs);
+      color: var(--c-text);
+      font-family: var(--font-heading);
+      font-size: var(--fs-h3);
+      font-weight: var(--font-weight-heading);
+      line-height: var(--lh-heading);
+    }
+
+    p {
+      margin: 0 0 var(--space-xs);
+      color: var(--c-text-muted);
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      @include check-item;
+    }
+
+    @media (min-width: 40rem) {
+      padding: var(--space-l);
+    }
+  }
+
+  .c-search-empty__icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: var(--space-s);
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+
+    &::before {
+      content: "";
+      width: 1.5rem;
+      height: 1.5rem;
+      background: var(--c-accent-text);
+      mask: var(--icon-question) center / contain no-repeat;
+    }
+  }
+
+  // Results: cards, the link of the title covers the whole card
+  .c-search-results {
+    display: grid;
+    max-width: var(--search-width);
+    gap: var(--space-s);
+  }
+
+  .c-search-result {
+    @include card;
+
+    position: relative;
+    display: grid;
+    gap: var(--space-s) var(--space-m);
+    padding: var(--space-m);
+
+    @include hover-lift;
+
+    &:focus-within {
+      outline: 2px solid var(--c-accent-text);
+      outline-offset: 2px;
+    }
+
+    @media (min-width: 40rem) {
+      &.c-search-result--image {
+        grid-template-columns: minmax(0, 1fr) 10rem;
+        align-items: center;
+      }
+    }
+  }
+
+  .c-search-result__path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.15rem 0.4rem;
+    margin: 0 0 var(--space-2xs);
+    color: var(--c-text-muted);
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+
+    span + span::before {
+      content: "";
+      display: inline-block;
+      width: 0.7em;
+      height: 0.7em;
+      margin-right: 0.4rem;
+      background: currentColor;
+      mask: var(--icon-chevron) center / contain no-repeat;
+      opacity: 0.6;
+    }
+
+    span:first-child {
+      font-weight: 600;
+    }
+  }
+
+  .c-search-result__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0 0 var(--space-xs);
+    font-size: 1.25rem;
+
+    a {
+      color: var(--c-text);
+      text-decoration: none;
+      transition: color var(--transition);
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  .c-search-result:hover .c-search-result__title a {
+    color: var(--c-accent-text);
+  }
+
+  .c-search-result__badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .c-search-result__context {
+    margin: 0;
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+
+    mark,
+    .highlight {
+      padding: 0.05em 0.2em;
+      border-radius: 0.25em;
+      background: var(--c-accent-soft);
+      color: var(--c-text);
+      font-weight: 600;
+    }
+  }
+
+  .c-search-result__image {
+    overflow: hidden;
+    border-radius: var(--radius-m);
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+  }
+}

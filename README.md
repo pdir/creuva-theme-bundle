@@ -33,7 +33,7 @@ Der Befehl legt alles an, was das Theme braucht:
 # Bestehende Website: Startpunkt wird abgefragt oder per ID übergeben
 vendor/bin/contao-console creuva:install --root=1
 
-# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz und Sitemap
+# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz, Sitemap und Suche
 vendor/bin/contao-console creuva:install --with-pages --site-title="Meine Firma" --dns=example.org
 
 # Komplette Demo-Website mit Beispielinhalten, Bildern, News und Formular
@@ -50,10 +50,28 @@ vendor/bin/contao-console creuva:install --demo
 | `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial` |
 | `--theme-name` | Name des Themes (Standard „Creuva“), z. B. für eine zweite Variante |
 
-Kontakt-, Impressum-, Datenschutz- und Sitemap-Seiten einer bestehenden Website werden
-anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `sitemap`, …) und im
-Header-Button bzw. Footer verlinkt. Modulnamen und Texte richten sich nach der Sprache
-des Startpunkts (Deutsch oder Englisch).
+Kontakt-, Impressum-, Datenschutz-, Sitemap- und Suchseiten einer bestehenden Website werden
+anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `sitemap`, `suche`, …) und im
+Header-Button, in der Header-Suche bzw. im Footer verlinkt. Modulnamen und Texte richten sich
+nach der Sprache des Startpunkts (Deutsch oder Englisch).
+
+## Suche
+
+Der Creuva Header zeigt optional eine Lupe (Feld „Suche im Header“, Legende *Suche*). Sie öffnet
+ein Suchfeld über der Seite, auch mit <kbd>Strg</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd><kbd>K</kbd>)
+oder <kbd>/</kbd>, und schickt die Suchbegriffe an die gewählte **Suchergebnisseite**. Auf dieser
+Seite liegt das Core-Modul *Suchmaschine*; Creuva bringt dafür eigene Templates mit
+(`mod_search.html.twig`, `search_default.html.twig`): großes Suchfeld, Treffer als Karten mit
+Seitenpfad, hervorgehobenen Suchbegriffen und optionalem Bild sowie Tipps, wenn nichts gefunden
+wurde. Ohne Häkchen erscheint keine Lupe.
+
+`creuva:install --with-pages` und die Demo legen die Seite „Suche“ (versteckt, `noindex`, nicht im
+Suchindex) mit dem Modul an und aktivieren die Suche im Header. In einer Demo-Definition
+genügt `header: { search: suche }` (Alias der Ergebnisseite).
+
+Das Seitenlayout nimmt nur den Bereich `main` in den Suchindex auf; Header, Footer und Copyright
+erscheinen deshalb nicht in den Suchergebnissen. Nach einem Update den Suchindex einmal neu
+aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Demo-Inhalte
 
@@ -63,11 +81,11 @@ Sprache legen):
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap und eine 404-Seite („Diese Seite hat
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und eine 404-Seite („Diese Seite hat
   sich verlaufen.“ mit Illustration und Links zu Leistungen, Projekten und Wissen); dazu der
   [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
-- **Module:** Hauptnavigation, Header mit CTA, Footer mit vier Spalten und Social-Media-Links,
-  News-Liste und -Leser, Sitemap
+- **Module:** Hauptnavigation, Header mit CTA und Suche, Footer mit vier Spalten und Social-Media-Links,
+  News-Liste und -Leser, Sitemap, Suchmaschine
 - **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
   der Demo verweisen
 - **News-Archiv** mit drei ausführlichen Beiträgen (nur wenn das News-Bundle installiert ist)
@@ -275,7 +293,8 @@ vendor/bin/contao-console creuva:install --demo --reset
 1. **Layout → Themes → Neues Theme** anlegen.
 2. **Module** anlegen:
    - *Navigation* (Navigationsmenü, 2 Ebenen) für das Hauptmenü
-   - *Creuva › Creuva Header* – Logo, Navigationsmodul, CTA-Button; enthält das mobile Menü
+   - *Creuva › Creuva Header* – Logo, Navigationsmodul, CTA-Button, optional Suche; enthält das mobile Menü
+   - optional *Suchmaschine* auf einer versteckten Seite „Suche“ (siehe [Suche](#suche))
    - *Creuva › Creuva Marke* – Logo, Claim und Social-Media-Links für den Footer
    - *Individuelle Navigation* mit Überschrift für jede Footer-Spalte (z. B. Leistungen, Unternehmen, Rechtliches)
    - optional *Eigener HTML-Code* für das Copyright und eine individuelle Navigation für die Links unten rechts

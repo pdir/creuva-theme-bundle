@@ -31,6 +31,7 @@ class ThemeInstaller
             'imprint' => 'Impressum',
             'privacy' => 'Datenschutz',
             'sitemap' => 'Sitemap',
+            'search' => 'Suche',
             'mainNavigation' => 'Hauptnavigation',
             'header' => 'Header',
             'brand' => 'Footer – Marke',
@@ -57,6 +58,7 @@ class ThemeInstaller
             'imprint' => 'Imprint',
             'privacy' => 'Privacy policy',
             'sitemap' => 'Sitemap',
+            'search' => 'Search',
             'mainNavigation' => 'Main navigation',
             'header' => 'Header',
             'brand' => 'Footer – brand',
@@ -102,6 +104,7 @@ class ThemeInstaller
         'imprint' => ['impressum', 'imprint', 'legal-notice'],
         'privacy' => ['datenschutz', 'datenschutzerklaerung', 'privacy', 'privacy-policy'],
         'sitemap' => ['sitemap'],
+        'search' => ['suche', 'search', 'suchergebnisse', 'search-results'],
     ];
 
     public function __construct(
@@ -144,7 +147,7 @@ class ThemeInstaller
     {
         $required = [
             'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
-            'tl_module' => ['creuvanavigation', 'creuvasociallinks'],
+            'tl_module' => ['creuvanavigation', 'creuvasociallinks', 'creuvasearch', 'creuvasearchpage'],
             'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvaradius'],
             'tl_content' => ['creuvaheadlineaccent'],
         ];
@@ -265,6 +268,14 @@ class ThemeInstaller
                 $header['creuvaLinkTitle1'] = $texts['cta'];
             }
 
+            // Search in the header, the results appear on the search page ("header: {search: suche}")
+            $searchPage = isset($demo['header']['search']) ? ($result->pages[$demo['header']['search']] ?? null) : ($pageIds['search'] ?? null);
+
+            if (null !== $searchPage) {
+                $header['creuvaSearch'] = 1;
+                $header['creuvaSearchPage'] = $searchPage;
+            }
+
             $modules['header'] = $this->insertModule($result, $header + $this->getDemoLogo($demo['header'] ?? []) + $logoSize);
 
             $modules['brand'] = $this->insertModule($result, [
@@ -346,6 +357,24 @@ class ThemeInstaller
                 ], 0);
 
                 $this->insertContent($result->articles['sitemap'], ['type' => 'module', 'module' => $sitemap], 1);
+            }
+
+            if (isset($result->articles['search'])) {
+                $search = $this->insertModule($result, [
+                    'name' => $texts['search'],
+                    'type' => 'search',
+                    'searchType' => 'simple',
+                    'perPage' => 10,
+                    'contextLength' => serialize(['48', '280']),
+                    'minKeywordLength' => 3,
+                ]);
+
+                $this->insertContent($result->articles['search'], [
+                    'type' => 'headline',
+                    'headline' => serialize(['unit' => 'h1', 'value' => $texts['search']]),
+                ], 0);
+
+                $this->insertContent($result->articles['search'], ['type' => 'module', 'module' => $search], 1);
             }
 
             // Preview of the color schemes on the demo website
@@ -522,17 +551,18 @@ class ThemeInstaller
         $rootId = $this->createRootPage($options);
 
         $aliases = 'de' === $this->textLanguage($options->language)
-            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'sitemap' => 'sitemap']
-            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'sitemap' => 'sitemap'];
+            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'sitemap' => 'sitemap', 'search' => 'suche']
+            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'sitemap' => 'sitemap', 'search' => 'search'];
 
         // Only the start page and the contact page appear in the main navigation,
-        // the legal pages are linked in the footer and listed in the sitemap
-        $hidden = ['imprint', 'privacy', 'sitemap'];
+        // the legal pages are linked in the footer and listed in the sitemap, the
+        // search results page is opened by the search in the header
+        $hidden = ['imprint', 'privacy', 'sitemap', 'search'];
 
         $sorting = 0;
 
         foreach ($aliases as $key => $alias) {
-            $pageId = $this->insert('tl_page', [
+            $page = [
                 'pid' => $rootId,
                 'sorting' => $sorting += 128,
                 'title' => $texts[$key],
@@ -541,7 +571,13 @@ class ThemeInstaller
                 'hide' => \in_array($key, $hidden, true) ? 1 : 0,
                 'sitemap' => \in_array($key, ['imprint', 'privacy'], true) ? 'map_always' : 'map_default',
                 'published' => 1,
-            ]);
+            ];
+
+            if ('search' === $key) {
+                $page = ['searchIndexer' => 'never_index', 'robots' => 'noindex,follow', 'sitemap' => 'map_never'] + $page;
+            }
+
+            $pageId = $this->insert('tl_page', $page);
 
             $result->pages[$key] = $pageId;
 
@@ -593,7 +629,7 @@ class ThemeInstaller
                 'headline' => $headline($texts['contact']),
                 'text' => $texts['contactText'],
             ]],
-            'sitemap' => [], // added after the sitemap module has been created
+            'sitemap', 'search' => [], // added after the sitemap and search module have been created
             default => [[
                 'type' => 'text',
                 'headline' => $headline($texts[$page]),

@@ -52,3 +52,18 @@ $GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva logo bar', 'Logos of partn
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderPrev'] = 'Previous element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderNext'] = 'Next element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderGoTo'] = 'Go to element %s';
+
+// Search (header search and the templates mod_search and search_default)
+$GLOBALS['TL_LANG']['MSC']['creuvaSearch'] = 'Search';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchOpen'] = 'Open search';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchClose'] = 'Close search';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchPlaceholder'] = 'What are you looking for?';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchSubmit'] = 'Search';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchHint'] = '%s to search, %s to close';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchResult'] = '%s result for';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchResults'] = '%s results for';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchEmpty'] = 'No results for';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchEmptyText'] = 'Maybe one of these tips helps:';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchTip1'] = 'Check the spelling.';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchTip2'] = 'Use fewer or more general keywords.';
+$GLOBALS['TL_LANG']['MSC']['creuvaSearchTip3'] = 'Try a word with a similar meaning.';

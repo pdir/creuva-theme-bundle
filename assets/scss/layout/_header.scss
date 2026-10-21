@@ -168,6 +168,7 @@ $nav-breakpoint: 64rem;
       .level_1 {
         display: flex;
         gap: clamp(1rem, 2.5vw, 2.5rem);
+        white-space: nowrap;
 
         > li > :is(a, strong).active::after,
         > li > a.trail::after {
@@ -193,6 +194,7 @@ $nav-breakpoint: 64rem;
         z-index: 10;
         min-width: 14rem;
         padding: var(--space-xs);
+        white-space: normal;
         border: 1px solid var(--c-border);
         border-radius: var(--radius-m);
         background: var(--c-surface);
@@ -222,8 +224,48 @@ $nav-breakpoint: 64rem;
     }
   }
 
+  // Search button: on the right, next to the burger button (mobile) or between
+  // the navigation and the CTA button (desktop, the panel is dissolved)
+  .c-header__search {
+    margin-left: auto;
+  }
+
+  @media (min-width: $nav-breakpoint) {
+    .c-header:has(> .c-header__search:not([hidden])) {
+      > .c-header__panel {
+        display: contents;
+
+        > * {
+          order: 1;
+        }
+
+        > .c-header__cta {
+          order: 3;
+        }
+      }
+
+      > .c-header__search {
+        order: 2;
+      }
+
+      .c-header__cta {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      // The navigation is centered by its auto margins
+      &:has(> .c-header__panel > :is(.mod_navigation, .mod_customnav)) > .c-header__search {
+        margin-left: 0;
+      }
+    }
+  }
+
   // Mobile: toggle button + panel below the header
   @media (max-width: calc($nav-breakpoint - 0.01rem)) {
+    .c-header__search:not([hidden]) ~ .c-header__toggle {
+      margin-left: calc(var(--space-xs) - var(--space-m));
+    }
+
     .c-header__toggle {
       display: inline-grid;
     }

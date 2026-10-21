@@ -1,0 +1,32 @@
+{#
+    Search result as a card: path of the page as breadcrumb, title (the link
+    covers the whole card), context with the highlighted keywords and an
+    optional image. Documents (PDF, Word, …) get a badge with their type.
+#}
+{% set creuva_path = url|replace({'https://': '', 'http://': ''})|trim('/')|split('/') %}
+{% set creuva_file = url matches '/\\.(pdf|docx?|xlsx?|pptx?|odt|txt)$/i' ? url|split('.')|last|upper : null %}
+
+<article class="search_default c-search-result{% if hasImage %} c-search-result--image{% endif %}">
+    <div class="c-search-result__body">
+        <p class="c-search-result__path">
+            {% for segment in creuva_path %}
+                <span>{{ loop.first ? segment : segment|replace({'.html': '', '-': ' '}) }}</span>
+            {% endfor %}
+        </p>
+
+        <h3 class="c-search-result__title">
+            <a href="{{ href }}">{{ link }}</a>
+            {% if creuva_file %}<span class="c-search-result__badge">{{ creuva_file }}</span>{% endif %}
+        </h3>
+
+        {% if context|default %}
+            <p class="c-search-result__context context">{{ context|raw }}</p>
+        {% endif %}
+    </div>
+
+    {% if hasImage %}
+        <div class="c-search-result__image">
+            {{ include('@Contao/image.html.twig', image|map(v => v), false) }}
+        </div>
+    {% endif %}
+</article>

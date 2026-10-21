@@ -1,0 +1,60 @@
+{% extends '@Contao/block_unsearchable.html.twig' %}
+
+{#
+    Search module ("Suchmaschine"): large search field with the button inside,
+    a summary of the results and a friendly message if nothing was found. The
+    results are rendered with search_default.html.twig.
+#}
+
+{% block content %}
+    <form class="c-search-field"{% if action|default %} action="{{ action }}"{% endif %} method="get" role="search">
+        <label class="u-visually-hidden" for="ctrl_keywords_{{ uniqueId }}">{{ keywordLabel }}</label>
+        <svg class="c-search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="c-search-field__input" type="search" name="keywords" id="ctrl_keywords_{{ uniqueId }}" value="{{ keyword }}" placeholder="{{ 'MSC.creuvaSearchPlaceholder'|trans([], 'contao_default') }}" spellcheck="false" enterkeyhint="search">
+        <button class="c-search-field__submit" type="submit" id="ctrl_submit_{{ uniqueId }}">
+            <span class="c-search-field__label">{{ search }}</span>
+        </button>
+
+        {% if advanced %}
+            <fieldset class="c-search-field__options">
+                <legend class="u-visually-hidden">{{ optionsLabel }}</legend>
+                <label><input type="radio" name="query_type" value="and"{% if 'and' == queryType %} checked{% endif %}> {{ matchAll }}</label>
+                <label><input type="radio" name="query_type" value="or"{% if 'or' == queryType %} checked{% endif %}> {{ matchAny }}</label>
+            </fieldset>
+        {% endif %}
+    </form>
+
+    {% if keywords is defined and keywords is not empty %}
+        <div class="c-search-summary" role="status">
+            {% if count|default(0) > 0 %}
+                <p class="c-search-summary__title">
+                    {{ (count == 1 ? 'MSC.creuvaSearchResult' : 'MSC.creuvaSearchResults')|trans(['<strong>' ~ count ~ '</strong>'], 'contao_default')|raw }}
+                    <span class="c-search-summary__keywords">„{{ keywords }}“</span>
+                </p>
+            {% else %}
+                <div class="c-search-empty">
+                    <span class="c-search-empty__icon" aria-hidden="true"></span>
+                    <p class="c-search-summary__title">
+                        {{ 'MSC.creuvaSearchEmpty'|trans([], 'contao_default') }}
+                        <span class="c-search-summary__keywords">„{{ keywords }}“</span>
+                    </p>
+                    <p>{{ 'MSC.creuvaSearchEmptyText'|trans([], 'contao_default') }}</p>
+                    <ul>
+                        <li>{{ 'MSC.creuvaSearchTip1'|trans([], 'contao_default') }}</li>
+                        <li>{{ 'MSC.creuvaSearchTip2'|trans([], 'contao_default') }}</li>
+                        <li>{{ 'MSC.creuvaSearchTip3'|trans([], 'contao_default') }}</li>
+                        {% if keywordHint|default %}
+                            <li>{{ keywordHint }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if results|default is not empty %}
+        <div class="c-search-results">{{ results|raw }}</div>
+    {% endif %}
+
+    {{ pagination|raw }}
+{% endblock %}

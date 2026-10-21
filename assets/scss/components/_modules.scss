@@ -1,7 +1,8 @@
 // Modules of the bundles that come with the Contao Managed Edition: events
-// (list, reader, calendar, mini calendar, menu), FAQ, newsletter, comments,
-// listing and search. The markup is the same for the PHP templates of
-// Contao 5.7 and the Twig templates of Contao 6 (event list: event_list.html.twig).
+// (list, reader, calendar, mini calendar, menu), FAQ, newsletter, comments
+// and listing (search: _search.scss). The markup is the same for the PHP
+// templates of Contao 5.7 and the Twig templates of Contao 6 (event list:
+// event_list.html.twig).
 @use '../mixins' as *;
 
 @layer creuva.components {
@@ -581,72 +582,6 @@
 
     .list_per_page {
       margin: var(--space-s) 0;
-    }
-  }
-
-  // Search: field and button in one row, results as a list
-  .mod_search {
-    > form .formbody {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-xs);
-
-      .widget {
-        margin: 0;
-      }
-
-      .widget-text {
-        flex: 1 1 16rem;
-      }
-
-      .widget-radio {
-        flex-basis: 100%;
-      }
-    }
-
-    > .header {
-      margin: var(--space-l) 0 var(--space-s);
-      color: var(--c-text-muted);
-      font-size: var(--fs-small);
-    }
-  }
-
-  .search_default {
-    padding: var(--space-m) 0;
-    border-bottom: 1px solid var(--c-border);
-
-    h3 {
-      margin-bottom: var(--space-2xs);
-      font-size: 1.125rem;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-
-        &:hover {
-          color: var(--c-accent-text);
-        }
-      }
-    }
-
-    .context {
-      margin: 0 0 var(--space-2xs);
-      color: var(--c-text-muted);
-
-      mark,
-      .highlight {
-        padding: 0 0.15em;
-        border-radius: 0.2em;
-        background: var(--c-accent-soft);
-        color: inherit;
-      }
-    }
-
-    .url {
-      margin: 0;
-      color: var(--c-accent-text);
-      font-size: var(--fs-small);
-      word-break: break-all;
     }
   }
 

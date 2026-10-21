@@ -64,7 +64,7 @@ files:
   bilder/team-6.jpg: { alt: 'Porträt Clara Neumann' }
   downloads/creuva-broschuere.pdf: { title: Creuva-Broschüre }
   downloads/projekt-checkliste.pdf: { title: 'Checkliste für Ihr Website-Projekt' }
-header: { cta: { page: kontakt, title: 'Projekt starten' }, logoSize: 'image_size:logo' }
+header: { cta: { page: kontakt, title: 'Projekt starten' }, search: suche, logoSize: 'image_size:logo' }
 brand:
   claim: |-
     Digitale Lösungen für eine
@@ -422,6 +422,7 @@ modules:
     overviewPage: 'page:wissen'
     news_archives: ['news_archive:news-wissen']
   sitemap: { type: sitemap, name: Sitemap }
+  suche: { type: search, name: Suche, searchType: simple, perPage: 10, contextLength: ['48', '280'], minKeywordLength: 3 }
 pages:
   - type: regular
     title: Startseite
@@ -3131,6 +3132,15 @@ pages:
     hide: true
     description: 'Alle Seiten der Website auf einen Blick.'
     articles: [{ title: Sitemap, elements: [{ type: headline, headline: { unit: h1, value: Sitemap } }, { type: module, module: 'module:sitemap' }] }]
+  - type: regular
+    title: Suche
+    alias: suche
+    hide: true
+    searchIndexer: never_index
+    robots: noindex,follow
+    sitemap: map_never
+    description: 'Suchergebnisse der Website.'
+    articles: [{ title: Suche, elements: [{ type: headline, headline: { unit: h1, value: Suche } }, { type: module, module: 'module:suche' }] }]
   - type: error_404
     title: 'Seite nicht gefunden'
     alias: seite-nicht-gefunden

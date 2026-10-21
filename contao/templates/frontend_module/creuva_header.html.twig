@@ -3,9 +3,14 @@
 
 {% set attributes = attrs(attributes|default).addClass('c-header') %}
 {% set nav_id = 'creuva-nav-' ~ data.id %}
+{% set search_id = 'creuva-search-' ~ data.id %}
 
 {% block content %}
     {{ block('creuva_brand_component') }}
+
+    {% if search %}
+        {{ block('search_component') }}
+    {% endif %}
 
     {% if navigation or cta %}
         <button class="c-header__toggle" type="button" aria-expanded="false" aria-controls="{{ nav_id }}" data-creuva-nav-toggle>
@@ -23,4 +28,39 @@
             {% endif %}
         </div>
     {% endif %}
+{% endblock %}
+
+{# Magnifying glass that opens a modal dialog with the search field; without
+   JavaScript the button is hidden and the results page has its own form #}
+{% block search_component %}
+    <button class="c-header__search" type="button" aria-haspopup="dialog" aria-controls="{{ search_id }}" data-creuva-search-open hidden>
+        {{ block('search_icon') }}
+        <span class="u-visually-hidden">{{ 'MSC.creuvaSearchOpen'|trans([], 'contao_default') }}</span>
+    </button>
+
+    <dialog class="c-search-dialog" id="{{ search_id }}" aria-label="{{ 'MSC.creuvaSearch'|trans([], 'contao_default') }}" data-creuva-search>
+        <div class="c-search-dialog__inner">
+            <form class="c-search-field c-search-field--large" action="{{ search.action }}" method="get" role="search">
+                <label class="u-visually-hidden" for="{{ search_id }}-keywords">{{ 'MSC.keywords'|trans([], 'contao_default') }}</label>
+                {{ block('search_icon') }}
+                <input class="c-search-field__input" type="search" name="keywords" id="{{ search_id }}-keywords" value="{{ search.keywords }}" placeholder="{{ 'MSC.creuvaSearchPlaceholder'|trans([], 'contao_default') }}" autocomplete="off" spellcheck="false" enterkeyhint="search" required>
+                <button class="c-search-field__submit" type="submit">
+                    <span class="u-visually-hidden">{{ 'MSC.creuvaSearchSubmit'|trans([], 'contao_default') }}</span>
+                </button>
+            </form>
+
+            <p class="c-search-dialog__hint" aria-hidden="true">
+                {{ 'MSC.creuvaSearchHint'|trans(['<kbd>Enter</kbd>', '<kbd>Esc</kbd>'], 'contao_default')|raw }}
+            </p>
+
+            <button class="c-search-dialog__close" type="button" data-creuva-search-close>
+                <span aria-hidden="true"></span>
+                <span class="u-visually-hidden">{{ 'MSC.creuvaSearchClose'|trans([], 'contao_default') }}</span>
+            </button>
+        </div>
+    </dialog>
+{% endblock %}
+
+{% block search_icon %}
+    <svg class="c-search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
 {% endblock %}

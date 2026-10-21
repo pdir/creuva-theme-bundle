@@ -63,6 +63,81 @@ const initNavigation = () => {
 };
 
 /**
+ * Search dialog of the header module: opens with the magnifying glass, Ctrl+K
+ * (⌘K) or "/" outside of form fields, closes with Escape, the × button or a
+ * click on the backdrop.
+ */
+const initSearch = () => {
+  document.querySelectorAll('[data-creuva-search-open]').forEach((button) => {
+    const dialog = document.getElementById(button.getAttribute('aria-controls'));
+
+    if (!dialog || typeof dialog.showModal !== 'function') {
+      return;
+    }
+
+    const input = dialog.querySelector('input[type="search"]');
+    const header = button.closest('.c-header');
+
+    const open = () => {
+      if (dialog.open) {
+        return;
+      }
+
+      // Close the mobile navigation first
+      if (header?.classList.contains('is-open')) {
+        header.querySelector('[data-creuva-nav-toggle]')?.click();
+      }
+
+      dialog.showModal();
+      document.documentElement.classList.add('has-open-search');
+      input?.focus();
+      input?.select();
+    };
+
+    button.hidden = false;
+    button.addEventListener('click', open);
+
+    dialog.querySelector('[data-creuva-search-close]')?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('has-open-search');
+      button.focus();
+    });
+
+    // Escape in a filled search field would only clear the field
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        dialog.close();
+      }
+    });
+
+    // Click on the backdrop (outside of the content)
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+
+    dialog.querySelector('form')?.addEventListener('submit', (event) => {
+      if (input && '' === input.value.trim()) {
+        event.preventDefault();
+        input.focus();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const typing = event.target.closest?.('input, textarea, select, [contenteditable="true"]');
+
+      if ((event.key === 'k' && (event.ctrlKey || event.metaKey)) || (event.key === '/' && !typing && !event.ctrlKey && !event.metaKey && !event.altKey)) {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
+};
+
+/**
  * Style switcher module (front end preview of the color schemes). The inline
  * script of the module applies the stored choice and provides the state.
  */
@@ -666,6 +741,7 @@ const initSliderThumbs = () => {
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initNavigation();
+  initSearch();
   initStyleSwitcher();
   initReveal();
   initCountUp();

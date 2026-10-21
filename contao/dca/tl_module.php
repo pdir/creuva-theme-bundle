@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Copyright (C) pdir GmbH <develop@pdir.de>
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_header'] = '{title_legend},name,type;{creuva_logo_legend},creuvaLogo,imgSize,creuvaLogoText;{nav_legend},creuvaNavigation;{link_legend},creuvaUrl1,creuvaLinkTitle1;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_header'] = '{title_legend},name,type;{creuva_logo_legend},creuvaLogo,imgSize,creuvaLogoText;{nav_legend},creuvaNavigation;{link_legend},creuvaUrl1,creuvaLinkTitle1;{creuva_search_legend},creuvaSearch;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_style_switcher'] = '{title_legend},name,type;{config_legend},creuvaPreviewOnly;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_brand'] = '{title_legend},name,headline,type;{creuva_logo_legend},creuvaLogo,imgSize,creuvaLogoText;{text_legend},creuvaClaim;{creuva_social_legend},creuvaSocialLinks;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
 
@@ -40,6 +40,25 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['creuvaLinkTitle1'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+// Search icon in the header: opens a search field that sends the keywords to
+// the page with the search module (the icon is hidden without the checkbox)
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'creuvaSearch';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['creuvaSearch'] = 'creuvaSearchPage';
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['creuvaSearch'] = [
+    'inputType' => 'checkbox',
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => 'boolean', 'default' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['creuvaSearchPage'] = [
+    'inputType' => 'pageTree',
+    'foreignKey' => 'tl_page.title',
+    'eval' => ['fieldType' => 'radio', 'mandatory' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0],
+    'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['creuvaClaim'] = [

@@ -47,6 +47,9 @@
 {% endblock %}
 
 {% block body_content %}
+    {# Only the main area is added to the search index, so header, footer and
+       copyright texts do not appear in the search results #}
+    <!-- indexer::stop -->
     <a class="c-skip-link" href="#main">{{ 'MSC.skipNavigation'|trans([], 'contao_default') }}</a>
 
     {% slot top %}
@@ -59,9 +62,11 @@
         </header>
     {% endslot %}
 
+    <!-- indexer::continue -->
     {% slot main %}
         <main id="main" class="l-main">{{ slot() }}</main>
     {% endslot %}
+    <!-- indexer::stop -->
 
     {# Full-width area above the footer on all pages, e.g. for a partner logo bar #}
     {% slot prefooter %}
@@ -81,4 +86,5 @@
             <p class="c-powered-by">powered by <a href="https://contao-themes.net/creuva" hreflang="de">contao-themes.net</a></p>
         </div>
     </div>
+    <!-- indexer::continue -->
 {% endblock %}
