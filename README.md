@@ -385,6 +385,18 @@ Das Theme Components Bundle erweitert Überschriften um eine *Subline*. Creuva n
 Das Creuva-Feld **„Dachzeile“** (Text, Beschreibungsliste) steht zusätzlich über der
 Überschrift. So lassen sich Dachzeile und zweifarbige Überschrift kombinieren.
 
+### News-Beiträge
+
+Der News-Leser zeigt einen Kopfbereich wie der Hero: Archiv, Datum und Lesezeit als Dachzeile,
+Überschrift, Unterüberschrift als Einleitung und Autor, daneben das Bild des Beitrags (Bildgröße
+im Modul *News – Leser*). Die Inhaltselemente folgen in der Lesespalte.
+
+Im Beitrag gibt es das Feld **„Hervorgehobener Teil“** (neben der Überschrift): Der eingetragene
+Text erscheint im Beitrag in der Akzentfarbe, z. B. „**Barrierefreiheit wird Pflicht** – was
+Websites jetzt brauchen“. Er muss genau so in der Überschrift vorkommen. Bleibt das Feld leer,
+ist die Überschrift einfarbig. In Listen, im Seitentitel und in Suchmaschinen bleibt die
+Überschrift unverändert.
+
 ### Text formatieren (Akzentfarbe, Buttons …)
 
 Der Texteditor hat das Menü **„Formate“** mit den Textstilen des Themes:

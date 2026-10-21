@@ -18,6 +18,7 @@ $GLOBALS['TL_LANG']['FMD']['creuva_brand'] = ['Creuva brand', 'Logo, claim and s
 
 $GLOBALS['TL_LANG']['MSC']['creuvaMenu'] = 'Menu';
 $GLOBALS['TL_LANG']['MSC']['creuvaHome'] = 'Go to start page';
+$GLOBALS['TL_LANG']['MSC']['creuvaReadingTime'] = '%s min read';
 
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Customize design';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Color scheme';

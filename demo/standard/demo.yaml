@@ -140,6 +140,7 @@ news:
     items:
       - headline: Barrierefreiheit wird Pflicht – was Websites jetzt brauchen
         alias: barrierefreiheit-wird-pflicht
+        creuvaHeadlineAccent: Barrierefreiheit wird Pflicht
         date: -3 days
         subheadline: 'Das Barrierefreiheitsstärkungsgesetz im Überblick'
         teaser: '<p>Seit dem 28. Juni 2025 gilt das Barrierefreiheitsstärkungsgesetz. Wir zeigen, welche Websites betroffen sind, was die WCAG verlangen und wie Sie Ihre Website Schritt für Schritt fit machen.</p>'
@@ -273,6 +274,7 @@ news:
             text: '<p>Wir messen Ihre Website und zeigen Ihnen die drei Maßnahmen mit der größten Wirkung.</p><p><a href="{{link_url::kontakt}}">Check anfragen</a></p>'
       - headline: Relaunch mit Contao 6 – so gelingt der Umstieg
         alias: relaunch-contao-6
+        creuvaHeadlineAccent: Relaunch mit Contao 6
         date: -26 days
         teaser: '<p>Contao 6 setzt konsequent auf Twig-Templates. Wir erklären, wie Sie den Umstieg planen, wann sich ein Update lohnt und wann ein Relaunch der bessere Weg ist.</p>'
         subheadline: 'Planung, Ablauf und typische Stolpersteine'

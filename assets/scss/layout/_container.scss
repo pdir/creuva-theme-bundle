@@ -49,8 +49,9 @@
     padding-top: 0;
   }
 
-  // Breadcrumb directly above the hero: close to the header and to the hero
-  .l-main > .mod_article:has(> .mod_breadcrumb:first-child + .c-hero) {
+  // Breadcrumb at the top of a section (e.g. above the hero or a news article):
+  // close to the header
+  .l-main > .mod_article:has(> .mod_breadcrumb:first-child) {
     padding-top: var(--space-m);
   }
 

@@ -1,0 +1,75 @@
+{# News reader: header with archive, date and reading time, headline, subheadline
+   as lead and the news image next to it (like the hero); the content elements
+   follow in the reading column. Same variables in Contao 5.7 and 6. #}
+{% set content = hasText.invoke() ? text.invoke() : '' %}
+{% set words = content|striptags|replace({"\n": ' ', "\t": ' '})|split(' ')|filter(word => word|trim is not empty)|length %}
+{% set readingTime = max(1, (words / 200)|round(0, 'ceil')) %}
+
+<div class="layout_full block{{ class }}">
+
+    <header class="c-news-header{{ addImage ? ' c-news-header--image' }}">
+        <div class="c-news-header__text">
+            {% block info %}
+                <p class="c-news-header__kicker">
+                    {% if archive.title|default %}<span>{{ archive.title }}</span>{% endif %}
+                    <time datetime="{{ datetime }}">{{ date }}</time>
+                    {% if content %}<span>{{ 'MSC.creuvaReadingTime'|trans([readingTime], 'contao_default') }}</span>{% endif %}
+                </p>
+            {% endblock %}
+
+            {# Optional: the part of the headline from "creuvaHeadlineAccent" in the accent color #}
+            {% set accent = creuvaHeadlineAccent|default|trim %}
+            {% if accent and accent in newsHeadline %}
+                {% set accentHtml = accent|e('contao_html') %}
+                <h1>{{ newsHeadline|e('contao_html')|replace({(accentHtml): '<span class="c-news-header__accent">' ~ accentHtml ~ '</span>'})|raw }}</h1>
+            {% else %}
+                <h1>{{ newsHeadline }}</h1>
+            {% endif %}
+
+            {% if hasSubHeadline %}
+                <p class="c-news-header__lead">{{ subHeadline }}</p>
+            {% endif %}
+
+            {% if author %}
+                <p class="info">{{ author }}</p>
+            {% endif %}
+        </div>
+
+        {% if addImage %}
+            <div class="c-news-header__media">
+                {{ include('@Contao/image.html.twig') }}
+            </div>
+        {% endif %}
+    </header>
+
+    {% if content %}
+        {{ content|raw }}
+    {% else %}
+        <div class="ce_text content-text block">
+            {{ teaser|default|sanitize_html('contao')|csp_inline_styles|insert_tag_raw }}
+        </div>
+    {% endif %}
+
+    {% if enclosure %}
+        <ul class="enclosure">
+            {% for enclosure in enclosure %}
+                <li class="download-element ext-{{ enclosure.extension }}">
+                    <a href="{{ enclosure.href }}" title="{{ enclosure.title }}">{{ enclosure.link }} <span class="size">({{ enclosure.filesize }})</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</div>
+
+{% set schemaOrg = getSchemaOrgData.invoke() %}
+
+{% if content %}
+    {% set schemaOrg = schemaOrg|merge({text: content|html_to_plain_text}) %}
+{% endif %}
+
+{% do add_schema_org(schemaOrg) %}
+
+{% if figure|default %}
+    {% do add_schema_org({'@type': 'WebPage', primaryImageOfPage: figure.getSchemaOrgData()}) %}
+{% endif %}
