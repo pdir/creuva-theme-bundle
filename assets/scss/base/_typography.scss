@@ -11,6 +11,8 @@
     line-height: var(--lh-heading);
     letter-spacing: -0.02em;
     text-wrap: balance;
+    hyphens: auto;
+    hyphenate-limit-chars: 10;
   }
 
   h1 { font-size: var(--fs-h1); }

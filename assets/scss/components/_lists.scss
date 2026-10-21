@@ -133,6 +133,23 @@
     }
   }
 
+  // Phones: the numbers are stacked, less space above and below each of them
+  @media (max-width: 39.99rem) {
+    .c-stats dl {
+      gap: var(--space-xs);
+    }
+
+    .c-stats__item {
+      padding-block: var(--space-xs);
+    }
+
+    .c-stats__icon {
+      width: 3.25rem;
+      height: 3.25rem;
+      margin-bottom: 0;
+    }
+  }
+
   .u-text-center .c-stats__item,
   .c-stats.u-text-center .c-stats__item {
     align-items: center;
