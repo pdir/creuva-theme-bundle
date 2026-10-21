@@ -75,7 +75,7 @@ aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Demo-Inhalte
 
-`creuva:install --demo` importiert die Demo „Standard / Creative“ (`--demo=portfolio`: Demo „Portfolio / Studio“, siehe unten) als eigenen Startpunkt
+`creuva:install --demo` importiert die Demo „Standard / Creative“ (`--demo=portfolio`: Demo „Portfolio / Studio“, `--demo=sportverein`: Demo „Sportverein“, siehe unten) als eigenen Startpunkt
 (bei einer bestehenden Website mit `--dns` oder `--language` auf eine andere Domain bzw.
 Sprache legen):
 
@@ -160,6 +160,33 @@ bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset
 Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
 der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
 `--dns`) nicht versehentlich auf gleichnamige Seiten der ersten.
+
+### Demo „Sportverein“
+
+`creuva:install --demo=sportverein` importiert die Demo für Fußballvereine, andere
+Sportvereine und kleinere Verbände („TSV Rotenbach 1921“, Variante Light, Farbschema Rot,
+mittlere Ecken, Vereinswappen als Logo):
+
+- **Seiten:** Startseite mit Vollbild-Hero, nächstem Spiel und letztem Ergebnis, News,
+  Mannschaften, Tabelle, Kennzahlen und Partnern; Mannschaften mit Seiten für 1. Herren,
+  Damen und Jugend (Trainingszeiten, Trainerteam, Tabelle); Spielplan mit Tabelle; Verein
+  mit Geschichte, Vorstand und Sportpark; News; Sponsoren mit Sponsoring-Paketen; Mitglied
+  werden mit Beiträgen, Online-Antrag und Beitrittserklärung (PDF); Kontakt, Suche und 404
+- **Spielplan und Ergebnisse** sind Termine im Kalender „Spielplan“ (Event-Liste mit den
+  nächsten Terminen und den letzten Ergebnissen). Ihre Daten sind relativ zum Tag des
+  Imports, die nächsten Spiele liegen also immer in der Zukunft.
+- **Bilder, Wappen und Sponsorenlogos:** generierte Illustrationen unter
+  `demo/sportverein/files/`, die sich durch echte Fotos und Logos ersetzen lassen
+
+Neu im Theme und demounabhängig:
+
+- Inhaltselement **„Spielpaarung“** (`creuva_match`): Wettbewerb, Heim- und Gastmannschaft
+  mit Wappen, Anstoß, Spielort, optional Ergebnis und Button. Ohne Ergebnis zeigt es die
+  Anstoßzeit (nächstes Spiel), mit Ergebnis den Endstand.
+- Tabellen-Klasse **„Liga-Tabelle“** (`u-table-league`): kompakte Tabelle mit zentrierten
+  Zahlen; die eigene Mannschaft wird hervorgehoben, wenn sie in der Tabelle fett ist.
+- Datumsfelder lassen sich in einer Demo-Definition relativ angeben, z. B.
+  `creuvaMatchDate: 'date:next saturday 15:00'`.
 
 ### Eigene Demo aus der Dateiverwaltung
 
