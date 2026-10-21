@@ -13,7 +13,7 @@
   }
 
   @media (min-width: 56rem) {
-    .c-media:has(.c-media__visual) {
+    .c-media--left:has(.c-media__visual) {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     }
 
@@ -79,6 +79,24 @@
     &:hover img {
       transform: translate(-0.25rem, -0.25rem);
     }
+  }
+
+  // Image above or below the text: one column, wider image, the text keeps a
+  // comfortable line length
+  .c-media:is(.c-media--above, .c-media--below) {
+    align-items: start;
+
+    .c-media__visual img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .c-media__body {
+      max-width: 48rem;
+    }
+  }
+
+  .c-media--below .c-media__visual {
+    order: 2;
   }
 
   .c-media__body {

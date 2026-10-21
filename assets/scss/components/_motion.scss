@@ -57,6 +57,12 @@
         .c-media__visual { transform: translateX(var(--reveal-distance)); }
         .c-media__body { transform: translateX(calc(-1 * var(--reveal-distance))); }
       }
+
+      // Image above or below the text: both come in from below
+      &:is(.c-media--above, .c-media--below) {
+        .c-media__visual,
+        .c-media__body { transform: translateY(var(--reveal-distance)); }
+      }
     }
   }
 

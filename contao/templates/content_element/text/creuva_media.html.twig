@@ -1,15 +1,16 @@
 {#
-    Image and text side by side: image (left or right, setting "Bildausrichtung"),
-    kicker ("Dachzeile"), headline (two-tone with an inline subline), text with
-    check list. Links in the last paragraph become buttons (the first one is the
-    primary button). The CSS class "u-media-plain" removes the accent shape
-    behind the image.
+    Image and text: image left, right, above or below the text (setting
+    "Bildausrichtung"), kicker ("Dachzeile"), headline (two-tone with an inline
+    subline), text with check list. Links in the last paragraph become buttons
+    (the first one is the primary button). The CSS class "u-media-plain" removes
+    the accent shape behind the image.
 #}
 {% extends '@Contao/content_element/text.html.twig' %}
 
 {% set default_content_layout = false %}
+{% set media_layout = layout in ['right', 'above', 'below'] ? layout : 'left' %}
 {% set attributes = attrs(attributes|default)
-    .addClass(['c-media', 'c-media--' ~ (layout == 'right' ? 'right' : 'left')])
+    .addClass(['c-media', 'c-media--' ~ media_layout])
 %}
 
 {% block inner %}
