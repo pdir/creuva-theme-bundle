@@ -261,7 +261,7 @@ class ThemeInstaller
             ];
 
             if (isset($demo['header']['cta'])) {
-                $header['creuvaUrl1'] = '{{link_url::'.$demo['header']['cta']['page'].'}}';
+                $header['creuvaUrl1'] = '{{link_url::'.($result->pages[$demo['header']['cta']['page']] ?? $demo['header']['cta']['page']).'}}';
                 $header['creuvaLinkTitle1'] = $demo['header']['cta']['title'];
             } elseif (isset($pageIds['contact'])) {
                 $header['creuvaUrl1'] = '{{link_url::'.$pageIds['contact'].'}}';
