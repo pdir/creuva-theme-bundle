@@ -34,6 +34,12 @@
 
 {% block head %}
     {{ parent() }}
+    {# SVG favicon next to the favicon of the website root, /favicon.ico remains the fallback #}
+    {% set favicon_svg = creuva_favicon_svg(page) %}
+    {% if favicon_svg %}
+        <link rel="icon" href="/favicon.ico" sizes="32x32">
+        <link rel="icon" href="{{ asset(favicon_svg) }}" type="image/svg+xml">
+    {% endif %}
     <link rel="stylesheet" href="{{ asset('creuva.css', 'creuva_theme') }}">
     {# Own stylesheets of the page layout (individual adjustments) #}
     {% for stylesheet in creuva_stylesheets(layout|default(null)) %}
