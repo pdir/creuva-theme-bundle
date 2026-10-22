@@ -13,6 +13,7 @@ namespace Pdir\CreuvaThemeBundle\Exporter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\BooleanType;
 use Pdir\CreuvaThemeBundle\Design\DesignSettings;
+use Pdir\CreuvaThemeBundle\Design\FaviconResolver;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -224,6 +225,16 @@ class DemoExporter
             $file = $this->isUuid((string) $data['favicon']) ? $this->registerFile((string) $data['favicon']) : null;
 
             if (\is_string($file)) {
+                // Including the SVG version next to it (see FaviconResolver)
+                $svg = $this->connection->fetchOne(
+                    "SELECT uuid FROM tl_files WHERE type = 'file' AND path = ?",
+                    [FaviconResolver::getSvgPath($this->files[bin2hex((string) $data['favicon'])]['path'])],
+                );
+
+                if (\is_string($svg)) {
+                    $this->registerFile($svg);
+                }
+
                 $data['favicon'] = $file;
             } else {
                 unset($data['favicon']);
