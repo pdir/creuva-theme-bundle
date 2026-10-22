@@ -96,7 +96,9 @@ Sprache legen):
 - **Dateien** unter `files/creuva-demo/standard/` (Illustrationen, Icons, PDFs) inklusive
   Alt-Texten; der Ordner ist öffentlich
 - **Favicon** im Startpunkt (Contao-Feld „Favicon“, ausgeliefert unter `/favicon.ico`);
-  die Vorlage liegt als SVG unter `assets/favicon/favicon.svg`
+  die Vorlage liegt als SVG unter `assets/favicon/favicon.svg`. Liegt neben dem Favicon eine
+  SVG-Datei gleichen Namens (z. B. `design/favicon.svg`), bindet das Seitenlayout sie
+  zusätzlich als `<link rel="icon" type="image/svg+xml">` ein; `/favicon.ico` bleibt Fallback
 
 Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
 Besucher Farbschema, Variante und Eckenradius live ausprobieren können.

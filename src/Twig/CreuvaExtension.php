@@ -13,6 +13,7 @@ namespace Pdir\CreuvaThemeBundle\Twig;
 use Contao\StringUtil;
 use Contao\Validator;
 use Pdir\CreuvaThemeBundle\Design\DesignResolver;
+use Pdir\CreuvaThemeBundle\Design\FaviconResolver;
 use Pdir\CreuvaThemeBundle\Design\StylesheetResolver;
 use Pdir\CreuvaThemeBundle\Image\GalleryImages;
 use Twig\Extension\AbstractExtension;
@@ -24,6 +25,7 @@ class CreuvaExtension extends AbstractExtension
         private readonly DesignResolver $designResolver,
         private readonly StylesheetResolver $stylesheetResolver,
         private readonly GalleryImages $galleryImages,
+        private readonly FaviconResolver $faviconResolver,
     ) {
     }
 
@@ -39,6 +41,8 @@ class CreuvaExtension extends AbstractExtension
             // Usage: creuva_gallery_sizes(classes, loop.index0, items_per_row), creuva_image_focus(figure)
             new TwigFunction('creuva_gallery_sizes', $this->galleryImages->sizes(...)),
             new TwigFunction('creuva_image_focus', $this->galleryImages->focus(...)),
+            // Usage: {% set favicon_svg = creuva_favicon_svg(page) %}
+            new TwigFunction('creuva_favicon_svg', $this->faviconResolver->resolve(...)),
         ];
     }
 
