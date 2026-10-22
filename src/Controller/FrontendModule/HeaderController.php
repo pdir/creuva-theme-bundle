@@ -16,12 +16,13 @@ use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Routing\ContentUrlGenerator;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Site header with logo, main navigation, CTA button and mobile menu toggle.
+ * Site header with logo, main navigation, CTA button, search and mobile menu toggle.
  */
 #[AsFrontendModule(type: 'creuva_header', category: 'creuva', template: 'frontend_module/creuva_header')]
 class HeaderController extends AbstractBrandController
@@ -50,6 +51,37 @@ class HeaderController extends AbstractBrandController
             $template->set('cta', ['href' => $href, 'text' => $model->creuvaLinkTitle1]);
         }
 
+        $template->set('search', $this->buildSearch($model, $request));
+
         return $template->getResponse();
+    }
+
+    /**
+     * Target and current keywords of the header search (null if it is disabled or
+     * the results page does not exist).
+     *
+     * @return array{action: string, keywords: string}|null
+     */
+    private function buildSearch(ModuleModel $model, Request $request): array|null
+    {
+        if (!$model->creuvaSearch || !$model->creuvaSearchPage) {
+            return null;
+        }
+
+        $page = $this->getContaoAdapter(PageModel::class)->findPublishedById((int) $model->creuvaSearchPage);
+
+        if (null === $page) {
+            return null;
+        }
+
+        try {
+            $action = $this->urlGenerator->generate($page);
+        } catch (\Throwable) {
+            return null;
+        }
+
+        $keywords = $request->query->get('keywords');
+
+        return ['action' => $action, 'keywords' => \is_string($keywords) ? trim($keywords) : ''];
     }
 }

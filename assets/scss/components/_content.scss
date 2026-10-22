@@ -39,6 +39,15 @@
       border-radius: 0 var(--radius-m) var(--radius-m) 0;
       background: var(--c-accent-soft);
       font-size: 1.125rem;
+
+      // Same space above and below the text
+      > :first-child {
+        margin-top: 0;
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
     }
 
     mark {
@@ -53,6 +62,22 @@
       border-radius: 0.3em;
       background: var(--c-surface-muted);
       font-size: 0.9em;
+    }
+  }
+
+  // Lead text (u-lead) and section intros (grid with u-align-end): a link as
+  // the only content of the last paragraph becomes an arrow link ("Alle
+  // Leistungen ansehen →"). :where() keeps the specificity low.
+  :where(.u-lead, .u-align-end, .u-align-center) .rte > p:last-child:not(:first-child) > a:only-child {
+    @include arrow-link;
+  }
+
+  :where(.u-lead, .u-align-end, .u-align-center) .rte > p:last-child:not(:first-child):has(> a:only-child) {
+    margin-top: var(--space-s);
+    font-size: var(--fs-base);
+
+    > a {
+      font-size: inherit;
     }
   }
 
@@ -87,7 +112,7 @@
   }
 
   // Description list: term and details side by side
-  .content-description-list:not(.c-stats, .c-timeline) dl {
+  .content-description-list:not(.c-stats, .c-timeline, .c-facts) dl {
     display: grid;
     grid-template-columns: minmax(8rem, max-content) 1fr;
     margin: 0;
@@ -108,6 +133,18 @@
     }
   }
 
+  // Visual elements (images, tables, media) need more air below their
+  // headline than running text
+  :is(.content-gallery, .content-image, .content-table, .content-player, .content-youtube, .content-vimeo, .content-swiper, .content-download, .content-downloads) {
+    > :is(h1, h2) {
+      margin-bottom: var(--space-l);
+    }
+
+    > :is(h3, h4, h5, h6) {
+      margin-bottom: var(--space-m);
+    }
+  }
+
   .content-gallery > ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
@@ -116,19 +153,125 @@
     padding: 0;
     list-style: none;
 
+    li {
+      overflow: hidden;
+      border-radius: var(--radius-m);
+    }
+
     img {
       width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
+      transition: transform 0.7s var(--ease-out), filter var(--transition-hover);
+    }
+
+    a:hover img,
+    li:hover img {
+      transform: scale(1.06);
     }
   }
 
   // Images per row (gallery setting) from tablet width on
   @media (min-width: 48rem) {
-    @for $i from 2 through 6 {
+    @for $i from 1 through 6 {
       .content-gallery--cols-#{$i} > ul {
         grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
       }
+    }
+  }
+
+  // Gallery layouts (Style Manager › Elementoptionen › Galerie), they win over
+  // the images per row. The images fill their cells (cropped by object-fit).
+  .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right, .u-gallery-featured) > ul {
+    grid-auto-flow: dense;
+
+    :is(li, figure, a) {
+      height: 100%;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    a {
+      display: block;
+    }
+
+    img {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  // Mosaic: a large image (2 × 2) with a wide one and two small ones next to
+  // it, repeated every four images; on small screens two columns
+  .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right) > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(8rem, 4rem + 14vw, 12rem);
+
+    > li:nth-child(4n + 1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    // Small screens: the fourth image fills the row (no gap)
+    > li:nth-child(4n + 4) {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right) > ul {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-rows: clamp(9rem, 2rem + 12vw, 16rem);
+
+      > li:nth-child(4n + 2) {
+        grid-column: span 2;
+      }
+
+      > li:nth-child(4n + 4) {
+        grid-column: auto;
+      }
+    }
+
+    // Large image on the right
+    .content-gallery.u-gallery-mosaic-right > ul > li:nth-child(4n + 1) {
+      grid-column: 3 / span 2;
+    }
+  }
+
+  // Featured: the first image over the full width, the others below
+  .content-gallery.u-gallery-featured > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(8rem, 4rem + 12vw, 14rem);
+
+    > li:first-child {
+      grid-column: 1 / -1;
+      grid-row: span 2;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .content-gallery.u-gallery-featured > ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  // Masonry: columns with the images in their own proportions (use an image
+  // size without cropping, e.g. "proportional")
+  .content-gallery.u-gallery-masonry > ul {
+    display: block;
+    columns: 3 14rem;
+    column-gap: var(--space-s);
+
+    > li {
+      margin-bottom: var(--space-s);
+      break-inside: avoid;
+    }
+
+    img {
+      height: auto;
+      aspect-ratio: auto;
     }
   }
 
@@ -164,45 +307,146 @@
     }
   }
 
+  // Package comparison (CSS class u-table-compare): columns 2–4 are tinted like
+  // the packages (light, accent, warm), centered values, "✓" and "–" become
+  // icons (assets/js/creuva.js). The first row is the head (thead).
+  // In a white section the label column is light gray (no white on white)
+  .u-bg-surface .content-table.u-table-compare {
+    --compare-label-bg: var(--c-bg);
+  }
+
+  .content-table.u-table-compare {
+    --compare-1: color-mix(in srgb, var(--c-accent) 14%, var(--c-surface));
+    --compare-2: color-mix(in srgb, var(--c-accent) 42%, var(--c-surface));
+    --compare-3: color-mix(in srgb, #f4c56a 32%, var(--c-surface));
+
+    table {
+      min-width: 36rem;
+      border: 0;
+      border-spacing: 0.375rem 0;
+      background: none;
+      font-size: var(--fs-small);
+    }
+
+    th,
+    td {
+      padding: 0.7rem 0.875rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    }
+
+    :is(th, td):first-child {
+      width: 34%;
+    }
+
+    thead th {
+      padding-block: 1rem;
+      border-bottom: 0;
+      border-radius: var(--radius-m) var(--radius-m) 0 0;
+      background: var(--compare-label-bg, var(--c-surface));
+      font-weight: 700;
+    }
+
+    tbody > tr > :first-child {
+      background: var(--compare-label-bg, var(--c-surface));
+      font-weight: 500;
+    }
+
+    :is(th, td):not(:first-child) {
+      text-align: center;
+    }
+
+    // Tinted package columns
+    :is(thead th, td):nth-child(2) { background: color-mix(in srgb, var(--compare-1) 45%, var(--c-surface)); }
+    :is(thead th, td):nth-child(3) { background: color-mix(in srgb, var(--compare-2) 25%, var(--c-surface)); }
+    :is(thead th, td):nth-child(4) { background: color-mix(in srgb, var(--compare-3) 40%, var(--c-surface)); }
+    thead th:nth-child(2) { background: var(--compare-1); }
+    thead th:nth-child(3) { background: var(--compare-2); }
+    thead th:nth-child(4) { background: var(--compare-3); }
+
+    tbody tr:last-child > * {
+      border-radius: 0 0 var(--radius-m) var(--radius-m);
+    }
+
+    tbody tr {
+      transition: background-color var(--transition);
+    }
+
+    tbody tr:hover > * {
+      box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--c-accent) 6%, transparent);
+    }
+
+    td.is-yes,
+    td.is-no {
+      color: transparent;
+      font-size: 0;
+    }
+
+    td.is-yes::before,
+    td.is-no::before {
+      content: "";
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      vertical-align: middle;
+      background: var(--c-accent);
+      mask: var(--icon-check) center / contain no-repeat;
+    }
+
+    td.is-no::before {
+      width: 0.75rem;
+      height: 2px;
+      background: var(--c-text-muted);
+      mask: none;
+      opacity: 0.5;
+    }
+  }
+
   // Hyperlink element: arrow link by default, button with utility classes
   .content-hyperlink > a {
-    font-weight: 600;
-    text-decoration: none;
-
-    &::after {
-      content: " →";
-    }
+    @include arrow-link;
   }
 
-  .content-hyperlink:is(.u-button, .u-button-secondary) > a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: 0.8em 1.6em;
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font-size: var(--fs-small);
-    line-height: 1.2;
-    transition: background-color var(--transition), border-color var(--transition);
-
-    &::after {
-      content: "→";
-    }
+  .content-hyperlink:not(#{$button-classes}) > a {
+    font-size: var(--fs-base);
   }
 
-  .content-hyperlink.u-button > a {
-    background: var(--c-primary);
-    color: var(--c-primary-contrast);
-
-    &:hover { background: color-mix(in srgb, var(--c-primary) 85%, #000); }
+  // Buttons: hyperlink element with a button class; in text elements with a
+  // button class the links of the last paragraph (side by side)
+  .content-text:is(#{$button-classes}) .rte > p:last-child:has(> a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
   }
 
-  .content-hyperlink.u-button-secondary > a {
-    border-color: var(--c-border);
-    background: var(--c-surface);
-    color: var(--c-text);
+  .content-hyperlink:is(#{$button-classes}) > a,
+  .content-text:is(#{$button-classes}) .rte > p:last-child > a {
+    @include button-base;
+  }
 
-    &:hover { border-color: var(--c-primary); }
+  .content-hyperlink.u-button > a,
+  .content-text.u-button .rte > p:last-child > a {
+    @include button-primary;
+  }
+
+  .content-hyperlink.u-button-secondary > a,
+  .content-text.u-button-secondary .rte > p:last-child > a {
+    @include button-secondary;
+  }
+
+  .content-hyperlink.u-button-accent > a,
+  .content-text.u-button-accent .rte > p:last-child > a {
+    @include button-accent;
+  }
+
+  .content-hyperlink.u-button-outline > a,
+  .content-text.u-button-outline .rte > p:last-child > a {
+    @include button-outline('--c-primary', '--c-primary-contrast');
+  }
+
+  .content-hyperlink.u-button-outline-accent > a,
+  .content-text.u-button-outline-accent .rte > p:last-child > a {
+    @include button-outline('--c-accent', '--c-accent-contrast');
   }
 
   // Downloads
@@ -226,7 +470,7 @@
       color: var(--c-text);
       font-weight: 600;
       text-decoration: none;
-      transition: border-color var(--transition), box-shadow var(--transition);
+      transition: border-color var(--transition), box-shadow var(--transition-hover), transform var(--transition-hover);
 
       &::before {
         content: "";
@@ -244,20 +488,30 @@
         margin-left: auto;
         background: var(--c-text-muted);
         mask: var(--icon-download) center / contain no-repeat;
+        transition: transform var(--transition-hover), background-color var(--transition);
       }
 
       &:hover {
         border-color: var(--c-accent-text);
-        box-shadow: var(--shadow-s);
+        box-shadow: var(--shadow-m);
+        transform: translateX(4px);
+      }
+
+      &:hover::after {
+        background: var(--c-accent-text);
+        transform: translateY(2px);
       }
     }
   }
 
   // Accordion (handorgel, core styles are replaced by the Creuva template):
-  // every entry is a card with a round plus icon in front of the question
-  // and a plus/minus toggle at the end
+  // every entry is a card with a round toggle (plus/minus) at the end. An
+  // optional icon in front of the question is added with a CSS class on the
+  // accordion element (u-accordion-icon, u-accordion-info, u-accordion-chat),
+  // a custom icon via --accordion-icon-mask (see README).
   .content-accordion {
     display: grid;
+    align-content: start;
     gap: var(--space-xs);
   }
 
@@ -266,11 +520,16 @@
     border-radius: var(--radius-m);
     background: var(--c-surface);
     box-shadow: var(--shadow-s);
-    transition: border-color var(--transition), box-shadow var(--transition);
+    transition: border-color var(--transition), box-shadow var(--transition-hover), transform var(--transition-hover);
 
     &:hover,
     &:has(.handorgel__header--open) {
       border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+    }
+
+    &:hover:not(:has(.handorgel__header--open)) {
+      box-shadow: var(--shadow-m);
+      transform: translateY(-2px);
     }
 
     &:has(.handorgel__header--open) {
@@ -281,18 +540,18 @@
   .handorgel__header {
     margin: 0;
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0;
   }
 
   .handorgel__header__button {
-    --accordion-icon: 0.625rem;
+    --accordion-bar: 0.75rem;
 
     display: flex;
     align-items: center;
     gap: var(--space-s);
     width: 100%;
-    padding: 0.875rem var(--space-m) 0.875rem var(--space-s);
+    padding: 1rem var(--space-s) 1rem var(--space-m);
     border: 0;
     border-radius: inherit;
     background: none;
@@ -303,36 +562,25 @@
     text-align: left;
     cursor: pointer;
 
-    // Plus/minus drawn with two bars: the vertical bar collapses when open
-    &::before,
+    // Toggle at the end: plus/minus drawn with two bars, the vertical bar
+    // collapses when open
     &::after {
       content: "";
       flex-shrink: 0;
-      background:
-        linear-gradient(currentColor 0 0) center / var(--accordion-icon) 2px no-repeat,
-        linear-gradient(currentColor 0 0) center / 2px var(--accordion-icon) no-repeat;
-      transition: background-size var(--transition), background-color var(--transition), color var(--transition);
-    }
-
-    // Round icon in front of the question
-    &::before {
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 50%;
-      background-color: var(--c-accent-soft);
-      color: var(--c-accent-text);
-    }
-
-    // Toggle at the end
-    &::after {
-      width: 1rem;
-      height: 1rem;
+      width: 2rem;
+      height: 2rem;
       margin-left: auto;
-      color: var(--c-text-muted);
+      border-radius: 50%;
+      background:
+        linear-gradient(currentColor 0 0) center / var(--accordion-bar) 2px no-repeat,
+        linear-gradient(currentColor 0 0) center / 2px var(--accordion-bar) no-repeat,
+        var(--c-accent-soft);
+      color: var(--c-accent-text);
+      transition: background-size var(--transition-hover), background-color var(--transition), color var(--transition), transform var(--transition-hover);
     }
 
     &:hover::after {
-      color: var(--c-text);
+      transform: rotate(90deg);
     }
 
     &:focus-visible {
@@ -340,17 +588,74 @@
     }
   }
 
-  .handorgel__header--open .handorgel__header__button {
-    &::before,
-    &::after {
-      background-size: var(--accordion-icon) 2px, 2px 0;
+  .handorgel__header--open .handorgel__header__button::after {
+    background:
+      linear-gradient(currentColor 0 0) center / var(--accordion-bar) 2px no-repeat,
+      linear-gradient(currentColor 0 0) center / 2px 0 no-repeat,
+      var(--c-accent-text);
+    color: var(--c-surface);
+    transform: rotate(180deg);
+  }
+
+  // Optional icon in front of the question: the circle is drawn by the
+  // header, the icon (a CSS mask, colored via background) by the button
+  .content-accordion:is(.u-accordion-icon, .u-accordion-info, .u-accordion-chat) {
+    --accordion-icon-mask: var(--icon-question);
+
+    .handorgel__header {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: var(--space-s);
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: var(--c-accent-soft);
+        transform: translateY(-50%);
+        transition: background-color var(--transition), transform var(--transition-hover);
+        pointer-events: none;
+      }
+
+      &:hover::before {
+        transform: translateY(-50%) scale(1.08);
+      }
     }
 
-    &::before {
-      background-color: var(--c-accent-text);
-      color: var(--c-surface);
+    .handorgel__header__button {
+      position: relative;
+      padding-left: var(--space-s);
+
+      &::before {
+        content: "";
+        flex-shrink: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        background: var(--c-accent-text);
+        mask: var(--accordion-icon-mask) center / 1.25rem no-repeat;
+        transition: background-color var(--transition);
+      }
+    }
+
+    .handorgel__header--open {
+      &::before {
+        background: var(--c-accent-text);
+      }
+
+      .handorgel__header__button::before {
+        background: var(--c-surface);
+      }
+    }
+
+    .handorgel__content__inner {
+      padding-left: calc(var(--space-s) * 2 + 2.25rem);
     }
   }
+
+  .content-accordion.u-accordion-info { --accordion-icon-mask: var(--icon-info); }
+  .content-accordion.u-accordion-chat { --accordion-icon-mask: var(--icon-chat); }
 
   .handorgel__content {
     display: none;
@@ -361,24 +666,25 @@
 
   .handorgel__content--open {
     display: block;
-    transition: height 0.2s ease;
+    transition: height 0.3s var(--ease-out);
   }
 
   .handorgel__content--opened {
     overflow: visible;
   }
 
-  // Answer aligned with the question text (icon width + gap)
   .handorgel__content__inner {
-    padding: 0 var(--space-m) var(--space-m) calc(var(--space-s) * 2 + 1.75rem);
+    padding: 0 var(--space-m) var(--space-m);
     color: var(--c-text-muted);
     opacity: 0;
-    transition: opacity 0.1s ease;
+    transform: translateY(-0.5rem);
+    transition: opacity 0.1s ease, transform 0.1s ease;
   }
 
   .handorgel__content--opened .handorgel__content__inner {
     opacity: 1;
-    transition: opacity 0.3s ease;
+    transform: none;
+    transition: opacity 0.4s ease, transform 0.4s var(--ease-out);
   }
 
   // Element group: optional grid via utility classes (the group headline spans
@@ -387,30 +693,59 @@
     grid-column: 1 / -1;
   }
 
-  // Breadcrumb
+  // Element group without grid: the elements are stacked with some air
+  .content-element-group:not(.u-grid-2, .u-grid-3, .u-grid-4) > * + * {
+    margin-top: var(--space-m);
+  }
+
+  // Breadcrumb: compact pill with chevrons, the current page is highlighted
   .mod_breadcrumb {
     font-size: var(--fs-small);
+    line-height: 1.4;
     color: var(--c-text-muted);
 
     ul {
-      display: flex;
+      display: inline-flex;
       flex-wrap: wrap;
-      gap: var(--space-xs);
+      align-items: center;
+      gap: 0.25rem 0.5rem;
       margin: 0;
-      padding: 0;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-pill);
+      background: color-mix(in srgb, var(--c-surface) 70%, transparent);
       list-style: none;
+      backdrop-filter: blur(6px);
+    }
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     li + li::before {
-      content: "›";
-      margin-right: var(--space-xs);
+      content: "";
+      width: 0.75em;
+      height: 0.75em;
+      background: currentColor;
+      opacity: 0.5;
+      mask: var(--icon-chevron) center / contain no-repeat;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      transition: color var(--transition);
 
-      &:hover { color: var(--c-text); }
+      &:hover {
+        color: var(--c-accent-text);
+      }
+    }
+
+    .active {
+      color: var(--c-text);
+      font-weight: 600;
     }
   }
 }

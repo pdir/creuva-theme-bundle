@@ -44,7 +44,7 @@ class InstallCommand extends Command
             ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Design variant ('.implode(', ', DesignSettings::VARIANTS).')', 'light')
             ->addOption('scheme', null, InputOption::VALUE_REQUIRED, 'Color scheme ('.implode(', ', $this->designSettings->getSchemeNames()).')', $this->designSettings->getDefaultScheme())
             ->addOption('root', 'r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ID of an existing website root that should use the Creuva layout (multiple allowed)')
-            ->addOption('with-pages', null, InputOption::VALUE_NONE, 'Create a new website root with start, contact, imprint, privacy and sitemap pages')
+            ->addOption('with-pages', null, InputOption::VALUE_NONE, 'Create a new website root with start, contact, imprint, privacy, sitemap and search pages')
             ->addOption('demo', null, InputOption::VALUE_OPTIONAL, 'Create a new website root with the demo content: name of a demo of the bundle (e.g. "standard") or a folder with a demo.yaml file (e.g. "files/my-demo")', false)
             ->addOption('site-title', null, InputOption::VALUE_REQUIRED, 'Title of the new website root (with --with-pages)', 'Creuva')
             ->addOption('language', null, InputOption::VALUE_REQUIRED, 'Language of the new website root (with --with-pages)', 'de')
@@ -81,8 +81,8 @@ class InstallCommand extends Command
 
                   <info>php %command.full_name% --demo --reset</info>
 
-                Contact, imprint, privacy and sitemap pages of an existing website are detected by their alias
-                (e.g. kontakt, impressum, datenschutz) and linked in the header and footer.
+                Contact, imprint, privacy, sitemap and search pages of an existing website are detected by their alias
+                (e.g. kontakt, impressum, datenschutz, suche) and linked in the header and footer.
                 HELP)
         ;
     }
@@ -235,7 +235,11 @@ class InstallCommand extends Command
 
         // The demo files are in a public folder that needs a symlink in the web directory
         if ($demo && $this->getApplication()?->has('contao:symlinks')) {
-            $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput());
+            try {
+                $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput());
+            } catch (\Throwable $e) {
+                $result->warnings[] = 'The symlinks could not be created ('.$e->getMessage().'). Run "contao:symlinks" manually, otherwise the SVG icons and downloads of the demo cannot be loaded.';
+            }
         }
 
         foreach ($result->warnings as $warning) {

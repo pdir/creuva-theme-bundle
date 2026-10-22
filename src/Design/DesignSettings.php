@@ -21,6 +21,12 @@ class DesignSettings
     public const RADII = ['none', 'small', 'medium', 'large'];
 
     /**
+     * Animations: all sections (auto), only elements with a u-reveal-* class
+     * (classes) or none at all.
+     */
+    public const ANIMATIONS = ['auto', 'classes', 'none'];
+
+    /**
      * CSS length for the logo height, e.g. "4rem", "3.5em" or "64px".
      */
     public const LOGO_HEIGHT_PATTERN = '/^\d{1,3}(\.\d{1,3})?(rem|em|px)$/';
@@ -82,7 +88,7 @@ class DesignSettings
      * @param array<string, mixed>|null $layout
      * @param array<string, mixed>|null $rootPage
      *
-     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string}
+     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string, animations: string}
      */
     public function resolve(array|null $layout, array|null $rootPage = null): array
     {
@@ -95,6 +101,7 @@ class DesignSettings
         }
 
         $radius = (string) ($layout['creuvaRadius'] ?? '');
+        $animations = (string) ($layout['creuvaAnimations'] ?? '');
 
         $settings = [
             'variant' => \in_array($variant, self::VARIANTS, true) ? $variant : 'light',
@@ -103,6 +110,7 @@ class DesignSettings
             'primary' => (string) ($layout['creuvaPrimaryColor'] ?? ''),
             'accent' => (string) ($layout['creuvaAccentColor'] ?? ''),
             'logoHeight' => preg_match(self::LOGO_HEIGHT_PATTERN, (string) ($layout['creuvaLogoHeight'] ?? '')) ? (string) $layout['creuvaLogoHeight'] : '',
+            'animations' => \in_array($animations, self::ANIMATIONS, true) ? $animations : 'auto',
         ];
 
         if (null === $rootPage) {

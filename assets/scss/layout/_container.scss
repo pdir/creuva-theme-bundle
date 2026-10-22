@@ -1,3 +1,5 @@
+@use '../mixins' as *;
+
 @layer creuva.layout {
   body {
     overflow-x: clip;
@@ -25,13 +27,37 @@
       margin-top: var(--space-l);
     }
 
+    // Image & text blocks in a row need more air between them
+    > .c-media + .c-media {
+      margin-top: var(--space-xl);
+    }
+
     > .c-hero {
       width: auto;
     }
   }
 
+  // Two sections without a background in a row look like one surface: only
+  // one section spacing between them (the bottom spacing of the first one),
+  // otherwise the gap would be doubled. Same for sections with the same
+  // background (see _utilities.scss, after the section backgrounds).
+  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child)) + .mod_article:not(#{$bg-classes}) {
+    padding-top: 0;
+  }
+
   .l-main > .mod_article:has(> .c-hero:first-child) {
     padding-top: 0;
+  }
+
+  // Breadcrumb at the top of a section (e.g. above the hero or a news article):
+  // close to the header
+  .l-main > .mod_article:has(> .mod_breadcrumb:first-child) {
+    padding-top: var(--space-m);
+  }
+
+  .l-main > .mod_article > .mod_breadcrumb + .c-hero {
+    margin-top: 0;
+    padding-top: var(--space-m);
   }
 
   .l-main > .mod_article:has(> .c-hero:last-child) {

@@ -1,0 +1,50 @@
+{#
+    Content slider: every nested element is a slide. Theme settings of the
+    element: elements per view (1–4; at most two on tablets, one on phones),
+    navigation arrows, dots and thumbnails (built by creuva.js from the first
+    image of each slide). Arrows and dots sit in a bar below the slides, so they
+    never cover the content.
+#}
+{% extends '@Contao/content_element/swiper.html.twig' %}
+
+{% set creuva_view = max(1, min(4, (data.creuvaSliderView|default('1')) + 0)) %}
+{% set creuva_arrows = data.creuvaSliderArrows is defined ? data.creuvaSliderArrows : true %}
+{% set creuva_dots = data.creuvaSliderDots is defined ? data.creuvaSliderDots : true %}
+{% set creuva_thumbs = data.creuvaSliderThumbs|default(false) %}
+
+{% set slider_settings = slider_settings|merge({
+    slidesPerView: 1,
+    spaceBetween: 16,
+    watchOverflow: true,
+    breakpoints: {
+        640: { slidesPerView: min(creuva_view, 2), spaceBetween: 24 },
+        1024: { slidesPerView: creuva_view, spaceBetween: 32 },
+    },
+    a11y: {
+        prevSlideMessage: 'MSC.creuvaSliderPrev'|trans([], 'contao_default'),
+        nextSlideMessage: 'MSC.creuvaSliderNext'|trans([], 'contao_default'),
+        paginationBulletMessage: 'MSC.creuvaSliderGoTo'|trans(['{{index}}'], 'contao_default'),
+    },
+})|merge(creuva_arrows ? {} : { navigation: false })|merge(creuva_dots ? {} : { pagination: false }) %}
+
+{% set attributes = attrs(attributes|default)
+    .addClass(['c-slider', 'c-slider--view-' ~ creuva_view])
+    .addClass('c-slider--thumbs', creuva_thumbs)
+    .setIfExists('data-thumb-label', creuva_thumbs ? 'MSC.creuvaSliderGoTo'|trans(['%s'], 'contao_default') : null)
+%}
+
+{% block controls %}
+    {% if not as_editor_view and (creuva_arrows or creuva_dots) %}
+        <div class="c-slider__controls">
+            {% if creuva_dots %}
+                <div class="swiper-pagination"></div>
+            {% endif %}
+            {% if creuva_arrows %}
+                <div class="c-slider__arrows">
+                    <button type="button" class="swiper-button-prev"></button>
+                    <button type="button" class="swiper-button-next"></button>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

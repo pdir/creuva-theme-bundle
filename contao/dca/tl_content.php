@@ -8,7 +8,36 @@ declare(strict_types=1);
  * Copyright (C) pdir GmbH <develop@pdir.de>
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask,creuvaBadge;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+// Kicker ("Dachzeile") above the headline of text elements (also used by the
+// template variants creuva_media and creuva_stats)
+PaletteManipulator::create()
+    ->addField('creuvaKicker', 'headline', PaletteManipulator::POSITION_BEFORE)
+    ->applyToPalette('text', 'tl_content')
+    ->applyToPalette('description_list', 'tl_content')
+;
+
+// Text editor with the formats of the theme (accent color, lead, buttons …),
+// template contao/templates/backend/be_tinyCreuva.html5
+if ('tinyMCE' === ($GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] ?? null)) {
+    $GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] = 'tinyCreuva';
+}
+
+// Optional icons of the key figures (template variant creuva_stats), in the
+// order of the entries
+PaletteManipulator::create()
+    ->addField('creuvaIcons', 'data', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('description_list', 'tl_content')
+;
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaIcons'] = [
+    'inputType' => 'fileTree',
+    'eval' => ['multiple' => true, 'fieldType' => 'checkbox', 'isSortable' => true, 'files' => true, 'filesOnly' => true, 'extensions' => 'svg,png,webp,jpg,jpeg,gif', 'tl_class' => 'clr'],
+    'sql' => ['type' => 'blob', 'length' => 65535, 'notnull' => false],
+];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaKicker'] = [
     'search' => true,
@@ -49,5 +78,27 @@ foreach ([1, 2] as $i) {
         'inputType' => 'text',
         'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ];
+}
+
+// Content slider: elements per view, arrows, dots and thumbnails
+PaletteManipulator::create()
+    ->addField(['creuvaSliderView', 'creuvaSliderArrows', 'creuvaSliderDots', 'creuvaSliderThumbs'], 'sliderContinuous', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('swiper', 'tl_content')
+;
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaSliderView'] = [
+    'inputType' => 'select',
+    'options' => ['1', '2', '3', '4'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaSliderView_options'],
+    'eval' => ['tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 1, 'fixed' => true, 'default' => '1'],
+];
+
+foreach (['creuvaSliderArrows' => '1', 'creuvaSliderDots' => '1', 'creuvaSliderThumbs' => ''] as $field => $default) {
+    $GLOBALS['TL_DCA']['tl_content']['fields'][$field] = [
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 m12'],
+        'sql' => ['type' => 'string', 'length' => 1, 'fixed' => true, 'default' => $default],
     ];
 }

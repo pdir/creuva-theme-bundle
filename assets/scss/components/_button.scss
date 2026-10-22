@@ -1,38 +1,15 @@
+@use '../mixins' as *;
+
 @layer creuva.components {
   .c-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: 0.8em 1.6em;
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font-size: var(--fs-small);
-    font-weight: 600;
-    line-height: 1.2;
-    text-decoration: none;
-    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+    @include button-base;
   }
 
   .c-button--primary {
-    background: var(--c-primary);
-    color: var(--c-primary-contrast);
-
-    &:hover {
-      background: color-mix(in srgb, var(--c-primary) 85%, #000);
-    }
-
-    &::after {
-      content: "→";
-    }
+    @include button-primary;
   }
 
   .c-button--secondary {
-    background: var(--c-surface);
-    border-color: var(--c-border);
-    color: var(--c-text);
-
-    &:hover {
-      border-color: var(--c-primary);
-    }
+    @include button-secondary;
   }
 }

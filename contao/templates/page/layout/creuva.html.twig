@@ -28,12 +28,16 @@
     .set('data-theme', creuva.variant)
     .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
+    .set('data-animations', creuva.animations|default('auto'))
     .setIfExists('style', creuva_tokens ? creuva_tokens|csp_unsafe_inline_style : null)
     .mergeWith(html_attributes|default)
 %}
 
 {% block head %}
     {{ parent() }}
+    {# The web font is needed on every page: load it in parallel with the stylesheet
+       (same URL as in creuva.css, without version parameter, so it is not loaded twice) #}
+    <link rel="preload" href="{{ asset('plus-jakarta-sans.woff2', 'creuva_theme')|split('?')|first }}" as="font" type="font/woff2" crossorigin>
     {# SVG favicon next to the favicon of the website root, /favicon.ico remains the fallback #}
     {% set favicon_svg = creuva_favicon_svg(page) %}
     {% if favicon_svg %}
@@ -49,6 +53,9 @@
 {% endblock %}
 
 {% block body_content %}
+    {# Only the main area is added to the search index, so header, footer and
+       copyright texts do not appear in the search results #}
+    <!-- indexer::stop -->
     <a class="c-skip-link" href="#main">{{ 'MSC.skipNavigation'|trans([], 'contao_default') }}</a>
 
     {% slot top %}
@@ -61,9 +68,11 @@
         </header>
     {% endslot %}
 
+    <!-- indexer::continue -->
     {% slot main %}
         <main id="main" class="l-main">{{ slot() }}</main>
     {% endslot %}
+    <!-- indexer::stop -->
 
     {# Full-width area above the footer on all pages, e.g. for a partner logo bar #}
     {% slot prefooter %}
@@ -83,4 +92,5 @@
             <p class="c-powered-by">powered by <a href="https://contao-themes.net/creuva" hreflang="de">contao-themes.net</a></p>
         </div>
     </div>
+    <!-- indexer::continue -->
 {% endblock %}

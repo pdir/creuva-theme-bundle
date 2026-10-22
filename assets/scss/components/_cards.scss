@@ -10,12 +10,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: box-shadow var(--transition), transform var(--transition);
 
-    &:has(a):hover {
-      box-shadow: var(--shadow-m);
-      transform: translateY(-2px);
-    }
+    @include hover-lift;
   }
 
   .c-card__media {
@@ -29,12 +25,24 @@
       aspect-ratio: 4 / 3;
       object-fit: cover;
       border-radius: 0 !important;
-      transition: transform 0.4s ease;
+      transition: transform 0.7s var(--ease-out);
     }
   }
 
-  .c-card:has(a):hover .c-card__media img {
-    transform: scale(1.03);
+  .c-card:hover .c-card__media img {
+    transform: scale(1.06);
+  }
+
+  .c-card__title {
+    transition: color var(--transition);
+  }
+
+  .c-card:has(a):hover .c-card__title {
+    color: var(--c-accent-text);
+  }
+
+  .c-card:hover .c-card__text > p:last-child > a:only-child::after {
+    transform: translateX(0.3em);
   }
 
   .c-card__media {
@@ -93,11 +101,11 @@
     display: flex;
     flex-direction: column;
     padding: var(--space-m);
-    transition: box-shadow var(--transition), transform var(--transition);
 
-    &:has(.rte > p:last-child > a:only-child):hover {
-      box-shadow: var(--shadow-m);
-      transform: translateY(-2px);
+    @include hover-lift;
+
+    &:hover .rte > p:last-child > a:only-child::after {
+      transform: translateX(0.3em);
     }
 
     > .rte {
@@ -122,23 +130,29 @@
     }
 
     > :is(h2, h3, h4) {
-      font-size: 1.125rem;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
     }
 
     .rte {
       color: var(--c-text-muted);
-      font-size: var(--fs-small);
+      font-size: var(--fs-base);
     }
   }
 
+  // Round icon; on hover it is filled with the primary color and the icon
+  // turns into the contrast color (works for single-colored SVG icons)
   .c-feature__icon {
+    --icon-filter-hover-default: brightness(0) invert(1);
+
     display: grid;
     place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 4rem;
+    height: 4rem;
     margin-bottom: var(--space-m);
-    border-radius: var(--radius-m);
-    background: var(--c-accent-soft);
+    border-radius: 50%;
+    background: var(--icon-bg, var(--c-accent-soft));
+    transition: background-color var(--transition-hover), transform var(--transition-hover), box-shadow var(--transition-hover);
 
     figure {
       margin: 0;
@@ -149,7 +163,125 @@
       height: 1.75rem;
       object-fit: contain;
       border-radius: 0 !important;
+      filter: var(--icon-filter, none);
+      transition: filter var(--transition-hover), transform var(--transition-hover);
     }
+  }
+
+  // On a light accent surface the icon circle would disappear
+  .u-bg-accent {
+    --icon-bg: var(--c-surface);
+  }
+
+  :root[data-theme='dark'] .c-feature__icon {
+    --icon-filter-hover-default: brightness(0);
+  }
+
+  :root[data-radius='none'] .c-feature__icon {
+    border-radius: 0;
+  }
+
+  .c-feature:hover .c-feature__icon {
+    background: var(--icon-bg-hover, var(--c-primary));
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--icon-bg-hover, var(--c-primary)) 60%, transparent);
+    transform: scale(1.05);
+
+    img {
+      filter: var(--icon-filter-hover, var(--icon-filter-hover-default));
+      transform: rotate(-6deg);
+    }
+  }
+
+  // Cards in a white section: tinted (no white on white), white on hover.
+  // Only defaults: the card style classes u-card-* of the element win (later
+  // utilities layer); the call to action box ignores them (_cta.scss).
+  .u-bg-surface {
+    --card-bg: var(--c-bg);
+    --card-bg-hover: var(--c-surface);
+    --card-border: transparent;
+    --card-shadow: none;
+  }
+
+  // Icon box without card (CSS class u-feature-plain): icon, headline and
+  // text on the background, e.g. advantages in a row (also u-feature-inline)
+  .c-feature:is(.u-feature-plain, .u-feature-inline) {
+    padding: 0;
+    border-color: transparent;
+    background: none;
+    box-shadow: none;
+
+    &:hover {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .c-feature__icon {
+      width: 4rem;
+      height: 4rem;
+      margin-bottom: var(--space-s);
+
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  // Icon on the left, headline and text next to it (CSS class u-feature-inline),
+  // e.g. a trust bar or contact details
+  // Icon and text are centered to each other: the free rows above and below
+  // center a short text to the icon, a longer text centers the icon. In a grid
+  // the box keeps its own height instead of being stretched to the row (that
+  // would open a gap between headline and text).
+  .c-feature.u-feature-inline {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    column-gap: var(--space-m);
+    align-items: start;
+    align-self: start;
+
+    > * {
+      grid-column: 2;
+    }
+
+    > :is(h2, h3, h4) {
+      grid-row: 2;
+    }
+
+    > .rte {
+      grid-row: 3;
+    }
+
+    .c-feature__icon {
+      grid-row: 1 / -1;
+      grid-column: 1;
+      align-self: center;
+      width: 4rem;
+      height: 4rem;
+      margin-bottom: 0;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+
+    > :is(h2, h3, h4) {
+      margin: 0 0 0.25rem;
+      font-size: 1.125rem;
+    }
+
+    > .rte {
+      display: block;
+    }
+  }
+
+  // Several of them stacked (outside of a grid), e.g. next to a table
+  :not(.u-grid-2, .u-grid-3, .u-grid-4) > .c-feature.u-feature-inline + .c-feature.u-feature-inline {
+    margin-top: var(--space-l);
   }
 
   // Customer quote
@@ -160,6 +292,8 @@
     flex-direction: column;
     gap: var(--space-m);
     padding: var(--space-l) var(--space-m) var(--space-m);
+
+    @include hover-lift;
   }
 
   .c-testimonial__quote {
@@ -175,7 +309,13 @@
       font-size: 4rem;
       line-height: 1;
       color: var(--c-accent-text);
+      transform-origin: left bottom;
+      transition: transform var(--transition-hover);
     }
+  }
+
+  .c-testimonial:hover .c-testimonial__quote::before {
+    transform: scale(1.15) rotate(-4deg);
   }
 
   .c-testimonial__author {
@@ -220,6 +360,8 @@
   .c-team__media {
     max-width: 14rem;
     margin: 0 auto var(--space-m);
+    border-radius: 50%;
+    transition: box-shadow var(--transition-hover), transform var(--transition-hover);
 
     figure {
       margin: 0;
@@ -233,6 +375,11 @@
       border-radius: 50% !important;
       background: var(--c-accent-blob);
     }
+  }
+
+  .c-team:hover .c-team__media {
+    box-shadow: 0 0 0 6px var(--c-accent-soft), var(--shadow-l);
+    transform: translateY(var(--hover-lift));
   }
 
   .c-team__name {
@@ -249,11 +396,12 @@
   // Price card
   .c-price {
     @include card;
-
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--space-l) var(--space-m) var(--space-m);
+
+    @include hover-lift;
 
     .rte {
       display: flex;
@@ -289,8 +437,12 @@
     }
 
     &.u-featured {
-      border: 2px solid var(--c-primary);
+      border: 2px solid var(--c-accent);
       box-shadow: var(--shadow-m);
+
+      &:hover {
+        border-color: var(--c-primary);
+      }
 
       &::before {
         content: var(--featured-label, "Beliebt");
@@ -309,7 +461,7 @@
       }
 
       .rte > p:last-child > a:only-child {
-        border-color: var(--c-primary);
+        border-color: var(--c-accent);
         background: var(--c-primary);
         color: var(--c-primary-contrast);
 

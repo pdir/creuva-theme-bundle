@@ -14,6 +14,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\BooleanType;
 use Pdir\CreuvaThemeBundle\Design\DesignSettings;
 use Pdir\CreuvaThemeBundle\Design\FaviconResolver;
+use Pdir\CreuvaThemeBundle\Installer\StyleguideInstaller;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -34,7 +35,10 @@ class DemoExporter
      */
     private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat', 'favicon'];
 
-    private const SYSTEM_FIELDS = ['id', 'pid', 'tstamp', 'sorting', 'ptable'];
+    /**
+     * styleManager: the selection is derived from the CSS classes on import.
+     */
+    private const SYSTEM_FIELDS = ['id', 'pid', 'tstamp', 'sorting', 'ptable', 'styleManager'];
 
     /**
      * Fields that belong to the installation or are set by the importer.
@@ -125,6 +129,8 @@ class DemoExporter
      */
     private array $warnings = [];
 
+    private bool $hasStyleguide = false;
+
     public function __construct(
         private readonly Connection $connection,
         private readonly DesignSettings $designSettings,
@@ -140,6 +146,7 @@ class DemoExporter
     public function export(int $rootId, string $targetDir, string $title): array
     {
         $this->pages = $this->keys = $this->exported = $this->imageSizes = $this->files = $this->counts = $this->warnings = [];
+        $this->hasStyleguide = false;
 
         $root = $this->connection->fetchAssociative("SELECT * FROM tl_page WHERE id = ? AND type IN ('root', 'rootfallback')", [$rootId]);
 
@@ -152,7 +159,12 @@ class DemoExporter
         $definition = ['title' => $title, 'root' => $this->exportRoot($root)];
         $definition += $this->exportLayout($root);
 
-        $pages = $this->exportPages($rootId);
+        $pages = $this->exportPages($rootId, true);
+
+        // The styleguide is not exported, the import creates it from styleguide/styleguide.yaml
+        if ($this->hasStyleguide) {
+            $definition['styleguide'] = true;
+        }
 
         // Modules, forms, news and events referenced by the pages (and by each other)
         $sections = ['forms' => [], 'news' => [], 'events' => [], 'modules' => []];
@@ -300,6 +312,10 @@ class DemoExporter
                 }
             }
 
+            if ('creuva_header' === $module['type'] && $module['creuvaSearch'] && null !== ($alias = $this->pages[(int) $module['creuvaSearchPage']] ?? null)) {
+                $data['header']['search'] = $alias;
+            }
+
             if ('creuva_header' === $module['type']) {
                 $data['header'] = ($data['header'] ?? []) + $this->exportLogo($module);
             }
@@ -420,12 +436,17 @@ class DemoExporter
     /**
      * @return list<array<string, mixed>>
      */
-    private function exportPages(int $pid): array
+    private function exportPages(int $pid, bool $isRoot = false): array
     {
         $pages = [];
 
         foreach ($this->connection->fetchAllAssociative('SELECT * FROM tl_page WHERE pid = ? ORDER BY sorting', [$pid]) as $row) {
             $id = (int) $row['id'];
+
+            if ($isRoot && StyleguideInstaller::ALIAS === $row['alias']) {
+                $this->hasStyleguide = true;
+                continue;
+            }
             $page = $this->cleanRow('tl_page', $row);
             $page['alias'] = $this->pages[$id];
 

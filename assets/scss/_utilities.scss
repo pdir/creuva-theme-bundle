@@ -33,7 +33,26 @@
     }
 
     .c-button--primary,
-    .content-hyperlink.u-button > a {
+    .content-hyperlink.u-button > a,
+    .content-text.u-button .rte > p:last-child > a {
+      border-color: var(--c-primary-contrast);
+      background: var(--c-primary-contrast);
+      color: var(--c-primary);
+
+      &:hover {
+        border-color: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+        background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
+      }
+    }
+  }
+
+  // Outline buttons in the primary color would disappear on a dark surface
+  :is(.u-bg-primary, .u-card-primary) :is(.content-hyperlink.u-button-outline > a, .content-text.u-button-outline .rte > p:last-child > a),
+  .content-text:is(.u-bg-primary, .u-card-primary).u-button-outline .rte > p:last-child > a {
+    border-color: var(--c-primary-contrast);
+    color: var(--c-primary-contrast);
+
+    &:hover {
       background: var(--c-primary-contrast);
       color: var(--c-primary);
     }
@@ -41,35 +60,21 @@
 
   // Call to action box: a link as the only content of the last paragraph
   // becomes a button
-  :is(.u-bg-primary, .u-bg-accent) .rte > p:last-child:not(:first-child) > a:only-child {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    margin-top: var(--space-xs);
-    padding: 0.8em 1.6em;
-    border-radius: var(--radius-pill);
-    background: var(--c-primary);
-    color: var(--c-primary-contrast);
-    font-size: var(--fs-small);
-    font-weight: 600;
-    line-height: 1.2;
-    text-decoration: none;
-    transition: background-color var(--transition);
-
-    &::after {
-      content: "→";
-    }
-
-    &:hover {
-      background: color-mix(in srgb, var(--c-primary) 85%, #000);
-    }
+  :is(.u-bg-primary, .u-bg-accent) > .rte > p:last-child:not(:first-child) > a:only-child {
+    @include button-base;
   }
 
-  .u-bg-primary .rte > p:last-child:not(:first-child) > a:only-child {
+  :is(.u-bg-primary, .u-bg-accent) > .rte > p:last-child:not(:first-child) > a:only-child {
+    @include button-primary;
+  }
+
+  .u-bg-primary > .rte > p:last-child:not(:first-child) > a:only-child {
+    border-color: var(--c-primary-contrast);
     background: var(--c-primary-contrast);
     color: var(--c-primary);
 
     &:hover {
+      border-color: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
       background: color-mix(in srgb, var(--c-primary-contrast) 88%, var(--c-primary));
     }
   }
@@ -78,6 +83,14 @@
   .l-main > .mod_article:is(.u-bg-surface, .u-bg-muted, .u-bg-accent, .u-bg-primary) {
     padding: var(--space-section) 0;
     border-radius: 0;
+  }
+
+  // Sections with the same background in a row look like one surface: no
+  // doubled spacing between them
+  @each $bg in ('.u-bg-surface', '.u-bg-muted', '.u-bg-accent', '.u-bg-primary') {
+    .l-main > .mod_article#{$bg}:not(:has(> .c-hero:last-child)) + .mod_article#{$bg} {
+      padding-top: 0;
+    }
   }
 
   // Full-bleed section: background spans the viewport, content stays contained
@@ -95,17 +108,31 @@
     padding: var(--space-m);
   }
 
-  // Spacing
-  .u-py-0 { padding-block: 0 !important; }
-  .u-py-s { padding-block: var(--space-s) !important; }
-  .u-py-m { padding-block: var(--space-m) !important; }
-  .u-py-l { padding-block: var(--space-l) !important; }
-  .u-py-xl { padding-block: var(--space-xl) !important; }
+  // Spacing: inner (p) and outer (m) spacing for top and bottom (y), only
+  // top (t) or only bottom (b), e.g. u-py-l, u-pt-0, u-mb-xl
+  // (Style Manager › Abstände, also for articles)
+  $spacing-properties: (
+    'py': padding-block,
+    'pt': padding-top,
+    'pb': padding-bottom,
+    'my': margin-block,
+    'mt': margin-top,
+    'mb': margin-bottom,
+  );
 
-  .u-mt-0 { margin-top: 0 !important; }
-  .u-mt-s { margin-top: var(--space-s) !important; }
-  .u-mt-l { margin-top: var(--space-l) !important; }
-  .u-mt-xl { margin-top: var(--space-xl) !important; }
+  $spacing-sizes: (
+    '0': 0,
+    's': var(--space-s),
+    'm': var(--space-m),
+    'l': var(--space-l),
+    'xl': var(--space-xl),
+  );
+
+  @each $short, $property in $spacing-properties {
+    @each $size, $value in $spacing-sizes {
+      .u-#{$short}-#{$size} { #{$property}: $value !important; }
+    }
+  }
 
   // Width & alignment
   .u-narrow { max-width: 48rem; }
@@ -128,16 +155,55 @@
     color: var(--c-text-muted);
   }
 
-  // Grid for element groups / wrappers
+  // Grid for element groups / wrappers: the number of columns is the maximum,
+  // fewer columns only if a column would get narrower than --grid-min (so the
+  // grid also works in narrow areas like the reading column of a news article)
   :is(.u-grid-2, .u-grid-3, .u-grid-4) {
+    --grid-col: calc((100% - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols));
+
     display: grid;
-    gap: var(--space-m);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
+    gap: var(--space-m) var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--grid-min), var(--grid-col))), 1fr));
   }
 
-  .u-grid-2 { --grid-min: 22rem; }
-  .u-grid-3 { --grid-min: 16rem; }
-  .u-grid-4 { --grid-min: 12rem; }
+  .u-grid-2 { --grid-cols: 2; --grid-min: 17rem; --grid-gap: clamp(2rem, 0.5rem + 4vw, 4.5rem); }
+  .u-grid-3 { --grid-cols: 3; --grid-min: 13rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
+  .u-grid-4 { --grid-cols: 4; --grid-min: 10rem; --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem); }
+
+  // Grids of cards: the same gap between columns and rows (the wide column gap
+  // of u-grid-2 is meant for text side by side)
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):has(> :is(.c-card, .c-feature:not(.u-feature-plain, .u-feature-inline), .c-testimonial, .c-price, .u-card, .content-box, .teaser-box, .price-box)) {
+    --grid-gap: clamp(1.5rem, 1rem + 1vw, 2rem);
+
+    row-gap: var(--grid-gap);
+  }
+
+  // Four columns on tablets: two rows of two instead of three plus one
+  @media (max-width: 55.99rem) {
+    .u-grid-4 { --grid-cols: 2; }
+  }
+
+  // Small phones: three and four columns as one, cards with text get too narrow
+  @media (max-width: 29.99rem) {
+    :is(.u-grid-3, .u-grid-4) { --grid-cols: 1; }
+  }
+
+  // Column widths of a two-column grid from tablet width on: the first (or the
+  // second) column is wider, e.g. a table with a list of features next to it
+  @media (min-width: 56rem) {
+    .u-grid-2.u-cols-wide-start { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+    .u-grid-2.u-cols-wide-end { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  }
+
+  // Vertical alignment of the grid cells, e.g. a section intro with the
+  // headline on the left and text + link on the right
+  .u-align-start { align-items: start; }
+  .u-align-center { align-items: center; }
+  .u-align-end { align-items: end; }
+
+  :is(.u-grid-2, .u-grid-3, .u-grid-4):is(.u-align-start, .u-align-center, .u-align-end) > * {
+    margin-bottom: 0;
+  }
 
   // Visibility
   @media (max-width: 47.99rem) {

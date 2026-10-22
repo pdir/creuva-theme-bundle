@@ -1,0 +1,24 @@
+{#
+    Call to action box: dark panel with kicker ("Dachzeile"), headline
+    (two-tone with an inline subline) and text on the left, the links of the
+    last paragraph as buttons on the right (the first one is the primary
+    button).
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-cta') %}
+
+{% block inner %}
+    <div class="c-cta__body">
+        {% if data.creuvaKicker|default %}
+            <p class="c-kicker">{{ data.creuvaKicker|insert_tag }}</p>
+        {% endif %}
+
+        {% if headline.text %}
+            {{ block('headline_component') }}
+        {% endif %}
+
+        {{ block('text') }}
+    </div>
+{% endblock %}

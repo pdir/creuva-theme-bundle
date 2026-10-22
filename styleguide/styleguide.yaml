@@ -1,0 +1,665 @@
+# Creuva – Styleguide
+#
+# All elements, template variants, CSS classes and modules of the theme on one
+# page, independent of the demo. Added to an existing website with:
+#
+#   vendor/bin/contao-console creuva:styleguide
+#
+# The page "Styleguide" (alias "styleguide") is hidden from the navigation and
+# search engines. Same value syntax as the demos (src/Installer/DemoImporter.php);
+# files are copied to files/creuva-demo/styleguide, the modules, the form and the
+# news archive get the prefix "Styleguide – ".
+
+title: Styleguide
+
+files:
+  bilder/hero.jpg: { alt: Illustration einer Website auf Laptop und Smartphone }
+  bilder/detail-1.jpg: { alt: Drei Smartphone-Ansichten einer Website, caption: Bild mit Bildunterschrift }
+  bilder/detail-2.jpg: { alt: Website-Entwurf im Browserfenster }
+  bilder/detail-3.jpg: { alt: Farbpalette und Typografie eines Designsystems }
+  bilder/projekt-gruenwerk.jpg: { alt: Website von Grünwerk Energie }
+  bilder/projekt-alpenhof.jpg: { alt: Website von Hotel Alpenhof }
+  bilder/projekt-nordlicht.jpg: { alt: Website von Nordlicht Studio }
+  bilder/team-1.jpg: { alt: Porträt Tobias Krüger }
+  bilder/team-2.jpg: { alt: Porträt Mira Schulz }
+  downloads/projekt-checkliste.pdf: { title: Checkliste für Ihr Website-Projekt }
+
+# Image sizes of the theme; existing ones with the same name are reused
+imageSizes:
+  hero: { name: 'Hero', width: 720, height: 480, resizeMode: 'crop', densities: '1x, 2x' }
+  card: { name: 'Karte (4:3)', width: 800, height: 600, resizeMode: 'crop', densities: '2x', lazyLoading: true }
+  wide: { name: 'Breit (16:9)', width: 1200, height: 675, resizeMode: 'crop', lazyLoading: true }
+  team: { name: 'Team (1:1)', width: 480, height: 480, resizeMode: 'crop', densities: '1.5x', lazyLoading: true }
+  avatar: { name: 'Avatar', width: 120, height: 120, resizeMode: 'crop', densities: '2x', lazyLoading: true }
+  news: { name: 'News-Teaser (16:10)', width: 800, height: 500, resizeMode: 'crop', densities: '2x', lazyLoading: true }
+  gallery: { name: 'Galerie (responsiv)', width: 1600, resizeMode: 'proportional', densities: '480w, 800w, 1200w, 1600w', sizes: '(min-width: 64rem) 50vw, 100vw', lazyLoading: true }
+
+forms:
+  styleguide:
+    title: Styleguide – Formular
+    method: POST
+    fields:
+      - { type: 'text', name: 'name', label: 'Textfeld', mandatory: true, placeholder: 'Ihr Name' }
+      - { type: 'text', name: 'email', label: 'E-Mail', rgxp: 'email', placeholder: 'name@beispiel.de' }
+      - type: select
+        name: topic
+        label: Auswahlfeld
+        options:
+          - { value: '', label: 'Bitte auswählen …' }
+          - { value: 'a', label: 'Option A' }
+          - { value: 'b', label: 'Option B' }
+      - { type: 'textarea', name: 'message', label: 'Textarea', placeholder: 'Ihre Nachricht …', size: ['4', '40'] }
+      - type: radio
+        name: contact
+        label: Radio-Buttons
+        options:
+          - { value: 'mail', label: 'Per E-Mail', default: '1' }
+          - { value: 'phone', label: 'Per Telefon' }
+      - type: checkbox
+        name: options
+        label: Checkboxen
+        options:
+          - { value: 'privacy', label: 'Ich habe die Datenschutzerklärung gelesen.' }
+          - { value: 'newsletter', label: 'Ich möchte den Newsletter erhalten.' }
+      - { type: 'range', name: 'budget', label: 'Schieberegler', minval: '0', maxval: '100', step: '5', value: '75' }
+      - { type: 'submit', slabel: 'Absenden (ohne Funktion)' }
+
+news:
+  styleguide:
+    title: Styleguide – News
+    jumpTo: page:styleguide-beitrag
+    items:
+      - headline: Die perfekte Startseite – sieben Elemente, die überzeugen
+        alias: styleguide-perfekte-startseite
+        date: -2 days
+        teaser: <p>Ein Beispielbeitrag für das News-Modul des Styleguides.</p>
+        singleSRC: file:bilder/news-1.jpg
+        elements:
+          - { type: 'text', text: '<p>Inhalt eines Beispielbeitrags mit <strong>Auszeichnung</strong> und einer Liste.</p><ul><li>Klare Botschaft</li><li>Starke Call-to-Actions</li></ul>' }
+      - headline: Nachhaltige Websites – warum sie wichtiger sind
+        alias: styleguide-nachhaltige-websites
+        date: -9 days
+        teaser: <p>Noch ein Beispielbeitrag, um die Darstellung der Liste zu zeigen.</p>
+        singleSRC: file:bilder/news-2.jpg
+      - headline: Ein Blick hinter die Kulissen
+        alias: styleguide-hinter-den-kulissen
+        date: -16 days
+        teaser: <p>Der dritte Beitrag füllt die Reihe.</p>
+        singleSRC: file:bilder/news-3.jpg
+
+events:
+  styleguide:
+    title: Styleguide – Termine
+    jumpTo: page:styleguide-termin
+    items:
+      - title: 'Workshop: Websites barrierefrei gestalten'
+        alias: styleguide-workshop-barrierefreiheit
+        date: +2 days
+        startTime: '10:00'
+        endTime: '12:30'
+        location: Creuva Studio
+        address: Musterstraße 1, 01067 Dresden
+        teaser: '<p>Praxisnah durch die WCAG 2.1: Kontraste, Tastaturbedienung und Formulare.</p>'
+      - title: 'Webinar: Contao 6 im Überblick'
+        alias: styleguide-webinar-contao-6
+        date: +6 days
+        startTime: '16:00'
+        endTime: '17:00'
+        location: Online
+        teaser: <p>Was sich mit Contao 6 ändert und wie Sie den Umstieg planen.</p>
+      - title: Contao-Stammtisch Dresden
+        alias: styleguide-stammtisch
+        date: +15 days
+        startTime: '19:00'
+        location: Café am Elbufer
+        teaser: <p>Austausch unter Agenturen, Freelancern und Redakteuren.</p>
+      - title: Digitalmesse Mitteldeutschland
+        alias: styleguide-digitalmesse
+        date: +28 days
+        endDate: +1 day
+        location: Messe Leipzig, Stand B12
+        teaser: '<p>Zwei Tage, viele Gespräche: Besuchen Sie uns an unserem Stand.</p>'
+modules:
+  newslist: { name: 'Styleguide – News-Liste', type: 'newslist', news_archives: ['news_archive:styleguide'], numberOfItems: 3, imgSize: 'image_size:news' }
+  newsreader: { name: 'Styleguide – News-Leser', type: 'newsreader', news_archives: ['news_archive:styleguide'], overviewPage: 'page:styleguide' }
+  breadcrumb: { name: 'Styleguide – Breadcrumb', type: 'breadcrumb' }
+  eventlist: { name: 'Styleguide – Event-Liste', type: 'eventlist', cal_calendar: ['calendar:styleguide'], cal_format: 'next_365', cal_order: 'ascending', cal_noSpan: true }
+  eventreader: { name: 'Styleguide – Event-Leser', type: 'eventreader', cal_calendar: ['calendar:styleguide'], overviewPage: 'page:styleguide' }
+  calendar: { name: 'Styleguide – Kalender', type: 'calendar', cal_calendar: ['calendar:styleguide'], cal_startDay: 1 }
+  minicalendar: { name: 'Styleguide – Minikalender', type: 'calendar', cal_calendar: ['calendar:styleguide'], cal_startDay: 1, cal_ctemplate: 'cal_mini' }
+
+pages:
+  - title: Styleguide
+    description: 'Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite.'
+    alias: styleguide
+    hide: true
+    searchIndexer: never_index
+    sitemap: map_never
+    robots: noindex,nofollow
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            creuvaKicker: Elemente & Module
+            headline: { unit: 'h1', value: 'Flexibel. Klar.' }
+            creuvaHeadlineAccent: Wiederverwendbar.
+            text: <p>Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite – als Live-Beispiele. Die Klassen wählen Redakteure im Style Manager (Bereich „Stil“) aus.</p>
+            singleSRC: file:bilder/hero.jpg
+            size: 'image_size:hero'
+            creuvaHeroMask: rounded
+            creuvaBadge: "Alle Elemente\nLive-Beispiele"
+            creuvaUrl1: '#sg-typografie'
+            creuvaLinkTitle1: Zu den Elementen
+            creuvaUrl2: '#sg-varianten'
+            creuvaLinkTitle2: Templatevarianten
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'headline', headline: 'Highlights', cssID: 'u-visually-hidden' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Modular aufgebaut' }, text: '<p>Alle Elemente sind frei kombinierbar.</p>', addImage: true, singleSRC: 'file:icons/ebenen.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Für Contao gemacht' }, text: '<p>Standardelemente, Twig und Style Manager.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
+          - type: text
+            cssID: u-button-secondary
+            text: '<p><a href="#sg-typografie">Typografie</a> <a href="#sg-buttons">Buttons</a> <a href="#sg-listen">Listen & Tabellen</a> <a href="#sg-medien">Medien</a> <a href="#sg-slider">Slider</a> <a href="#sg-termine">Termine</a> <a href="#sg-varianten">Templatevarianten</a> <a href="#sg-farben">Farben</a> <a href="#sg-kennzahlen">Kennzahlen & Timeline</a> <a href="#sg-akkordeon">Akkordeon</a> <a href="#sg-components">Theme Components</a> <a href="#sg-klassen">Klassen</a> <a href="#sg-animation">Animationen</a> <a href="#sg-formular">Formular</a> <a href="#sg-module">Module</a></p>'
+
+      - title: Farben & Typografie
+        cssID: ['sg-typografie', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Farben & Typografie', subline: 'Grundlagen' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Farben, Schriften und Abstände kommen aus dem Farbschema des Seitenlayouts – alle Elemente passen sich automatisch an.</p>' }
+          - type: html
+            html: |
+              <div class="u-grid-4" style="--grid-min:9rem">
+                <div class="u-card"><div style="height:4rem;border-radius:var(--radius-m);background:var(--c-primary)"></div><p><strong>Primär</strong><br><code>--c-primary</code></p></div>
+                <div class="u-card"><div style="height:4rem;border-radius:var(--radius-m);background:var(--c-accent)"></div><p><strong>Akzent</strong><br><code>--c-accent</code></p></div>
+                <div class="u-card"><div style="height:4rem;border-radius:var(--radius-m);background:var(--c-accent-soft)"></div><p><strong>Akzent hell</strong><br><code>--c-accent-soft</code></p></div>
+                <div class="u-card"><div style="height:4rem;border-radius:var(--radius-m);background:var(--c-surface-muted);border:1px solid var(--c-border)"></div><p><strong>Fläche</strong><br><code>--c-surface-muted</code></p></div>
+              </div>
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: element_group
+                cssID: u-card
+                children:
+                  - { type: 'headline', headline: { unit: 'h1', value: 'H1 – Hauptüberschrift' } }
+                  - { type: 'headline', headline: { unit: 'h2', value: 'H2 – Abschnittstitel' } }
+                  - { type: 'headline', headline: { unit: 'h3', value: 'H3 – Unterüberschrift' } }
+                  - { type: 'headline', headline: { unit: 'h4', value: 'H4 – Weitere Überschrift' } }
+                  - { type: 'headline', headline: { unit: 'h5', value: 'H5 – Kleinere Überschrift' } }
+                  - { type: 'headline', headline: { unit: 'h6', value: 'H6 – Feine Überschrift' } }
+              - type: element_group
+                children:
+                  - type: text
+                    cssID: u-card
+                    headline: { unit: 'h3', value: 'Fließtext' }
+                    text: '<p class="u-lead">Einleitung mit der Klasse u-lead.</p><p>Moderner, gut lesbarer Fließtext mit <strong>fetter</strong> und <em>kursiver</em> Auszeichnung, <mark>Markierung</mark>, <code>Inline-Code</code> und einem <a href="#sg-typografie">Link im Text</a>.</p>'
+                  - type: element_group
+                    cssID: u-card
+                    children:
+                      - { type: 'text', headline: { unit: 'h3', value: 'Zitat & Textstile' }, text: '<blockquote><p>„Eine aussagekräftige Zitatform für wichtige Aussagen oder Kundenstimmen.“</p></blockquote>' }
+                      - { type: 'text', cssID: 'u-kicker', text: '<p>Dachzeile (u-kicker)</p>' }
+                      - { type: 'text', cssID: 'u-muted', text: '<p>Gedämpfter Text (u-muted)</p>' }
+                      - { type: 'text', cssID: 'u-accent', text: '<p>Text in Akzentfarbe (u-accent)</p>' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: 'headline', headline: 'Überschrift mit Dachzeile', subline: 'Dachzeile' }
+              - { type: 'headline', headline: 'Akzent.', subline: 'Zweifarbige Überschrift mit', headline_inline: '1' }
+              - { type: 'text', creuvaKicker: 'Feld „Dachzeile“', headline: { unit: 'h3', value: 'Text-Element mit Dachzeile' }, text: '<p>Die Dachzeile steht über der Überschrift und ist für Text- und Beschreibungslisten-Elemente verfügbar.</p>' }
+              - { type: 'text', customTpl: 'content_element/text/simplebox', headline: { unit: 'h3', value: 'Hinweisbox' }, text: '<p>Dies ist ein hervorgehobener Hinweistext (Templatevariante „simplebox“ aus dem Theme Components Bundle).</p>' }
+
+      - title: Buttons & Links
+        cssID: ['sg-buttons', '']
+        elements:
+          - { type: 'headline', headline: 'Buttons & Links', subline: 'Interaktion' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - type: element_group
+                cssID: u-card
+                children:
+                  - { type: 'headline', headline: { unit: 'h3', value: 'Hyperlink-Element' } }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Primär-Button', cssID: 'u-button' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Sekundär-Button', cssID: 'u-button-secondary' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Akzent-Button', cssID: 'u-button-accent' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Outline (Hauptfarbe)', cssID: 'u-button-outline' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Outline (Akzentfarbe)', cssID: 'u-button-outline-accent' }
+                  - { type: 'hyperlink', url: '#sg-buttons', linkTitle: 'Textlink mit Pfeil' }
+              - type: text
+                cssID: u-card u-button
+                headline: { unit: 'h3', value: 'Text-Element mit Buttons' }
+                text: '<p>Mit der Auswahl „Primär-Button“ im Style Manager werden die Links im letzten Absatz zu Buttons.</p><p><a href="#sg-buttons">Erster Link</a> <a href="#sg-buttons">Zweiter Link</a></p>'
+              - type: text
+                cssID: u-bg-primary
+                headline: { unit: 'h3', value: 'Auf dunkler Fläche' }
+                text: '<p>In Flächen mit u-bg-primary werden Buttons hell.</p><p><a href="#sg-buttons">Button auf Primär</a></p>'
+
+      - title: Listen & Tabellen
+        cssID: ['sg-listen', 'u-bg-muted']
+        elements:
+          - { type: 'headline', headline: 'Listen & Tabellen', subline: 'Struktur' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'list', cssID: 'u-card', headline: { unit: 'h3', value: 'Ungeordnete Liste' }, listtype: 'unordered', listitems: ['Erster Listenpunkt', 'Zweiter Listenpunkt', 'Dritter Listenpunkt', 'Weiterer Listenpunkt'] }
+              - { type: 'list', cssID: 'u-card', headline: { unit: 'h3', value: 'Geordnete Liste' }, listtype: 'ordered', listitems: ['Erster Schritt', 'Zweiter Schritt', 'Dritter Schritt', 'Weitere Schritte'] }
+              - { type: 'description_list', cssID: 'u-card', headline: { unit: 'h3', value: 'Beschreibungsliste' }, data: [{ key: 'Theme', value: 'Creuva' }, { key: 'Contao', value: '5.7 und 6' }, { key: 'Templates', value: 'Twig' }] }
+          - type: table
+            headline: { unit: 'h3', value: 'Tabelle' }
+            thead: true
+            tableitems:
+              - [Leistung, Paket S, Paket M, Paket L]
+              - [Individuelles Design, '✓', '✓', '✓']
+              - [Seitenanzahl, bis 5, bis 15, unbegrenzt]
+              - [Support, 3 Monate, 6 Monate, 12 Monate]
+          - type: table
+            headline: { unit: 'h3', value: 'Paket-Vergleich (u-table-compare)' }
+            cssID: u-table-compare
+            thead: true
+            tableitems:
+              - [Leistung, Starter, Business, Premium]
+              - [Seitenanzahl, bis zu 5, bis zu 15, unbegrenzt]
+              - [Responsive Design, '✓', '✓', '✓']
+              - [Mehrsprachigkeit, '–', optional, '✓']
+              - [Support nach Launch, '–', 3 Monate, 6 Monate]
+
+      - title: Bilder, Medien & Dateien
+        cssID: ['sg-medien', '']
+        elements:
+          - { type: 'headline', headline: 'Bilder, Medien & Dateien', subline: 'Medien' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: 'image', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+              - type: element_group
+                children:
+                  - { type: 'download', headline: { unit: 'h3', value: 'Download-Element' }, singleSRC: 'file:downloads/projekt-checkliste.pdf', overwriteLink: true, linkTitle: 'Projekt-Checkliste (PDF)' }
+                  - { type: 'downloads', headline: { unit: 'h3', value: 'Downloads-Element' }, multiSRC: ['file:downloads/projekt-checkliste.pdf'] }
+          - { type: 'gallery', headline: { unit: 'h3', value: 'Galerie (4 Bilder pro Reihe)' }, multiSRC: ['file:bilder/projekt-gruenwerk.jpg', 'file:bilder/projekt-alpenhof.jpg', 'file:bilder/projekt-nordlicht.jpg', 'file:bilder/detail-3.jpg'], size: 'image_size:card', fullsize: true, perRow: 4 }
+          - { type: 'gallery', headline: { unit: 'h3', value: 'Mosaik, großes Bild links (u-gallery-mosaic)' }, cssID: 'u-gallery-mosaic', multiSRC: ['file:bilder/projekt-gruenwerk.jpg', 'file:bilder/projekt-alpenhof.jpg', 'file:bilder/projekt-nordlicht.jpg', 'file:bilder/detail-3.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 4 }
+          - { type: 'gallery', headline: { unit: 'h3', value: 'Mosaik, großes Bild rechts (u-gallery-mosaic-right)' }, cssID: 'u-gallery-mosaic-right', multiSRC: ['file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg', 'file:bilder/projekt-alpenhof.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 4 }
+          - { type: 'gallery', headline: { unit: 'h3', value: 'Erstes Bild groß (u-gallery-featured)' }, cssID: 'u-gallery-featured', multiSRC: ['file:bilder/hero.jpg', 'file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 3 }
+          - { type: 'gallery', headline: { unit: 'h3', value: 'Masonry (u-gallery-masonry)' }, cssID: 'u-gallery-masonry', multiSRC: ['file:bilder/hero.jpg', 'file:bilder/team-1.jpg', 'file:bilder/detail-1.jpg', 'file:bilder/projekt-nordlicht.jpg', 'file:bilder/team-2.jpg', 'file:bilder/detail-2.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 3 }
+
+      - title: Slider
+        cssID: ['sg-slider', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Slider', subline: 'Content-Slider' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Jedes Element im Slider ist ein Slide: Bilder, Karten, Texte oder ganze Elementgruppen. Einstellbar sind Elemente pro Ansicht (1–4), Pfeile, Punkte, Thumbnails, Autoplay und Endlosschleife.</p>' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: swiper
+                headline: { unit: 'h3', value: 'Bilder, Pfeile und Punkte' }
+                children:
+                  - { type: 'image', singleSRC: 'file:bilder/hero.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+              - type: swiper
+                headline: { unit: 'h3', value: 'Mit Thumbnails, ohne Punkte' }
+                creuvaSliderDots: ''
+                creuvaSliderThumbs: '1'
+                children:
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card' }
+                  - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+          - type: swiper
+            headline: { unit: 'h3', value: 'Drei Karten pro Ansicht' }
+            creuvaSliderView: '3'
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Branding · Website', headline: { unit: 'h3', value: 'Hotel Alpenhof' }, text: '<p>Buchungsstarke Website für ein Familienhotel in den Alpen.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Portfolio · Contao', headline: { unit: 'h3', value: 'Nordlicht Studio' }, text: '<p>Dunkles, bildstarkes Portfolio für ein Fotostudio.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'UX · Prototyp', headline: { unit: 'h3', value: 'Designsystem' }, text: '<p>Farben, Typografie und Komponenten aus einem Guss.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Mobile · Responsive', headline: { unit: 'h3', value: 'Mobile First' }, text: '<p>Optimiert für jedes Gerät, vom Smartphone bis zum Desktop.</p><p><a href="#sg-slider">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/detail-1.jpg', size: 'image_size:card' }
+          - type: swiper
+            headline: { unit: 'h3', value: 'Kundenstimmen: zwei pro Ansicht, nur Punkte, Autoplay und Endlosschleife' }
+            creuvaSliderView: '2'
+            creuvaSliderArrows: ''
+            sliderDelay: 6000
+            sliderSpeed: 600
+            sliderContinuous: true
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Geschäftsführerin, Grünwerk Energie', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos. Die neue Website bringt uns spürbar mehr Anfragen.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Inhaber, Hotel Alpenhof', text: '<p>Creuva hat unsere Bildsprache perfekt in Szene gesetzt. Die Direktbuchungen sind deutlich gestiegen.</p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Tobias Krüger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Sandra Wolff' }, subline: 'Leitung Online-Services, Stadtwerke Elbtal', text: '<p>Der Störungsmelder lädt auch im Mobilfunknetz in unter zwei Sekunden. Genau das haben wir gebraucht.</p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Marco Lehmann' }, subline: 'Vorstand, SV Grün-Weiß', text: '<p>Spielpläne, Ergebnisse und Mitgliederbereich – endlich alles an einem Ort und für das Ehrenamt leicht zu pflegen.</p>' }
+          - type: element_group
+            children:
+              - type: swiper
+                headline: { unit: 'h3', value: 'Vier Icon-Boxen, nur Pfeile' }
+                creuvaSliderView: '4'
+                creuvaSliderDots: ''
+                children:
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Webdesign' }, text: '<p>Individuell und responsiv.</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Entwicklung' }, text: '<p>Sauber mit Contao.</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'SEO' }, text: '<p>Gefunden werden.</p>', addImage: true, singleSRC: 'file:icons/seo.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Performance' }, text: '<p>Schnell auf jedem Gerät.</p>', addImage: true, singleSRC: 'file:icons/performance.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Support' }, text: '<p>Auch nach dem Launch.</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+                  - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Sicherheit' }, text: '<p>Updates und Backups.</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+              - type: swiper
+                headline: { unit: 'h3', value: 'Texte, nur Punkte' }
+                creuvaSliderArrows: ''
+                children:
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Gutes Design ist so wenig Design wie möglich.“</p></blockquote><p class="u-muted">Dieter Rams</p>' }
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Einfachheit ist die höchste Stufe der Vollendung.“</p></blockquote><p class="u-muted">Leonardo da Vinci</p>' }
+                  - { type: 'text', cssID: 'u-card', text: '<blockquote><p>„Form folgt Funktion.“</p></blockquote><p class="u-muted">Louis Sullivan</p>' }
+
+      - title: Templatevarianten
+        cssID: ['sg-varianten', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Templatevarianten', subline: 'Text-Element' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Im Text-Element unter „Template-Einstellungen“ wählbar. Die Inhalte kommen aus den üblichen Feldern: Überschrift, Subline, Text und Bild.</p>' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', headline: { unit: 'h3', value: 'Icon-Box' }, text: '<p>Variante „Icon-Box“ als Karte mit Hover-Effekt.</p><p><a href="#sg-varianten">Mehr erfahren</a></p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-plain', headline: { unit: 'h3', value: 'Icon-Box ohne Karte' }, text: '<p>Mit „Ohne Karte“ (u-feature-plain), z. B. für Vorteile in einer Reihe.</p>', addImage: true, singleSRC: 'file:icons/rakete.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Icon links' }, text: '<p>Mit „Icon links“ (u-feature-inline), z. B. für Kontaktdaten.</p>', addImage: true, singleSRC: 'file:icons/telefon.svg' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', subline: 'Webdesign · Contao', headline: { unit: 'h3', value: 'Karte' }, text: '<p>Bild, Kategorie (Subline), Titel und Text. Der letzte Link macht die ganze Karte klickbar.</p><p><a href="#sg-varianten">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Kundenstimme', text: '<p>Das Zitat steht im Text, Name und Funktion in Überschrift und Subline.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_team', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Teammitglied', text: '<p>Porträt, Name, Funktion und Kontakt.</p><p><a href="mailto:tobias@example.com">tobias@example.com</a></p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:team' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h3', value: 'Starter' }, subline: '1.990 €', text: '<p>Preis-Karte, der Preis steht in der Subline.</p><ul><li>Bis zu 5 Seiten</li><li>Responsives Design</li></ul><p><a href="#sg-varianten">Paket anfragen</a></p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h3', value: 'Business' }, subline: '3.990 €', cssID: 'u-featured', text: '<p>Hervorgehoben mit „Hervorgehoben (Preis-Karte)“.</p><ul><li>Bis zu 15 Seiten</li><li>3 Monate Support</li></ul><p><a href="#sg-varianten">Paket anfragen</a></p>' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_price', headline: { unit: 'h3', value: 'Premium' }, subline: 'ab 6.990 €', text: '<p>Für individuelle Projekte.</p><ul><li>Unbegrenzte Seiten</li><li>Schnittstellen</li></ul><p><a href="#sg-varianten">Angebot anfordern</a></p>' }
+          - type: text
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: Bild & Text
+            headline: Bild links.
+            subline: Variante mit
+            headline_inline: '1'
+            text: '<p>Bild links oder rechts (Bildausrichtung), Dachzeile, zweifarbige Überschrift und Text mit Häkchenliste. Die Links im letzten Absatz werden zu Buttons.</p><ul><li>Individuelles Designkonzept</li><li>Responsive Gestaltung</li></ul><p><a href="#sg-varianten">Primär-Button</a> <a href="#sg-varianten">Sekundär-Button</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-2.jpg
+            size: 'image_size:card'
+            floating: left
+          - type: text
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: Bild & Text
+            headline: Bild rechts.
+            subline: Ohne Akzentfläche,
+            headline_inline: '1'
+            text: '<p>Mit „Ohne Akzentfläche hinter dem Bild“ (u-media-plain).</p><p><a href="#sg-varianten">Mehr erfahren</a></p>'
+            addImage: true
+            singleSRC: file:bilder/detail-3.jpg
+            size: 'image_size:card'
+            floating: right
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            creuvaKicker: Call to Action
+            headline: Großes schaffen.
+            subline: Lassen Sie uns gemeinsam
+            headline_inline: '1'
+            text: '<p>Variante „Call to Action“: Text links, die Links im letzten Absatz als Buttons rechts.</p><p><a href="#sg-varianten">Projekt starten</a> <a href="#sg-varianten">Unverbindlich anfragen</a></p>'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-soft u-cta-stacked
+            creuvaKicker: Ihr Projekt könnte als Nächstes hier stehen
+            headline: etwas Großes?
+            subline: Bereit für
+            headline_inline: '1'
+            text: '<p>„Zentriert, Buttons unter dem Text“ (u-cta-stacked) mit „Akzent hell“ (u-card-soft).</p><p><a href="#sg-varianten">Projekt starten</a> <a href="#sg-varianten">Unverbindlich anfragen</a></p>'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-accent
+            creuvaKicker: Call to Action
+            headline: Akzentfarbe.
+            subline: Box in der
+            headline_inline: '1'
+            text: '<p>Mit „Akzentfarbe“ (u-card-accent) unter „Farben des Elements“.</p><p><a href="#sg-varianten">Projekt starten</a> <a href="#sg-varianten">Mehr erfahren</a></p>'
+          - type: text
+            customTpl: content_element/text/creuva_cta
+            cssID: u-card-muted u-full-bleed
+            creuvaKicker: Call to Action
+            headline: volle Breite.
+            subline: Grau über die
+            headline_inline: '1'
+            text: '<p>Mit „Grau“ (u-card-muted) und „Volle Breite“ (u-full-bleed). Für eine Fläche ohne Abstand zu den Nachbarn im Artikel „Innenabstand oben und unten: Kein“ wählen.</p><p><a href="#sg-varianten">Projekt starten</a></p>'
+
+      - title: Farben der Elemente
+        cssID: ['sg-farben', '']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Farben der Elemente', subline: 'Style Manager › Farben des Elements' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Karten, Icon-Boxen, Kundenstimmen und Preis-Karten bekommen eine Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur einen farbigen Rahmen. Das Icon der Icon-Box lässt sich separat einstellen.</p>' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-white', headline: { unit: 'h3', value: 'Weiß' }, text: '<p>u-card-white</p>', addImage: true, singleSRC: 'file:icons/webdesign.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-muted', headline: { unit: 'h3', value: 'Grau' }, text: '<p>u-card-muted</p>', addImage: true, singleSRC: 'file:icons/entwicklung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft', headline: { unit: 'h3', value: 'Akzent hell' }, text: '<p>u-card-soft</p>', addImage: true, singleSRC: 'file:icons/beratung.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-flat', headline: { unit: 'h3', value: 'Ohne Rahmen' }, text: '<p>u-card-flat</p>', addImage: true, singleSRC: 'file:icons/support.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-primary', headline: { unit: 'h3', value: 'Hauptfarbe' }, text: '<p>u-card-primary</p>', addImage: true, singleSRC: 'file:icons/rakete.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-accent', headline: { unit: 'h3', value: 'Akzentfarbe' }, text: '<p>u-card-accent</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-outline-primary', headline: { unit: 'h3', value: 'Rahmen Hauptfarbe' }, text: '<p>u-card-outline-primary</p>', addImage: true, singleSRC: 'file:icons/raute.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-outline-accent', headline: { unit: 'h3', value: 'Rahmen Akzentfarbe' }, text: '<p>u-card-outline-accent</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-soft', headline: { unit: 'h3', value: 'Icon hell' }, text: '<p>u-icon-soft (Standard)</p>', addImage: true, singleSRC: 'file:icons/herz.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-accent', headline: { unit: 'h3', value: 'Icon mittel' }, text: '<p>u-icon-accent</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-primary', headline: { unit: 'h3', value: 'Icon dunkel' }, text: '<p>u-icon-primary</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft u-icon-white', headline: { unit: 'h3', value: 'Weißer Kreis' }, text: '<p>u-icon-white (auf u-card-soft)</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-plain', headline: { unit: 'h3', value: 'Ohne Kreis' }, text: '<p>u-icon-plain</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', cssID: 'u-card-primary', headline: { unit: 'h3', value: 'Julia Berger' }, subline: 'Kundenstimme in Hauptfarbe', text: '<p>Vom ersten Workshop bis zum Launch lief alles reibungslos.</p>', addImage: true, singleSRC: 'file:bilder/team-2.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Julia Berger' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_card', cssID: 'u-card-muted', subline: 'Karte in Grau', headline: { unit: 'h3', value: 'Grünwerk Energie' }, text: '<p>Neuer Auftritt für einen regionalen Energieversorger.</p><p><a href="#sg-farben">Projekt ansehen</a></p>', addImage: true, singleSRC: 'file:bilder/projekt-gruenwerk.jpg', size: 'image_size:card' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_testimonial', cssID: 'u-card-outline-accent', headline: { unit: 'h3', value: 'Tobias Krüger' }, subline: 'Kundenstimme mit Rahmen', text: '<p>Creuva hat unsere Bildsprache perfekt in Szene gesetzt.</p>', addImage: true, singleSRC: 'file:bilder/team-1.jpg', size: 'image_size:avatar', overwriteMeta: true, alt: 'Tobias Krüger' }
+
+      - title: Kennzahlen & Timeline
+        cssID: ['sg-kennzahlen', '']
+        elements:
+          - { type: 'headline', headline: 'Kennzahlen, Timeline & Fakten', subline: 'Beschreibungsliste' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            creuvaKicker: Variante „Kennzahlen“
+            headline: Ergebnisse.
+            subline: Vertrauen. Erfahrung.
+            headline_inline: '1'
+            cssID: u-bg-accent u-text-center
+            creuvaIcons: ['file:icons/raute.svg', 'file:icons/herz.svg', 'file:icons/uhr.svg', 'file:icons/team.svg']
+            data:
+              - { key: '120+', value: 'Projekte' }
+              - { key: '98 %', value: 'Zufriedene Kunden' }
+              - { key: '15+', value: 'Jahre Erfahrung' }
+              - { key: '24', value: 'Teammitglieder' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: description_list
+                customTpl: content_element/description_list/creuva_timeline
+                headline: { unit: 'h3', value: 'Timeline' }
+                data:
+                  - { key: '01 Kennenlernen', value: 'Wir besprechen Ihre Ziele.' }
+                  - { key: '02 Konzeption', value: 'Wir entwickeln eine Strategie.' }
+                  - { key: '03 Umsetzung', value: 'Design und Entwicklung.' }
+                  - { key: '04 Betreuung', value: 'Auch nach dem Launch.' }
+              - type: description_list
+                customTpl: content_element/description_list/creuva_facts
+                headline: { unit: 'h3', value: 'Fakten' }
+                data:
+                  - { key: 'Kunde', value: 'Grünwerk Energie GmbH' }
+                  - { key: 'Branche', value: 'Energieversorgung' }
+                  - { key: 'Leistungen', value: 'Konzept, Webdesign, Contao' }
+                  - { key: 'Website', value: 'www.example.com' }
+
+      - title: Akkordeon
+        cssID: ['sg-akkordeon', 'u-bg-muted']
+        elements:
+          - { type: 'headline', headline: 'Akkordeon', subline: 'Interaktive Elemente' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: accordion
+                children:
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Erster Akkordeon-Eintrag' }, text: '<p>Standarddarstellung mit Plus-Zeichen.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Zweiter Akkordeon-Eintrag' }, text: '<p>Inhalt des zweiten Eintrags.</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Dritter Akkordeon-Eintrag' }, text: '<p>Inhalt des dritten Eintrags.</p>' }
+              - type: accordion
+                cssID: u-accordion-icon
+                children:
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Mit Fragezeichen-Icon' }, text: '<p>Akkordeon-Icon „Fragezeichen“ (u-accordion-icon).</p>' }
+                  - { type: 'text', sectionHeadline: { unit: 'h3', value: 'Ideal für FAQ' }, text: '<p>Weitere Icons: „Info“ und „Sprechblase“.</p>' }
+
+      - title: Theme Components
+        cssID: ['sg-components', '']
+        elements:
+          - { type: 'headline', headline: 'Theme Components Bundle', subline: 'Erweiterungen' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - { type: 'ct_contentBox', headline: { unit: 'h3', value: 'Content-Box' }, text: '<p>Box mit Bild, Text und Link aus dem Theme Components Bundle.</p>', ct_contentBox_page: '#sg-components', ct_contentBox_pageText: 'Mehr erfahren', addImage: true, singleSRC: 'file:bilder/projekt-alpenhof.jpg', size: 'image_size:card' }
+              - { type: 'ct_teaserBox', headline: { unit: 'h3', value: 'Teaser-Box' }, text: '<p>Teaser mit Bild und Link.</p>', ct_teaserBox_page: '#sg-components', ct_teaserBox_pageText: 'Mehr erfahren', addImage: true, singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
+              - { type: 'ct_priceBox', headline: { unit: 'h3', value: 'Preis-Box' }, text: '<ul><li>Leistung eins</li><li>Leistung zwei</li></ul>', ct_price: '49 €', ct_priceLabel: 'pro Monat', ct_priceBox_link1: '#sg-components', ct_priceBox_linkText1: 'Anfragen' }
+
+      - title: Hintergründe & Klassen
+        cssID: ['sg-klassen', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Hintergründe & Klassen', subline: 'Style Manager' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Diese Klassen gibt es im Style Manager unter „Abschnitt & Hintergrund“, „Text“ und „Abstände“ – auch für Artikel.</p>' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', headline: { unit: 'h3', value: 'Weiß' }, text: '<p>u-bg-surface</p>', cssID: 'u-bg-surface' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Hellgrau' }, text: '<p>u-bg-muted</p>', cssID: 'u-bg-muted u-card' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Akzent hell' }, text: '<p>u-bg-accent</p>', cssID: 'u-bg-accent' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Primär' }, text: '<p>u-bg-primary</p>', cssID: 'u-bg-primary' }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - { type: 'text', headline: { unit: 'h3', value: 'Karte' }, text: '<p>Rahmen und Schatten (u-card).</p>', cssID: 'u-card' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Zentriert' }, text: '<p>Text zentriert (u-text-center).</p>', cssID: 'u-card u-text-center' }
+          - { type: 'text', headline: { unit: 'h3', value: 'Volle Breite' }, text: '<p>Der Hintergrund reicht bis an den Fensterrand, der Inhalt bleibt im Raster (u-full-bleed).</p>', cssID: 'u-bg-accent u-full-bleed u-text-center' }
+          - { type: 'text', headline: { unit: 'h3', value: 'Schmal (Lesebreite)' }, text: '<p>Lange Texte lesen sich mit begrenzter Zeilenlänge angenehmer. Die Klasse u-narrow begrenzt die Breite eines Elements auf die Lesebreite.</p>', cssID: 'u-narrow' }
+
+      - title: Animationen
+        cssID: ['sg-animation', '']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Animationen', subline: 'Einblenden beim Scrollen' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Was automatisch animiert wird, legt das Seitenlayout fest. Einzelne Elemente bekommen im Style Manager unter „Animation“ eine eigene Richtung.</p>' }
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - { type: 'text', headline: { unit: 'h3', value: 'Von unten' }, text: '<p>u-reveal-up</p>', cssID: 'u-card u-reveal-up' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Von links' }, text: '<p>u-reveal-left</p>', cssID: 'u-card u-reveal-left' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Von rechts' }, text: '<p>u-reveal-right</p>', cssID: 'u-card u-reveal-right' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Zoom' }, text: '<p>u-reveal-zoom</p>', cssID: 'u-card u-reveal-zoom' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Unschärfe' }, text: '<p>u-reveal-blur</p>', cssID: 'u-card u-reveal-blur' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Von oben' }, text: '<p>u-reveal-down</p>', cssID: 'u-card u-reveal-down' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Nur Einblenden' }, text: '<p>u-reveal-fade</p>', cssID: 'u-card u-reveal-fade' }
+              - { type: 'text', headline: { unit: 'h3', value: 'Keine' }, text: '<p>u-reveal-none</p>', cssID: 'u-card u-reveal-none' }
+
+      - title: Formular
+        cssID: ['sg-formular', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: 'Formulare', subline: 'Formulargenerator' }
+                  - { type: 'text', text: '<p>Alle Feldtypen des Contao-Formulargenerators übernehmen Farben, Rundungen und Abstände des Themes: Textfelder, Auswahl, Textarea, Radio-Buttons, Checkboxen, Schieberegler und Buttons.</p>' }
+              - { type: 'form', form: 'form:styleguide', cssID: 'u-card' }
+
+      - title: Termine
+        cssID: ['sg-termine', 'u-bg-muted']
+        elements:
+          - type: element_group
+            cssID: u-grid-2 u-align-end
+            children:
+              - { type: 'headline', headline: 'Termine', subline: 'Kalender' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Event-Liste mit Datum, Uhrzeit und Ort, Monatskalender und Minikalender aus dem Kalender-Bundle von Contao.</p>' }
+          - type: element_group
+            cssID: u-grid-2 u-cols-wide-start
+            children:
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: { unit: 'h3', value: 'Event-Liste' } }
+                  - { type: 'module', module: 'module:eventlist' }
+              - type: element_group
+                children:
+                  - { type: 'headline', headline: { unit: 'h3', value: 'Minikalender' } }
+                  - { type: 'module', module: 'module:minicalendar' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Monatskalender' } }
+          - { type: 'module', module: 'module:calendar' }
+
+      - title: Code
+        cssID: ['sg-code', '']
+        elements:
+          - { type: 'headline', headline: 'Code', subline: 'Code-Element' }
+          - type: code
+            highlight: twig
+            code: |
+              {% extends '@Contao/content_element/text.html.twig' %}
+
+              {# Eigene Templatevariante mit Dachzeile #}
+              {% block inner %}
+                  <p class="c-kicker">{{ data.creuvaKicker }}</p>
+                  {{ parent() }}
+              {% endblock %}
+      - title: Module
+        cssID: ['sg-module', '']
+        elements:
+          - { type: 'headline', headline: 'Frontend-Module', subline: 'Module' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Breadcrumb' } }
+          - { type: 'module', module: 'module:breadcrumb' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'News-Liste' } }
+          - { type: 'module', module: 'module:newslist' }
+          - { type: 'headline', headline: { unit: 'h3', value: 'Nach oben (Toplink-Element)' } }
+          - { type: 'toplink', linkTitle: 'Nach oben' }
+
+    children:
+      - title: Beitrag
+        alias: styleguide-beitrag
+        hide: true
+        requireItem: true
+        searchIndexer: never_index
+        sitemap: map_never
+        robots: noindex,nofollow
+        articles:
+          - title: Beitrag
+            elements:
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'module', module: 'module:newsreader' }
+      - title: Termin
+        alias: styleguide-termin
+        hide: true
+        requireItem: true
+        searchIndexer: never_index
+        sitemap: map_never
+        robots: noindex,nofollow
+        articles:
+          - title: Termin
+            elements:
+              - { type: 'module', module: 'module:breadcrumb' }
+              - { type: 'module', module: 'module:eventreader' }

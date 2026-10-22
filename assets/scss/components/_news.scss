@@ -20,12 +20,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: box-shadow var(--transition), transform var(--transition);
 
-    &:hover {
-      box-shadow: var(--shadow-m);
-      transform: translateY(-2px);
-    }
+    @include hover-lift;
 
     > * {
       margin-inline: var(--space-m);
@@ -42,7 +38,16 @@
         aspect-ratio: 16 / 10;
         object-fit: cover;
         border-radius: 0;
+        transition: transform 0.7s var(--ease-out);
       }
+    }
+
+    &:hover > .image_container img {
+      transform: scale(1.06);
+    }
+
+    &:hover .more a::after {
+      transform: translateX(0.3em);
     }
 
     > :first-child:not(.image_container) {
@@ -64,6 +69,7 @@
       a {
         color: inherit;
         text-decoration: none;
+        transition: color var(--transition);
 
         // Stretched link: the whole card is clickable
         &::before {
@@ -128,8 +134,13 @@
       color: var(--c-primary-contrast);
     }
 
+    a {
+      transition: border-color var(--transition), transform var(--transition-hover);
+    }
+
     a:hover {
       border-color: var(--c-primary);
+      transform: translateY(-2px);
     }
   }
 
@@ -143,27 +154,136 @@
     margin-inline: auto;
   }
 
+  .mod_breadcrumb + .mod_newsreader {
+    margin-top: var(--space-l);
+  }
+
+  // Header of the reader (news_full.html.twig): with an image it breaks out of
+  // the reading column to the container width, text and image side by side
+  .c-news-header {
+    margin-bottom: var(--space-xl);
+
+    h1 {
+      margin-bottom: 0;
+      font-size: var(--fs-h1);
+      text-wrap: balance;
+    }
+  }
+
+  .c-news-header--image {
+    margin-inline: calc(50% - min(50vw - var(--gutter), var(--container) / 2));
+  }
+
+  .c-news-header__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    > * {
+      margin: 0;
+    }
+  }
+
+  .c-news-header__kicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em 0.75em;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+
+    > :first-child {
+      color: var(--c-accent-text);
+      font-weight: 700;
+    }
+
+    > * + ::before {
+      content: "·";
+      margin-right: 0.75em;
+      color: var(--c-border);
+    }
+  }
+
+  .c-news-header__accent {
+    color: var(--c-accent-text);
+  }
+
+  .c-news-header__lead {
+    max-width: 38rem;
+    color: var(--c-text-muted);
+    font-size: var(--fs-large);
+    line-height: 1.5;
+  }
+
+  .c-news-header .info {
+    padding-top: var(--space-xs);
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  .c-news-header__media {
+    position: relative;
+    isolation: isolate;
+    margin-top: var(--space-l);
+
+    // Soft accent blob behind the image (like the hero)
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -6% 20% 25% -4%;
+      z-index: -1;
+      border-radius: 60% 40% 55% 45% / 55% 45% 55% 45%;
+      background: var(--c-accent-blob);
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      box-shadow: var(--shadow-m);
+    }
+  }
+
+  .c-news-header--image {
+    display: grid;
+    gap: 0 var(--space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 64rem) {
+    .c-news-header--image {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .c-news-header--image .c-news-header__media {
+      margin-top: 0;
+    }
+  }
+
   .layout_full {
-    > h1 {
-      margin-bottom: var(--space-s);
+
+    // Vertical rhythm like the sections of a page: every element type (also
+    // groups, accordions, tables and elements of extensions) gets the same
+    // spacing, so headlines at the start of an element always have air above
+    > * + :is([class^='content-'], [class*=' content-'], [class^='ce_'], [class*=' ce_']) {
+      margin-top: var(--space-l);
     }
 
-    > .info {
-      margin-bottom: var(--space-l);
-      color: var(--c-text-muted);
-      font-size: var(--fs-small);
-    }
-
-    > h2 {
-      margin-top: calc(-1 * var(--space-m));
-      margin-bottom: var(--space-l);
-      color: var(--c-text-muted);
-      font-size: 1.25rem;
-      font-weight: 500;
-    }
-
-    > * + :is(.content-text, .content-image, .content-gallery, .content-list, .content-headline) {
+    // Plain text without own headline continues the previous text
+    > :is(.content-text, .content-list) + :is(.content-text, .content-list):not([class*='u-'], [class*=' c-'], .simplebox, :has(> :is(h2, h3, h4))) {
       margin-top: var(--space-m);
+    }
+
+    // Muted text right after an element is its caption (e.g. source of a table)
+    > * + .content-text.u-muted {
+      margin-top: var(--space-s);
     }
 
     :is(.content-text, .content-list) {

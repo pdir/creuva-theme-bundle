@@ -1,0 +1,99 @@
+// Print: only the content (e.g. a news article, the imprint or a price list),
+// black text on white, no backgrounds, shadows or animations, the address of
+// links in the text after the link
+@layer creuva.utilities {
+  @media print {
+    :root {
+      --c-bg: #fff;
+      --c-surface: #fff;
+      --c-text: #000;
+      --c-text-muted: #444;
+    }
+
+    body {
+      background: #fff;
+      color: #000;
+      font-size: 11pt;
+    }
+
+    // Navigation, header, footer and controls
+    :is(.l-header, .l-top, .l-prefooter, .l-footer, .l-bottom, .mod_breadcrumb, .c-style-switcher, .c-slider__controls, .c-slider__thumbs, .mod_newsreader .back, .mod_eventreader .back, .c-skip-link, .c-lightbox, .content-toplink, .toplink) {
+      display: none !important;
+    }
+
+    // Sections without background and spacing of the screen
+    .l-main > .mod_article {
+      padding-block: 0 1.5rem !important;
+      background: none !important;
+    }
+
+    .l-main > .mod_article > * {
+      width: auto !important;
+    }
+
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    :is(.u-bg-muted, .u-bg-accent, .u-bg-primary, .u-bg-surface, .u-full-bleed, .c-stats, .c-cta) {
+      background: none !important;
+      color: #000 !important;
+    }
+
+    .u-full-bleed {
+      margin-inline: 0 !important;
+      padding-inline: 0 !important;
+    }
+
+    // Content that was waiting for the scroll animation
+    :is([data-reveal], [data-reveal] *, .c-hero__content > *, .c-hero__media) {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+
+    // Decorative shapes behind images
+    :is(.c-hero__media, .c-media__visual, .c-news-header__media)::before {
+      display: none;
+    }
+
+    // Links in running text with their address
+    :is(.rte, .content-text) a[href^='http']::after {
+      content: " (" attr(href) ")";
+      color: #444;
+      font-size: 0.85em;
+      word-break: break-all;
+    }
+
+    // Buttons as plain text
+    :is(.c-button, .u-button, .rte > p:last-child > a) {
+      border: 0 !important;
+      background: none !important;
+      color: #000 !important;
+      padding: 0 !important;
+    }
+
+    // Keep cards, figures and table rows together
+    :is(figure, img, tr, .c-card, .c-feature, .c-price, .c-testimonial, .c-event, .comment_default, .c-facts, blockquote) {
+      break-inside: avoid;
+    }
+
+    :is(h1, h2, h3, h4) {
+      break-after: avoid;
+    }
+
+    // Accordions (handorgel): all answers
+    .handorgel__content {
+      display: block !important;
+      height: auto !important;
+      visibility: visible !important;
+    }
+
+    .handorgel__content__inner {
+      opacity: 1 !important;
+    }
+  }
+}

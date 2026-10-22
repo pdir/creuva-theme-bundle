@@ -1,51 +1,170 @@
 // Template variants of the description list (content_element/description_list/creuva_*)
+@use '../mixins' as *;
+
 @layer creuva.components {
-  // Key figures
-  .c-stats dl {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
-    gap: var(--space-l) var(--space-m);
-    margin: 0;
+  // Key figures: every figure is a small card, the number counts up when it
+  // scrolls into view (assets/js/creuva.js; disabled with u-no-countup).
+  // The script wraps prefix/suffix ("+", "%") in .c-stats__unit.
+  .c-stats {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    > :is(h2, h3) {
+      margin-bottom: var(--space-m);
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+      gap: var(--space-m);
+      margin: 0;
+    }
+  }
+
+  // Soft light spots on the colored box
+  .c-stats:is(.u-bg-accent, .u-bg-muted, .u-bg-primary)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(40% 70% at 0% 0%, color-mix(in srgb, var(--c-accent) 18%, transparent), transparent 70%),
+      radial-gradient(35% 60% at 100% 100%, color-mix(in srgb, var(--c-surface) 70%, transparent), transparent 70%);
+    pointer-events: none;
   }
 
   .c-stats__item {
     display: flex;
-    flex-direction: column-reverse;
-    gap: var(--space-2xs);
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+    transition: box-shadow var(--transition-hover), transform var(--transition-hover), border-color var(--transition);
   }
 
   .c-stats dt {
     font-family: var(--font-heading);
-    font-size: clamp(2.25rem, 1.8rem + 1.6vw, 3.25rem);
-    font-weight: var(--font-weight-heading);
+    font-size: clamp(2.5rem, 2rem + 1.8vw, 3.5rem);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
     line-height: 1;
     letter-spacing: -0.03em;
     color: var(--c-primary);
   }
 
+  .c-stats__unit {
+    margin-inline: .1em;
+    color: var(--c-accent-text);
+    font-size: .8em;
+  }
+
+  // Number while counting; the final value is kept in the layout (invisible)
+  // so the card does not change its width
+  .c-stats__count {
+    display: inline-grid;
+
+    > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  .c-stats__count.is-counting > :not([aria-hidden]) {
+    visibility: hidden;
+  }
+
+  .c-stats__count:not(.is-counting) > [aria-hidden] {
+    display: none;
+  }
+
+  // Label with a small accent line above
   .c-stats dd {
-    order: 1;
     margin: 0;
     color: var(--c-text-muted);
-    font-size: var(--fs-small);
+    font-size: var(--fs-large);
+    font-weight: 400;
   }
 
-  // The value is shown above its label
-  .c-stats__item > dt {
-    order: 2;
+  // Optional icon above the figure (field "Icons (Kennzahlen)"); same custom
+  // properties as the icon box, so the icon classes u-icon-* work here too
+  .c-stats__icon {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: var(--space-xs);
+    border-radius: 50%;
+    background: var(--icon-bg, var(--c-surface));
+    transition: background-color var(--transition-hover), transform var(--transition-hover);
+
+    img {
+      width: 2rem;
+      height: 2rem;
+      object-fit: contain;
+      filter: var(--icon-filter, none);
+      transition: filter var(--transition-hover);
+    }
   }
 
-  .u-bg-primary .c-stats dt,
-  .c-stats.u-bg-primary dt {
-    color: var(--c-primary-contrast);
+  .c-stats__item:hover .c-stats__icon {
+    background: var(--icon-bg-hover, var(--c-primary));
+    transform: scale(1.06);
+
+    img {
+      filter: var(--icon-filter-hover, brightness(0) invert(1));
+    }
+  }
+
+  :root[data-radius='none'] .c-stats__icon {
+    border-radius: 0;
+  }
+
+  .u-bg-primary .c-stats,
+  .c-stats.u-bg-primary {
+    dt {
+      color: var(--c-primary-contrast);
+    }
+
+    .c-stats__unit {
+      color: var(--c-accent-on-primary);
+    }
+
+    .c-stats__item {
+      background: color-mix(in srgb, var(--c-primary-contrast) 8%, transparent);
+    }
+  }
+
+  // Phones: the numbers are stacked, less space above and below each of them
+  @media (max-width: 39.99rem) {
+    .c-stats dl {
+      gap: var(--space-xs);
+    }
+
+    .c-stats__item {
+      padding-block: var(--space-xs);
+    }
+
+    .c-stats__icon {
+      width: 3.25rem;
+      height: 3.25rem;
+      margin-bottom: 0;
+    }
   }
 
   .u-text-center .c-stats__item,
   .c-stats.u-text-center .c-stats__item {
     align-items: center;
+
+    dd::before {
+      margin-inline: auto;
+    }
   }
 
-  // Timeline
+  // Timeline: vertical, horizontal as soon as the element is wide enough
+  // (container query, so it stays vertical in a column of a grid)
+  .c-timeline {
+    container-type: inline-size;
+  }
+
   .c-timeline dl {
     position: relative;
     display: grid;
@@ -89,12 +208,11 @@
   }
 
   .c-timeline dd {
-    margin: var(--space-2xs) 0 0;
+    margin: 0.25rem 0 0;
     color: var(--c-text-muted);
   }
 
-  // Horizontal timeline from tablet width on
-  @media (min-width: 64rem) {
+  @container (min-width: 44rem) {
     .c-timeline dl {
       grid-auto-columns: 1fr;
       grid-auto-flow: column;
@@ -113,6 +231,46 @@
     .c-timeline__item::before {
       top: -1.75rem;
       left: 0;
+    }
+  }
+}
+
+// Facts (template variant description_list/creuva_facts): label and value
+// as rows of a card, e.g. the project data of a reference
+@layer creuva.components {
+  .c-facts dl {
+    @include card;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: var(--space-xs) var(--space-m);
+  }
+
+  .c-facts__item {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.4fr) minmax(0, 1fr);
+    gap: var(--space-s);
+    padding-block: var(--space-s);
+
+    + .c-facts__item {
+      border-top: 1px solid var(--c-border);
+    }
+  }
+
+  .c-facts dt {
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+  }
+
+  .c-facts dd {
+    margin: 0;
+    font-weight: 600;
+
+    a {
+      color: var(--c-accent-text);
     }
   }
 }

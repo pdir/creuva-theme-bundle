@@ -34,16 +34,17 @@ assets only; no code of these packages is part of the distributed files.
 
 ## Schriften / Fonts
 
-Die Schriften werden im CSS per Name referenziert (`--font-sans`, `--font-heading`), aber
-nicht mit dem Theme ausgeliefert. Wenn Sie sie selbst einbinden (z. B. lokal gehostet),
-gilt die SIL Open Font License 1.1; die Lizenzdatei (`OFL.txt`) ist dann mitzuliefern.
-/ Referenced by name but not shipped. When you self-host them, the SIL Open Font License 1.1
-applies and its license file has to be distributed with the fonts.
+Die Schriften werden mit dem Theme ausgeliefert und selbst gehostet (keine Anfragen an Dritte):
+variable WOFF2-Dateien mit dem Zeichensatz Latin aus Google Fonts unter `assets/fonts/`, beim
+Bauen nach `public/` kopiert. Es gilt die SIL Open Font License 1.1, die Lizenzdateien liegen
+daneben (`assets/fonts/OFL-*.txt`). / The fonts are shipped and self-hosted (variable WOFF2,
+latin subset of Google Fonts, `assets/fonts/`, copied to `public/` by the build). They are
+licensed under the SIL Open Font License 1.1, see `assets/fonts/OFL-*.txt`.
 
-| Schrift / Font    | Lizenz / License | Copyright / Quelle / Source                                          |
-|-------------------|------------------|----------------------------------------------------------------------|
-| Plus Jakarta Sans | OFL-1.1          | © The Plus Jakarta Sans Project Authors – https://github.com/tokotype/PlusJakartaSans |
-| Fraunces          | OFL-1.1          | © The Fraunces Project Authors – https://github.com/undercasetype/Fraunces |
+| Schrift / Font    | Datei / File                    | Lizenz / License | Copyright / Quelle / Source |
+|-------------------|---------------------------------|------------------|-----------------------------|
+| Plus Jakarta Sans | `plus-jakarta-sans.woff2` (200–800) | OFL-1.1 | © 2020 The Plus Jakarta Sans Project Authors – https://github.com/tokotype/PlusJakartaSans |
+| Fraunces          | `fraunces.woff2` (400–700, nur Variante „Editorial“) | OFL-1.1 | © 2018 The Fraunces Project Authors – https://github.com/undercasetype/Fraunces |
 
 ## Demo-Inhalte / Demo content
 

@@ -3,13 +3,21 @@
 // bundle 2.0); layout basics come from the bundle's elements.css.
 @use '../mixins' as *;
 
+// Unlayered on purpose: the bundle's theme-components.css is unlayered and
+// sets font-size 0.7em / font-weight 300 on the subline, which would win over
+// any cascade layer. Higher specificity, so the order of the files does not matter.
+:is(h1, h2, h3, h4, h5, h6) > :is(.first-headline.block, .subheadline.block) {
+  font-size: var(--fs-kicker);
+  font-weight: 500;
+}
+
 @layer creuva.components {
   // Headline with subline (theme components bundle):
   // - subline as block ("Inline" unchecked) → kicker above the headline
   // - subline inline ("Inline" checked)      → two-tone headline, main part accented
   .first-headline.block {
     display: block;
-    margin-bottom: var(--space-s);
+    margin-bottom: var(--space-xs);
     font-family: var(--font-sans);
     font-size: var(--fs-kicker);
     font-weight: 700;
@@ -52,11 +60,8 @@
     @include card;
 
     height: 100%;
-    transition: box-shadow var(--transition), transform var(--transition);
 
-    &:hover {
-      box-shadow: var(--shadow-m);
-    }
+    @include hover-lift;
 
     :is(h2, h3, h4) {
       font-size: 1.125rem;
@@ -74,6 +79,10 @@
 
   :is(.content-box__more, .teaser-box__more) a {
     @include arrow-link;
+  }
+
+  :is(.content-box, .teaser-box):hover :is(.content-box__more, .teaser-box__more) a::after {
+    transform: translateX(0.3em);
   }
 
   .content-box {
@@ -101,7 +110,7 @@
     }
 
     &:hover .teaser-box__media img {
-      transform: scale(1.03);
+      transform: scale(1.06);
     }
   }
 
@@ -111,7 +120,7 @@
     img {
       aspect-ratio: 16 / 10;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.7s var(--ease-out);
     }
   }
 
@@ -127,6 +136,13 @@
     height: 3rem;
     border-radius: var(--radius-pill);
     background: var(--c-accent-soft);
+    transition: background-color var(--transition-hover), color var(--transition-hover), transform var(--transition-hover);
+  }
+
+  .feature-element:hover .feature-element__icon {
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+    transform: scale(1.08) rotate(-6deg);
   }
 
   .feature-element__body {
@@ -149,13 +165,18 @@
   // Price box
   .price-box {
     @include card;
-
     height: 100%;
     padding: var(--space-l) var(--space-m);
     text-align: start;
 
-    &--highlight {
+    @include hover-lift;
+
+    &--highlight,
+    &--highlight:hover {
       border: 2px solid var(--c-accent);
+    }
+
+    &--highlight {
       box-shadow: var(--shadow-m);
     }
 
@@ -275,16 +296,22 @@
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    transition: box-shadow var(--transition), border-color var(--transition);
+    transition: box-shadow var(--transition-hover), border-color var(--transition), transform var(--transition-hover);
 
     &:hover {
       border-color: var(--c-accent-text);
-      box-shadow: var(--shadow-m);
+      box-shadow: var(--shadow-l);
+      transform: translateY(var(--hover-lift));
     }
 
     img {
       width: auto;
       max-height: 3rem;
+      transition: transform var(--transition-hover);
+    }
+
+    &:hover img {
+      transform: scale(1.1);
     }
   }
 }

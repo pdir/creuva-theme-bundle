@@ -1,0 +1,13 @@
+{#
+    Text element with an optional kicker ("Dachzeile") above the headline.
+    The template variants (text/creuva_*) build on this template.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% block inner %}
+    {% if data.creuvaKicker|default %}
+        <p class="c-kicker">{{ data.creuvaKicker|insert_tag }}</p>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

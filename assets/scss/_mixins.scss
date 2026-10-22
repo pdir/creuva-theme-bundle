@@ -19,27 +19,158 @@
   }
 }
 
-// Card surface
+// Card surface; the colors come from custom properties, so the card style
+// classes (u-card-*, _element-styles.scss) work for all card-like elements
 @mixin card {
-  border: 1px solid var(--c-border);
+  border: var(--card-border-width, 1px) solid var(--card-border, var(--c-border));
   border-radius: var(--radius-l);
-  background: var(--c-surface);
-  box-shadow: var(--shadow-s);
+  background: var(--card-bg, var(--c-surface));
+  box-shadow: var(--card-shadow, var(--shadow-s));
 }
 
-// Text link with arrow ("Mehr erfahren →")
+// Text link with arrow ("Mehr erfahren →"); the arrow moves on hover, also
+// when the hover is on a parent card (.c-feature, .c-card …)
 @mixin arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
   color: var(--c-text);
   font-size: var(--fs-small);
   font-weight: 600;
   text-decoration: none;
 
   &::after {
-    content: " →";
-    transition: margin var(--transition);
+    content: "";
+    width: 1em;
+    height: 1em;
+    background: currentColor;
+    mask: var(--icon-arrow) center / contain no-repeat;
+    transition: transform var(--transition-hover);
   }
 
-  &:hover::after {
-    margin-left: 0.2em;
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(0.3em);
+  }
+}
+
+// Background classes of sections (articles) and elements
+$bg-classes: '.u-bg-surface, .u-bg-muted, .u-bg-accent, .u-bg-primary';
+
+// CSS classes that turn a hyperlink element (or the links of the last
+// paragraph of a text element) into a button (Style Manager › Buttons)
+$button-classes: '.u-button, .u-button-secondary, .u-button-accent, .u-button-outline, .u-button-outline-accent';
+
+// Buttons: shared by .c-button, the hyperlink element (u-button,
+// u-button-secondary), links in text elements with these classes, the link
+// paragraph of "Bild & Text" and call to action boxes
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.8em 1.6em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition-hover), transform var(--transition-hover);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Primary button with an arrow that moves on hover
+@mixin button-primary {
+  border-color: var(--c-primary);
+  background: var(--c-primary);
+  color: var(--c-primary-contrast);
+
+  &::after {
+    content: "";
+    width: 1em;
+    height: 1em;
+    background: currentColor;
+    mask: var(--icon-arrow) center / contain no-repeat;
+    transition: transform var(--transition-hover);
+  }
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--c-primary) 85%, #000);
+    background: color-mix(in srgb, var(--c-primary) 85%, #000);
+    box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--c-primary) 70%, transparent);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(0.25em);
+  }
+}
+
+// Filled with the accent color, arrow like the primary button
+@mixin button-accent {
+  border-color: var(--c-accent);
+  background: var(--c-accent);
+  color: var(--c-accent-contrast);
+
+  &::after {
+    content: "";
+    width: 1em;
+    height: 1em;
+    background: currentColor;
+    mask: var(--icon-arrow) center / contain no-repeat;
+    transition: transform var(--transition-hover);
+  }
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--c-accent) 85%, #000);
+    background: color-mix(in srgb, var(--c-accent) 85%, #000);
+    box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--c-accent) 70%, transparent);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(0.25em);
+  }
+}
+
+// Outline button in a color ($color: custom property), filled on hover
+@mixin button-outline($color, $contrast) {
+  border: 2px solid var(#{$color});
+  background: transparent;
+  color: var(#{$color});
+
+  &:hover {
+    background: var(#{$color});
+    color: var(#{$contrast});
+  }
+}
+
+@mixin button-secondary {
+  border-color: var(--c-border);
+  background: var(--c-surface);
+  color: var(--c-text);
+
+  &:hover {
+    border-color: var(--c-primary);
+    box-shadow: var(--shadow-m);
+  }
+}
+
+// Card that lifts on hover (used by all card-like elements)
+@mixin hover-lift {
+  transition: box-shadow var(--transition-hover), transform var(--transition-hover), border-color var(--transition-hover), background-color var(--transition-hover);
+
+  &:hover {
+    border-color: var(--card-border-hover, transparent);
+    background: var(--card-bg-hover, var(--card-bg, var(--c-surface)));
+    box-shadow: var(--shadow-l);
+    transform: translateY(var(--hover-lift));
   }
 }

@@ -57,6 +57,7 @@ const symfonyManifest = () => ({
 });
 
 export default defineConfig(({ mode }) => ({
+  base: './', // relative URLs in creuva.css (fonts next to it in public/)
   publicDir: false,
   plugins: [colorSchemes(), symfonyManifest()],
   build: {

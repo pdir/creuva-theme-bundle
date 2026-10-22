@@ -1,0 +1,11 @@
+{#
+    Facts: term = label (e.g. "Kunde"), details = value, shown as rows of a
+    card, e.g. the project data of a reference.
+#}
+{% extends '@Contao/content_element/description_list.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-facts') %}
+
+{% block description %}
+    <div class="c-facts__item">{{ parent() }}</div>
+{% endblock %}

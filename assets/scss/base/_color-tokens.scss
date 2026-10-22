@@ -26,7 +26,7 @@
   --c-accent-text: var(--scheme-accent-text);
   --c-accent-contrast: var(--scheme-accent-contrast);
   --c-accent-on-primary: color-mix(in srgb, var(--c-accent) 55%, #fff);
-  --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, #fff);
+  --c-accent-soft: color-mix(in srgb, var(--c-accent) 10%, #fff);
   --c-accent-blob: color-mix(in srgb, var(--c-accent) 30%, #fff);
 
   // Surfaces & text
