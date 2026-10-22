@@ -1,0 +1,121 @@
+{% extends '@Contao/frontend_module/_base.html.twig' %}
+
+{#
+    Style switcher for a front end preview of the color schemes, design variants
+    and corner radii (e.g. on a demo website). The choice is stored in the
+    localStorage and can be preset via URL, e.g. "?scheme=red&theme=dark".
+
+    Place the module in the "top" slot: the inline script then applies the
+    stored choice before the header and the content are rendered.
+
+    In the front end preview, administrators can save the choice in the
+    website root ("save" is null otherwise).
+#}
+
+{% set panel_id = 'creuva-style-switcher-' ~ data.id %}
+{% set allowed = {scheme: schemes|keys, theme: variants, radius: radii} %}
+
+{% set attributes = attrs(attributes|default)
+    .addClass('c-style-switcher')
+    .set('data-creuva-style-switcher', defaults|json_encode)
+%}
+
+{% block content %}
+    <script{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}>
+        (() => {
+            const allowed = {{ allowed|json_encode|raw }};
+            const root = document.documentElement;
+            const attribute = { scheme: 'data-scheme', theme: 'data-theme', radius: 'data-radius' };
+
+            const apply = (state) => {
+                for (const [key, value] of Object.entries(state)) {
+                    root.setAttribute(attribute[key], value);
+
+                    // A selected scheme replaces the custom colors of the page layout
+                    if ('scheme' === key) {
+                        ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent'].forEach((name) => root.style.removeProperty('--scheme-' + name));
+                    }
+                }
+            };
+
+            let stored = {};
+
+            try {
+                stored = JSON.parse(localStorage.getItem('creuva-style')) || {};
+            } catch (e) {}
+
+            // URL parameters take precedence over the stored choice
+            const params = new URLSearchParams(location.search);
+            const state = {};
+
+            for (const key of Object.keys(allowed)) {
+                const value = params.get(key) ?? stored[key];
+
+                if (allowed[key].includes(value)) {
+                    state[key] = value;
+                }
+            }
+
+            apply(state);
+
+            window.creuvaStyleSwitcher = { allowed, apply, state };
+        })();
+    </script>
+
+    <button class="c-style-switcher__toggle" type="button" aria-expanded="false" aria-controls="{{ panel_id }}" data-creuva-style-toggle>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+        </svg>
+        <span class="u-visually-hidden">{{ 'MSC.creuvaStyleSwitcher'|trans([], 'contao_default') }}</span>
+    </button>
+
+    <div class="c-style-switcher__panel" id="{{ panel_id }}" hidden>
+        <p class="c-style-switcher__title">{{ 'MSC.creuvaStyleSwitcher'|trans([], 'contao_default') }}</p>
+
+        <fieldset class="c-style-switcher__group">
+            <legend>{{ 'MSC.creuvaStyleScheme'|trans([], 'contao_default') }}</legend>
+            <div class="c-style-switcher__swatches">
+                {% for name, scheme in schemes %}
+                    <label class="c-style-switcher__swatch" data-swatch="{{ name }}" title="{{ scheme.label }}">
+                        <input type="radio" name="{{ panel_id }}-scheme" value="{{ name }}" data-style-key="scheme">
+                        <span class="u-visually-hidden">{{ scheme.label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <fieldset class="c-style-switcher__group">
+            <legend>{{ 'MSC.creuvaStyleTheme'|trans([], 'contao_default') }}</legend>
+            <div class="c-style-switcher__options">
+                {% for variant in variants %}
+                    <label class="c-style-switcher__option">
+                        <input type="radio" name="{{ panel_id }}-theme" value="{{ variant }}" data-style-key="theme">
+                        <span>{{ ('MSC.creuvaStyleTheme_' ~ variant)|trans([], 'contao_default') }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <fieldset class="c-style-switcher__group">
+            <legend>{{ 'MSC.creuvaStyleRadius'|trans([], 'contao_default') }}</legend>
+            <div class="c-style-switcher__options">
+                {% for radius in radii %}
+                    <label class="c-style-switcher__option">
+                        <input type="radio" name="{{ panel_id }}-radius" value="{{ radius }}" data-style-key="radius">
+                        <span>{{ ('MSC.creuvaStyleRadius_' ~ radius)|trans([], 'contao_default') }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        {% if save %}
+            <div class="c-style-switcher__save" data-creuva-style-save="{{ save|json_encode }}">
+                <button class="c-style-switcher__save-button" type="button">{{ 'MSC.creuvaStyleSave'|trans([], 'contao_default') }}</button>
+                <p class="c-style-switcher__save-status" role="status" data-success="{{ 'MSC.creuvaStyleSaved'|trans([], 'contao_default') }}" data-error="{{ 'MSC.creuvaStyleSaveError'|trans([], 'contao_default') }}">{{ 'MSC.creuvaStyleSaveHint'|trans([], 'contao_default') }}</p>
+            </div>
+        {% endif %}
+
+        <button class="c-style-switcher__reset" type="button" data-creuva-style-reset>{{ 'MSC.creuvaStyleReset'|trans([], 'contao_default') }}</button>
+    </div>
+{% endblock %}

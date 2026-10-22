@@ -1,0 +1,51 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use '@Contao/component/_figure.html.twig' %}
+{% use '@Contao/component/_rich_text.html.twig' %}
+
+{% set attributes = attrs(attributes|default)
+    .addClass('c-hero')
+    .addClass('c-hero--' ~ mask)
+    .addClass('c-hero--no-image', not image)
+%}
+
+{% block wrapper_tag %}section{% endblock %}
+
+{% block inner %}
+    <div class="l-container c-hero__inner">
+        <div class="c-hero__content">
+            {% if kicker %}
+                <p class="c-kicker">{{ kicker|insert_tag }}</p>
+            {% endif %}
+
+            {% if headline.text %}
+                {% set tag_name = headline.tag_name|default('h1') %}
+                <{{ tag_name }} class="c-hero__title">
+                    {{- headline.text|insert_tag -}}
+                    {%- if headline_accent %} <span class="c-hero__accent">{{ headline_accent|insert_tag }}</span>{% endif -%}
+                </{{ tag_name }}>
+            {% endif %}
+
+            {% if text %}
+                {% with {text, attributes: attrs().addClass('c-hero__text')} %}{{ block('rich_text_component') }}{% endwith %}
+            {% endif %}
+
+            {% if buttons %}
+                <div class="c-hero__actions">
+                    {% for button in buttons %}
+                        <a{{ button.attributes.addClass(['c-button', 'c-button--' ~ button.variant]) }}>{{ button.text }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if image %}
+            <div class="c-hero__media">
+                {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+
+                {% if badge %}
+                    <p class="c-hero__badge">{{ badge|nl2br }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

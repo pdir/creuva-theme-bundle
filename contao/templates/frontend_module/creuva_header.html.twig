@@ -1,0 +1,26 @@
+{% extends '@Contao/frontend_module/_base.html.twig' %}
+{% use '@Contao/component/_creuva_brand.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-header') %}
+{% set nav_id = 'creuva-nav-' ~ data.id %}
+
+{% block content %}
+    {{ block('creuva_brand_component') }}
+
+    {% if navigation or cta %}
+        <button class="c-header__toggle" type="button" aria-expanded="false" aria-controls="{{ nav_id }}" data-creuva-nav-toggle>
+            <span class="c-burger" aria-hidden="true"><span></span></span>
+            <span class="u-visually-hidden">{{ 'MSC.creuvaMenu'|trans([], 'contao_default') }}</span>
+        </button>
+
+        <div class="c-header__panel" id="{{ nav_id }}" data-creuva-nav>
+            {% if navigation %}
+                {{ frontend_module(navigation) }}
+            {% endif %}
+
+            {% if cta %}
+                <a class="c-button c-button--primary c-header__cta" href="{{ cta.href }}">{{ cta.text }}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

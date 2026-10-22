@@ -1,0 +1,38 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Creuva theme bundle for Contao Open Source CMS
+ *
+ * Copyright (C) pdir GmbH <develop@pdir.de>
+ */
+
+$GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
+$GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Großer Einstiegsbereich mit Überschrift, Text, Buttons und Bild.'];
+
+$GLOBALS['TL_LANG']['FMD']['creuva'] = 'Creuva';
+$GLOBALS['TL_LANG']['FMD']['creuva_header'] = ['Creuva Header', 'Kopfbereich mit Logo, Navigation, CTA-Button und mobilem Menü.'];
+$GLOBALS['TL_LANG']['FMD']['creuva_style_switcher'] = ['Creuva Style-Switcher', 'Vorschau der Farbschemen, Designvarianten und Eckenradien im Frontend (z. B. für eine Demo-Website). Am besten im Slot „top“ platzieren.'];
+$GLOBALS['TL_LANG']['FMD']['creuva_brand'] = ['Creuva Marke', 'Logo, Claim und Social-Media-Links, z. B. für den Footer.'];
+
+$GLOBALS['TL_LANG']['MSC']['creuvaMenu'] = 'Menü';
+$GLOBALS['TL_LANG']['MSC']['creuvaHome'] = 'Zur Startseite';
+
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Design anpassen';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Farbschema';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Variante';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_light'] = 'Light';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_dark'] = 'Dark';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_editorial'] = 'Editorial';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius'] = 'Ecken';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_none'] = 'Eckig';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_small'] = 'Klein';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_medium'] = 'Mittel';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_large'] = 'Groß';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleReset'] = 'Zurücksetzen';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSave'] = 'Für die Website speichern';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Speichert die Auswahl im Startpunkt der Website, sie gilt dann für alle Besucher.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Gespeichert. Die Auswahl gilt jetzt für alle Besucher.';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Speichern fehlgeschlagen. Bitte die Seite neu laden und erneut versuchen.';
+$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva Logoleiste', 'Logos von Partnern oder Sponsoren, verlinkt über die Metadaten der Dateien. Am besten im Slot „prefooter“ platzieren.'];

@@ -1,0 +1,80 @@
+{% extends '@Contao/page/layout.html.twig' %}
+
+{#
+    Creuva page layout (layout type "modern").
+
+    Slots (assign modules in the page layout):
+        top     – optional bar above the header (e.g. contrast/font size switcher)
+        header  – logo, navigation, CTA button
+        main    – page content (articles)
+        prefooter – full-width area above the footer (e.g. logo bar of partners)
+        footer  – footer columns (logo, navigation, legal links)
+        bottom  – bottom bar (copyright, sitemap, cookie settings); always contains
+                  the "powered by contao-themes.net" link
+#}
+
+{# Settings of the page layout, overridden by the website root (see DesignSettings::resolve()) #}
+{% set creuva = creuva_design(page, layout|default(null)) %}
+
+{# Custom colors override the color scheme (see base/_schemes.scss), a custom
+   logo height also makes the header grow if needed (see base/_tokens.scss) #}
+{% set creuva_tokens = [
+    creuva.logoHeight ? '--logo-height:%1$s;--header-height:max(4.5rem,calc(%1$s + 1rem))'|format(creuva.logoHeight),
+    creuva.primary ? '--scheme-primary:#' ~ creuva.primary,
+    creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
+]|filter(v => v)|join(';') %}
+
+{% set html_attributes = attrs()
+    .set('data-theme', creuva.variant)
+    .setIfExists('data-scheme', creuva.scheme ?: null)
+    .set('data-radius', creuva.radius)
+    .setIfExists('style', creuva_tokens ? creuva_tokens|csp_unsafe_inline_style : null)
+    .mergeWith(html_attributes|default)
+%}
+
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('creuva.css', 'creuva_theme') }}">
+    {# Own stylesheets of the page layout (individual adjustments) #}
+    {% for stylesheet in creuva_stylesheets(layout|default(null)) %}
+        <link rel="stylesheet" href="{{ asset(stylesheet) }}">
+    {% endfor %}
+    <script src="{{ asset('creuva.js', 'creuva_theme') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+    <a class="c-skip-link" href="#main">{{ 'MSC.skipNavigation'|trans([], 'contao_default') }}</a>
+
+    {% slot top %}
+        <div class="l-top"><div class="l-container">{{ slot() }}</div></div>
+    {% endslot %}
+
+    {% slot header %}
+        <header class="l-header" data-creuva-header>
+            <div class="l-container l-header__inner">{{ slot() }}</div>
+        </header>
+    {% endslot %}
+
+    {% slot main %}
+        <main id="main" class="l-main">{{ slot() }}</main>
+    {% endslot %}
+
+    {# Full-width area above the footer on all pages, e.g. for a partner logo bar #}
+    {% slot prefooter %}
+        <div class="l-prefooter">{{ slot() }}</div>
+    {% endslot %}
+
+    {% slot footer %}
+        <footer class="l-footer">
+            <div class="l-container l-footer__inner">{{ slot() }}</div>
+        </footer>
+    {% endslot %}
+
+    {# The copyright link is required by the theme licence (see LICENSE, section 2) #}
+    <div class="l-bottom">
+        <div class="l-container l-bottom__inner">
+            {% slot bottom %}{{ slot() }}{% endslot %}
+            <p class="c-powered-by">powered by <a href="https://contao-themes.net/creuva" hreflang="de">contao-themes.net</a></p>
+        </div>
+    </div>
+{% endblock %}

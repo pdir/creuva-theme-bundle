@@ -1,0 +1,136 @@
+@layer creuva.layout {
+  .l-footer {
+    padding-block: var(--space-xl) var(--space-l);
+    background: var(--c-surface);
+    font-size: var(--fs-small);
+    color: var(--c-text-muted);
+  }
+
+  .l-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l) var(--space-xl);
+
+    > * {
+      flex: 1 1 9rem;
+    }
+
+    > .c-footer-brand {
+      flex: 2 1 16rem;
+    }
+  }
+
+  .l-bottom {
+    padding-block: var(--space-s);
+    background: var(--c-surface-muted);
+    font-size: var(--fs-kicker);
+    color: var(--c-text-muted);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .l-bottom__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+  }
+}
+
+@layer creuva.components {
+  // Link columns (navigation/customnav modules with headline)
+  .l-footer :is(.mod_navigation, .mod_customnav) {
+    > :is(h2, h3, h4, h5, h6) {
+      margin-bottom: var(--space-s);
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-size: var(--fs-small);
+      letter-spacing: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li + li {
+      margin-top: 0.375rem;
+    }
+
+    a,
+    strong {
+      color: inherit;
+      font-weight: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--c-text);
+    }
+  }
+
+  // Inline link list in the bottom bar
+  .l-bottom :is(.mod_navigation, .mod_customnav) {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-m);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    a,
+    strong {
+      color: inherit;
+      font-weight: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--c-text);
+    }
+  }
+
+  .c-powered-by a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--c-text);
+    }
+  }
+
+  .c-footer-brand__claim {
+    max-width: 18rem;
+    margin-top: var(--space-s);
+  }
+
+  .c-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-social__link {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-pill);
+    color: var(--c-text);
+    transition: background-color var(--transition), color var(--transition);
+
+    &:hover {
+      background: var(--c-accent-soft);
+      color: var(--c-accent-text);
+    }
+  }
+}

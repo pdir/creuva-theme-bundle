@@ -1,0 +1,21 @@
+{#
+    Price card: headline = package, subline = price, text = description and
+    list of features; a link in the last paragraph is shown as button. Add the
+    CSS class "u-featured" to highlight the card.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-price') %}
+
+{% block inner %}
+    {% if headline.text %}
+        <{{ headline.tag_name|default('h3') }} class="c-price__title">{{ headline.text|insert_tag }}</{{ headline.tag_name|default('h3') }}>
+    {% endif %}
+
+    {% if data.subline|default %}
+        <p class="c-price__amount">{{ data.subline }}</p>
+    {% endif %}
+
+    {{ block('text') }}
+{% endblock %}

@@ -1,0 +1,152 @@
+{
+  "default": "green",
+  "schemes": {
+    "green": {
+      "label": {
+        "de": "Grün",
+        "en": "Green"
+      },
+      "primary": "#1d3b2a",
+      "accent": "#3c9a2f",
+      "accentText": "#2d7a23",
+      "accentContrast": "#0f1a13",
+      "darkAccent": "#8fd16a"
+    },
+    "sage": {
+      "label": {
+        "de": "Salbei",
+        "en": "Sage"
+      },
+      "primary": "#2f3e36",
+      "accent": "#52755f"
+    },
+    "olive": {
+      "label": {
+        "de": "Olive",
+        "en": "Olive"
+      },
+      "primary": "#2e3220",
+      "accent": "#647219"
+    },
+    "lime": {
+      "label": {
+        "de": "Graphit & Limette",
+        "en": "Graphite & lime"
+      },
+      "primary": "#1c1f22",
+      "accent": "#b5e61d",
+      "accentText": "#4d6b00",
+      "accentContrast": "#1c1f22"
+    },
+    "petrol": {
+      "label": {
+        "de": "Petrol",
+        "en": "Petrol"
+      },
+      "primary": "#0f3a40",
+      "accent": "#0b7d7d"
+    },
+    "ocean": {
+      "label": {
+        "de": "Ozean",
+        "en": "Ocean"
+      },
+      "primary": "#0b2545",
+      "accent": "#08759a"
+    },
+    "blue": {
+      "label": {
+        "de": "Blau",
+        "en": "Blue"
+      },
+      "primary": "#1b2f4b",
+      "accent": "#2f6fd6"
+    },
+    "indigo": {
+      "label": {
+        "de": "Indigo",
+        "en": "Indigo"
+      },
+      "primary": "#1a1b4b",
+      "accent": "#4f46e5"
+    },
+    "violet": {
+      "label": {
+        "de": "Violett",
+        "en": "Violet"
+      },
+      "primary": "#2a1846",
+      "accent": "#7c4dff"
+    },
+    "plum": {
+      "label": {
+        "de": "Pflaume",
+        "en": "Plum"
+      },
+      "primary": "#33152e",
+      "accent": "#9c3d8f"
+    },
+    "magenta": {
+      "label": {
+        "de": "Magenta",
+        "en": "Magenta"
+      },
+      "primary": "#3d1430",
+      "accent": "#c92a63"
+    },
+    "red": {
+      "label": {
+        "de": "Rot",
+        "en": "Red"
+      },
+      "primary": "#3f1418",
+      "accent": "#c8323a"
+    },
+    "bordeaux": {
+      "label": {
+        "de": "Bordeaux",
+        "en": "Bordeaux"
+      },
+      "primary": "#3b0d1f",
+      "accent": "#a3214e"
+    },
+    "terracotta": {
+      "label": {
+        "de": "Terracotta",
+        "en": "Terracotta"
+      },
+      "primary": "#3b2219",
+      "accent": "#b84f24"
+    },
+    "orange": {
+      "label": {
+        "de": "Orange",
+        "en": "Orange"
+      },
+      "primary": "#2d1b0e",
+      "accent": "#f08c00",
+      "accentText": "#b45309",
+      "accentContrast": "#2d1b0e"
+    },
+    "yellow": {
+      "label": {
+        "de": "Gelb",
+        "en": "Yellow"
+      },
+      "primary": "#26241c",
+      "accent": "#f2b705",
+      "accentText": "#8a6a00",
+      "accentContrast": "#26241c"
+    },
+    "gold": {
+      "label": {
+        "de": "Mitternacht & Gold",
+        "en": "Midnight & gold"
+      },
+      "primary": "#141a2e",
+      "accent": "#c9a227",
+      "accentText": "#806509",
+      "accentContrast": "#141a2e"
+    }
+  }
+}

@@ -1,0 +1,416 @@
+@use '../mixins' as *;
+
+// Core content elements (Contao 5.7 / 6 Twig markup)
+@layer creuva.components {
+  // Rich text (lists also apply to the list element)
+  .content-list ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .content-list ul > li {
+    @include check-item;
+  }
+
+  .rte {
+    > :last-child {
+      margin-bottom: 0;
+    }
+
+    // flow-root keeps the check icons next to floated images
+    ul {
+      display: flow-root;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    ul > li {
+      @include check-item;
+    }
+
+    ol > li + li {
+      margin-top: 0.375rem;
+    }
+
+    blockquote {
+      margin: var(--space-m) 0;
+      padding: var(--space-m) var(--space-l);
+      border-left: 3px solid var(--c-accent);
+      border-radius: 0 var(--radius-m) var(--radius-m) 0;
+      background: var(--c-accent-soft);
+      font-size: 1.125rem;
+    }
+
+    mark {
+      padding: 0 0.2em;
+      border-radius: 0.2em;
+      background: var(--c-accent-soft);
+      color: inherit;
+    }
+
+    code {
+      padding: 0.1em 0.35em;
+      border-radius: 0.3em;
+      background: var(--c-surface-muted);
+      font-size: 0.9em;
+    }
+  }
+
+  // Images, gallery, media
+  :is(.content-image, .content-text, .content-gallery, .content-player, .content-youtube, .content-vimeo) :is(img, video, iframe) {
+    border-radius: var(--radius-m);
+  }
+
+  figcaption {
+    margin-top: var(--space-xs);
+    font-size: var(--fs-small);
+    color: var(--c-text-muted);
+  }
+
+  .media--left,
+  .media--right {
+    display: flow-root;
+
+    > figure {
+      margin-bottom: var(--space-m);
+    }
+  }
+
+  // Float images next to the text from tablet width on
+  @media (min-width: 48rem) {
+    :is(.media--left, .media--right) > figure {
+      max-width: 45%;
+    }
+
+    .media--left > figure { float: left; margin-right: var(--space-l); }
+    .media--right > figure { float: right; margin-left: var(--space-l); }
+  }
+
+  // Description list: term and details side by side
+  .content-description-list:not(.c-stats, .c-timeline) dl {
+    display: grid;
+    grid-template-columns: minmax(8rem, max-content) 1fr;
+    margin: 0;
+    border-top: 1px solid var(--c-border);
+
+    > dt,
+    > dd {
+      margin: 0;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    > dt {
+      padding-right: var(--space-m);
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+      font-weight: 600;
+    }
+  }
+
+  .content-gallery > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-s);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+  }
+
+  // Images per row (gallery setting) from tablet width on
+  @media (min-width: 48rem) {
+    @for $i from 2 through 6 {
+      .content-gallery--cols-#{$i} > ul {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+      }
+    }
+  }
+
+  // Tables
+  .content-table {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-m);
+      border-spacing: 0;
+      border-collapse: separate;
+      overflow: hidden;
+      background: var(--c-surface);
+      font-size: var(--fs-small);
+    }
+
+    th,
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--c-border);
+      text-align: left;
+    }
+
+    thead th {
+      background: var(--c-surface-muted);
+      font-weight: 600;
+    }
+
+    tbody tr:last-child > * {
+      border-bottom: 0;
+    }
+  }
+
+  // Hyperlink element: arrow link by default, button with utility classes
+  .content-hyperlink > a {
+    font-weight: 600;
+    text-decoration: none;
+
+    &::after {
+      content: " →";
+    }
+  }
+
+  .content-hyperlink:is(.u-button, .u-button-secondary) > a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.8em 1.6em;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-small);
+    line-height: 1.2;
+    transition: background-color var(--transition), border-color var(--transition);
+
+    &::after {
+      content: "→";
+    }
+  }
+
+  .content-hyperlink.u-button > a {
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+
+    &:hover { background: color-mix(in srgb, var(--c-primary) 85%, #000); }
+  }
+
+  .content-hyperlink.u-button-secondary > a {
+    border-color: var(--c-border);
+    background: var(--c-surface);
+    color: var(--c-text);
+
+    &:hover { border-color: var(--c-primary); }
+  }
+
+  // Downloads
+  :is(.content-download, .content-downloads) {
+    ul {
+      display: grid;
+      gap: var(--space-xs);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      padding: var(--space-s) var(--space-m);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-m);
+      background: var(--c-surface);
+      color: var(--c-text);
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+
+      &::before {
+        content: "";
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: var(--c-accent);
+        mask: var(--icon-file) center / contain no-repeat;
+      }
+
+      &::after {
+        content: "";
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: auto;
+        background: var(--c-text-muted);
+        mask: var(--icon-download) center / contain no-repeat;
+      }
+
+      &:hover {
+        border-color: var(--c-accent-text);
+        box-shadow: var(--shadow-s);
+      }
+    }
+  }
+
+  // Accordion (handorgel, core styles are replaced by the Creuva template):
+  // every entry is a card with a round plus icon in front of the question
+  // and a plus/minus toggle at the end
+  .content-accordion {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .c-accordion__item {
+    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    border-radius: var(--radius-m);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-s);
+    transition: border-color var(--transition), box-shadow var(--transition);
+
+    &:hover,
+    &:has(.handorgel__header--open) {
+      border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+    }
+
+    &:has(.handorgel__header--open) {
+      box-shadow: var(--shadow-m);
+    }
+  }
+
+  .handorgel__header {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+  }
+
+  .handorgel__header__button {
+    --accordion-icon: 0.625rem;
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    width: 100%;
+    padding: 0.875rem var(--space-m) 0.875rem var(--space-s);
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    color: var(--c-text);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+
+    // Plus/minus drawn with two bars: the vertical bar collapses when open
+    &::before,
+    &::after {
+      content: "";
+      flex-shrink: 0;
+      background:
+        linear-gradient(currentColor 0 0) center / var(--accordion-icon) 2px no-repeat,
+        linear-gradient(currentColor 0 0) center / 2px var(--accordion-icon) no-repeat;
+      transition: background-size var(--transition), background-color var(--transition), color var(--transition);
+    }
+
+    // Round icon in front of the question
+    &::before {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background-color: var(--c-accent-soft);
+      color: var(--c-accent-text);
+    }
+
+    // Toggle at the end
+    &::after {
+      width: 1rem;
+      height: 1rem;
+      margin-left: auto;
+      color: var(--c-text-muted);
+    }
+
+    &:hover::after {
+      color: var(--c-text);
+    }
+
+    &:focus-visible {
+      outline-offset: 2px;
+    }
+  }
+
+  .handorgel__header--open .handorgel__header__button {
+    &::before,
+    &::after {
+      background-size: var(--accordion-icon) 2px, 2px 0;
+    }
+
+    &::before {
+      background-color: var(--c-accent-text);
+      color: var(--c-surface);
+    }
+  }
+
+  .handorgel__content {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.1s ease 0.1s;
+  }
+
+  .handorgel__content--open {
+    display: block;
+    transition: height 0.2s ease;
+  }
+
+  .handorgel__content--opened {
+    overflow: visible;
+  }
+
+  // Answer aligned with the question text (icon width + gap)
+  .handorgel__content__inner {
+    padding: 0 var(--space-m) var(--space-m) calc(var(--space-s) * 2 + 1.75rem);
+    color: var(--c-text-muted);
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
+
+  .handorgel__content--opened .handorgel__content__inner {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  // Element group: optional grid via utility classes (the group headline spans
+  // all columns, headline elements stay in their column)
+  .content-element-group:is(.u-grid-2, .u-grid-3, .u-grid-4) > :is(h1, h2, h3, h4, h5, h6):not(.content-headline) {
+    grid-column: 1 / -1;
+  }
+
+  // Breadcrumb
+  .mod_breadcrumb {
+    font-size: var(--fs-small);
+    color: var(--c-text-muted);
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li + li::before {
+      content: "›";
+      margin-right: var(--space-xs);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover { color: var(--c-text); }
+    }
+  }
+}

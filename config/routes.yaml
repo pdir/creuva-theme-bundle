@@ -1,0 +1,3 @@
+creuva_theme:
+    resource: ../src/Controller/Backend/
+    type: attribute

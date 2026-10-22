@@ -1,0 +1,59 @@
+{
+    "name": "pdir/creuva-theme-bundle",
+    "type": "contao-bundle",
+    "description": "Creuva – flexibles Theme für Contao 5.7 und Contao 6",
+    "keywords": [
+        "contao",
+        "theme",
+        "creuva"
+    ],
+    "homepage": "https://contao-themes.net",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "pdir GmbH",
+            "homepage": "https://pdir.de",
+            "email": "develop@pdir.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "contao-themes-net/theme-components-bundle": "^2.0",
+        "contao/core-bundle": "^5.7 || ^6.0",
+        "doctrine/dbal": "^3.6 || ^4.0",
+        "symfony/config": "^7.4 || ^8.0",
+        "symfony/console": "^7.4 || ^8.0",
+        "symfony/dependency-injection": "^7.4 || ^8.0",
+        "symfony/filesystem": "^7.4 || ^8.0",
+        "symfony/finder": "^7.4 || ^8.0",
+        "symfony/http-foundation": "^7.4 || ^8.0",
+        "symfony/http-kernel": "^7.4 || ^8.0",
+        "symfony/routing": "^7.4 || ^8.0",
+        "symfony/security-bundle": "^7.4 || ^8.0",
+        "symfony/security-csrf": "^7.4 || ^8.0",
+        "symfony/yaml": "^7.4 || ^8.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pdir\\CreuvaThemeBundle\\": "src/"
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "Pdir\\CreuvaThemeBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "php-http/discovery": true
+        }
+    }
+}

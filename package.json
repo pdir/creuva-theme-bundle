@@ -1,0 +1,13 @@
+{
+  "name": "creuva-theme-bundle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "sass": "^1.105.1",
+    "vite": "^8.3.4"
+  }
+}

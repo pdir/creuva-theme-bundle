@@ -1,0 +1,32 @@
+@layer creuva.base {
+  :focus-visible {
+    outline: 3px solid var(--c-accent-text);
+    outline-offset: 3px;
+  }
+
+  .c-skip-link {
+    position: absolute;
+    top: var(--space-s);
+    left: var(--space-s);
+    z-index: 100;
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-s);
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+    transform: translateY(-200%);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  .invisible,
+  .u-visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

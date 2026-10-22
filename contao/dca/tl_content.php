@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Creuva theme bundle for Contao Open Source CMS
+ *
+ * Copyright (C) pdir GmbH <develop@pdir.de>
+ */
+
+$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask,creuvaBadge;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaKicker'] = [
+    'search' => true,
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 255, 'tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeadlineAccent'] = [
+    'search' => true,
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadge'] = [
+    'inputType' => 'textarea',
+    'eval' => ['maxlength' => 255, 'tl_class' => 'clr'],
+    'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeroMask'] = [
+    'inputType' => 'select',
+    'options' => ['organic', 'rounded', 'none'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'organic'],
+];
+
+foreach ([1, 2] as $i) {
+    $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaUrl'.$i] = [
+        'inputType' => 'text',
+        'eval' => ['rgxp' => 'url', 'maxlength' => 2048, 'dcaPicker' => true, 'tl_class' => 'w50 clr'],
+        'sql' => ['type' => 'string', 'length' => 2048, 'default' => ''],
+    ];
+
+    $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaLinkTitle'.$i] = [
+        'inputType' => 'text',
+        'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ];
+}

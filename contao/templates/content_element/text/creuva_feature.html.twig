@@ -1,0 +1,21 @@
+{#
+    Icon box: small image or SVG icon, headline and text.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-feature') %}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-feature__icon">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    {% if headline.text %}
+        {{ block('headline_component') }}
+    {% endif %}
+
+    {{ block('text') }}
+{% endblock %}
