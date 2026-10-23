@@ -13,21 +13,21 @@ namespace Pdir\CreuvaThemeBundle\Migration;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
-use Pdir\CreuvaThemeBundle\Installer\StyleManagerValues;
+use Pdir\CreuvaThemeBundle\Installer\CssStyleValues;
 
 /**
- * Creuva classes entered in the CSS class field (e.g. by an older demo import)
- * become a selection in the Style Manager, so editors see and change them
- * there. Only records without a Style Manager selection are updated; the CSS
- * classes themselves remain unchanged.
+ * Creuva classes in the CSS class field (e.g. from an older demo import or a
+ * selection in the Style Manager) become a selection in the CSS style
+ * selector, so editors see and change them there. Only records without a
+ * selected style are updated; the CSS classes themselves remain unchanged.
  */
-class StyleManagerSelectionMigration extends AbstractMigration
+class CssStyleSelectionMigration extends AbstractMigration
 {
     private const TABLES = ['tl_content', 'tl_article', 'tl_module'];
 
     public function __construct(
         private readonly Connection $connection,
-        private readonly StyleManagerValues $styleManagerValues,
+        private readonly CssStyleValues $cssStyleValues,
     ) {
     }
 
@@ -41,18 +41,23 @@ class StyleManagerSelectionMigration extends AbstractMigration
         $updates = $this->getUpdates();
 
         foreach ($updates as [$table, $id, $value]) {
-            $this->connection->update($table, ['styleManager' => $value], ['id' => $id]);
+            $this->connection->update($table, [CssStyleValues::FIELD => $value], ['id' => $id]);
         }
 
-        return $this->createResult(true, \sprintf('Preselected the Creuva classes of %d records in the Style Manager.', \count($updates)));
+        return $this->createResult(true, \sprintf('Preselected the Creuva classes of %d records in the CSS style selector.', \count($updates)));
     }
 
     /**
-     * @return list<array{string, int, string}> table, ID, styleManager value
+     * @return list<array{string, int, string}> table, ID, cssStyleSelector value
      */
     private function getUpdates(int|null $limit = null): array
     {
         $schemaManager = $this->connection->createSchemaManager();
+
+        if (!$schemaManager->tablesExist(['tl_css_style_selector'])) {
+            return [];
+        }
+
         $updates = [];
 
         foreach (self::TABLES as $table) {
@@ -62,20 +67,20 @@ class StyleManagerSelectionMigration extends AbstractMigration
 
             $columns = array_map(strtolower(...), array_keys($schemaManager->listTableColumns($table)));
 
-            if (!\in_array('stylemanager', $columns, true) || !\in_array('cssid', $columns, true)) {
+            if (!\in_array(strtolower(CssStyleValues::FIELD), $columns, true) || !\in_array('cssid', $columns, true)) {
                 continue;
             }
 
             $type = \in_array('type', $columns, true) ? 'type' : 'NULL AS type';
 
             $rows = $this->connection->fetchAllAssociative(
-                "SELECT id, $type, cssID FROM $table WHERE cssID LIKE '%u-%' AND (styleManager IS NULL OR styleManager = '' OR styleManager = 'a:0:{}')",
+                "SELECT id, $type, cssID FROM $table WHERE cssID LIKE '%u-%' AND (cssStyleSelector IS NULL OR cssStyleSelector = '' OR cssStyleSelector = 'a:0:{}')",
             );
 
             foreach ($rows as $row) {
                 $cssID = @unserialize((string) $row['cssID'], ['allowed_classes' => false]);
 
-                if (!\is_array($cssID) || null === ($value = $this->styleManagerValues->resolve($table, 'tl_content' === $table ? (string) $row['type'] : null, (string) ($cssID[1] ?? '')))) {
+                if (!\is_array($cssID) || null === ($value = $this->cssStyleValues->resolve($table, null === $row['type'] ? null : (string) $row['type'], (string) ($cssID[1] ?? '')))) {
                     continue;
                 }
 

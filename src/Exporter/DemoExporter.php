@@ -36,9 +36,10 @@ class DemoExporter
     private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat', 'favicon'];
 
     /**
-     * styleManager: the selection is derived from the CSS classes on import.
+     * cssStyleSelector: the selection is derived from the CSS classes on import
+     * (styleManager: column left over from the Style Manager).
      */
-    private const SYSTEM_FIELDS = ['id', 'pid', 'tstamp', 'sorting', 'ptable', 'styleManager'];
+    private const SYSTEM_FIELDS = ['id', 'pid', 'tstamp', 'sorting', 'ptable', 'cssStyleSelector', 'styleManager'];
 
     /**
      * Fields that belong to the installation or are set by the importer.

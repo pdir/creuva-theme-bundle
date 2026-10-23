@@ -7,7 +7,7 @@ aufgebaut auf dem [Theme Components Bundle](https://github.com/contao-themes-net
 
 - Contao 5.7 (PHP ≥ 8.3) oder Contao 6 (PHP ≥ 8.4)
 - `contao-themes-net/theme-components-bundle` ^2.0 (wird automatisch installiert)
-- `oveleon/contao-component-style-manager` ^3.12 (wird automatisch installiert)
+- `pdir/css-style-selector-bundle` ^2.1 (wird automatisch installiert)
 
 ## Installation
 
@@ -432,8 +432,8 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Element | Variante | Verwendung |
 |---------|----------|------------|
 | Text | `creuva_card` | Karte mit Bild, Kategorie (Subline), Titel und Text; der letzte Link macht die ganze Karte klickbar |
-| Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im Style Manager unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
-| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im Style Manager: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
+| Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im CSS Style Selector unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
+| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im CSS Style Selector: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
 | Text | `creuva_media` | Bild & Text: Bild links oder rechts neben dem Text, oder oben bzw. unten im Format 16:9 (*Bildausrichtung*), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
@@ -496,7 +496,7 @@ wird dann zum Abschnitt mit Hintergrund über die volle Breite.
 **Abstände zwischen Abschnitten:** Jeder Artikel hat oben und unten einen Abschnittsabstand.
 Folgen zwei Artikel ohne Hintergrund oder mit demselben Hintergrund aufeinander, entfällt der
 obere Abstand des zweiten. Sonst würde sich der Abstand verdoppeln, obwohl beide wie eine Fläche
-wirken. Einzelne Artikel lassen sich im Style Manager unter *Abstände* anpassen: Innen- und
+wirken. Einzelne Artikel lassen sich im CSS Style Selector unter *Abstände* anpassen: Innen- und
 Außenabstand jeweils oben und unten, nur oben oder nur unten.
 
 ### Überschriften mit Dachzeile oder Akzent
@@ -535,39 +535,45 @@ Der Texteditor hat das Menü **„Formate“** mit den Textstilen des Themes:
 Technisch: Das Text-Element nutzt die Editor-Konfiguration `tinyCreuva`
 (`contao/templates/backend/be_tinyCreuva.html5`, erweitert `be_tinyMCE`).
 
-### CSS-Klassen im Style Manager
+### CSS-Klassen im CSS Style Selector
 
-Alle Creuva-Klassen stehen im [Style Manager](https://github.com/oveleon/contao-component-style-manager)
-als Auswahlfelder bereit, und zwar im Bereich *Stil* von Inhaltselementen, Artikeln und
-Modulen. Sie sind nach den Bereichen der Tabelle unten gruppiert, und jedes Element
-zeigt nur die Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei
-Elementgruppen, *Buttons* nur bei Hyperlink- und Text-Elementen).
+Alle Creuva-Klassen stehen im [CSS Style Selector](https://github.com/pdir/css-style-selector-bundle)
+als Stile bereit, und zwar im Bereich *CSS-Stil* von Inhaltselementen, Artikeln und
+Modulen. Jede Gruppe heißt nach den Bereichen der Tabelle unten (z. B. *Abstände ›
+Innenabstand oben und unten*) und erlaubt genau einen Stil. Jedes Element zeigt nur die
+Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei Elementgruppen, *Buttons*
+nur bei Hyperlink- und Text-Elementen).
 
-Die Gruppen liegen als normale Datensätze in der Datenbank. Unter *Layout › Style Manager*
-lassen sie sich ändern, und eigene Gruppen kommen dazu. Die Vorlage ist
-`config/style-manager.yaml`. Importiert wird sie
+Die Gruppen und Stile liegen als normale Datensätze in der Datenbank. Unter
+*Layout › CSS Stile* lassen sie sich ändern, und eigene Gruppen kommen dazu. Die Vorlage
+ist `config/css-styles.yaml`. Importiert wird sie
 
 - automatisch von `creuva:install`,
-- bei bestehenden Websites einmalig von `contao:migrate`, solange noch kein Creuva-Archiv
+- bei bestehenden Websites einmalig von `contao:migrate`, solange noch keine Creuva-Gruppe
   existiert,
 - nach einem Theme-Update mit neuen Klassen mit diesem Befehl:
 
 ```bash
-vendor/bin/contao-console creuva:style-manager
+vendor/bin/contao-console creuva:css-styles
 ```
 
-Der Import ergänzt nur fehlende Archive, Gruppen und Klassen. Änderungen im Backend
-(Titel, Elementtypen, entfernte Klassen, eigene Gruppen) bleiben erhalten. Archiv- und
-Gruppen-Aliase (`creuvaGrid`, `columns` …) sind Teil der gespeicherten Auswahl und sollten
-nicht umbenannt werden.
+Der Import ergänzt nur fehlende Gruppen und Stile. Änderungen im Backend (Titel,
+Elementtypen, entfernte Stile, eigene Gruppen) bleiben erhalten. Die importierten Gruppen
+erkennt der Import an ihrer Kennung (`creuvaGrid.columns` …), die Stile einer Gruppe an
+ihrer CSS-Klasse.
 
-- Der Demo-Import belegt die Klassen der Demo-Elemente im Style Manager vor.
+- Der Demo-Import wählt die Klassen der Demo-Elemente im CSS Style Selector vor.
 - Bei bestehenden Websites übernimmt die Migration (`contao:migrate`) Creuva-Klassen
-  aus dem Feld *CSS-Klasse* in die Auswahl des Style Managers. Das gilt nur für
-  Datensätze ohne Style-Manager-Auswahl, die Klassen selbst bleiben unverändert.
+  aus dem Feld *CSS-Klasse* in die Stil-Auswahl. Das gilt nur für Datensätze ohne
+  ausgewählten Stil, die Klassen selbst bleiben unverändert.
+- **Umstieg vom Style Manager:** Die Klassen stehen weiterhin im Feld *CSS-Klasse*, das
+  Frontend bleibt also unverändert. Nach dem Update legt `contao:migrate` die Creuva-Gruppen
+  an und überträgt die Auswahl. Eigene Style-Manager-Gruppen müssen als CSS-Stile neu
+  angelegt werden. Danach können die Tabellen `tl_style_manager_archive` und
+  `tl_style_manager` sowie die Spalten `styleManager` gelöscht werden.
 
 **Farben des Elements:** Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und die Boxen des
-Theme Components Bundles bekommen über den Style Manager eine Fläche (Weiß, Grau, Akzent hell,
+Theme Components Bundles bekommen über den CSS Style Selector eine Fläche (Weiß, Grau, Akzent hell,
 Haupt- oder Akzentfarbe) oder nur einen farbigen Rahmen. Auf dunklen Flächen wechseln Text,
 Links und Dachzeilen automatisch in die Kontrastfarbe. Der Kreis hinter dem Icon einer
 Icon-Box ist separat einstellbar. Bei Haupt- und Akzentfarbe wird das Icon weiß, das
@@ -780,14 +786,14 @@ composer require pdir/creuva-theme-bundle:@dev
 
 ```
 assets/            Quellcode (SCSS, JS) – wird nicht mit ausgeliefert
-config/            Symfony-Services, Farbschemen (color-schemes.json), Style-Manager-Gruppen (style-manager.yaml)
+config/            Symfony-Services, Farbschemen (color-schemes.json), CSS-Stile (css-styles.yaml)
 contao/config/     Registrierung des Klassen-Sets
-contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module)
+contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module, tl_news, tl_page, tl_css_style_group)
 contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
 public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
-src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide)
+src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide, creuva:css-styles)
 styleguide/        Styleguide-Definition (styleguide.yaml) und Dateien
 theme-idee/        Konzept und Entwürfe
 ```

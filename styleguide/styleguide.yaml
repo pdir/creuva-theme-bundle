@@ -167,7 +167,7 @@ pages:
             creuvaKicker: Elemente & Module
             headline: { unit: 'h1', value: 'Flexibel. Klar.' }
             creuvaHeadlineAccent: Wiederverwendbar.
-            text: <p>Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite – als Live-Beispiele. Die Klassen wählen Redakteure im Style Manager (Bereich „Stil“) aus.</p>
+            text: <p>Alle Elemente, Templatevarianten, CSS-Klassen und Module des Creuva-Themes auf einer Seite – als Live-Beispiele. Die Klassen wählen Redakteure im Bereich „CSS-Stil“ aus.</p>
             singleSRC: file:bilder/hero.jpg
             size: 'image_size:hero'
             creuvaHeroMask: rounded
@@ -181,7 +181,7 @@ pages:
             children:
               - { type: 'headline', headline: 'Highlights', cssID: 'u-visually-hidden' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Modular aufgebaut' }, text: '<p>Alle Elemente sind frei kombinierbar.</p>', addImage: true, singleSRC: 'file:icons/ebenen.svg' }
-              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Für Contao gemacht' }, text: '<p>Standardelemente, Twig und Style Manager.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Für Contao gemacht' }, text: '<p>Standardelemente, Twig und CSS-Stile.</p>', addImage: true, singleSRC: 'file:icons/zahnrad.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-feature-inline', headline: { unit: 'h3', value: 'Einheitliches Design' }, text: '<p>Farben, Abstände und Formen aus einem System.</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
           - type: text
             cssID: u-button-secondary
@@ -256,7 +256,7 @@ pages:
               - type: text
                 cssID: u-card u-button
                 headline: { unit: 'h3', value: 'Text-Element mit Buttons' }
-                text: '<p>Mit der Auswahl „Primär-Button“ im Style Manager werden die Links im letzten Absatz zu Buttons.</p><p><a href="#sg-buttons">Erster Link</a> <a href="#sg-buttons">Zweiter Link</a></p>'
+                text: '<p>Mit der Auswahl „Primär-Button“ im Bereich „CSS-Stil“ werden die Links im letzten Absatz zu Buttons.</p><p><a href="#sg-buttons">Erster Link</a> <a href="#sg-buttons">Zweiter Link</a></p>'
               - type: text
                 cssID: u-bg-primary
                 headline: { unit: 'h3', value: 'Auf dunkler Fläche' }
@@ -503,7 +503,7 @@ pages:
           - type: element_group
             cssID: u-grid-2 u-align-end
             children:
-              - { type: 'headline', headline: 'Farben der Elemente', subline: 'Style Manager › Farben des Elements' }
+              - { type: 'headline', headline: 'Farben der Elemente', subline: 'CSS-Stile › Farben des Elements' }
               - { type: 'text', cssID: 'u-lead', text: '<p>Karten, Icon-Boxen, Kundenstimmen und Preis-Karten bekommen eine Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur einen farbigen Rahmen. Das Icon der Icon-Box lässt sich separat einstellen.</p>' }
           - type: element_group
             cssID: u-grid-4
@@ -611,8 +611,8 @@ pages:
           - type: element_group
             cssID: u-grid-2 u-align-end
             children:
-              - { type: 'headline', headline: 'Hintergründe & Klassen', subline: 'Style Manager' }
-              - { type: 'text', cssID: 'u-lead', text: '<p>Diese Klassen gibt es im Style Manager unter „Abschnitt & Hintergrund“, „Text“ und „Abstände“ – auch für Artikel.</p>' }
+              - { type: 'headline', headline: 'Hintergründe & Klassen', subline: 'CSS-Stile' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Diese Klassen gibt es im Bereich „CSS-Stil“ unter „Abschnitt & Hintergrund“, „Text“ und „Abstände“ – auch für Artikel.</p>' }
           - type: element_group
             cssID: u-grid-4
             children:
@@ -635,7 +635,7 @@ pages:
             cssID: u-grid-2 u-align-end
             children:
               - { type: 'headline', headline: 'Animationen', subline: 'Einblenden beim Scrollen' }
-              - { type: 'text', cssID: 'u-lead', text: '<p>Was automatisch animiert wird, legt das Seitenlayout fest. Einzelne Elemente bekommen im Style Manager unter „Animation“ eine eigene Richtung.</p>' }
+              - { type: 'text', cssID: 'u-lead', text: '<p>Was automatisch animiert wird, legt das Seitenlayout fest. Einzelne Elemente bekommen im Bereich „CSS-Stil“ unter „Animation“ eine eigene Richtung.</p>' }
           - type: element_group
             cssID: u-grid-4
             children:
