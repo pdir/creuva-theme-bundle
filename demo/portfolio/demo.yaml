@@ -1,0 +1,1319 @@
+# Creuva – Portfolio / Studio demo
+#
+# Imported with: vendor/bin/contao-console creuva:install --demo=portfolio
+# A visual demo for photographers, architects, designers and creative studios:
+# large images, project overviews, individual project pages and galleries.
+# See src/Installer/DemoImporter.php for the value syntax (file:, page:, module:, image_size:, …).
+#
+# The images are generated illustrations (stylized photos), replace them with
+# real photos of the same proportions if you like.
+
+title: Portfolio / Studio
+root:
+  favicon: 'file:design/favicon.ico'
+  dateFormat: d.m.Y
+  timeFormat: 'H:i'
+  datimFormat: d.m.Y
+  creuvaScheme: terracotta
+  creuvaVariant: editorial
+  creuvaRadius: small
+files:
+  bilder/start.jpg: { alt: 'Weißes Wohnhaus mit Pool im Abendlicht' }
+  bilder/studio.jpg: { alt: 'Atelier von Studio Lichtung mit großem Fenster' }
+  bilder/team-1.jpg: { alt: 'Porträt Jakob Lindner' }
+  bilder/team-2.jpg: { alt: 'Porträt Nora Albers' }
+  bilder/team-3.jpg: { alt: 'Porträt Samuel Okafor' }
+  bilder/team-4.jpg: { alt: 'Porträt Greta Sommer' }
+  bilder/projekte/haus-am-hang.jpg: { alt: 'Haus am Hang mit auskragendem Obergeschoss im Morgenlicht' }
+  bilder/projekte/haus-am-hang-innen.jpg: { alt: 'Wohnraum mit Panoramafenster und Blick ins Tal' }
+  bilder/projekte/haus-am-hang-fassade.jpg: { alt: 'Fassadendetail mit Lamellen und langen Schatten' }
+  bilder/projekte/haus-am-hang-abend.jpg: { alt: 'Haus am Hang zur blauen Stunde mit erleuchteten Fenstern' }
+  bilder/projekte/haus-am-hang-ausblick.jpg: { alt: 'Ausblick vom Haus über die Hügel im Dunst' }
+  bilder/projekte/kunsthalle.jpg: { alt: 'Ausstellungsraum mit Oberlicht, zwei Bildern und einer Skulptur' }
+  bilder/projekte/kunsthalle-raum.jpg: { alt: 'Drei Arbeiten in einer Reihe, davor eine Sitzbank' }
+  bilder/projekte/kunsthalle-skulptur.jpg: { alt: 'Skulptur auf einem weißen Sockel' }
+  bilder/projekte/kunsthalle-fassade.jpg: { alt: 'Gefaltete Fassade der Kunsthalle' }
+  bilder/projekte/form-und-ton.jpg: { alt: 'Vase, Schale und Flasche aus Keramik im seitlichen Licht' }
+  bilder/projekte/form-und-ton-vasen.jpg: { alt: 'Zwei Vasen in Weiß und Terracotta' }
+  bilder/projekte/form-und-ton-schalen.jpg: { alt: 'Schalen und eine dunkle Kugel aus Keramik' }
+  bilder/projekte/form-und-ton-flaschen.jpg: { alt: 'Flaschen und Becher vor olivgrüner Wand' }
+  bilder/projekte/form-und-ton-atelier.jpg: { alt: 'Werkstatt der Manufaktur mit Tisch und Lampe' }
+  bilder/projekte/duenenblick.jpg: { alt: 'Dünen und Meer im Abendlicht' }
+  bilder/projekte/duenenblick-zimmer.jpg: { alt: 'Hotelzimmer mit Fensterfront zu den Dünen' }
+  bilder/projekte/duenenblick-lounge.jpg: { alt: 'Lounge mit terracottafarbenem Sofa' }
+  bilder/projekte/duenenblick-strand.jpg: { alt: 'Sanfte Dünen im Dunst' }
+  bilder/projekte/duenenblick-haus.jpg: { alt: 'Holzpavillon des Hotels in den Dünen' }
+  bilder/projekte/lindenhof.jpg: { alt: 'Bürohaus Lindenhof mit großen Glasflächen' }
+  bilder/projekte/lindenhof-raster.jpg: { alt: 'Fassadenraster des Lindenhofs' }
+  bilder/projekte/lindenhof-foyer.jpg: { alt: 'Foyer mit Oberlicht, Bank und Skulptur' }
+  bilder/projekte/lindenhof-abend.jpg: { alt: 'Bürohaus am Abend mit beleuchteten Etagen' }
+  bilder/projekte/atlas-der-stille.jpg: { alt: 'Hügelketten im Morgennebel' }
+  bilder/projekte/atlas-see.jpg: { alt: 'Stiller See vor einer Bergkette' }
+  bilder/projekte/atlas-wald.jpg: { alt: 'Bewaldete Hügel im Nebel' }
+  bilder/projekte/atlas-duenen.jpg: { alt: 'Dünen in der Dämmerung' }
+  bilder/projekte/atlas-abend.jpg: { alt: 'Bergketten in violettem Abendlicht' }
+  bilder/projekte/atlas-nebel.jpg: { alt: 'Nebel über einem Tannenwald' }
+  kunden/buerger-architekten.svg: { alt: 'Bürger Architekten', link: 'https://example.org/' }
+  kunden/kunsthalle-am-fluss.svg: { alt: 'Kunsthalle am Fluss', link: 'https://example.org/' }
+  kunden/form-und-ton.svg: { alt: 'Form & Ton Keramik', link: 'https://example.org/' }
+  kunden/duenenblick.svg: { alt: 'Hotel Dünenblick', link: 'https://example.org/' }
+  kunden/lindenhof.svg: { alt: 'Lindenhof Projektentwicklung', link: 'https://example.org/' }
+  kunden/verlag-weitsicht.svg: { alt: 'Verlag Weitsicht', link: 'https://example.org/' }
+header: { cta: { page: kontakt, title: 'Projekt anfragen' }, search: suche, logoSize: 'image_size:logo' }
+brand:
+  claim: |-
+    Fotografie, Architektur und Gestaltung
+    aus Freiburg im Breisgau.
+  social: ['https://www.instagram.com/', 'https://www.behance.net/', 'https://www.linkedin.com/']
+  logoSize: 'image_size:logo'
+footer:
+  - { headline: Arbeiten, pages: [arbeiten, haus-am-hang, kunsthalle, atlas-der-stille, bildarchiv] }
+  - { headline: Studio, pages: [studio, leistungen, journal, kontakt] }
+  - { headline: Rechtliches, pages: [impressum, datenschutz, styleguide] }
+styleguide: true
+imageSizes:
+  logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
+  cover:
+    name: 'Vollbild (16:9)'
+    width: 2000
+    height: 1125
+    resizeMode: crop
+    items: [{ media: '(max-width: 47.99rem)', densities: '1.5x', width: 800, height: 1100, resizeMode: crop }]
+  hero: { name: Hero, densities: '1x, 2x', width: 720, height: 540, resizeMode: crop }
+  tile-portrait: { name: 'Kachel hoch (4:5)', lazyLoading: true, densities: 2x, width: 720, height: 900, resizeMode: crop }
+  tile-landscape: { name: 'Kachel quer (3:2)', lazyLoading: true, densities: 2x, width: 960, height: 640, resizeMode: crop }
+  card: { name: 'Karte (4:3)', lazyLoading: true, densities: 2x, width: 800, height: 600, resizeMode: crop }
+  wide:
+    name: 'Breit (21:9)'
+    lazyLoading: true
+    width: 1600
+    height: 686
+    resizeMode: crop
+    items: [{ media: '(max-width: 40rem)', densities: 2x, width: 640, height: 480, resizeMode: crop }]
+  slider: { name: 'Slider (3:2)', lazyLoading: true, width: 1500, height: 1000, resizeMode: crop }
+  team: { name: 'Team (4:5)', lazyLoading: true, densities: 1.5x, width: 480, height: 600, resizeMode: crop }
+  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 120, height: 120, resizeMode: crop }
+  news: { name: 'Journal-Teaser (3:2)', lazyLoading: true, densities: 2x, width: 800, height: 533, resizeMode: crop }
+  news-detail: { name: Journal-Detail, width: 1200, height: 700, resizeMode: crop }
+  gallery:
+    name: 'Galerie (responsiv)'
+    lazyLoading: true
+    densities: '480w, 800w, 1200w, 1600w'
+    sizes: '(min-width: 64rem) 50vw, 100vw'
+    width: 1600
+    resizeMode: proportional
+forms:
+  kontakt:
+    title: Projektanfrage
+    alias: projektanfrage
+    jumpTo: 'page:danke'
+    fields:
+      - { type: text, name: name, mandatory: true, label: 'Ihr Name', placeholder: 'Vor- und Nachname' }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, placeholder: name@beispiel.de }
+      - type: select
+        name: topic
+        label: 'Worum geht es?'
+        options:
+          - { value: architektur, label: Architekturfotografie }
+          - { value: produkt, label: 'Produkt- und Stilllebenfotografie' }
+          - { value: ausstellung, label: Ausstellungsgestaltung }
+          - { value: buch, label: 'Buch und Editorial' }
+          - { value: sonstiges, label: Sonstiges }
+      - { type: text, name: date, label: 'Wunschtermin oder Zeitraum', placeholder: 'z. B. Frühjahr 2027' }
+      - { type: textarea, name: message, mandatory: true, label: 'Ihr Projekt', size: ['6', '40'] }
+      - type: checkbox
+        name: privacy
+        mandatory: true
+        options: [{ value: '1', label: 'Ich habe die <a href="{{link_url::datenschutz}}">Datenschutzerklärung</a> gelesen und stimme zu.' }]
+      - { type: submit, slabel: 'Anfrage senden' }
+news:
+  journal:
+    title: Journal
+    jumpTo: 'page:eintrag'
+    items:
+      - alias: licht-lesen-blaue-stunde
+        headline: 'Licht lesen: Architektur zur blauen Stunde'
+        subheadline: 'Warum wir Häuser am liebsten fotografieren, wenn der Tag geht'
+        teaser: '<p>Für wenige Minuten sind Himmel und Innenraum gleich hell. Wir zeigen, wie wir diese Zeit planen und warum sie Architektur so gut steht.</p>'
+        singleSRC: 'file:bilder/projekte/haus-am-hang-abend.jpg'
+        creuvaHeadlineAccent: 'blauen Stunde'
+        date: '2026-10-08 09:00'
+        elements:
+          - type: text
+            text: '<p>Wenn die Sonne untergegangen ist, bleibt am Himmel ein tiefes, gleichmäßiges Blau. Gleichzeitig leuchten die Räume von innen. Für etwa zwanzig Minuten sind beide gleich hell – Fassade, Fenster und Landschaft lassen sich dann in einer Aufnahme zeigen, ohne dass etwas ausbrennt oder absäuft.</p><p>Diese Minuten planen wir genau: Wir prüfen vorab den Sonnenstand, stellen das Licht in allen Räumen ein und bauen die Kamera rechtzeitig auf. Meist entstehen an einem Abend nur zwei oder drei Motive – dafür die wichtigsten.</p>'
+          - type: gallery
+            size: 'image_size:gallery'
+            fullsize: true
+            multiSRC: ['file:bilder/projekte/haus-am-hang-abend.jpg', 'file:bilder/projekte/lindenhof-abend.jpg']
+            sortBy: custom
+            perRow: 2
+          - type: text
+            headline: { unit: h2, value: 'Drei Dinge, die wir immer mitnehmen' }
+            text: '<ul><li>Ein stabiles Stativ und einen Fernauslöser</li><li>Eine Liste aller Lichtschalter im Haus</li><li>Geduld – und eine Thermoskanne Tee</li></ul>'
+      - alias: atlas-der-stille-buch
+        headline: '„Atlas der Stille“ erscheint als Buch'
+        subheadline: '96 Seiten, 48 Landschaften, ein Jahr unterwegs'
+        teaser: '<p>Unsere freie Serie über leise Landschaften erscheint im Verlag Weitsicht. Die Vorstellung findet am 14. November in Freiburg statt.</p>'
+        singleSRC: 'file:bilder/projekte/atlas-nebel.jpg'
+        creuvaHeadlineAccent: 'als Buch'
+        date: '2026-09-22 10:00'
+        elements:
+          - type: text
+            text: '<p>Ein Jahr lang sind wir an Orte gefahren, an denen es still ist: an Seen im ersten Licht, auf Dünen in der Dämmerung, in Wälder voller Nebel. Daraus ist „Atlas der Stille“ entstanden – ein Buch über Landschaften, die keine Sensation brauchen.</p><blockquote><p>„Stille ist kein leerer Raum. Sie ist der Raum, in dem man genauer hinsieht.“</p></blockquote><p>Das Buch erscheint im Verlag Weitsicht, gedruckt auf ungestrichenem Papier in einer Auflage von 800 Exemplaren.</p>'
+      - alias: produktfotos-form-und-ton
+        headline: 'Hinter den Kulissen: Keramik im Seitenlicht'
+        subheadline: 'Wie die neuen Produktbilder für Form & Ton entstanden'
+        teaser: '<p>Ein Fenster, ein Tisch, eine Wand in Sandfarbe: Für die Keramik-Manufaktur Form & Ton haben wir bewusst auf ein großes Studio verzichtet.</p>'
+        singleSRC: 'file:bilder/projekte/form-und-ton-atelier.jpg'
+        creuvaHeadlineAccent: 'Seitenlicht'
+        date: '2026-08-30 08:30'
+        elements:
+          - type: text
+            text: '<p>Keramik lebt von ihrer Oberfläche: von feinen Rillen, matter Glasur und kleinen Unregelmäßigkeiten. Hartes Studiolicht macht das flach. Deshalb haben wir in der Werkstatt der Manufaktur fotografiert – mit dem Licht eines großen Nordfensters und einer einzigen Aufhellung.</p><p>Die Hintergründe sind in den Farben der Glasuren gestrichen, so wirken alle Bilder der Kollektion wie aus einem Guss.</p>'
+          - type: image
+            size: 'image_size:wide'
+            singleSRC: 'file:bilder/projekte/form-und-ton.jpg'
+modules:
+  breadcrumb: { type: breadcrumb, name: Breadcrumb }
+  journal-neueste: { type: newslist, name: 'Journal – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:journal'] }
+  journal-liste:
+    type: newslist
+    name: 'Journal – Liste'
+    imgSize: 'image_size:news'
+    perPage: 6
+    numberOfItems: 0
+    news_archives: ['news_archive:journal']
+  journal-leser:
+    type: newsreader
+    name: 'Journal – Leser'
+    imgSize: 'image_size:news-detail'
+    overviewPage: 'page:journal'
+    news_archives: ['news_archive:journal']
+  sitemap: { type: sitemap, name: Sitemap }
+  suche: { type: search, name: Suche, searchType: simple, perPage: 10, contextLength: ['48', '280'], minKeywordLength: 3 }
+pages:
+  - type: regular
+    title: Start
+    alias: index
+    description: 'Studio Lichtung fotografiert Architektur, Räume und Produkte und gestaltet Ausstellungen und Bücher – mit Ruhe, Licht und Haltung.'
+    articles:
+      - title: Hero
+        elements:
+          - type: creuva_hero
+            size: 'image_size:cover'
+            headline: { unit: h1, value: 'Räume, Licht und' }
+            text: '<p>Wir fotografieren Architektur, Interieurs und Produkte und gestalten Ausstellungen und Bücher – für Menschen, die Wert auf das Besondere legen.</p>'
+            singleSRC: 'file:bilder/start.jpg'
+            creuvaKicker: 'Fotografie · Architektur · Gestaltung'
+            creuvaHeadlineAccent: Geschichten.
+            creuvaBadge: |-
+              Haus am Hang, Freiburg
+              Foto: Studio Lichtung
+            creuvaHeroMask: cover
+            creuvaUrl1: '{{link_url::arbeiten|urlattr}}'
+            creuvaLinkTitle1: 'Arbeiten ansehen'
+            creuvaUrl2: '{{link_url::studio|urlattr}}'
+            creuvaLinkTitle2: 'Das Studio'
+      - title: Haltung
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+            children:
+              - { type: headline, headline: 'Bilder mit Haltung.', subline: 'Studio Lichtung', cssID: u-reveal-left }
+              - type: text
+                text: '<p>Gute Bilder entstehen nicht im Vorbeigehen. Wir nehmen uns Zeit für einen Ort, beobachten das Licht und suchen die eine Perspektive, die erzählt, was einen Raum besonders macht.</p><p>Seit 2011 arbeiten wir für Architekturbüros, Museen, Hotels und Manufakturen – und an eigenen Serien, wenn die Aufträge einmal ruhen.</p><p><a href="{{link_url::studio}}">Mehr über das Studio</a></p>'
+                cssID: u-lead
+      - title: 'Ausgewählte Arbeiten'
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: Arbeiten., subline: Ausgewählte, headline_inline: '1' }
+              - type: text
+                text: '<p>Architektur, Ausstellungen, Produkte und freie Serien – eine Auswahl der letzten Jahre.</p><p><a href="{{link_url::arbeiten}}">Alle Arbeiten</a></p>'
+                cssID: u-muted
+          - type: element_group
+            cssID: 'u-grid-2 u-grid-offset'
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h3, value: 'Haus am Hang' }
+                text: '<p>Wohnhaus von Bürger Architekten am Schönberg.</p><p><a href="{{link_url::haus-am-hang}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/haus-am-hang.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: Architektur
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h3, value: 'Kunsthalle am Fluss' }
+                text: '<p>Ausstellungsgestaltung und Dokumentation.</p><p><a href="{{link_url::kunsthalle}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/kunsthalle.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: Ausstellung
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h3, value: 'Form & Ton' }
+                text: '<p>Produktfotografie für eine Keramik-Manufaktur.</p><p><a href="{{link_url::form-und-ton}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/form-und-ton-vasen.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: Produkt
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h3, value: 'Atlas der Stille' }
+                text: '<p>Freie Landschaftsserie, erschienen als Buch.</p><p><a href="{{link_url::atlas-der-stille}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/atlas-nebel.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Freie Arbeit'
+      - title: Disziplinen
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - { type: headline, headline: 'Wofür man uns bucht.', subline: 'Drei Disziplinen, ein Blick', cssID: u-text-center }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: Fotografie }
+                text: '<p>Architektur, Interieurs und Produkte – ruhig komponiert, natürlich belichtet, sorgfältig bearbeitet.</p><p><a href="{{link_url::leistungen}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/kamera.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: 'u-feature-plain u-icon-white'
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Ausstellung & Raum' }
+                text: '<p>Wir gestalten Ausstellungen, Leitsysteme und Messeauftritte – vom ersten Grundriss bis zur Hängung.</p><p><a href="{{link_url::leistungen}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/grundriss.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: 'u-feature-plain u-icon-white'
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Buch & Editorial' }
+                text: '<p>Bildbände, Kataloge und Magazine: Konzept, Bildredaktion, Gestaltung und Druckbegleitung.</p><p><a href="{{link_url::leistungen}}">Mehr erfahren</a></p>'
+                singleSRC: 'file:icons/buch.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: 'u-feature-plain u-icon-white'
+      - title: Bildstrecke
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Atlas der Stille.', subline: 'Aus der Serie', headline_inline: '1' }
+              - type: text
+                text: '<p>Ein Jahr unterwegs an leisen Orten – unsere freie Arbeit, inzwischen als Buch erschienen.</p><p><a href="{{link_url::atlas-der-stille}}">Zur Serie</a></p>'
+                cssID: u-muted
+          - type: swiper
+            creuvaSliderDots: ''
+            creuvaSliderThumbs: '1'
+            children:
+              - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/atlas-der-stille.jpg' }
+              - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/atlas-see.jpg' }
+              - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/atlas-duenen.jpg' }
+              - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/atlas-wald.jpg' }
+              - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/atlas-abend.jpg' }
+      - title: Kennzahlen
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: description_list
+            headline: 'in Zahlen.'
+            customTpl: content_element/description_list/creuva_stats
+            data:
+              - { key: '15', value: 'Jahre Studio' }
+              - { key: 320+, value: 'Projekte' }
+              - { key: '9', value: 'Auszeichnungen' }
+              - { key: '3', value: 'Bücher' }
+            cssID: 'u-bg-primary u-full-bleed u-text-center'
+            subline: 'Studio Lichtung'
+            headline_inline: '1'
+      - title: Kunden
+        teaserCssID: ['', '']
+        elements:
+          - type: creuva_logos
+            headline: { unit: h2, value: 'Wir arbeiten für' }
+            multiSRC: ['file:kunden/buerger-architekten.svg', 'file:kunden/kunsthalle-am-fluss.svg', 'file:kunden/form-und-ton.svg', 'file:kunden/duenenblick.svg', 'file:kunden/lindenhof.svg', 'file:kunden/verlag-weitsicht.svg']
+            creuvaLogosHeight: 3rem
+      - title: Stimmen
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - { type: headline, headline: 'Was Kunden sagen.', cssID: u-visually-hidden }
+          - type: element_group
+            cssID: u-grid-2
+            children:
+              - type: text
+                addImage: true
+                overwriteMeta: true
+                size: 'image_size:avatar'
+                headline: { unit: h3, value: 'Hanna Bürger' }
+                text: '<p>Studio Lichtung hat einen Blick dafür, was ein Haus ausmacht. Die Bilder zeigen nicht nur unsere Architektur, sondern auch die Stimmung, die wir bauen wollten.</p>'
+                singleSRC: 'file:bilder/team-2.jpg'
+                alt: 'Hanna Bürger'
+                customTpl: content_element/text/creuva_testimonial
+                subline: 'Bürger Architekten'
+              - type: text
+                addImage: true
+                overwriteMeta: true
+                size: 'image_size:avatar'
+                headline: { unit: h3, value: 'Dr. Felix Brandt' }
+                text: '<p>Von der Ausstellungsarchitektur bis zum Katalog aus einer Hand – präzise, ruhig und immer mit Blick auf die Werke. Unsere Besucher lieben die neue Ausstellung.</p>'
+                singleSRC: 'file:bilder/team-1.jpg'
+                alt: 'Dr. Felix Brandt'
+                customTpl: content_element/text/creuva_testimonial
+                subline: 'Direktor, Kunsthalle am Fluss'
+      - title: Journal
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: Journal., subline: 'Notizen aus dem', headline_inline: '1' }
+              - type: text
+                text: '<p>Über Licht, Orte und die Arbeit hinter den Bildern.</p><p><a href="{{link_url::journal}}">Alle Beiträge</a></p>'
+                cssID: u-muted
+          - { type: module, module: 'module:journal-neueste' }
+      - title: CTA
+        teaserCssID: ['', '']
+        elements:
+          - type: text
+            headline: 'Ort im Kopf?'
+            text: |-
+              <p>Erzählen Sie uns von Ihrem Projekt – wir melden uns innerhalb von zwei Werktagen mit ersten Ideen und einem Terminvorschlag.</p>
+              <p><a href="{{link_url::kontakt|urlattr}}">Projekt anfragen</a> <a href="{{link_url::arbeiten|urlattr}}">Arbeiten ansehen</a></p>
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-primary u-full-bleed'
+            creuvaKicker: 'Neues Projekt'
+            subline: 'Ein Haus, ein Raum, ein'
+            headline_inline: '1'
+  - type: regular
+    title: Arbeiten
+    alias: arbeiten
+    description: 'Ausgewählte Arbeiten von Studio Lichtung: Architekturfotografie, Ausstellungen, Produktfotografie und freie Serien.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: Ausgewählte }
+            text: '<p>Häuser, Museen, Hotels und Manufakturen – und eigene Serien, wenn die Aufträge ruhen. Jedes Projekt erzählt von einem Ort und den Menschen, die ihn gestalten.</p>'
+            creuvaKicker: Arbeiten
+            creuvaHeadlineAccent: Projekte.
+            creuvaHeroMask: none
+      - title: Übersicht
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-grid-offset'
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h2, value: 'Haus am Hang' }
+                text: '<p>Wohnhaus von Bürger Architekten, Freiburg</p><p><a href="{{link_url::haus-am-hang}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/haus-am-hang.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Architektur · 2025'
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h2, value: 'Kunsthalle am Fluss' }
+                text: '<p>Ausstellung „Material und Zeit“, Gestaltung und Dokumentation</p><p><a href="{{link_url::kunsthalle}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/kunsthalle.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Ausstellung · 2025'
+              - type: text
+                addImage: true
+                size: 'image_size:tile-landscape'
+                headline: { unit: h2, value: 'Form & Ton' }
+                text: '<p>Produktfotografie für eine Keramik-Manufaktur</p><p><a href="{{link_url::form-und-ton}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/form-und-ton.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Produkt · 2026'
+              - type: text
+                addImage: true
+                size: 'image_size:tile-landscape'
+                headline: { unit: h2, value: 'Atlas der Stille' }
+                text: '<p>Freie Landschaftsserie, erschienen als Buch</p><p><a href="{{link_url::atlas-der-stille}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/atlas-der-stille.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Freie Arbeit · 2026'
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h2, value: 'Hotel Dünenblick' }
+                text: '<p>Interieur und Bildkampagne an der Nordsee</p><p><a href="{{link_url::duenenblick}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/duenenblick-strand.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Hotel · 2024'
+              - type: text
+                addImage: true
+                size: 'image_size:tile-portrait'
+                headline: { unit: h2, value: Lindenhof }
+                text: '<p>Bürohaus und Quartier, Begleitung von Bau bis Bezug</p><p><a href="{{link_url::lindenhof}}">Projekt ansehen</a></p>'
+                singleSRC: 'file:bilder/projekte/lindenhof-raster.jpg'
+                customTpl: content_element/text/creuva_tile
+                subline: 'Architektur · 2024'
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'als Nächstes.'
+            text: |-
+              <p>Wir nehmen jedes Jahr nur eine begrenzte Zahl an Aufträgen an, damit für jedes Projekt genug Zeit bleibt.</p>
+              <p><a href="{{link_url::kontakt|urlattr}}">Projekt anfragen</a> <a href="{{link_url::bildarchiv|urlattr}}">Zum Bildarchiv</a></p>
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-soft u-full-bleed'
+            creuvaKicker: 'Ihr Projekt'
+            subline: 'Vielleicht Ihres'
+            headline_inline: '1'
+    children:
+      - type: regular
+        title: 'Haus am Hang'
+        alias: haus-am-hang
+        hide: true
+        description: 'Haus am Hang: Architekturfotografie für ein Wohnhaus von Bürger Architekten in Freiburg – im Morgenlicht und zur blauen Stunde.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: 'Haus am' }
+                text: '<p>Ein Wohnhaus, das sich über den Hang schiebt: Für Bürger Architekten haben wir das Haus über ein Jahr begleitet – im Morgenlicht, zur blauen Stunde und mit Blick ins Tal.</p>'
+                singleSRC: 'file:bilder/projekte/haus-am-hang.jpg'
+                creuvaKicker: 'Architekturfotografie · 2025'
+                creuvaHeadlineAccent: Hang.
+                creuvaBadge: 'Bürger Architekten, Freiburg'
+                creuvaHeroMask: cover
+          - title: 'Über das Projekt'
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+                children:
+                  - type: description_list
+                    headline: { unit: h3, value: Projektdaten }
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: Auftraggeber, value: 'Bürger Architekten' }
+                      - { key: Ort, value: 'Freiburg im Breisgau' }
+                      - { key: Jahr, value: '2025' }
+                      - { key: Leistungen, value: 'Architekturfotografie, Bildredaktion' }
+                      - { key: Veröffentlicht, value: 'Baumeister, Häuser' }
+                  - type: text
+                    headline: Projekt
+                    text: '<p>Das Haus von Bürger Architekten liegt an einem steilen Südhang. Zwei weiße Volumen sind gegeneinander verschoben: Unten öffnet sich der Wohnraum zum Garten, oben kragt das Schlafgeschoss weit über den Hang hinaus.</p><p>Wir haben das Haus zu verschiedenen Tages- und Jahreszeiten fotografiert. Morgens zeichnen die Lamellen der Fassade lange Schatten, abends leuchtet das Haus wie eine Laterne über dem Tal. Die Bilder wurden in Fachzeitschriften und im Wettbewerb „Häuser des Jahres“ veröffentlicht.</p>'
+                    subline: 'Über das'
+                    headline_inline: '1'
+          - title: Bilder
+            teaserCssID: ['', '']
+            cssID: u-pt-0
+            elements:
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/projekte/haus-am-hang-abend.jpg', 'file:bilder/projekte/haus-am-hang-innen.jpg', 'file:bilder/projekte/haus-am-hang-fassade.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic
+              - type: text
+                text: '<blockquote><p>„Wir wollten ein Haus bauen, das sich dem Licht des Tals öffnet. Auf diesen Bildern sieht man genau das.“</p></blockquote><p class="u-muted">Hanna Bürger, Bürger Architekten</p>'
+                cssID: 'u-narrow u-text-center'
+              - { type: image, size: 'image_size:wide', singleSRC: 'file:bilder/projekte/haus-am-hang-ausblick.jpg' }
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Kunsthalle am Fluss'
+                text: '<p>Ausstellungsgestaltung und Dokumentation für „Material und Zeit“.</p><p><a href="{{link_url::kunsthalle|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+      - type: regular
+        title: 'Kunsthalle am Fluss'
+        alias: kunsthalle
+        hide: true
+        description: 'Kunsthalle am Fluss: Ausstellungsgestaltung und Fotografie für die Ausstellung „Material und Zeit“.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: 'Material und' }
+                text: '<p>Für die Kunsthalle am Fluss haben wir die Ausstellung „Material und Zeit“ gestaltet – Raumfolge, Hängung, Licht und Beschriftung – und anschließend für Katalog und Presse fotografiert.</p>'
+                singleSRC: 'file:bilder/projekte/kunsthalle.jpg'
+                creuvaKicker: 'Ausstellung · 2025'
+                creuvaHeadlineAccent: Zeit.
+                creuvaBadge: 'Kunsthalle am Fluss, Basel'
+                creuvaHeroMask: cover
+          - title: 'Über das Projekt'
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+                children:
+                  - type: description_list
+                    headline: { unit: h3, value: Projektdaten }
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: Auftraggeber, value: 'Kunsthalle am Fluss' }
+                      - { key: Ort, value: Basel }
+                      - { key: Jahr, value: '2025' }
+                      - { key: Leistungen, value: 'Ausstellungsgestaltung, Fotografie, Katalog' }
+                      - { key: Fläche, value: '850 m²' }
+                  - type: text
+                    headline: Ausstellung
+                    text: '<p>„Material und Zeit“ zeigt 40 Arbeiten aus Ton, Holz und Stein. Wir haben die Räume so geordnet, dass die Besucher vom Groben zum Feinen geführt werden – vom Rohmaterial bis zur fertigen Form.</p><p>Das Oberlicht der Halle haben wir mit Stoffbahnen gestreut, die Wände in drei warmen Grautönen gestrichen. So stehen die Werke im Mittelpunkt, die Architektur tritt zurück.</p>'
+                    subline: 'Die'
+                    headline_inline: '1'
+          - title: Ablauf
+            teaserCssID: ['', '']
+            cssID: u-bg-muted
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-center'
+                children:
+                  - type: description_list
+                    headline: { unit: h2, value: 'Von der Idee zur Eröffnung' }
+                    customTpl: content_element/description_list/creuva_timeline
+                    data:
+                      - { key: 'Januar', value: 'Konzept und Raumfolge mit dem Kuratorenteam' }
+                      - { key: 'März', value: 'Modell, Lichtplanung und Grafik' }
+                      - { key: 'Mai', value: 'Aufbau und Hängung in drei Wochen' }
+                      - { key: 'Juni', value: 'Eröffnung, Fotografie für Katalog und Presse' }
+                  - type: text
+                    addImage: true
+                    overwriteMeta: true
+                    size: 'image_size:avatar'
+                    headline: { unit: h3, value: 'Dr. Felix Brandt' }
+                    text: '<p>Von der Ausstellungsarchitektur bis zum Katalog aus einer Hand – präzise, ruhig und immer mit Blick auf die Werke.</p>'
+                    singleSRC: 'file:bilder/team-1.jpg'
+                    alt: 'Dr. Felix Brandt'
+                    customTpl: content_element/text/creuva_testimonial
+                    cssID: u-card-white
+                    subline: 'Direktor, Kunsthalle am Fluss'
+          - title: Bilder
+            teaserCssID: ['', '']
+            elements:
+              - type: gallery
+                headline: { unit: h2, value: Raumansichten }
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/projekte/kunsthalle-raum.jpg', 'file:bilder/projekte/kunsthalle-skulptur.jpg', 'file:bilder/projekte/kunsthalle-fassade.jpg', 'file:bilder/projekte/kunsthalle.jpg']
+                sortBy: custom
+                cssID: u-gallery-featured
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Form & Ton'
+                text: '<p>Produktfotografie für eine Keramik-Manufaktur.</p><p><a href="{{link_url::form-und-ton|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+      - type: regular
+        title: 'Form & Ton'
+        alias: form-und-ton
+        hide: true
+        description: 'Form & Ton: Produkt- und Stilllebenfotografie für eine Keramik-Manufaktur im Seitenlicht.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: 'Form &' }
+                text: '<p>Neue Bilder für Shop, Katalog und Messe: Wir haben die Kollektion der Keramik-Manufaktur Form & Ton in ihrer eigenen Werkstatt fotografiert – im Licht eines großen Nordfensters.</p>'
+                singleSRC: 'file:bilder/projekte/form-und-ton.jpg'
+                creuvaKicker: 'Produktfotografie · 2026'
+                creuvaHeadlineAccent: Ton.
+                creuvaBadge: 'Form & Ton Keramik, Kandern'
+                creuvaHeroMask: cover
+          - title: 'Über das Projekt'
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+                children:
+                  - type: description_list
+                    headline: { unit: h3, value: Projektdaten }
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: Auftraggeber, value: 'Form & Ton Keramik' }
+                      - { key: Ort, value: Kandern }
+                      - { key: Jahr, value: '2026' }
+                      - { key: Leistungen, value: 'Produktfotografie, Art Direction' }
+                      - { key: Motive, value: '86 Produkte, 12 Stillleben' }
+                  - type: text
+                    headline: Licht.
+                    text: '<p>Keramik lebt von ihrer Oberfläche: feine Rillen, matte Glasur, kleine Unregelmäßigkeiten. Hartes Studiolicht macht das flach. Deshalb haben wir mit einem einzigen Fenster gearbeitet und die Hintergründe in den Farben der Glasuren gestrichen.</p><p>Entstanden sind Produktbilder für den Shop und eine Serie von Stillleben, die die Manufaktur für Katalog, Messe und Social Media nutzt.</p>'
+                    subline: 'Weiches'
+                    headline_inline: '1'
+          - title: Bilder
+            teaserCssID: ['', '']
+            cssID: u-pt-0
+            elements:
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                perRow: 3
+                multiSRC: ['file:bilder/projekte/form-und-ton-vasen.jpg', 'file:bilder/projekte/form-und-ton-schalen.jpg', 'file:bilder/projekte/form-und-ton-flaschen.jpg', 'file:bilder/projekte/form-und-ton-atelier.jpg', 'file:bilder/projekte/form-und-ton.jpg']
+                sortBy: custom
+                cssID: u-gallery-masonry
+          - title: Werkstatt
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:card'
+                headline: Werkstatt.
+                text: '<p>Statt im Studio haben wir direkt in der Manufaktur fotografiert. Das spart Transporte, und die Bilder erzählen ganz nebenbei, wo die Stücke entstehen.</p><ul><li>Ein Nordfenster als einzige Lichtquelle</li><li>Hintergründe in den Farben der Glasuren</li><li>Freisteller und Stillleben in einem Durchgang</li></ul>'
+                singleSRC: 'file:bilder/projekte/form-und-ton-atelier.jpg'
+                floating: right
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                subline: 'Fotografiert in der'
+                headline_inline: '1'
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Hotel Dünenblick'
+                text: '<p>Interieur und Bildkampagne an der Nordsee.</p><p><a href="{{link_url::duenenblick|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+      - type: regular
+        title: 'Hotel Dünenblick'
+        alias: duenenblick
+        hide: true
+        description: 'Hotel Dünenblick: Interieurfotografie und Bildkampagne für ein Hotel in den Dünen an der Nordsee.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: 'Hotel' }
+                text: '<p>Ein kleines Hotel zwischen Dünen und Meer: Für den Relaunch haben wir Zimmer, Lounge und Landschaft fotografiert – und eine Bildsprache entwickelt, die nach Wind und Weite klingt.</p>'
+                singleSRC: 'file:bilder/projekte/duenenblick.jpg'
+                creuvaKicker: 'Interieur & Kampagne · 2024'
+                creuvaHeadlineAccent: Dünenblick.
+                creuvaBadge: 'Hotel Dünenblick, Sankt Peter-Ording'
+                creuvaHeroMask: cover
+                creuvaUrl2: '{{link_url::arbeiten|urlattr}}'
+                creuvaLinkTitle2: 'Alle Arbeiten'
+          - title: 'Über das Projekt'
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+                children:
+                  - type: description_list
+                    headline: { unit: h3, value: Projektdaten }
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: Auftraggeber, value: 'Hotel Dünenblick' }
+                      - { key: Ort, value: 'Sankt Peter-Ording' }
+                      - { key: Jahr, value: '2024' }
+                      - { key: Leistungen, value: 'Interieur, Landschaft, Kampagne' }
+                      - { key: Einsatz, value: 'Website, Prospekt, Plakate' }
+                  - type: text
+                    headline: Weite.
+                    text: '<p>Das Hotel liegt direkt hinter den Dünen. Statt Zimmer und Landschaft getrennt zu zeigen, haben wir beides verbunden: Jedes Zimmer bekam sein Bild mit Blick nach draußen, jede Landschaft ihren Platz im Haus.</p><p>Die Kampagne läuft auf der neuen Website, im Prospekt und auf Plakaten in Hamburg und Berlin.</p>'
+                    subline: 'Wind und'
+                    headline_inline: '1'
+          - title: Bilder
+            teaserCssID: ['', '']
+            cssID: u-pt-0
+            elements:
+              - type: swiper
+                creuvaSliderDots: ''
+                creuvaSliderThumbs: '1'
+                children:
+                  - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/duenenblick-zimmer.jpg' }
+                  - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/duenenblick-lounge.jpg' }
+                  - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/duenenblick-haus.jpg' }
+                  - { type: image, size: 'image_size:slider', singleSRC: 'file:bilder/projekte/duenenblick.jpg' }
+              - type: gallery
+                headline: { unit: h2, value: 'Weitere Motive' }
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/projekte/duenenblick-strand.jpg', 'file:bilder/projekte/duenenblick-lounge.jpg', 'file:bilder/projekte/duenenblick-zimmer.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic-right
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: Lindenhof
+                text: '<p>Bürohaus und Quartier, Begleitung von Bau bis Bezug.</p><p><a href="{{link_url::lindenhof|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+      - type: regular
+        title: Lindenhof
+        alias: lindenhof
+        hide: true
+        description: 'Lindenhof: Architekturfotografie für ein Bürohaus – von der Baustelle bis zum Bezug.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: Linden }
+                text: '<p>Zwei Jahre, vier Jahreszeiten, ein Haus: Wir haben das Bürohaus Lindenhof vom Rohbau bis zum Einzug begleitet – für Vermarktung, Wettbewerbe und das Archiv der Bauherrin.</p>'
+                singleSRC: 'file:bilder/projekte/lindenhof.jpg'
+                creuvaKicker: 'Architekturfotografie · 2024'
+                creuvaHeadlineAccent: hof.
+                creuvaBadge: 'Lindenhof Projektentwicklung, Stuttgart'
+                creuvaHeroMask: cover
+          - title: 'Über das Projekt'
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: element_group
+                cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+                children:
+                  - type: description_list
+                    headline: { unit: h3, value: Projektdaten }
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: Auftraggeber, value: 'Lindenhof Projektentwicklung' }
+                      - { key: Ort, value: Stuttgart }
+                      - { key: Zeitraum, value: '2022 – 2024' }
+                      - { key: Leistungen, value: 'Baudokumentation, Architekturfotografie' }
+                  - type: text
+                    headline: Bezug.
+                    text: '<p>Ein Bürohaus verändert sich während des Baus jede Woche. Wir waren alle zwei Monate vor Ort und haben aus denselben Standpunkten fotografiert – so entstand eine Zeitreihe, die das Wachsen des Hauses zeigt.</p><p>Zum Abschluss haben wir das fertige Haus bei Tag und zur blauen Stunde fotografiert, dazu das Foyer, die Treppen und die Dachterrasse.</p>'
+                    subline: 'Vom Rohbau zum'
+                    headline_inline: '1'
+          - title: Bilder
+            teaserCssID: ['', '']
+            cssID: u-pt-0
+            elements:
+              - { type: image, size: 'image_size:wide', singleSRC: 'file:bilder/projekte/lindenhof-abend.jpg' }
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                perRow: 3
+                multiSRC: ['file:bilder/projekte/lindenhof-raster.jpg', 'file:bilder/projekte/lindenhof-foyer.jpg', 'file:bilder/projekte/lindenhof.jpg']
+                sortBy: custom
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Atlas der Stille'
+                text: '<p>Freie Landschaftsserie, erschienen als Buch.</p><p><a href="{{link_url::atlas-der-stille|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+      - type: regular
+        title: 'Atlas der Stille'
+        alias: atlas-der-stille
+        hide: true
+        description: 'Atlas der Stille: freie Landschaftsserie von Studio Lichtung, erschienen als Buch im Verlag Weitsicht.'
+        articles:
+          - title: Projekt
+            elements:
+              - type: creuva_hero
+                size: 'image_size:cover'
+                headline: { unit: h1, value: 'Atlas der' }
+                text: '<p>Ein Jahr lang sind wir an Orte gefahren, an denen es still ist: an Seen im ersten Licht, auf Dünen in der Dämmerung, in Wälder voller Nebel.</p>'
+                singleSRC: 'file:bilder/projekte/atlas-der-stille.jpg'
+                creuvaKicker: 'Freie Arbeit · 2026'
+                creuvaHeadlineAccent: Stille.
+                creuvaBadge: 'Schwarzwald, im Oktober'
+                creuvaHeroMask: cover
+          - title: Serie
+            teaserCssID: ['', '']
+            elements:
+              - { type: module, module: 'module:breadcrumb' }
+              - type: text
+                text: '<blockquote><p>„Stille ist kein leerer Raum. Sie ist der Raum, in dem man genauer hinsieht.“</p></blockquote><p>„Atlas der Stille“ ist unsere freie Arbeit der Jahre 2025 und 2026. 48 Landschaften ohne Menschen, ohne Sensation – dafür mit viel Zeit.</p>'
+                cssID: 'u-narrow u-lead'
+              - type: gallery
+                size: 'image_size:gallery'
+                fullsize: true
+                perRow: 3
+                multiSRC: ['file:bilder/projekte/atlas-see.jpg', 'file:bilder/projekte/atlas-nebel.jpg', 'file:bilder/projekte/atlas-duenen.jpg', 'file:bilder/projekte/atlas-wald.jpg', 'file:bilder/projekte/atlas-abend.jpg', 'file:bilder/projekte/atlas-der-stille.jpg']
+                sortBy: custom
+                cssID: u-gallery-masonry
+          - title: Buch
+            teaserCssID: ['', '']
+            cssID: u-bg-muted
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-center'
+                children:
+                  - type: text
+                    headline: Buch.
+                    text: '<p>Die Serie ist im Verlag Weitsicht erschienen: 96 Seiten, 48 Tafeln, Fadenheftung, gedruckt auf ungestrichenem Papier in einer Auflage von 800 Exemplaren.</p><p><a href="{{link_url::kontakt}}">Buch bestellen</a></p>'
+                    cssID: u-button
+                    creuvaKicker: 'Verlag Weitsicht, 2026'
+                    subline: 'Jetzt als'
+                    headline_inline: '1'
+                  - type: accordion
+                    children:
+                      - type: text
+                        sectionHeadline: { unit: h3, value: 'Ausstellung in Freiburg' }
+                        text: '<p>14. November 2026 bis 31. Januar 2027 in der Galerie am Augustinerplatz, mit Buchvorstellung am Eröffnungsabend.</p>'
+                      - type: text
+                        sectionHeadline: { unit: h3, value: 'Signierte Exemplare' }
+                        text: '<p>Signierte Exemplare und einzelne Fine-Art-Prints bis 60 × 80 cm erhalten Sie direkt bei uns.</p>'
+                      - type: text
+                        sectionHeadline: { unit: h3, value: 'Presse' }
+                        text: '<p>Rezensionsexemplare und Bilder für die Presse auf Anfrage.</p>'
+          - title: Weiter
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Haus am Hang'
+                text: '<p>Architekturfotografie für Bürger Architekten.</p><p><a href="{{link_url::haus-am-hang|urlattr}}">Nächstes Projekt</a> <a href="{{link_url::arbeiten|urlattr}}">Alle Arbeiten</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-cta-stacked u-full-bleed'
+                creuvaKicker: 'Nächstes Projekt'
+  - type: regular
+    title: Bildarchiv
+    alias: bildarchiv
+    description: 'Bildarchiv von Studio Lichtung: Architektur, Räume, Produkte und Landschaften in einer Galerie.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Bild' }
+            text: '<p>Eine Auswahl aus allen Projekten – zum Stöbern, Vergleichen und Vergrößern. Klicken Sie auf ein Bild, um es in voller Größe zu sehen.</p>'
+            creuvaKicker: Bildarchiv
+            creuvaHeadlineAccent: archiv.
+            creuvaHeroMask: none
+      - title: Galerie
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: gallery
+            size: 'image_size:gallery'
+            fullsize: true
+            perRow: 3
+            multiSRC:
+              - 'file:bilder/projekte/haus-am-hang-abend.jpg'
+              - 'file:bilder/projekte/form-und-ton-vasen.jpg'
+              - 'file:bilder/projekte/kunsthalle.jpg'
+              - 'file:bilder/projekte/atlas-see.jpg'
+              - 'file:bilder/projekte/duenenblick-strand.jpg'
+              - 'file:bilder/projekte/lindenhof-foyer.jpg'
+              - 'file:bilder/projekte/form-und-ton-schalen.jpg'
+              - 'file:bilder/projekte/haus-am-hang-fassade.jpg'
+              - 'file:bilder/projekte/duenenblick-zimmer.jpg'
+              - 'file:bilder/projekte/atlas-abend.jpg'
+              - 'file:bilder/projekte/kunsthalle-skulptur.jpg'
+              - 'file:bilder/projekte/lindenhof.jpg'
+              - 'file:bilder/projekte/form-und-ton-flaschen.jpg'
+              - 'file:bilder/projekte/atlas-nebel.jpg'
+              - 'file:bilder/projekte/haus-am-hang-innen.jpg'
+            sortBy: custom
+            cssID: u-gallery-masonry
+  - type: regular
+    title: Studio
+    alias: studio
+    description: 'Studio Lichtung aus Freiburg: vier Menschen, ein Atelier und die Freude am genauen Hinsehen.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h1, value: 'Ein Raum für' }
+            text: '<p>Studio Lichtung ist ein kleines Studio für Fotografie und Gestaltung in Freiburg. Wir sind zu viert – und arbeiten am liebsten an Projekten, für die man sich Zeit nehmen darf.</p>'
+            singleSRC: 'file:bilder/studio.jpg'
+            creuvaKicker: Studio
+            creuvaHeadlineAccent: 'genaues Hinsehen.'
+            creuvaBadge: |-
+              Gegründet 2011
+              Atelier in Freiburg
+              Projekte in ganz Europa
+            creuvaHeroMask: rounded
+            creuvaUrl1: '{{link_url::kontakt|urlattr}}'
+            creuvaLinkTitle1: 'Kennenlernen'
+      - title: Arbeitsweise
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: Licht.
+            text: '<p>Wir arbeiten fast immer mit vorhandenem Licht. Deshalb beginnt jedes Projekt mit einem Besuch vor Ort: Wann fällt die Sonne in den Raum? Wie verändert sich die Fassade im Laufe des Tages?</p><ul><li>Ortsbesichtigung und Lichtplan vor jedem Termin</li><li>Wenige Motive, dafür die richtigen</li><li>Sorgfältige Bearbeitung ohne künstlichen Look</li><li>Nutzungsrechte klar geregelt</li></ul>'
+            singleSRC: 'file:bilder/projekte/haus-am-hang-innen.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: Arbeitsweise
+            subline: 'Alles beginnt mit dem'
+            headline_inline: '1'
+      - title: Team
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'Vier Blicke.', subline: 'Das Team' }
+              - type: text
+                text: '<p>Fotografie, Raum und Editorial – jede und jeder bringt eine eigene Perspektive mit. Zusammen ergibt das einen Blick.</p>'
+                cssID: u-muted
+          - type: element_group
+            cssID: u-grid-4
+            children:
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Jakob Lindner' }
+                text: '<p>Architekturfotografie<br><a href="mailto:jakob@example.com">jakob@example.com</a></p>'
+                singleSRC: 'file:bilder/team-1.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Gründer
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Nora Albers' }
+                text: '<p>Ausstellung und Raum<br><a href="mailto:nora@example.com">nora@example.com</a></p>'
+                singleSRC: 'file:bilder/team-2.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Partnerin
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Samuel Okafor' }
+                text: '<p>Produkt und Stillleben<br><a href="mailto:samuel@example.com">samuel@example.com</a></p>'
+                singleSRC: 'file:bilder/team-3.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Fotograf
+              - type: text
+                addImage: true
+                size: 'image_size:team'
+                headline: { unit: h3, value: 'Greta Sommer' }
+                text: '<p>Buch und Editorial<br><a href="mailto:greta@example.com">greta@example.com</a></p>'
+                singleSRC: 'file:bilder/team-4.jpg'
+                customTpl: content_element/text/creuva_team
+                subline: Gestalterin
+      - title: Geschichte
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-start'
+            children:
+              - type: description_list
+                headline: { unit: h2, value: 'Unser Weg' }
+                customTpl: content_element/description_list/creuva_timeline
+                data:
+                  - { key: '2011', value: 'Gründung als Fotostudio in einem Hinterhof in Freiburg' }
+                  - { key: '2015', value: 'Erste Ausstellungsgestaltung für ein Museum' }
+                  - { key: '2019', value: 'Umzug ins Atelier am Güterbahnhof' }
+                  - { key: '2023', value: 'Erstes eigenes Buch' }
+                  - { key: '2026', value: '„Atlas der Stille“ erscheint' }
+              - type: description_list
+                headline: { unit: h2, value: Auszeichnungen }
+                customTpl: content_element/description_list/creuva_facts
+                cssID: u-card-white
+                data:
+                  - { key: '2026', value: 'Deutscher Fotobuchpreis, Nominierung' }
+                  - { key: '2025', value: 'Häuser des Jahres, Fotografie' }
+                  - { key: '2024', value: 'German Design Award, Special Mention' }
+                  - { key: '2022', value: 'Red Dot, Communication Design' }
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'einen Kaffee.'
+            text: |-
+              <p>Am liebsten lernen wir neue Projekte persönlich kennen – im Atelier, vor Ort oder per Video.</p>
+              <p><a href="{{link_url::kontakt|urlattr}}">Termin vereinbaren</a></p>
+            customTpl: content_element/text/creuva_cta
+            cssID: u-full-bleed
+            creuvaKicker: 'Kennenlernen'
+            subline: 'Kommen Sie vorbei auf'
+            headline_inline: '1'
+  - type: regular
+    title: Leistungen
+    alias: leistungen
+    description: 'Leistungen von Studio Lichtung: Architektur- und Produktfotografie, Ausstellungsgestaltung, Bücher und Editorial.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h1, value: 'Was wir für Sie' }
+            text: '<p>Wir fotografieren, gestalten Räume und machen Bücher. Oft alles für ein Projekt – manchmal nur ein einzelnes Bild, das genau sitzen muss.</p>'
+            singleSRC: 'file:bilder/projekte/form-und-ton-vasen.jpg'
+            creuvaKicker: Leistungen
+            creuvaHeadlineAccent: tun.
+            creuvaHeroMask: organic
+      - title: Disziplinen
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: Fotografie.
+            text: '<p>Architektur, Interieurs, Produkte und Porträts – für Wettbewerbe, Websites, Kataloge und Presse.</p><ul><li>Architektur bei Tag und zur blauen Stunde</li><li>Interieur und Hotel</li><li>Produkt und Stillleben</li></ul><p><a href="{{link_url::haus-am-hang}}">Beispiel ansehen</a></p>'
+            singleSRC: 'file:bilder/projekte/haus-am-hang.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: '01'
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: 'Ausstellung & Raum.'
+            text: '<p>Ausstellungen, Leitsysteme und Messestände: Wir planen Raumfolgen, Licht und Grafik und begleiten den Aufbau.</p><ul><li>Konzept und Raumfolge</li><li>Licht, Farbe und Hängung</li><li>Beschriftung und Leitsystem</li></ul><p><a href="{{link_url::kunsthalle}}">Beispiel ansehen</a></p>'
+            singleSRC: 'file:bilder/projekte/kunsthalle-raum.jpg'
+            floating: right
+            customTpl: content_element/text/creuva_media
+            cssID: u-media-plain
+            creuvaKicker: '02'
+          - type: text
+            addImage: true
+            size: 'image_size:card'
+            headline: 'Buch & Editorial.'
+            text: '<p>Bildbände, Kataloge und Magazine – von der Bildauswahl über die Gestaltung bis zur Abnahme an der Druckmaschine.</p><ul><li>Konzept und Bildredaktion</li><li>Gestaltung und Satz</li><li>Papier, Druck und Bindung</li></ul><p><a href="{{link_url::atlas-der-stille}}">Beispiel ansehen</a></p>'
+            singleSRC: 'file:bilder/projekte/atlas-nebel.jpg'
+            floating: left
+            customTpl: content_element/text/creuva_media
+            creuvaKicker: '03'
+      - title: Konditionen
+        teaserCssID: ['', '']
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-align-end'
+            children:
+              - { type: headline, headline: 'mit klarem Rahmen.', subline: 'Gute Bilder', headline_inline: '1' }
+              - type: text
+                text: '<p>Die Preise sind eine Orientierung. Nach einem kurzen Gespräch erhalten Sie ein Angebot, das zu Ihrem Projekt passt.</p>'
+                cssID: u-muted
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - type: text
+                headline: Halbtag
+                text: '<p>Für einzelne Räume, Produkte oder ein Porträt. Zzgl. MwSt. und Anfahrt.</p><ul><li>Bis zu 4 Stunden vor Ort</li><li>Bis zu 10 bearbeitete Motive</li><li>Nutzung für Web und Presse</li></ul><p><a href="{{link_url::kontakt}}">Anfragen</a></p>'
+                customTpl: content_element/text/creuva_price
+                subline: '890 €'
+              - type: text
+                headline: Projekt
+                text: '<p>Für ein Gebäude oder eine Kollektion, inklusive Vorbesichtigung. Zzgl. MwSt. und Anfahrt.</p><ul><li>Vorbesichtigung und Lichtplan</li><li>Zwei Termine (Tag und Abend)</li><li>Bis zu 30 bearbeitete Motive</li><li>Nutzung für Web, Print und Wettbewerbe</li></ul><p><a href="{{link_url::kontakt}}">Anfragen</a></p>'
+                customTpl: content_element/text/creuva_price
+                cssID: u-featured
+                subline: '2.900 €'
+              - type: text
+                headline: Begleitung
+                text: '<p>Für Bauprojekte, Ausstellungen oder Bücher über mehrere Monate. Individuelles Angebot.</p><ul><li>Feste Ansprechperson</li><li>Regelmäßige Termine</li><li>Bildarchiv mit Verschlagwortung</li></ul><p><a href="{{link_url::kontakt}}">Gespräch vereinbaren</a></p>'
+                customTpl: content_element/text/creuva_price
+                subline: 'auf Anfrage'
+      - title: Fragen
+        teaserCssID: ['', '']
+        cssID: u-bg-muted
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-end u-align-start'
+            children:
+              - { type: headline, headline: 'Häufige Fragen.', subline: 'Gut zu wissen' }
+              - type: accordion
+                cssID: u-accordion-icon
+                children:
+                  - type: text
+                    sectionHeadline: { unit: h3, value: 'Wie weit im Voraus sollten wir buchen?' }
+                    text: '<p>Für Architektur rechnen wir mit vier bis acht Wochen Vorlauf – das Wetter und der Sonnenstand bestimmen den Termin. Produktaufnahmen sind oft kurzfristiger möglich.</p>'
+                  - type: text
+                    sectionHeadline: { unit: h3, value: 'Was passiert bei schlechtem Wetter?' }
+                    text: '<p>Wir verschieben Außenaufnahmen kostenlos, bis das Licht passt. Innenräume fotografieren wir auch bei bedecktem Himmel – oft sogar lieber.</p>'
+                  - type: text
+                    sectionHeadline: { unit: h3, value: 'Welche Nutzungsrechte erhalte ich?' }
+                    text: '<p>Die Nutzung für Website, Presse und Wettbewerbe ist immer enthalten. Werbung, Plakate oder Weitergabe an Dritte vereinbaren wir je nach Projekt.</p>'
+                  - type: text
+                    sectionHeadline: { unit: h3, value: 'Arbeiten Sie auch außerhalb von Baden-Württemberg?' }
+                    text: '<p>Ja, wir sind in ganz Europa unterwegs. Die Reisekosten rechnen wir transparent nach Aufwand ab.</p>'
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'gemeinsam an.'
+            text: |-
+              <p>Schicken Sie uns ein paar Zeilen zu Ihrem Projekt – wir melden uns mit Ideen und einem Angebot.</p>
+              <p><a href="{{link_url::kontakt|urlattr}}">Projekt anfragen</a></p>
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-soft u-full-bleed'
+            creuvaKicker: 'Nächster Schritt'
+            subline: 'Schauen wir es uns'
+            headline_inline: '1'
+  - type: regular
+    title: Journal
+    alias: journal
+    description: 'Journal von Studio Lichtung: Notizen über Licht, Orte und die Arbeit hinter den Bildern.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Notizen aus dem' }
+            text: '<p>Über Licht, Orte, Bücher und die Arbeit hinter den Bildern.</p>'
+            creuvaKicker: Journal
+            creuvaHeadlineAccent: Studio.
+            creuvaHeroMask: none
+      - { title: Beiträge, teaserCssID: ['', ''], cssID: u-pt-0, elements: [{ type: module, module: 'module:journal-liste' }] }
+    children:
+      - type: regular
+        title: Eintrag
+        alias: eintrag
+        requireItem: true
+        hide: true
+        articles:
+          - { title: Eintrag, elements: [{ type: module, module: 'module:breadcrumb' }, { type: module, module: 'module:journal-leser' }] }
+  - type: regular
+    title: Kontakt
+    alias: kontakt
+    description: 'Kontakt zu Studio Lichtung: Projektanfrage, Atelierbesuch und Termine in Freiburg.'
+    articles:
+      - title: Intro
+        elements:
+          - type: creuva_hero
+            headline: { unit: h1, value: 'Erzählen Sie uns von' }
+            text: '<p>Ein Gebäude, eine Kollektion, eine Ausstellung oder ein Buch: Schreiben Sie uns ein paar Zeilen. Wir melden uns innerhalb von zwei Werktagen.</p>'
+            creuvaKicker: Kontakt
+            creuvaHeadlineAccent: 'Ihrem Projekt.'
+            creuvaHeroMask: none
+      - title: Formular
+        teaserCssID: ['', '']
+        cssID: u-pt-0
+        elements:
+          - type: element_group
+            cssID: 'u-grid-2 u-cols-wide-start u-align-start'
+            children:
+              - type: element_group
+                cssID: u-card
+                children:
+                  - type: text
+                    headline: { unit: h2, value: Projektanfrage }
+                    text: '<p>Je mehr wir über Ort, Zeitraum und Verwendung der Bilder wissen, desto genauer wird unser Angebot.</p>'
+                    cssID: u-muted
+                  - { type: form, form: 'form:kontakt' }
+              - type: element_group
+                cssID: u-icon-white
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Atelier }
+                    text: '<p>Studio Lichtung<br>Am Güterbahnhof 7, 79106 Freiburg</p>'
+                    singleSRC: 'file:icons/standort.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: E-Mail }
+                    text: '<p><a href="mailto:hallo@example.com">hallo@example.com</a></p>'
+                    singleSRC: 'file:icons/mail.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: Telefon }
+                    text: '<p><a href="tel:+497610000000">+49 761 0000000</a><br>Di – Fr, 10:00 – 17:00 Uhr</p>'
+                    singleSRC: 'file:icons/telefon.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: 'u-icon-soft u-feature-inline'
+                  - { type: image, size: 'image_size:tile-portrait', singleSRC: 'file:bilder/studio.jpg' }
+    children:
+      - type: regular
+        title: 'Vielen Dank'
+        alias: danke
+        hide: true
+        description: 'Vielen Dank für Ihre Anfrage – wir melden uns innerhalb von zwei Werktagen.'
+        articles:
+          - title: Danke
+            elements:
+              - type: creuva_hero
+                headline: { unit: h1, value: Vielen }
+                text: '<p>Ihre Anfrage ist bei uns angekommen. Wir melden uns innerhalb von zwei Werktagen.</p>'
+                creuvaKicker: Kontakt
+                creuvaHeadlineAccent: Dank.
+                creuvaHeroMask: none
+                creuvaUrl1: '{{link_url::index}}'
+                creuvaLinkTitle1: 'Zur Startseite'
+                creuvaUrl2: '{{link_url::arbeiten}}'
+                creuvaLinkTitle2: 'Arbeiten ansehen'
+  - type: regular
+    title: Impressum
+    alias: impressum
+    hide: true
+    description: 'Impressum von Studio Lichtung.'
+    sitemap: map_always
+    articles:
+      - title: Impressum
+        elements:
+          - type: text
+            headline: { unit: h1, value: Impressum }
+            text: '<p><strong>Studio Lichtung GbR</strong><br>Am Güterbahnhof 7<br>79106 Freiburg im Breisgau</p><p>Vertreten durch: Jakob Lindner, Nora Albers</p><p>Dies ist ein Platzhalter. Bitte ersetzen Sie die Angaben durch Ihr eigenes Impressum.</p>'
+            cssID: u-narrow
+  - type: regular
+    title: Datenschutz
+    alias: datenschutz
+    hide: true
+    description: 'Datenschutzerklärung von Studio Lichtung.'
+    sitemap: map_always
+    articles:
+      - title: Datenschutz
+        elements:
+          - type: text
+            headline: { unit: h1, value: Datenschutzerklärung }
+            text: '<p>Dies ist ein Platzhalter. Bitte ersetzen Sie diesen Text durch Ihre eigene Datenschutzerklärung.</p>'
+            cssID: u-narrow
+  - type: regular
+    title: Sitemap
+    alias: sitemap
+    hide: true
+    description: 'Alle Seiten der Website auf einen Blick.'
+    articles: [{ title: Sitemap, elements: [{ type: headline, headline: { unit: h1, value: Sitemap } }, { type: module, module: 'module:sitemap' }] }]
+  - type: regular
+    title: Suche
+    alias: suche
+    hide: true
+    searchIndexer: never_index
+    robots: noindex,follow
+    sitemap: map_never
+    description: 'Suchergebnisse der Website.'
+    articles: [{ title: Suche, elements: [{ type: headline, headline: { unit: h1, value: Suche } }, { type: module, module: 'module:suche' }] }]
+  - type: error_404
+    title: 'Seite nicht gefunden'
+    alias: seite-nicht-gefunden
+    articles:
+      - title: 'Seite nicht gefunden'
+        elements:
+          - type: creuva_hero
+            size: 'image_size:cover'
+            headline: { unit: h1, value: 'Hier ist nur' }
+            text: '<p>Die Seite, die Sie suchen, gibt es nicht (mehr). Vielleicht finden Sie in unseren Arbeiten, was Sie suchen.</p>'
+            singleSRC: 'file:bilder/projekte/atlas-wald.jpg'
+            creuvaKicker: 'Fehler 404'
+            creuvaHeadlineAccent: Nebel.
+            creuvaHeroMask: cover
+            creuvaUrl1: '{{link_url::index}}'
+            creuvaLinkTitle1: 'Zur Startseite'
+            creuvaUrl2: '{{link_url::arbeiten}}'
+            creuvaLinkTitle2: 'Arbeiten ansehen'

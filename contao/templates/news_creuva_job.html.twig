@@ -1,0 +1,31 @@
+{#
+    Job offer as a news list template (e.g. a news archive "Karriere"): title,
+    the subheadline as tags (separated by "·", e.g. "Vollzeit · Neuburg · ab
+    sofort") and the teaser. The whole card links to the job offer.
+#}
+<article class="c-job layout_job arc_{{ archive.id }} block{{ class }}">
+    <div class="c-job__body">
+        <h3 class="c-job__title">{{ linkHeadline|sanitize_html('contao') }}</h3>
+
+        {% if hasSubHeadline|default %}
+            {% set tags = subHeadline|split('·')|map(tag => tag|trim)|filter(tag => tag is not empty) %}
+            <ul class="c-job__tags">
+                {% for tag in tags %}
+                    <li>{{ tag }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if teaser|default %}
+            <div class="c-job__teaser">
+                {{ teaser|sanitize_html('contao')|csp_inline_styles|insert_tag_raw }}
+            </div>
+        {% endif %}
+    </div>
+
+    <span class="c-job__arrow" aria-hidden="true"></span>
+</article>
+
+{% if not hasReader %}
+    {% do add_schema_org(getSchemaOrgData.invoke()) %}
+{% endif %}

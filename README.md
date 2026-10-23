@@ -75,9 +75,17 @@ aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Demo-Inhalte
 
-`creuva:install --demo` importiert die Demo „Standard / Creative“ als eigenen Startpunkt
-(bei einer bestehenden Website mit `--dns` oder `--language` auf eine andere Domain bzw.
-Sprache legen):
+Es gibt vier Demos, jede wird als eigener Startpunkt importiert (bei einer bestehenden Website
+mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
+
+| Demo | Befehl | Für |
+|------|--------|-----|
+| Standard / Creative | `creuva:install --demo` | Agenturen, Freelancer, kleine Unternehmen |
+| Unternehmen | `creuva:install --demo=unternehmen` | Mittelstand, Industrie, Handwerk |
+| Portfolio / Studio | `creuva:install --demo=portfolio` | Fotografen, Architekten, Kreativstudios |
+| Sportverein | `creuva:install --demo=sportverein` | Fußball- und Sportvereine, Verbände |
+
+`creuva:install --demo` importiert die Demo „Standard / Creative“:
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
@@ -133,6 +141,85 @@ Die Demo verwendet ausschließlich Core-Elemente, Creuva-Elemente und Templateva
 und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 `demo/standard/demo.yaml` und lässt sich als Vorlage für weitere Demos nutzen
 (neuer Ordner `demo/<name>/` → `--demo=<name>`).
+
+### Demo „Portfolio / Studio“
+
+`creuva:install --demo=portfolio` importiert die Demo für Fotografen, Architekten,
+Designer und Kreativstudios („Studio Lichtung“, Variante Editorial, Farbschema Terracotta,
+kleine Ecken):
+
+- **Seiten:** Startseite mit Vollbild-Hero, Arbeiten mit sechs Projektseiten (Architektur,
+  Ausstellung, Produkt, Hotel, Bürohaus, freie Serie), Bildarchiv (Masonry-Galerie mit
+  Lightbox), Studio mit Team und Auszeichnungen, Leistungen mit Preisen und FAQ, Journal,
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und 404-Seite
+- **Projektseiten:** Vollbild-Hero, Projektdaten (Fakten), Text, je eine andere
+  Galerie-Anordnung oder ein Slider mit Thumbnails und ein Link zum nächsten Projekt
+- **Module:** Journal-Liste und -Leser, Breadcrumb, Sitemap, Suche; die Kundenlogos sind ein
+  Inhaltselement „Logoleiste“ und lassen sich direkt im Artikel bearbeiten
+- **Bilder:** generierte Illustrationen (stilisierte Fotos) unter `demo/portfolio/files/`,
+  die sich durch echte Fotos gleicher Proportion ersetzen lassen
+
+Alle Elemente sind demounabhängig und auch in der Standard-Demo und im Styleguide nutzbar,
+u. a. die Bildform **„Vollbild (Text auf dem Bild)“** des Heros, die Templatevariante
+**`creuva_tile`** („Bildkachel“: Bild in der Proportion seiner Bildgröße, ganze Kachel
+klickbar), das Inhaltselement **„Logoleiste“** (`creuva_logos`, ohne eigenen Hintergrund, den
+bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset`, zweite Spalte tiefer).
+
+Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
+der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
+`--dns`) nicht versehentlich auf gleichnamige Seiten der ersten.
+
+### Demo „Unternehmen“
+
+`creuva:install --demo=unternehmen` importiert eine klassische Firmenwebsite für Mittelstand,
+Industrie, Dienstleister und Handwerksbetriebe („Kessler Metalltechnik GmbH“, Variante Light,
+Farbschema Ozean, eckig) – seriöser und strukturierter als die Standard-Demo:
+
+- **Seiten:** Startseite mit Vollbild-Hero, Kennzahlen, Leistungen, Branchen, Projektablauf,
+  Kundenlogos, Stellen und Aktuellem; Leistungen (Konstruktion, Fertigung, Montage & Service)
+  mit Maschinenpark; Branchenlösungen (Maschinenbau, Bau & Architektur, Energie &
+  Anlagenbau, Lebensmittelindustrie); Referenzen; Unternehmen mit Geschichte, Zertifikaten,
+  Geschäftsführung und Standorten; Karriere mit Stellenangeboten, Bewerbungsablauf und
+  Online-Bewerbung (Datei-Upload); Download-Center; Aktuelles; Kontakt mit Ansprechpartnern
+- **Stellenangebote** sind Nachrichten im Archiv „Stellenangebote“; die Subline wird zu
+  Schlagworten wie „Vollzeit · Neuburg · ab sofort“.
+- **Bilder, Logos, Zertifikate und PDFs:** generierte Platzhalter unter
+  `demo/unternehmen/files/`
+
+Neu im Theme und demounabhängig:
+
+- Listenvorlage **`news_creuva_job`** für Nachrichtenlisten: Stellenanzeige als Karte mit
+  Titel, Schlagworten (aus der Subline, getrennt durch „·“) und Teaser
+- Templatevariante **„Prozess-Schritte“** (`description_list/creuva_steps`): nummerierte
+  Schritte, ab Tablet-Breite nebeneinander mit Verbindungslinie
+- **Downloads** zeigen Dateityp und Größe („PDF · 245 KB“)
+
+### Demo „Sportverein“
+
+`creuva:install --demo=sportverein` importiert die Demo für Fußballvereine, andere
+Sportvereine und kleinere Verbände („TSV Rotenbach 1921“, Variante Light, Farbschema Rot,
+mittlere Ecken, Vereinswappen als Logo):
+
+- **Seiten:** Startseite mit Vollbild-Hero, nächstem Spiel und letztem Ergebnis, News,
+  Mannschaften, Tabelle, Kennzahlen und Partnern; Mannschaften mit Seiten für 1. Herren,
+  Damen und Jugend (Trainingszeiten, Trainerteam, Tabelle); Spielplan mit Tabelle; Verein
+  mit Geschichte, Vorstand und Sportpark; News; Sponsoren mit Sponsoring-Paketen; Mitglied
+  werden mit Beiträgen, Online-Antrag und Beitrittserklärung (PDF); Kontakt, Suche und 404
+- **Spielplan und Ergebnisse** sind Termine im Kalender „Spielplan“ (Event-Liste mit den
+  nächsten Terminen und den letzten Ergebnissen). Ihre Daten sind relativ zum Tag des
+  Imports, die nächsten Spiele liegen also immer in der Zukunft.
+- **Bilder, Wappen und Sponsorenlogos:** generierte Illustrationen unter
+  `demo/sportverein/files/`, die sich durch echte Fotos und Logos ersetzen lassen
+
+Neu im Theme und demounabhängig:
+
+- Inhaltselement **„Spielpaarung“** (`creuva_match`): Wettbewerb, Heim- und Gastmannschaft
+  mit Wappen, Anstoß, Spielort, optional Ergebnis und Button. Ohne Ergebnis zeigt es die
+  Anstoßzeit (nächstes Spiel), mit Ergebnis den Endstand.
+- Tabellen-Klasse **„Liga-Tabelle“** (`u-table-league`): kompakte Tabelle mit zentrierten
+  Zahlen; die eigene Mannschaft wird hervorgehoben, wenn sie in der Tabelle fett ist.
+- Datumsfelder lassen sich in einer Demo-Definition relativ angeben, z. B.
+  `creuvaMatchDate: 'date:next saturday 15:00'`.
 
 ### Eigene Demo aus der Dateiverwaltung
 
@@ -194,7 +281,8 @@ brand:
 ```
 
 Demo-Module lassen sich zusätzlichen Slots des Layouts zuordnen, z. B. eine Logoleiste
-(Modul `creuva_logos`, Logos verlinkt über die Metadaten der Dateien) über dem Footer:
+(Modul `creuva_logos`, Logos verlinkt über die Metadaten der Dateien) über dem Footer
+(im Inhalt einer Seite gibt es dafür das gleichnamige Inhaltselement „Logoleiste“):
 
 ```yaml
 files:

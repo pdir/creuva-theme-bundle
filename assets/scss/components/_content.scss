@@ -112,7 +112,7 @@
   }
 
   // Description list: term and details side by side
-  .content-description-list:not(.c-stats, .c-timeline, .c-facts) dl {
+  .content-description-list:not(.c-stats, .c-timeline, .c-facts, .c-steps) dl {
     display: grid;
     grid-template-columns: minmax(8rem, max-content) 1fr;
     margin: 0;
@@ -398,6 +398,59 @@
       background: var(--c-text-muted);
       mask: none;
       opacity: 0.5;
+    }
+  }
+
+  // League table (CSS class u-table-league): compact, numbers centered, the
+  // own team bold in the table element (<strong>) is highlighted. The first
+  // row is the head (thead), the first column the rank, the second the team.
+  .content-table.u-table-league {
+    table {
+      min-width: 30rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th,
+    td {
+      padding: 0.55rem 0.75rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    :is(th, td):nth-child(2) {
+      width: 100%;
+      text-align: left;
+      white-space: normal;
+    }
+
+    :is(th, td):first-child {
+      width: 2.5rem;
+      color: var(--c-text-muted);
+      font-weight: 600;
+    }
+
+    :is(th, td):last-child {
+      font-weight: 700;
+    }
+
+    thead th {
+      color: var(--c-text-muted);
+      font-size: 0.8125rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) > * {
+      background: color-mix(in srgb, var(--c-surface-muted) 50%, var(--c-surface));
+    }
+
+    tbody tr:has(strong) > * {
+      background: var(--c-accent-soft);
+      color: var(--c-text);
+    }
+
+    tbody tr:has(strong) > :first-child {
+      box-shadow: inset 3px 0 0 var(--c-accent);
     }
   }
 

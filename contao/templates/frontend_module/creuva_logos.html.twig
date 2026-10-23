@@ -1,10 +1,10 @@
 {% extends '@Contao/frontend_module/_base.html.twig' %}
-{% use '@Contao/component/_figure.html.twig' %}
+{% use '@Contao/component/_creuva_logos.html.twig' %}
 
 {#
-    Logo bar, e.g. for partners or sponsors. The logos link to the URL of their
-    file metadata. With the variant "primary" the bar uses the primary color
-    (for white logos).
+    Logo bar over the full width, e.g. for partners or sponsors in the slot
+    "prefooter". With the variant "primary" the bar uses the primary color
+    (for white logos). Inside the content: content element creuva_logos.
 #}
 
 {% set attributes = attrs(attributes|default)
@@ -20,18 +20,6 @@
             {{ block('headline_component') }}
         {% endif %}
 
-        <ul class="c-logos__list">
-            {% for logo in logos %}
-                <li class="c-logos__item">
-                    {% if logo.href %}
-                        <a class="c-logos__link" href="{{ logo.href }}" target="_blank" rel="noopener">
-                            {% with {figure: logo.figure} %}{{ block('figure_component') }}{% endwith %}
-                        </a>
-                    {% else %}
-                        {% with {figure: logo.figure} %}{{ block('figure_component') }}{% endwith %}
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        {{ block('creuva_logos_component') }}
     </div>
 {% endblock %}

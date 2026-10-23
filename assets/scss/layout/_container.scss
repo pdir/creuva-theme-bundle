@@ -40,8 +40,10 @@
   // Two sections without a background in a row look like one surface: only
   // one section spacing between them (the bottom spacing of the first one),
   // otherwise the gap would be doubled. Same for sections with the same
-  // background (see _utilities.scss, after the section backgrounds).
-  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child)) + .mod_article:not(#{$bg-classes}) {
+  // background (see _utilities.scss, after the section backgrounds). A section
+  // that ends with a full-width element (e.g. key figures or a call to action on
+  // a colored band) has a surface of its own, the next one keeps its spacing.
+  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child), :has(> .u-full-bleed:last-child)) + .mod_article:not(#{$bg-classes}) {
     padding-top: 0;
   }
 

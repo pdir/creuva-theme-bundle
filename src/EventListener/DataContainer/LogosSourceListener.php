@@ -17,13 +17,14 @@ use Contao\DataContainer;
  * Only images can be selected as logos.
  */
 #[AsCallback(table: 'tl_module', target: 'fields.multiSRC.load')]
+#[AsCallback(table: 'tl_content', target: 'fields.multiSRC.load')]
 class LogosSourceListener
 {
     public function __invoke(mixed $value, DataContainer $dc): mixed
     {
         if ('creuva_logos' === ($dc->getCurrentRecord()['type'] ?? null)) {
-            $GLOBALS['TL_DCA']['tl_module']['fields']['multiSRC']['eval']['isGallery'] = true;
-            $GLOBALS['TL_DCA']['tl_module']['fields']['multiSRC']['eval']['extensions'] = '%contao.image.valid_extensions%';
+            $GLOBALS['TL_DCA'][$dc->table]['fields']['multiSRC']['eval']['isGallery'] = true;
+            $GLOBALS['TL_DCA'][$dc->table]['fields']['multiSRC']['eval']['extensions'] = '%contao.image.valid_extensions%';
         }
 
         return $value;

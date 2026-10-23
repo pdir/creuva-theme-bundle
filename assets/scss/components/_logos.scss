@@ -1,9 +1,17 @@
-// Logo bar (frontend_module/creuva_logos), e.g. partners above the footer
+// Logo bar: front end module over the full width (e.g. partners above the
+// footer) and content element inside a section (c-logos--plain)
 @layer creuva.components {
   .c-logos {
     padding-block: var(--space-xl);
     background: var(--c-surface);
     color: var(--c-text);
+  }
+
+  // Content element: no background and spacing of its own, the section has them
+  .c-logos--plain {
+    padding-block: 0;
+    background: none;
+    color: inherit;
   }
 
   .c-logos--muted {
@@ -17,7 +25,7 @@
     background: var(--c-primary);
   }
 
-  .c-logos__inner > :is(h2, h3) {
+  :is(.c-logos__inner, .c-logos--plain) > :is(h2, h3) {
     margin-block: 0 var(--space-l);
     font-size: var(--fs-kicker);
     letter-spacing: 0.08em;
@@ -48,12 +56,14 @@
       margin: 0;
     }
 
+    // All logos get the same height (SVG logos would otherwise keep the size of
+    // their file), very wide word marks are limited to four times the height
     img {
       display: block;
       width: auto;
-      max-width: calc(var(--logos-height, 5rem) * 2);
-      height: auto;
-      max-height: var(--logos-height, 5rem);
+      max-width: calc(var(--logos-height, 5rem) * 4);
+      height: var(--logos-height, 5rem);
+      object-fit: contain;
       opacity: 0.85;
       transition: opacity 0.2s;
     }
