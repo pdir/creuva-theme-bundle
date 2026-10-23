@@ -6,3 +6,7 @@
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
+
+# Binary files: no line ending conversion (a PDF would get wrong byte offsets)
+*.pdf binary
+*.ico binary

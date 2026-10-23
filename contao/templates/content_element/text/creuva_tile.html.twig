@@ -1,0 +1,32 @@
+{#
+    Image tile, e.g. for projects or a portfolio: the image keeps the
+    proportions of its image size (mix portrait and landscape sizes), the
+    subline as category and the headline below it. The text is a short
+    description; if it contains a link, the whole tile becomes clickable
+    (last link) and the link text is only read out.
+#}
+{% extends '@Contao/content_element/text.html.twig' %}
+
+{% set default_content_layout = false %}
+{% set attributes = attrs(attributes|default).addClass('c-tile') %}
+{% set text_attributes = attrs(text_attributes|default).addClass('c-tile__text') %}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-tile__media">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    <div class="c-tile__body">
+        {% if headline.text %}
+            <{{ headline.tag_name|default('h3') }} class="c-tile__title">{{ headline.text|insert_tag }}</{{ headline.tag_name|default('h3') }}>
+        {% endif %}
+
+        {% if data.subline|default %}
+            <p class="c-tile__category">{{ data.subline }}</p>
+        {% endif %}
+
+        {{ block('text') }}
+    </div>
+{% endblock %}

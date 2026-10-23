@@ -82,6 +82,129 @@
     display: none;
   }
 
+  // Full screen: the image fills the section (behind the text), a gradient
+  // keeps the light text readable
+  .c-hero--cover {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: end;
+    min-height: min(88svh, 60rem);
+    padding-block: calc(var(--space-xl) * 1.5) var(--space-xl);
+    color: #fff;
+
+    .c-hero__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .c-hero__content {
+      max-width: 52rem;
+    }
+
+    .c-kicker,
+    .c-hero__title {
+      color: #fff;
+    }
+
+    .c-hero__accent {
+      color: color-mix(in srgb, var(--c-accent) 45%, #fff);
+    }
+
+    .c-hero__text {
+      max-width: 38rem;
+      color: rgb(255 255 255 / 0.85);
+      font-size: var(--fs-large);
+    }
+
+    .c-button--primary {
+      border-color: #fff;
+      background: #fff;
+      color: var(--c-primary);
+
+      &:hover {
+        border-color: #fff;
+        background: color-mix(in srgb, #fff 88%, var(--c-primary));
+      }
+    }
+
+    .c-button--secondary {
+      border-color: rgb(255 255 255 / 0.5);
+      background: rgb(255 255 255 / 0.1);
+      color: #fff;
+      backdrop-filter: blur(8px);
+
+      &:hover {
+        border-color: #fff;
+        box-shadow: none;
+      }
+    }
+
+    .c-hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+
+      // Gradient instead of the accent shape
+      &::before {
+        inset: 0;
+        z-index: 1;
+        border-radius: 0;
+        background:
+          linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.3) 55%, rgb(0 0 0 / 0.35)),
+          linear-gradient(to right, rgb(0 0 0 / 0.45), transparent 75%);
+      }
+
+      // Phones: the text covers most of the image, darker everywhere (also
+      // for bright images like white machines)
+      @media (max-width: 47.99rem) {
+        &::before {
+          background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.5) 60%, rgb(0 0 0 / 0.4));
+        }
+      }
+
+      figure,
+      picture {
+        height: 100%;
+        margin: 0;
+      }
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &.c-hero--no-image {
+      min-height: 0;
+      background: var(--c-primary);
+    }
+  }
+
+  @container (min-width: 56rem) {
+    .c-hero--cover .c-hero__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  // Caption of the full screen image (badge text), lower right corner
+  .c-hero__caption {
+    position: absolute;
+    right: var(--gutter);
+    bottom: var(--space-m);
+    z-index: 2;
+    margin: 0;
+    color: rgb(255 255 255 / 0.75);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 47.99rem) {
+    .c-hero__caption {
+      display: none;
+    }
+  }
+
   // Badge: small card with check items, overlapping the lower left corner
   .c-hero__badge {
     position: absolute;

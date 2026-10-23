@@ -1,0 +1,54 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use '@Contao/component/_figure.html.twig' %}
+
+{#
+    Match of two teams: competition (kicker), kick-off, both teams with their
+    crests and in between the result or – for an upcoming match – the kick-off
+    time, below the venue and a button (e.g. tickets or match report).
+#}
+
+{% set attributes = attrs(attributes|default)
+    .addClass('c-match')
+    .addClass(goals or score ? 'c-match--result' : 'c-match--upcoming')
+%}
+
+{% block content %}
+    {% if kicker or kickoff %}
+        <p class="c-match__meta">
+            {% if kicker %}<span class="c-match__competition">{{ kicker|insert_tag }}</span>{% endif %}
+            {% if kickoff %}<time class="c-match__date" datetime="{{ kickoff.datetime }}">{{ kickoff.day }}, {{ kickoff.date }}{% if goals or score %} · {{ kickoff.time }}{% endif %}</time>{% endif %}
+        </p>
+    {% endif %}
+
+    <div class="c-match__teams">
+        {% for team in [home, away] %}
+            <div class="c-match__team c-match__team--{{ loop.first ? 'home' : 'away' }}">
+                {% if team.logo %}
+                    <div class="c-match__crest">{% with {figure: team.logo} %}{{ block('figure_component') }}{% endwith %}</div>
+                {% endif %}
+                <p class="c-match__name">{{ team.name }}</p>
+            </div>
+
+            {% if loop.first %}
+                <div class="c-match__center">
+                    {% if goals %}
+                        <p class="c-match__score"><span>{{ goals[0] }}</span><span class="c-match__colon" aria-hidden="true">:</span><span class="u-visually-hidden"> {{ 'MSC.creuvaMatchTo'|trans([], 'contao_default') }} </span><span>{{ goals[1] }}</span></p>
+                    {% elseif score %}
+                        <p class="c-match__score c-match__score--text">{{ score }}</p>
+                    {% elseif kickoff %}
+                        <p class="c-match__kickoff">{{ kickoff.time }}<span>{{ 'MSC.creuvaMatchKickoff'|trans([], 'contao_default') }}</span></p>
+                    {% else %}
+                        <p class="c-match__versus">{{ 'MSC.creuvaMatchVersus'|trans([], 'contao_default') }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if venue or button %}
+        <div class="c-match__footer">
+            {% if venue %}<p class="c-match__venue">{{ venue }}</p>{% endif %}
+            {% if button %}<a class="c-button c-button--primary c-match__button" href="{{ button.href }}">{{ button.text }}</a>{% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

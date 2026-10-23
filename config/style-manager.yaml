@@ -99,6 +99,16 @@ creuvaGrid:
       cssClasses:
         u-cols-wide-start: 'Erste Spalte breiter'
         u-cols-wide-end: 'Zweite Spalte breiter'
+    offset:
+      title: 'Versatz'
+      description: 'Ab Tablet-Breite steht die zweite (bei 3 Spalten die mittlere) Spalte tiefer, z. B. für Bildkacheln'
+      cssClass: 'w50'
+      blankOption: true
+      extendContentElement: true
+      contentElements: [element_group]
+      sorting: 400
+      cssClasses:
+        u-grid-offset: 'Versetzt (Spalte tiefer)'
 
 creuvaText:
   title: 'Text'
@@ -200,7 +210,7 @@ creuvaSpacing:
       cssClass: 'w50'
       blankOption: true
       extendContentElement: true
-      contentElements: &allElements [text, headline, hyperlink, image, gallery, list, table, description_list, accordion, element_group, download, downloads, code, markdown, html, unfiltered_html, youtube, vimeo, player, swiper, teaser, template, creuva_hero, ct_contentBox, ct_featureElement, ct_priceBox, ct_sliderElement, ct_teaserBox, feature_section, module, form, alias, article]
+      contentElements: &allElements [text, headline, hyperlink, image, gallery, list, table, description_list, accordion, element_group, download, downloads, code, markdown, html, unfiltered_html, youtube, vimeo, player, swiper, teaser, template, creuva_hero, creuva_logos, creuva_match, ct_contentBox, ct_featureElement, ct_priceBox, ct_sliderElement, ct_teaserBox, feature_section, module, form, alias, article]
       extendArticle: true
       extendModule: true
       sorting: 100
@@ -403,6 +413,7 @@ creuvaElements:
       sorting: 400
       cssClasses:
         u-table-compare: 'Paket-Vergleich'
+        u-table-league: 'Liga-Tabelle (eigene Mannschaft fett)'
 
 creuvaVisibility:
   title: 'Sichtbarkeit'

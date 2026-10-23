@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Großer Einstiegsbereich mit Überschrift, Text, Buttons und Bild.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_match'] = ['Spielpaarung', 'Nächstes Spiel oder Ergebnis: Wettbewerb, Mannschaften mit Wappen, Anstoß, Spielort und Button.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_logos'] = ['Logoleiste', 'Logos von Kunden oder Partnern, verlinkt über die Metadaten der Dateien. Den Hintergrund bestimmt der Abschnitt (Artikel).'];
 
 $GLOBALS['TL_LANG']['FMD']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['FMD']['creuva_header'] = ['Creuva Header', 'Kopfbereich mit Logo, Navigation, CTA-Button und mobilem Menü.'];
@@ -48,7 +50,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaFormatKicker'] = 'Dachzeile';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatLinks'] = 'Links';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButton'] = 'Button';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatButtonSecondary'] = 'Button (sekundär)';
-$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva Logoleiste', 'Logos von Partnern oder Sponsoren, verlinkt über die Metadaten der Dateien. Am besten im Slot „prefooter“ platzieren.'];
+$GLOBALS['TL_LANG']['FMD']['creuva_logos'] = ['Creuva Logoleiste', 'Logos von Partnern oder Sponsoren, verlinkt über die Metadaten der Dateien. Über die volle Breite, am besten im Slot „prefooter“; im Inhalt das Element „Logoleiste“ verwenden.'];
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderPrev'] = 'Vorheriges Element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderNext'] = 'Nächstes Element';
 $GLOBALS['TL_LANG']['MSC']['creuvaSliderGoTo'] = 'Zu Element %s';
@@ -67,3 +69,8 @@ $GLOBALS['TL_LANG']['MSC']['creuvaSearchEmptyText'] = 'Vielleicht hilft einer di
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip1'] = 'Prüfen Sie die Schreibweise.';
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip2'] = 'Verwenden Sie weniger oder allgemeinere Suchbegriffe.';
 $GLOBALS['TL_LANG']['MSC']['creuvaSearchTip3'] = 'Probieren Sie ein Wort mit ähnlicher Bedeutung.';
+
+// Match element (content_element/creuva_match)
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchKickoff'] = 'Anstoß';
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchVersus'] = 'gegen';
+$GLOBALS['TL_LANG']['MSC']['creuvaMatchTo'] = 'zu';

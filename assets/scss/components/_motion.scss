@@ -98,6 +98,14 @@
     66% { border-radius: 55% 45% 60% 40% / 40% 55% 45% 60%; transform: translate(-2%, 2%) rotate(-4deg); }
   }
 
+  @keyframes creuva-fade {
+    from { opacity: 0; }
+  }
+
+  @keyframes creuva-settle {
+    from { transform: scale(1.08); }
+  }
+
   @keyframes creuva-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
@@ -124,6 +132,19 @@
 
       .c-hero__badge {
         animation: creuva-float 5s ease-in-out infinite;
+      }
+
+      // Full screen image: fades in and slowly settles, no blob
+      .c-hero--cover .c-hero__media {
+        animation: creuva-fade 1.2s var(--ease-out) both;
+
+        &::before {
+          animation: none;
+        }
+
+        img {
+          animation: creuva-settle 2.4s var(--ease-out) both;
+        }
       }
     }
   }

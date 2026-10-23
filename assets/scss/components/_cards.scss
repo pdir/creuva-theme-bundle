@@ -93,6 +93,126 @@
     }
   }
 
+  // Image tile (portfolio): no frame, the image keeps its proportions, the
+  // whole tile is clickable if the text ends with a link
+  .c-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .c-tile__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background: var(--c-surface-muted);
+
+    figure {
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 0 !important;
+      transition: transform 0.9s var(--ease-out), filter 0.9s var(--ease-out);
+    }
+  }
+
+  // Round arrow button in the corner of linked tiles
+  .c-tile:has(.c-tile__text a) .c-tile__media::after {
+    content: "";
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-surface) var(--icon-arrow) center / 1.1rem no-repeat;
+    box-shadow: var(--shadow-m);
+    opacity: 0;
+    transform: translateY(0.5rem) rotate(-45deg);
+    transition: opacity var(--transition-hover), transform var(--transition-hover);
+  }
+
+  .c-tile:has(a):hover {
+    .c-tile__media img {
+      transform: scale(1.04);
+    }
+
+    .c-tile__media::after {
+      opacity: 1;
+      transform: rotate(-45deg);
+    }
+
+    .c-tile__title {
+      color: var(--c-accent-text);
+    }
+  }
+
+  .c-tile:has(a:focus-visible) {
+    outline: 2px solid var(--c-accent-text);
+    outline-offset: 4px;
+    border-radius: var(--radius-m);
+  }
+
+  .c-tile__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: baseline;
+  }
+
+  .c-tile__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    transition: color var(--transition);
+  }
+
+  .c-tile__category {
+    margin: 0;
+    color: var(--c-text-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .c-tile__text {
+    grid-column: 1 / -1;
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+
+    > p {
+      margin: 0;
+    }
+
+    // The link is only read out, the whole tile is the click area
+    > p:last-child:has(> a:only-child) {
+      height: 0;
+      overflow: visible;
+    }
+
+    > p:last-child > a:only-child {
+      color: transparent;
+      font-size: 0;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
   // Icon box
   .c-feature {
     @include card;

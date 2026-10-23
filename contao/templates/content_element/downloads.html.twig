@@ -1,0 +1,8 @@
+{#
+    Downloads: like the core template, with the file type and size below the
+    title (component/_creuva_download.html.twig).
+#}
+{% extends '@Contao/content_element/downloads.html.twig' %}
+{% use '@Contao/component/_creuva_download.html.twig' %}
+
+{% block download_link_inner %}{{ block('creuva_download_inner') }}{% endblock %}

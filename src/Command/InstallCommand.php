@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Pdir\CreuvaThemeBundle\Command;
 
 use Pdir\CreuvaThemeBundle\Design\DesignSettings;
+use Pdir\CreuvaThemeBundle\Installer\DemoImporter;
 use Pdir\CreuvaThemeBundle\Installer\InstallOptions;
 use Pdir\CreuvaThemeBundle\Installer\ThemeInstaller;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -22,6 +23,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 #[AsCommand(
@@ -33,6 +35,10 @@ class InstallCommand extends Command
     public function __construct(
         private readonly ThemeInstaller $installer,
         private readonly DesignSettings $designSettings,
+        #[Autowire(param: 'contao.web_dir')]
+        private readonly string $webDir,
+        #[Autowire(param: 'contao.upload_path')]
+        private readonly string $uploadPath,
     ) {
         parent::__construct();
     }
@@ -234,11 +240,17 @@ class InstallCommand extends Command
         ), $rootIds);
 
         // The demo files are in a public folder that needs a symlink in the web directory
-        if ($demo && $this->getApplication()?->has('contao:symlinks')) {
+        // (only if it does not exist yet: contao:symlinks removes all links first, and
+        // without the right to create symlinks, e.g. on Windows, they would be gone)
+        if ($demo && !file_exists($this->webDir.'/'.$this->uploadPath.'/'.DemoImporter::FILES_FOLDER) && $this->getApplication()?->has('contao:symlinks')) {
+            $warning = 'The symlinks could not be created%s. Run "contao:symlinks" manually, otherwise the SVG icons and downloads of the demo cannot be loaded.';
+
             try {
-                $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput());
+                if (Command::SUCCESS !== $this->getApplication()->find('contao:symlinks')->run(new ArrayInput([]), new NullOutput())) {
+                    $result->warnings[] = \sprintf($warning, '');
+                }
             } catch (\Throwable $e) {
-                $result->warnings[] = 'The symlinks could not be created ('.$e->getMessage().'). Run "contao:symlinks" manually, otherwise the SVG icons and downloads of the demo cannot be loaded.';
+                $result->warnings[] = \sprintf($warning, ' ('.$e->getMessage().')');
             }
         }
 

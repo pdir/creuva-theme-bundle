@@ -31,6 +31,8 @@ use Symfony\Component\Yaml\Yaml;
  *   calendar:<key>       ID of a demo event calendar
  *   image_size:<key>     ID of a demo image size ("size: image_size:card" is
  *                        short for ['', '', 'image_size:card'])
+ *   date:<relative>      timestamp relative to the day of the import, e.g.
+ *                        "date:+5 days 15:00" (events and news: "date: +5 days")
  *   headline: "Text"     headline as h2 (or {value: …, unit: h1})
  *   cssID: "classes"     CSS classes (or [id, classes])
  *   any other array      serialized
@@ -748,6 +750,24 @@ class DemoImporter
         }
     }
 
+    /**
+     * Replaces page aliases of the demo in insert tags ({{link_url::kontakt}})
+     * with the page IDs: aliases are resolved at runtime and would point to the
+     * page of another website with the same alias (e.g. a second demo).
+     */
+    public function replacePageAliases(string $value): string
+    {
+        if (empty($this->refs['page']) || !str_contains($value, '{{')) {
+            return $value;
+        }
+
+        return (string) preg_replace_callback(
+            '/\{\{(link|link_open|link_url|link_title|link_name)::([^}|:]+)([}|])/',
+            fn (array $m) => isset($this->refs['page'][$m[2]]) ? '{{'.$m[1].'::'.$this->refs['page'][$m[2]].$m[3] : $m[0],
+            $value,
+        );
+    }
+
     private function resolveValue(mixed $value): mixed
     {
         if (\is_bool($value)) {
@@ -755,11 +775,35 @@ class DemoImporter
         }
 
         if (\is_array($value)) {
-            return serialize(array_map(fn ($v) => \is_array($v) ? $v : $this->resolveValue($v), $value));
+            // Nested arrays (e.g. options of a form field) only get the page aliases replaced
+            return serialize(array_map(function ($v) {
+                if (!\is_array($v)) {
+                    return $this->resolveValue($v);
+                }
+
+                array_walk_recursive($v, function (&$item): void {
+                    $item = \is_string($item) ? $this->replacePageAliases($item) : $item;
+                });
+
+                return $v;
+            }, $value));
         }
 
-        if (!\is_string($value) || !preg_match('/^(file|page|module|form|news_archive|calendar|image_size):(.+)$/', $value, $matches)) {
+        if (!\is_string($value)) {
             return $value;
+        }
+
+        // Date relative to the day of the import, e.g. "date:+5 days 15:00"
+        if (preg_match('/^date:(.+)$/', $value, $matches)) {
+            if (false === ($timestamp = strtotime($matches[1], strtotime('today')))) {
+                throw new \OutOfBoundsException(\sprintf('Demo date "%s" is invalid, the record has been skipped.', $value));
+            }
+
+            return $timestamp;
+        }
+
+        if (!preg_match('/^(file|page|module|form|news_archive|calendar|image_size):(.+)$/', $value, $matches)) {
+            return $this->replacePageAliases($value);
         }
 
         [, $type, $key] = $matches;

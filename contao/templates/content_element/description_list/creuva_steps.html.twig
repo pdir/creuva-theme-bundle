@@ -1,0 +1,12 @@
+{#
+    Process steps: numbered automatically, term = step, details = description.
+    Side by side from tablet width on (e.g. inquiry, planning, production,
+    assembly), one below the other on phones.
+#}
+{% extends '@Contao/content_element/description_list.html.twig' %}
+
+{% set attributes = attrs(attributes|default).addClass('c-steps') %}
+
+{% block description %}
+    <div class="c-steps__item">{{ parent() }}</div>
+{% endblock %}
