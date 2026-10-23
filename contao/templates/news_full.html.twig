@@ -20,8 +20,8 @@
             {# Optional: the part of the headline from "creuvaHeadlineAccent" in the accent color #}
             {% set accent = creuvaHeadlineAccent|default|trim %}
             {% if accent and accent in newsHeadline %}
-                {% set accentHtml = accent|e('contao_html') %}
-                <h1>{{ newsHeadline|e('contao_html')|replace({(accentHtml): '<span class="c-news-header__accent">' ~ accentHtml ~ '</span>'})|raw }}</h1>
+                {% set parts = newsHeadline|split(accent, 2) %}
+                <h1>{{ parts[0] }}<span class="c-news-header__accent">{{ accent }}</span>{{ parts[1] }}</h1>
             {% else %}
                 <h1>{{ newsHeadline }}</h1>
             {% endif %}
