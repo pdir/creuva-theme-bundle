@@ -438,7 +438,7 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
 | Text | `creuva_price` | Preis-Karte: Paket als Überschrift, Preis als Subline, Leistungsliste, letzter Link als Button; mit `u-featured` hervorgehoben |
-| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben |
+| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“, „Uhr“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Bereiche wie „11–20 Uhr“ bekommen die Einheit ebenfalls, zählen aber nicht hoch; Datumsangaben („24.11.“, „24.11.2026“) bleiben unverändert. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben |
 | Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
 | Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
 

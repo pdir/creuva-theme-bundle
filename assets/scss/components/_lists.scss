@@ -68,6 +68,11 @@
     font-size: .8em;
   }
 
+  // Range like "11–20" (no line break after the dash)
+  .c-stats__range {
+    white-space: nowrap;
+  }
+
   // Number while counting; the final value is kept in the layout (invisible)
   // so the card does not change its width
   .c-stats__count {

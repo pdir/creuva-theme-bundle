@@ -582,12 +582,12 @@ pages:
               - { key: '98 %', value: 'Zufriedene Kunden' }
           - type: description_list
             customTpl: content_element/description_list/creuva_stats
-            headline: { unit: 'h3', value: 'Kennzahlen in Grau (u-card-muted)' }
+            headline: { unit: 'h3', value: 'Kennzahlen in Grau (u-card-muted), Datum und Bereich' }
             cssID: u-card-muted
             creuvaIcons: ['file:icons/kalender.svg', 'file:icons/uhr.svg', 'file:icons/stern.svg', 'file:icons/herz.svg']
             data:
-              - { key: '24', value: 'Türchen' }
-              - { key: '17 Uhr', value: 'Kalenderöffnung' }
+              - { key: '24.11.', value: 'Datum (zählt nicht hoch)' }
+              - { key: '11–20 Uhr', value: 'Bereich (zählt nicht hoch)' }
               - { key: '120+', value: 'Projekte' }
               - { key: '98 %', value: 'Zufriedene Kunden' }
           - type: element_group

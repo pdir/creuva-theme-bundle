@@ -447,6 +447,28 @@ const parseFigure = (text) => {
 };
 
 /**
+ * Dates like "24.11.", "24.11" or "24.11.2026" are shown as they are (no unit,
+ * no counting). Without the trailing dot, the month needs two digits, so
+ * "1.500" or "4,9" stay numbers.
+ */
+const isDate = (text) => {
+  const match = text.match(/^(\d{1,2})\.\s?(\d{1,2})\.(?:\s?\d{2,4})?$/) || text.match(/^(\d{1,2})\.(\d{2})$/);
+
+  return !!match && +match[1] >= 1 && +match[1] <= 31 && +match[2] >= 1 && +match[2] <= 12;
+};
+
+/**
+ * Ranges and other values with several numbers ("11–20 Uhr", "10–12 %"): the
+ * text before the first and after the last digit is styled as unit, the value
+ * does not count up.
+ */
+const splitRange = (text) => {
+  const match = text.match(/^(\D*?)(\d.*\d)(\D*)$/);
+
+  return match ? { prefix: match[1], raw: match[2], suffix: match[3] } : null;
+};
+
+/**
  * Key figures (template variant creuva_stats): prefix and suffix are styled as
  * unit and the numbers count up when they scroll into view (not with the CSS
  * class u-no-countup or the animation setting "none").
@@ -504,9 +526,21 @@ const initCountUp = () => {
     : null;
 
   terms.forEach((term) => {
-    const figure = parseFigure(term.textContent.trim());
+    const text = term.textContent.trim();
+
+    if (isDate(text)) {
+      return;
+    }
+
+    const figure = parseFigure(text);
 
     if (!figure) {
+      const range = splitRange(text);
+
+      if (range) {
+        term.innerHTML = `${unit(range.prefix)}<span class="c-stats__range">${escapeHtml(range.raw)}</span>${unit(range.suffix)}`;
+      }
+
       return;
     }
 
