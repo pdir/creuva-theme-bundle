@@ -524,6 +524,8 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-primary', headline: { unit: 'h3', value: 'Icon dunkel' }, text: '<p>u-icon-primary</p>', addImage: true, singleSRC: 'file:icons/schild.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft u-icon-white', headline: { unit: 'h3', value: 'Weißer Kreis' }, text: '<p>u-icon-white (auf u-card-soft)</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-plain', headline: { unit: 'h3', value: 'Ohne Kreis' }, text: '<p>u-icon-plain</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-primary u-icon-light', headline: { unit: 'h3', value: 'Icon schwarz' }, text: '<p>u-icon-light (auf u-card-primary)</p>', addImage: true, singleSRC: 'file:icons/kalender.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-none', headline: { unit: 'h3', value: 'Ohne Hintergrund' }, text: '<p>u-card-none</p>', addImage: true, singleSRC: 'file:icons/haken.svg' }
           - type: element_group
             cssID: u-grid-3
             children:
@@ -548,6 +550,46 @@ pages:
               - { key: '98 %', value: 'Zufriedene Kunden' }
               - { key: '15+', value: 'Jahre Erfahrung' }
               - { key: '24', value: 'Teammitglieder' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            headline: { unit: 'h3', value: 'Kennzahlen auf Hauptfarbe (Standard: leichte Fläche)' }
+            cssID: u-bg-primary
+            creuvaIcons: ['file:icons/kalender.svg', 'file:icons/uhr.svg', 'file:icons/stern.svg', 'file:icons/herz.svg']
+            data:
+              - { key: '24', value: 'Türchen' }
+              - { key: '17 Uhr', value: 'Kalenderöffnung' }
+              - { key: '120+', value: 'Projekte' }
+              - { key: '98 %', value: 'Zufriedene Kunden' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            headline: { unit: 'h3', value: 'Weißer Kreis, Icon schwarz (u-icon-light)' }
+            cssID: u-bg-primary u-icon-light
+            creuvaIcons: ['file:icons/kalender.svg', 'file:icons/uhr.svg', 'file:icons/stern.svg', 'file:icons/herz.svg']
+            data:
+              - { key: '24', value: 'Türchen' }
+              - { key: '17 Uhr', value: 'Kalenderöffnung' }
+              - { key: '120+', value: 'Projekte' }
+              - { key: '98 %', value: 'Zufriedene Kunden' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            headline: { unit: 'h3', value: 'Kennzahlen weiß auf Hauptfarbe (u-card-white)' }
+            cssID: u-bg-primary u-card-white
+            creuvaIcons: ['file:icons/kalender.svg', 'file:icons/uhr.svg', 'file:icons/stern.svg', 'file:icons/herz.svg']
+            data:
+              - { key: '24', value: 'Türchen' }
+              - { key: '17 Uhr', value: 'Kalenderöffnung' }
+              - { key: '120+', value: 'Projekte' }
+              - { key: '98 %', value: 'Zufriedene Kunden' }
+          - type: description_list
+            customTpl: content_element/description_list/creuva_stats
+            headline: { unit: 'h3', value: 'Kennzahlen in Grau (u-card-muted)' }
+            cssID: u-card-muted
+            creuvaIcons: ['file:icons/kalender.svg', 'file:icons/uhr.svg', 'file:icons/stern.svg', 'file:icons/herz.svg']
+            data:
+              - { key: '24', value: 'Türchen' }
+              - { key: '17 Uhr', value: 'Kalenderöffnung' }
+              - { key: '120+', value: 'Projekte' }
+              - { key: '98 %', value: 'Zufriedene Kunden' }
           - type: element_group
             cssID: u-grid-2
             children:

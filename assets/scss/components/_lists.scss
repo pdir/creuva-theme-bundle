@@ -34,12 +34,22 @@
     pointer-events: none;
   }
 
+  // Background of the single figures: none by default, light on a primary
+  // section; editors choose it with the card classes (_element-styles.scss),
+  // which set --stats-bg, --stats-border, --stats-number …
   .c-stats__item {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
     padding: var(--space-m);
+    border: var(--stats-border-width, 1px) solid var(--stats-border, transparent);
+    border-radius: var(--radius-l);
+    background: var(--stats-bg, transparent);
     transition: box-shadow var(--transition-hover), transform var(--transition-hover), border-color var(--transition);
+  }
+
+  :root[data-radius='none'] .c-stats__item {
+    border-radius: 0;
   }
 
   .c-stats dt {
@@ -49,12 +59,12 @@
     font-variant-numeric: tabular-nums;
     line-height: 1;
     letter-spacing: -0.03em;
-    color: var(--c-primary);
+    color: var(--stats-number, var(--c-primary));
   }
 
   .c-stats__unit {
     margin-inline: .1em;
-    color: var(--c-accent-text);
+    color: var(--stats-unit, var(--c-accent-text));
     font-size: .8em;
   }
 
@@ -79,7 +89,7 @@
   // Label with a small accent line above
   .c-stats dd {
     margin: 0;
-    color: var(--c-text-muted);
+    color: var(--stats-label, var(--c-text-muted));
     font-size: var(--fs-large);
     font-weight: 400;
   }
@@ -120,17 +130,11 @@
 
   .u-bg-primary .c-stats,
   .c-stats.u-bg-primary {
-    dt {
-      color: var(--c-primary-contrast);
-    }
-
-    .c-stats__unit {
-      color: var(--c-accent-on-primary);
-    }
-
-    .c-stats__item {
-      background: color-mix(in srgb, var(--c-primary-contrast) 8%, transparent);
-    }
+    --stats-bg: color-mix(in srgb, var(--c-primary-contrast) 8%, transparent);
+    --stats-number: var(--c-primary-contrast);
+    --stats-unit: var(--c-accent-on-primary);
+    --icon-bg: color-mix(in srgb, var(--c-primary-contrast) 12%, transparent);
+    --icon-filter: brightness(0) invert(1);
   }
 
   // Phones: the numbers are stacked, less space above and below each of them

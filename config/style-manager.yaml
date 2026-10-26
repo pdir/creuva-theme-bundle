@@ -148,11 +148,11 @@ creuvaColors:
   children:
     card:
       title: 'Hintergrund / Rahmen'
-      description: 'Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur ein farbiger Rahmen'
+      description: 'Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur ein farbiger Rahmen; bei den Kennzahlen für jede einzelne Zahl (ohne Auswahl: nur auf dunklem Hintergrund eine leichte Fläche)'
       cssClass: 'w50'
       blankOption: true
       extendContentElement: true
-      contentElements: &cardElements [text, ct_contentBox, ct_teaserBox, ct_priceBox, ct_featureElement]
+      contentElements: &cardElements [text, description_list, ct_contentBox, ct_teaserBox, ct_priceBox, ct_featureElement]
       sorting: 100
       cssClasses:
         u-card-white: 'Weiß'
@@ -163,6 +163,7 @@ creuvaColors:
         u-card-outline-primary: 'Rahmen in Hauptfarbe'
         u-card-outline-accent: 'Rahmen in Akzentfarbe'
         u-card-flat: 'Ohne Rahmen und Schatten'
+        u-card-none: 'Ohne Hintergrund'
     icon:
       title: 'Icon'
       description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen: hell, mittel (Akzentfarbe) oder dunkel (Hauptfarbe); bei mittel und dunkel wird das Icon weiß (einfarbige SVG-Icons)'
@@ -176,6 +177,7 @@ creuvaColors:
         u-icon-accent: 'Mittel (Akzentfarbe, Icon weiß)'
         u-icon-primary: 'Dunkel (Hauptfarbe, Icon weiß)'
         u-icon-white: 'Weißer Kreis'
+        u-icon-light: 'Weißer Kreis, Icon schwarz'
         u-icon-plain: 'Ohne Kreis'
 
 creuvaButton:

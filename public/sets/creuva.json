@@ -502,7 +502,7 @@
           "id": "creuvaCardStyle",
           "class": "icon-th-large ac-col7",
           "type": "select",
-          "label": "Hintergrund / Rahmen (Karten, Icon-Boxen …)",
+          "label": "Hintergrund / Rahmen (Karten, Icon-Boxen, Kennzahlen …)",
           "values": {
             "1": { "title": "Weiß", "value": "u-card-white" },
             "2": { "title": "Grau", "value": "u-card-muted" },
@@ -511,20 +511,22 @@
             "5": { "title": "Akzentfarbe", "value": "u-card-accent" },
             "6": { "title": "Rahmen in Hauptfarbe", "value": "u-card-outline-primary" },
             "7": { "title": "Rahmen in Akzentfarbe", "value": "u-card-outline-accent" },
-            "8": { "title": "Ohne Rahmen und Schatten", "value": "u-card-flat" }
+            "8": { "title": "Ohne Rahmen und Schatten", "value": "u-card-flat" },
+            "9": { "title": "Ohne Hintergrund", "value": "u-card-none" }
           }
         },
         "2": {
           "id": "creuvaIconStyle",
           "class": "icon-eye ac-col7",
           "type": "select",
-          "label": "Icon (Icon-Box)",
+          "label": "Icon (Icon-Box, Kennzahlen)",
           "values": {
             "1": { "title": "Hell (Akzent hell, Icon farbig)", "value": "u-icon-soft" },
             "2": { "title": "Mittel (Akzentfarbe, Icon weiß)", "value": "u-icon-accent" },
             "3": { "title": "Dunkel (Hauptfarbe, Icon weiß)", "value": "u-icon-primary" },
             "4": { "title": "Weißer Kreis", "value": "u-icon-white" },
-            "5": { "title": "Ohne Kreis", "value": "u-icon-plain" }
+            "5": { "title": "Weißer Kreis, Icon schwarz", "value": "u-icon-light" },
+            "6": { "title": "Ohne Kreis", "value": "u-icon-plain" }
           }
         }
       }

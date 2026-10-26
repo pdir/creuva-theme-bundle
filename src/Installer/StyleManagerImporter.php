@@ -111,18 +111,38 @@ class StyleManagerImporter
             $classes[] = ['key' => (string) $class, 'value' => (string) $label];
         }
 
-        $existing = $this->connection->fetchAssociative('SELECT id, cssClasses FROM tl_style_manager WHERE pid = ? AND alias = ?', [$archiveId, $alias]);
+        $existing = $this->connection->fetchAssociative('SELECT * FROM tl_style_manager WHERE pid = ? AND alias = ?', [$archiveId, $alias]);
 
-        // Existing group: only add new classes
+        // Existing group: only add new classes and new element types (content
+        // elements, modules, form fields), never remove or change anything
         if (false !== $existing) {
+            $update = [];
             $current = @unserialize((string) $existing['cssClasses'], ['allowed_classes' => false]);
             $current = \is_array($current) ? $current : [];
             $keys = array_column($current, 'key');
             $added = array_values(array_filter($classes, static fn (array $class): bool => !\in_array($class['key'], $keys, true)));
 
             if ($added) {
-                $this->connection->update('tl_style_manager', ['cssClasses' => serialize([...$current, ...$added]), 'tstamp' => time()], ['id' => $existing['id']]);
+                $update['cssClasses'] = serialize([...$current, ...$added]);
                 $count['classes'] += \count($added);
+            }
+
+            foreach (self::SERIALIZED as $field) {
+                if (!isset($group[$field]) || !\array_key_exists($field, $existing)) {
+                    continue;
+                }
+
+                $types = @unserialize((string) $existing[$field], ['allowed_classes' => false]);
+                $types = \is_array($types) ? $types : [];
+                $new = array_values(array_diff((array) $group[$field], $types));
+
+                if ($new) {
+                    $update[$field] = serialize([...$types, ...$new]);
+                }
+            }
+
+            if ($update) {
+                $this->connection->update('tl_style_manager', [...$update, 'tstamp' => time()], ['id' => $existing['id']]);
             }
 
             return;
