@@ -73,7 +73,10 @@ const initPreview = () => {
       delete preview.dataset.scheme;
     }
 
-    preview.dataset.theme = value('creuvaVariant') || 'light';
+    const variant = value('creuvaVariant') || 'light';
+
+    // "auto": preview like the system setting of the editor
+    preview.dataset.theme = 'auto' === variant ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : variant;
     preview.dataset.radius = value('creuvaRadius') || 'large';
 
     // Custom colors override the scheme like in page/layout/creuva.html.twig

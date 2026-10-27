@@ -16,7 +16,11 @@ namespace Pdir\CreuvaThemeBundle\Design;
  */
 class DesignSettings
 {
-    public const VARIANTS = ['light', 'dark', 'editorial'];
+    /**
+     * "auto" is light or dark depending on the system setting of the visitor
+     * (resolved in the browser, see page/layout/creuva.html.twig).
+     */
+    public const VARIANTS = ['light', 'dark', 'auto', 'editorial'];
 
     public const RADII = ['none', 'small', 'medium', 'large'];
 

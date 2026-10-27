@@ -348,6 +348,7 @@ pages:
                   - { type: 'image', singleSRC: 'file:bilder/projekt-nordlicht.jpg', size: 'image_size:card' }
                   - { type: 'image', singleSRC: 'file:bilder/detail-2.jpg', size: 'image_size:card' }
                   - { type: 'image', singleSRC: 'file:bilder/detail-3.jpg', size: 'image_size:card' }
+          - { type: 'gallery', customTpl: 'content_element/gallery/creuva_slider', headline: { unit: 'h3', value: 'Galerie als Slider (creuva_slider, 3 Bilder pro Slide)' }, multiSRC: ['file:bilder/projekt-gruenwerk.jpg', 'file:bilder/projekt-alpenhof.jpg', 'file:bilder/projekt-nordlicht.jpg', 'file:bilder/detail-1.jpg', 'file:bilder/detail-2.jpg', 'file:bilder/detail-3.jpg', 'file:bilder/hero.jpg'], size: 'image_size:gallery', fullsize: true, perRow: 3 }
           - type: swiper
             headline: { unit: 'h3', value: 'Drei Karten pro Ansicht' }
             creuvaSliderView: '3'

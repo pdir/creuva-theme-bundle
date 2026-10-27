@@ -27,6 +27,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Color scheme';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Variant';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_light'] = 'Light';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_dark'] = 'Dark';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_auto'] = 'System';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_editorial'] = 'Editorial';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius'] = 'Corners';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_none'] = 'Square';

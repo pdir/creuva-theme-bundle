@@ -172,6 +172,34 @@
   }
 }
 
+// Gallery as slider (template variant gallery/creuva_slider): the images in the
+// same format and with the same zoom on hover as in the gallery grid
+.c-slider.c-slider--gallery {
+  figure {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .swiper-slide:hover img {
+    transform: scale(1.06);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      transition: none;
+    }
+  }
+}
+
 // Slider with thumbnails (e.g. an image gallery): the arrows (and dots) on the
 // lower edge of the image, the thumbnails right below it; they fill the width
 // (at most 8rem each) and are centered if there are only a few

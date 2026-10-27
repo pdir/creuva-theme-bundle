@@ -101,6 +101,15 @@
     }
   }
 
+  // Image above or below the text (text element, news, events)
+  .media--above > figure {
+    margin-bottom: var(--space-m);
+  }
+
+  .media--below > figure {
+    margin-top: var(--space-m);
+  }
+
   // Float images next to the text from tablet width on
   @media (min-width: 48rem) {
     :is(.media--left, .media--right) > figure {

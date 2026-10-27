@@ -1,0 +1,7 @@
+{# News list: like the Contao template, the author in its own element, so the
+   class u-news-no-author on the module hides it without the date #}
+{% extends '@Contao/news_latest.html.twig' %}
+
+{% block info %}
+    <p class="info"><time datetime="{{ datetime }}">{{ date }}</time>{% if author %} <span class="author">{{ author }}</span>{% endif %}</p>
+{% endblock %}

@@ -24,8 +24,10 @@
     creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
 ]|filter(v => v)|join(';') %}
 
+{# Variant "auto": light until the inline script in the head switches to dark #}
 {% set html_attributes = attrs()
-    .set('data-theme', creuva.variant)
+    .set('data-theme', 'auto' == creuva.variant ? 'light' : creuva.variant)
+    .setIfExists('data-theme-mode', 'auto' == creuva.variant ? 'auto' : null)
     .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
     .set('data-animations', creuva.animations|default('auto'))
@@ -35,6 +37,24 @@
 
 {% block head %}
     {{ parent() }}
+    {# Variant "auto" (data-theme-mode): light or dark like the system setting,
+       also when it changes; runs before the page is rendered. The style
+       switcher uses window.creuvaUpdateTheme() for its option "System". #}
+    <script{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}>
+        (() => {
+            const root = document.documentElement;
+            const dark = matchMedia('(prefers-color-scheme: dark)');
+            const update = () => {
+                if ('auto' === root.dataset.themeMode) {
+                    root.dataset.theme = dark.matches ? 'dark' : 'light';
+                }
+            };
+            update();
+            dark.addEventListener('change', update);
+            document.addEventListener('visibilitychange', update);
+            window.creuvaUpdateTheme = update;
+        })();
+    </script>
     {# The web font is needed on every page: load it in parallel with the stylesheet
        (same URL as in creuva.css, without version parameter, so it is not loaded twice) #}
     <link rel="preload" href="{{ asset('plus-jakarta-sans.woff2', 'creuva_theme')|split('?')|first }}" as="font" type="font/woff2" crossorigin>

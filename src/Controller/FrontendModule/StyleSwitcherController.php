@@ -48,7 +48,10 @@ class StyleSwitcherController extends AbstractFrontendModuleController
         $page = $this->getPageModel();
         $canSave = $page && $this->canSave();
 
-        if ($model->creuvaPreviewOnly && !$canSave) {
+        // Option "Nur für angemeldete Backend-Benutzer": visitors do not see the
+        // switcher (and their stored choice is not applied); logged in back end
+        // users see it in the front end and in the preview
+        if ($model->creuvaPreviewOnly && !$this->tokenChecker->hasBackendUser()) {
             return new Response();
         }
 

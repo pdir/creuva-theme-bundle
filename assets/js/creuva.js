@@ -656,11 +656,17 @@ const initLightbox = () => {
     });
   };
 
+  // Caption or title of the image (file metadata), not the alternative text:
+  // that one describes the image for those who cannot see it
   const caption = (link) => {
     const figure = link.closest('figure');
-    const text = figure?.querySelector('figcaption')?.textContent.trim() || link.getAttribute('title') || '';
 
-    return text || link.querySelector('img')?.getAttribute('alt') || '';
+    return (
+      figure?.querySelector('figcaption')?.textContent.trim() ||
+      link.getAttribute('title')?.trim() ||
+      link.querySelector('img')?.getAttribute('title')?.trim() ||
+      ''
+    );
   };
 
   const preload = (i) => {

@@ -11,7 +11,7 @@ declare(strict_types=1);
 $GLOBALS['TL_LANG']['tl_layout']['creuva_legend'] = 'Creuva-Design';
 $GLOBALS['TL_LANG']['tl_layout']['creuvaScheme'] = ['Farbschema', 'Primär- und Akzentfarbe des Themes.'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaVariant'] = ['Designvariante', 'Grundstimmung des Themes.'];
-$GLOBALS['TL_LANG']['tl_layout']['creuvaVariant_options'] = ['light' => 'Light / Minimal', 'dark' => 'Dark / Creative', 'editorial' => 'Editorial'];
+$GLOBALS['TL_LANG']['tl_layout']['creuvaVariant_options'] = ['light' => 'Light / Minimal', 'dark' => 'Dark / Creative', 'auto' => 'Light oder Dark nach Systemeinstellung', 'editorial' => 'Editorial'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaRadius'] = ['Eckenradius', 'Rundung von Karten, Buttons und Bildern.'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'] = ['none' => 'Eckig', 'small' => 'Klein', 'medium' => 'Mittel', 'large' => 'Groß'];
 $GLOBALS['TL_LANG']['tl_layout']['creuvaPrimaryColor'] = ['Primärfarbe', 'Überschreibt die Primärfarbe des Farbschemas (Hex-Wert ohne #).'];

@@ -467,6 +467,18 @@
               "value": "u-table-league"
             }
           }
+        },
+        "5": {
+          "id": "creuvaNewsStyle",
+          "class": "icon-th-large ac-col7",
+          "type": "select",
+          "label": "News (Liste, Leser, Archiv)",
+          "values": {
+            "1": {
+              "title": "Autor ausblenden",
+              "value": "u-news-no-author"
+            }
+          }
         }
       }
     },

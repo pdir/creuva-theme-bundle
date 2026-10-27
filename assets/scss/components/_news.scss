@@ -223,6 +223,11 @@
     font-size: var(--fs-small);
   }
 
+  // Module option "Autor ausblenden" (Style Manager › Elementoptionen › News)
+  .u-news-no-author :is(.c-news-header .info, .info .author) {
+    display: none;
+  }
+
   .c-news-header__media {
     position: relative;
     isolation: isolate;

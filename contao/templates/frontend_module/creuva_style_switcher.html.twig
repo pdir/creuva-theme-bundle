@@ -29,6 +29,19 @@
 
             const apply = (state) => {
                 for (const [key, value] of Object.entries(state)) {
+                    // "auto": light or dark like the system (see the page layout)
+                    if ('theme' === key) {
+                        if ('auto' === value) {
+                            root.dataset.themeMode = 'auto';
+                            window.creuvaUpdateTheme?.();
+                        } else {
+                            delete root.dataset.themeMode;
+                            root.setAttribute(attribute[key], value);
+                        }
+
+                        continue;
+                    }
+
                     root.setAttribute(attribute[key], value);
 
                     // A selected scheme replaces the custom colors of the page layout

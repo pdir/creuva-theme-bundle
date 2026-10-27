@@ -416,6 +416,16 @@ creuvaElements:
       cssClasses:
         u-table-compare: 'Paket-Vergleich'
         u-table-league: 'Liga-Tabelle (eigene Mannschaft fett)'
+    news:
+      title: 'News'
+      description: 'Für Newsliste, Newsleser und Newsarchiv; das Datum bleibt stehen'
+      cssClass: 'w50'
+      blankOption: true
+      extendModule: true
+      modules: [newslist, newsreader, newsarchive]
+      sorting: 500
+      cssClasses:
+        u-news-no-author: 'Autor ausblenden'
 
 creuvaVisibility:
   title: 'Sichtbarkeit'

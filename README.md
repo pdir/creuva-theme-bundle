@@ -441,6 +441,7 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“, „Uhr“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Bereiche wie „11–20 Uhr“ bekommen die Einheit ebenfalls, zählen aber nicht hoch; Datumsangaben („24.11.“, „24.11.2026“) bleiben unverändert. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben |
 | Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
 | Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
+| Galerie | `creuva_slider` | Galerie als Slider (Swiper wie der Content-Slider): *Bilder pro Reihe* legt fest, wie viele Bilder ein Slide zeigt (1–6; auf Tablets höchstens zwei, auf Smartphones eines); Pfeile und Punkte blättern um so viele Bilder weiter. Bilder im Format 4:3, der wichtige Bereich (Dateiverwaltung) bleibt im Ausschnitt; *Großansicht* öffnet die Lightbox |
 
 In Kästen mit `u-bg-primary` oder `u-bg-accent` wird ein Link, der allein im letzten
 Absatz steht, automatisch als Button dargestellt (Call-to-Action-Box). In Texten mit
@@ -592,6 +593,7 @@ Classes Bundle (`public/sets/creuva.json`).
 | Rahmen | `u-card`, `u-featured` (hervorgehobene Preis-Karte) |
 | Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-start` (Spalten nicht strecken), `u-align-center`, `u-align-end`, Spaltenbreite bei zwei Spalten `u-cols-wide-start`, `u-cols-wide-end` (3 : 2) |
 | Tabelle | `u-table-compare` (Paket-Vergleich: Spalten 2–4 farbig, „✓“/„–“ als Icons) |
+| News | `u-news-no-author` am Modul Newsliste, Newsleser oder Newsarchiv: blendet den Autor aus, das Datum bleibt (Contao 5 hat die Einstellung „Meta-Felder“ nicht mehr). Dafür setzen die Creuva-Templates `news_latest`/`news_short` den Autor in ein eigenes Element |
 | Abstände | Innenabstand `u-py-*` (oben und unten), `u-pt-*` (nur oben), `u-pb-*` (nur unten); Außenabstand `u-my-*`, `u-mt-*`, `u-mb-*` – jeweils `0`, `s`, `m`, `l`, `xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
 | Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
@@ -624,7 +626,8 @@ Template). Feste Zuschnitte wie „Karte (4:3)“ passen nur zum gleichmäßigen
 
 **Lightbox:** Mit *Großansicht/Neues Fenster* öffnen Bilder der Galerie und des Bild-Elements
 die Creuva-Lightbox (`assets/js/creuva.js`, `components/_lightbox.scss`). Sie bietet einen
-dunklen Hintergrund, Bildunterschrift bzw. Alt-Text, Zähler, Vor/Zurück, Tastatur (Esc,
+dunklen Hintergrund, Bildunterschrift bzw. Titel aus den Metadaten (höchstens zwei Zeilen;
+der Alt-Text wird nicht angezeigt), Zähler, Vor/Zurück, Tastatur (Esc,
 Pfeiltasten) und Wischen auf dem Smartphone. Bilder mit demselben `data-lightbox`-Wert,
 also einer Galerie, bilden eine Gruppe. Die Lightbox-Skripte von Contao (jQuery/MooTools)
 werden nicht benötigt.
@@ -718,8 +721,19 @@ leert den Seiten-Cache dieser Website und gilt danach für alle Besucher. Redakt
 Admin-Rechte und normale Besucher sehen den Button nicht; der Endpunkt
 (`/contao/creuva/style-switcher`) prüft Admin-Rechte und Request-Token.
 
-Mit der Moduloption „Nur für Administratoren in der Vorschau“ ist der Switcher für Besucher
-unsichtbar – so lässt sich das Design einer Live-Website in der Vorschau auswählen.
+Mit der Moduloption „Nur für angemeldete Backend-Benutzer“ ist der Switcher für Besucher
+unsichtbar: Er erscheint nur, wenn man im Backend angemeldet ist (im Frontend und in der
+Vorschau). Besucher können das Design dann nicht ändern, eine früher im Browser gespeicherte
+Auswahl gilt für sie nicht mehr. Für Live-Websites diese Option setzen, ohne sie sieht jeder
+den Switcher (Demo-Website).
+
+### Variante „System“
+
+Die Designvariante „Light oder Dark nach Systemeinstellung“ (`auto`, im Seitenlayout oder im
+Startpunkt) zeigt die Website hell oder dunkel, je nachdem, was im Betriebssystem bzw. Browser
+des Besuchers eingestellt ist, und wechselt mit, wenn sich die Einstellung ändert. Ein kleines
+Skript im `<head>` setzt dafür `data-theme` vor dem ersten Rendern (kein Aufblitzen); ohne
+JavaScript bleibt die Seite hell. Im Style-Switcher heißt die Option „System“.
 
 ## Schriften und Druck
 
