@@ -257,6 +257,15 @@
     padding: var(--space-xs) var(--space-m);
   }
 
+  // The element itself is a card (u-card, e.g. with the headline inside):
+  // the list does not get a second frame
+  .c-facts.u-card dl {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
   .c-facts__item {
     display: grid;
     grid-template-columns: minmax(7rem, 0.4fr) minmax(0, 1fr);

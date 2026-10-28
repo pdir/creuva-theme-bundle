@@ -380,6 +380,7 @@ pages:
           - { type: module, module: 'module:journal-neueste' }
       - title: CTA
         teaserCssID: ['', '']
+        cssID: u-py-0
         elements:
           - type: text
             headline: 'Ort im Kopf?'
@@ -520,7 +521,7 @@ pages:
               - type: gallery
                 size: 'image_size:gallery'
                 fullsize: true
-                multiSRC: ['file:bilder/projekte/haus-am-hang-abend.jpg', 'file:bilder/projekte/haus-am-hang-innen.jpg', 'file:bilder/projekte/haus-am-hang-fassade.jpg']
+                multiSRC: ['file:bilder/projekte/haus-am-hang-abend.jpg', 'file:bilder/projekte/haus-am-hang-innen.jpg', 'file:bilder/projekte/haus-am-hang-fassade.jpg', 'file:bilder/projekte/haus-am-hang.jpg']
                 sortBy: custom
                 cssID: u-gallery-mosaic
               - type: text
@@ -754,7 +755,7 @@ pages:
                 headline: { unit: h2, value: 'Weitere Motive' }
                 size: 'image_size:gallery'
                 fullsize: true
-                multiSRC: ['file:bilder/projekte/duenenblick-strand.jpg', 'file:bilder/projekte/duenenblick-lounge.jpg', 'file:bilder/projekte/duenenblick-zimmer.jpg']
+                multiSRC: ['file:bilder/projekte/duenenblick-strand.jpg', 'file:bilder/projekte/duenenblick-lounge.jpg', 'file:bilder/projekte/duenenblick-zimmer.jpg', 'file:bilder/projekte/duenenblick.jpg']
                 sortBy: custom
                 cssID: u-gallery-mosaic-right
           - title: Weiter
