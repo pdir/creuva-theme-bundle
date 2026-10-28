@@ -632,6 +632,12 @@ Pfeiltasten) und Wischen auf dem Smartphone. Bilder mit demselben `data-lightbox
 also einer Galerie, bilden eine Gruppe. Die Lightbox-Skripte von Contao (jQuery/MooTools)
 werden nicht benötigt.
 
+**Bevorzugtes Laden:** Das erste große Bild einer Seite (mindestens 400 px breit, im ersten
+Artikel des Hauptbereichs, z. B. das Hero-Bild) bekommt automatisch `fetchpriority="high"`
+und kein Lazy Loading, damit es als Erstes geladen wird (`src/EventListener/ImagePriorityListener.php`).
+Beginnt eine Seite mit Text, bleiben alle Bilder unverändert, ebenso wenn ein Template bereits
+selbst `fetchpriority` setzt.
+
 ## Animationen und Hover-Effekte
 
 Im Seitenlayout legt **Creuva-Design › Animationen** fest, was beim Scrollen eingeblendet wird:
