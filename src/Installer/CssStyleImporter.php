@@ -52,7 +52,7 @@ class CssStyleImporter
             return false;
         }
 
-        // Added by contao/dca/tl_css_style_group.php
+        // Added by Pdir\CreuvaThemeBundle\EventListener\CssStyleGroupIdentifierListener
         return isset(array_change_key_case($schemaManager->listTableColumns('tl_css_style_group'))['creuvaidentifier']);
     }
 
