@@ -189,7 +189,7 @@
     }
   }
 
-  // Gallery layouts (Style Manager › Elementoptionen › Galerie), they win over
+  // Gallery layouts (CSS styles › Elementoptionen › Galerie), they win over
   // the images per row. The images fill their cells (cropped by object-fit).
   .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right, .u-gallery-featured) > ul {
     grid-auto-flow: dense;

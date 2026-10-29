@@ -76,7 +76,7 @@ class DemoImporter
         private readonly string $projectDir,
         #[Autowire(param: 'contao.upload_path')]
         private readonly string $uploadPath,
-        private readonly StyleManagerValues $styleManagerValues,
+        private readonly CssStyleValues $cssStyleValues,
     ) {
     }
 
@@ -823,7 +823,7 @@ class DemoImporter
      */
     private function insert(string $table, array $data): int
     {
-        $data += $this->getStyleManagerData($table, $data);
+        $data += $this->getCssStyleData($table, $data);
 
         $this->connection->insert($table, $data + ['tstamp' => time()]);
 
@@ -831,23 +831,23 @@ class DemoImporter
     }
 
     /**
-     * Preselects the classes of the CSS class field in the Style Manager (if
-     * installed), otherwise they would only appear as free text.
+     * Preselects the classes of the CSS class field in the CSS style selector,
+     * otherwise they would only appear as free text.
      *
      * @param array<string, mixed> $data
      *
      * @return array<string, string>
      */
-    private function getStyleManagerData(string $table, array $data): array
+    private function getCssStyleData(string $table, array $data): array
     {
-        if (!isset($data['cssID']) || isset($data['styleManager']) || !$this->columnExists($table, 'styleManager')) {
+        if (!isset($data['cssID']) || isset($data[CssStyleValues::FIELD]) || !$this->columnExists($table, CssStyleValues::FIELD)) {
             return [];
         }
 
         $cssID = @unserialize((string) $data['cssID'], ['allowed_classes' => false]);
-        $value = $this->styleManagerValues->resolve($table, isset($data['type']) ? (string) $data['type'] : null, (string) (\is_array($cssID) ? ($cssID[1] ?? '') : ''));
+        $value = $this->cssStyleValues->resolve($table, isset($data['type']) ? (string) $data['type'] : null, (string) (\is_array($cssID) ? ($cssID[1] ?? '') : ''));
 
-        return null === $value ? [] : ['styleManager' => $value];
+        return null === $value ? [] : [CssStyleValues::FIELD => $value];
     }
 
     /**

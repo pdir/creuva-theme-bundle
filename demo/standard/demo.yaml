@@ -366,7 +366,7 @@ news:
             data:
               - { key: '01 Analyse', value: 'Seiten, Erweiterungen und Zugriffszahlen prüfen.' }
               - { key: '02 Konzept', value: 'Struktur, Inhalte und Design neu denken.' }
-              - { key: '03 Umsetzung', value: 'Twig-Templates, Style Manager und Tests.' }
+              - { key: '03 Umsetzung', value: 'Twig-Templates, CSS-Stile und Tests.' }
               - { key: '04 Go-live', value: 'Weiterleitungen und Monitoring.' }
           - type: gallery
             size: 'image_size:gallery'

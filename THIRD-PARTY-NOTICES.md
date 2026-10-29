@@ -20,6 +20,7 @@ Contao Manager installiert. / Not shipped with the theme, installed via Composer
 | doctrine/dbal                                    | MIT                | https://github.com/doctrine/dbal                    |
 | contao-themes-net/theme-components-bundle        | proprietär / proprietary | https://contao-themes.net                     |
 | contao-themes-net/advanced-classes-bundle (indirekt / transitive) | LGPL-3.0-or-later | https://github.com/contao-themes-net/advanced-classes-bundle |
+| pdir/css-style-selector-bundle                   | MIT                | https://github.com/pdir/css-style-selector-bundle   |
 
 ## Build-Werkzeuge (npm) / Build tools
 
