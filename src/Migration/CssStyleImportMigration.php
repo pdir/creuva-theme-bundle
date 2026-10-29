@@ -20,6 +20,9 @@ use Pdir\CreuvaThemeBundle\Installer\CssStyleImporter;
  * long as at least one Creuva group exists, so groups removed by an editor stay
  * removed; new groups and styles of a theme update are added with
  * "creuva:css-styles".
+ *
+ * Creuva groups of the version before the categories are moved into the
+ * category of their section.
  */
 class CssStyleImportMigration extends AbstractMigration
 {
@@ -29,11 +32,15 @@ class CssStyleImportMigration extends AbstractMigration
 
     public function shouldRun(): bool
     {
-        return $this->importer->isAvailable() && !$this->importer->hasGroups();
+        return $this->importer->isAvailable() && (!$this->importer->hasGroups() || $this->importer->hasUncategorizedGroups());
     }
 
     public function run(): MigrationResult
     {
+        if ($this->importer->hasGroups()) {
+            return $this->createResult(true, \sprintf('Moved %d Creuva groups into their CSS style category.', $this->importer->assignCategories()));
+        }
+
         $count = $this->importer->import();
 
         return $this->createResult(true, \sprintf('Imported %d Creuva groups with %d styles into the CSS style selector.', $count['groups'], $count['styles']));

@@ -54,7 +54,7 @@ class CssStyleSelectionMigration extends AbstractMigration
     {
         $schemaManager = $this->connection->createSchemaManager();
 
-        if (!$schemaManager->tablesExist(['tl_css_style_selector'])) {
+        if (!$schemaManager->tablesExist(['tl_css_style_group']) || !isset(array_change_key_case($schemaManager->listTableColumns('tl_css_style_group'))['styles'])) {
             return [];
         }
 

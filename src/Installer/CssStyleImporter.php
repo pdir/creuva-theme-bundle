@@ -10,20 +10,23 @@ declare(strict_types=1);
 
 namespace Pdir\CreuvaThemeBundle\Installer;
 
+use Contao\StringUtil;
+use Craffft\CssStyleSelectorBundle\Migration\StyleCategoryMigration;
 use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
 use Craffft\CssStyleSelectorBundle\Repository\CssStyleRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Imports the Creuva groups of config/css-styles.yaml into the tables of the
- * CSS style selector (tl_css_style_group, tl_css_style_selector), so editors
- * can change them and add their own groups in the back end.
+ * Imports the Creuva sections and groups of config/css-styles.yaml into the
+ * tables of the CSS style selector (tl_css_style_category, tl_css_style_group
+ * with the styles as rows), so editors can change them and add their own
+ * categories and groups in the back end.
  *
- * Only missing groups and styles are added: changes of the editors (titles,
- * element types, removed styles …) are never overwritten. The imported groups
- * are recognized by their identifier (<section>.<group>), the styles of a
- * group by their CSS class.
+ * Only missing categories, groups and styles are added: changes of the editors
+ * (titles, element types, removed styles …) are never overwritten. The
+ * imported categories and groups are recognized by their identifier (<section>
+ * and <section>.<group>), the styles of a group by their CSS class.
  */
 class CssStyleImporter
 {
@@ -48,12 +51,81 @@ class CssStyleImporter
     {
         $schemaManager = $this->connection->createSchemaManager();
 
-        if (!$schemaManager->tablesExist(['tl_css_style_group', 'tl_css_style_selector'])) {
+        if (!$schemaManager->tablesExist(['tl_css_style_category', 'tl_css_style_group'])) {
             return false;
         }
 
-        // Added by Pdir\CreuvaThemeBundle\EventListener\CssStyleGroupIdentifierListener
-        return isset(array_change_key_case($schemaManager->listTableColumns('tl_css_style_group'))['creuvaidentifier']);
+        $categoryColumns = array_change_key_case($schemaManager->listTableColumns('tl_css_style_category'));
+        $groupColumns = array_change_key_case($schemaManager->listTableColumns('tl_css_style_group'));
+
+        // creuvaIdentifier is added by Pdir\CreuvaThemeBundle\EventListener\CssStyleGroupIdentifierListener
+        if (!isset($categoryColumns['creuvaidentifier'], $groupColumns['creuvaidentifier'], $groupColumns['pid'], $groupColumns['styles'])) {
+            return false;
+        }
+
+        // Wait until the StyleRowsMigration has moved the styles of the former table into their groups
+        return !$schemaManager->tablesExist(['tl_css_style_selector'])
+            || !$this->connection->fetchOne('SELECT COUNT(*) FROM tl_css_style_group g WHERE g.styles IS NULL AND EXISTS (SELECT 1 FROM tl_css_style_selector s WHERE s.pid = g.id)');
+    }
+
+    /**
+     * Whether Creuva groups are not in a Creuva category yet, e.g. groups of
+     * the version before the categories, which were moved into the category
+     * "General" by the CSS style selector.
+     */
+    public function hasUncategorizedGroups(): bool
+    {
+        return $this->isAvailable() && [] !== $this->findUncategorizedGroups();
+    }
+
+    /**
+     * Moves the Creuva groups that are not in a Creuva category yet into the
+     * category of their section and removes the section from the title
+     * ("Abstände › Innenabstand" → "Innenabstand") unless an editor changed it.
+     *
+     * @return int number of moved groups
+     */
+    public function assignCategories(): int
+    {
+        if (!$this->isAvailable()) {
+            return 0;
+        }
+
+        $groups = $this->getGroups();
+        $moved = 0;
+
+        $this->connection->transactional(function () use ($groups, &$moved): void {
+            foreach ($this->findUncategorizedGroups() as $row) {
+                $group = $groups[$row['creuvaIdentifier']] ?? null;
+
+                if (null === $group) {
+                    continue;
+                }
+
+                $data = ['pid' => $this->getCategoryId($group['section'])];
+
+                if ($row['title'] === $group['legacyTitle']) {
+                    $data['title'] = $group['title'];
+                }
+
+                if ($row['description'] === $group['legacyDescription']) {
+                    $data['description'] = $group['description'];
+                }
+
+                $this->connection->update('tl_css_style_group', $data, ['id' => $row['id']]);
+                ++$moved;
+            }
+
+            // Remove the category "General" of the migration if it is empty now
+            $this->connection->executeStatement(
+                "DELETE FROM tl_css_style_category WHERE title = ? AND creuvaIdentifier = '' AND NOT EXISTS (SELECT 1 FROM tl_css_style_group g WHERE g.pid = tl_css_style_category.id)",
+                [StyleCategoryMigration::CATEGORY_TITLE],
+            );
+        });
+
+        $this->repository->reset();
+
+        return $moved;
     }
 
     /**
@@ -91,18 +163,23 @@ class CssStyleImporter
             return $count;
         }
 
+        // Groups of the version before the categories
+        $this->assignCategories();
+
         $this->connection->transactional(function () use (&$count): void {
             foreach ($this->getGroups() as $identifier => $group) {
                 $groupId = $this->connection->fetchOne('SELECT id FROM tl_css_style_group WHERE creuvaIdentifier = ?', [$identifier]);
 
                 if (false === $groupId) {
                     $this->connection->insert('tl_css_style_group', [
+                        'pid' => $this->getCategoryId($group['section']),
                         'tstamp' => time(),
                         'title' => $group['title'],
                         'description' => $group['description'],
                         'multiple' => 0,
                         'sorting' => $group['sorting'],
                         'creuvaIdentifier' => $identifier,
+                        ...$this->getPublication($group),
                     ]);
 
                     $groupId = $this->connection->lastInsertId();
@@ -120,14 +197,79 @@ class CssStyleImporter
     }
 
     /**
-     * Adds the styles whose CSS class is not in the group yet.
+     * Returns the ID of the category of a section and adds the category if it
+     * does not exist yet.
+     */
+    private function getCategoryId(string $section): int
+    {
+        $categoryId = $this->connection->fetchOne('SELECT id FROM tl_css_style_category WHERE creuvaIdentifier = ?', [$section]);
+
+        if (false !== $categoryId) {
+            return (int) $categoryId;
+        }
+
+        $config = $this->getSections()[$section];
+
+        $this->connection->insert('tl_css_style_category', [
+            'tstamp' => time(),
+            'sorting' => $config['sorting'],
+            'title' => $config['title'],
+            'description' => $config['description'],
+            'creuvaIdentifier' => $section,
+        ]);
+
+        return (int) $this->connection->lastInsertId();
+    }
+
+    /**
+     * Creuva groups whose category is not a Creuva category, but the category
+     * "General" of the migration (or none at all). Groups an editor moved into
+     * an own category are not touched.
      *
-     * @param array{styles: array<string, string>, types: array<string, list<string>|true>} $group
+     * @return list<array{id: int|string, title: string, description: string, creuvaIdentifier: string}>
+     */
+    private function findUncategorizedGroups(): array
+    {
+        /** @var list<array{id: int|string, title: string, description: string, creuvaIdentifier: string}> */
+        return $this->connection->fetchAllAssociative(
+            "SELECT g.id, g.title, g.description, g.creuvaIdentifier
+            FROM tl_css_style_group g
+            LEFT JOIN tl_css_style_category c ON c.id = g.pid
+            WHERE g.creuvaIdentifier != '' AND (c.id IS NULL OR (c.creuvaIdentifier = '' AND c.title = ?))",
+            [StyleCategoryMigration::CATEGORY_TITLE],
+        );
+    }
+
+    /**
+     * Areas the group is published in and its content element types.
+     *
+     * @param array{types: array<string, list<string>|true>} $group
+     *
+     * @return array<string, int|string|null>
+     */
+    private function getPublication(array $group): array
+    {
+        $data = [];
+
+        foreach (CssStyleSelectorModel::getAvailableTypes() as $type) {
+            $data[CssStyleSelectorModel::getEnableField($type)] = isset($group['types'][$type]) ? 1 : 0;
+        }
+
+        $elements = $group['types'][CssStyleSelectorModel::TYPE_CONTENT] ?? null;
+        $data[CssStyleSelectorModel::TYPE_RESTRICTIONS[CssStyleSelectorModel::TYPE_CONTENT]] = \is_array($elements) ? serialize($elements) : null;
+
+        return $data;
+    }
+
+    /**
+     * Adds the styles whose CSS class is not in the group yet at the end.
+     *
+     * @param array{styles: array<string, string>} $group
      */
     private function importStyles(int $groupId, array $group): int
     {
-        $existing = $this->connection->fetchFirstColumn('SELECT cssClasses FROM tl_css_style_selector WHERE pid = ?', [$groupId]);
-        $sorting = (int) $this->connection->fetchOne('SELECT MAX(sorting) FROM tl_css_style_selector WHERE pid = ?', [$groupId]);
+        $rows = StringUtil::deserialize($this->connection->fetchOne('SELECT styles FROM tl_css_style_group WHERE id = ?', [$groupId]), true);
+        $existing = array_keys(CssStyleRepository::parseStyles($rows));
         $added = 0;
 
         foreach ($group['styles'] as $class => $label) {
@@ -135,37 +277,41 @@ class CssStyleImporter
                 continue;
             }
 
-            $sorting += 128;
-
-            $data = [
-                'pid' => $groupId,
-                'tstamp' => time(),
-                'sorting' => $sorting,
-                'styleDesignation' => $label,
-                'cssClasses' => $class,
-            ];
-
-            // Disabled everywhere except for the types of the group
-            foreach (CssStyleSelectorModel::getAvailableTypes() as $type) {
-                $data[CssStyleSelectorModel::getDisableField($type)] = isset($group['types'][$type]) ? 0 : 1;
-            }
-
-            if (\is_array($elements = $group['types'][CssStyleSelectorModel::TYPE_CONTENT] ?? null)) {
-                $data['limitContentElements'] = 1;
-                $data['contentElements'] = serialize($elements);
-            }
-
-            $this->connection->insert('tl_css_style_selector', $data);
+            $rows[] = ['key' => $class, 'value' => $label];
             ++$added;
+        }
+
+        if ($added) {
+            $this->connection->update('tl_css_style_group', ['tstamp' => time(), 'styles' => serialize(array_values($rows))], ['id' => $groupId]);
         }
 
         return $added;
     }
 
     /**
+     * Sections of the YAML file (categories) keyed by their identifier.
+     *
+     * @return array<string, array{title: string, description: string, sorting: int}>
+     */
+    private function getSections(): array
+    {
+        $sections = [];
+
+        foreach (Yaml::parseFile(self::CONFIG) ?? [] as $sectionKey => $section) {
+            $sections[(string) $sectionKey] = [
+                'title' => (string) $section['title'],
+                'description' => (string) ($section['description'] ?? ''),
+                'sorting' => (int) ($section['sorting'] ?? 0),
+            ];
+        }
+
+        return $sections;
+    }
+
+    /**
      * Groups of the YAML file keyed by their identifier.
      *
-     * @return array<string, array{title: string, description: string, sorting: int, styles: array<string, string>, types: array<string, list<string>|true>}>
+     * @return array<string, array{section: string, title: string, description: string, legacyTitle: string, legacyDescription: string, sorting: int, styles: array<string, string>, types: array<string, list<string>|true>}>
      */
     private function getGroups(): array
     {
@@ -182,10 +328,13 @@ class CssStyleImporter
                 }
 
                 $groups[$sectionKey.'.'.$groupKey] = [
-                    'title' => $section['title'].' › '.$group['title'],
-                    'description' => (string) ($group['description'] ?? $section['description'] ?? ''),
-                    // Sections first, then the groups of a section
-                    'sorting' => (int) ($section['sorting'] ?? 0) * 100 + (int) ($group['sorting'] ?? 0),
+                    'section' => (string) $sectionKey,
+                    'title' => (string) $group['title'],
+                    'description' => (string) ($group['description'] ?? ''),
+                    // Title and description of the version before the categories
+                    'legacyTitle' => $section['title'].' › '.$group['title'],
+                    'legacyDescription' => (string) ($group['description'] ?? $section['description'] ?? ''),
+                    'sorting' => (int) ($group['sorting'] ?? 0),
                     'styles' => array_combine(array_map(strval(...), array_keys($group['styles'] ?? [])), array_map(strval(...), $group['styles'] ?? [])),
                     'types' => $types,
                 ];
