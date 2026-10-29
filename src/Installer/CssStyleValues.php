@@ -19,7 +19,8 @@ use Craffft\CssStyleSelectorBundle\Repository\CssStyleRepository;
  * show up as selected styles in the back end instead of as free text in the
  * CSS class field.
  *
- * Uses the styles in the database (Creuva groups and own groups).
+ * Uses the styles in the database (Creuva groups and own groups); a selected
+ * style is stored by its CSS classes.
  */
 class CssStyleValues
 {
@@ -53,28 +54,21 @@ class CssStyleValues
         }
 
         $tokens = CssStyleRepository::splitClasses($classes);
-        $ids = [];
-        $groups = [];
+        $groups = $this->repository->findAvailableGroups(self::TABLES[$table], $type);
+        $values = [];
 
-        foreach ($this->repository->findAvailable(self::TABLES[$table], $type) as $id => $style) {
-            $styleClasses = CssStyleRepository::splitClasses((string) $style['cssClasses']);
-
-            if (!$styleClasses || array_diff($styleClasses, $tokens)) {
-                continue;
-            }
-
-            // Single selection: the first matching style of a group wins
-            if (!$style['groupMultiple']) {
-                if (isset($groups[$style['pid']])) {
-                    continue;
+        // Styles whose classes are all in the CSS class field
+        foreach ($groups as $group) {
+            foreach (array_keys($group['styles']) as $value) {
+                if (!array_diff(CssStyleRepository::splitClasses((string) $value), $tokens)) {
+                    $values[] = (string) $value;
                 }
-
-                $groups[$style['pid']] = true;
             }
-
-            $ids[] = (string) $id;
         }
 
-        return $ids ? serialize($ids) : null;
+        // Single selection: the first matching style of a group wins
+        $selected = CssStyleRepository::filterSelection($groups, $values);
+
+        return $selected ? serialize($selected) : null;
     }
 }

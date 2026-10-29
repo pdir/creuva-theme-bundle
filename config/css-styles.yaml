@@ -1,22 +1,23 @@
 # CSS styles of the Creuva theme (pdir/css-style-selector-bundle).
-# Every entry below "groups" becomes a style group with single selection
-# (tl_css_style_group, title "<section> › <group>"), every class below "styles"
-# a style of this group (tl_css_style_selector). They are imported by
-# creuva:install, the migration CssStyleImportMigration and the command
-# creuva:css-styles, so editors can change them and add their own groups in the
-# back end (Layout › CSS styles). The import only adds missing groups and
+# Every section becomes a style category (tl_css_style_category), every entry
+# below "groups" a style group with single selection in this category
+# (tl_css_style_group) and every class below "styles" a style of this group
+# (tl_css_style_selector). They are imported by creuva:install, the migration
+# CssStyleImportMigration and the command creuva:css-styles, so editors can
+# change them and add their own categories and groups in the back end
+# (Layout › CSS styles). The import only adds missing categories, groups and
 # styles, it never changes or removes existing ones.
 #
 # Editors select the styles in the "CSS style" section of content elements,
 # articles and modules; the classes are written into the CSS class field.
 #
-# Section and group keys identify the imported groups (<section>.<group>), do
-# not rename them. The demo import preselects the styles of the demo elements
+# Section and group keys identify the imported categories (<section>) and
+# groups (<section>.<group>), do not rename them. The demo import preselects the styles of the demo elements
 # by their classes (src/Installer/CssStyleValues.php).
 #
 # Content elements: the styles are only offered for the types in
 # contentElements. Articles and modules: "article: true" and "module: true".
-# A group without its own description shows the one of its section. The shared
+# The description of a section is shown below the category title. The shared
 # element lists are defined as YAML anchors at their first use.
 
 creuvaSection:

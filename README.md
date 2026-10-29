@@ -540,14 +540,18 @@ Technisch: Das Text-Element nutzt die Editor-Konfiguration `tinyCreuva`
 
 Alle Creuva-Klassen stehen im [CSS Style Selector](https://github.com/pdir/css-style-selector-bundle)
 als Stile bereit, und zwar im Bereich *CSS-Stil* von Inhaltselementen, Artikeln und
-Modulen. Jede Gruppe heißt nach den Bereichen der Tabelle unten (z. B. *Abstände ›
-Innenabstand oben und unten*) und erlaubt genau einen Stil. Jedes Element zeigt nur die
-Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei Elementgruppen, *Buttons*
-nur bei Hyperlink- und Text-Elementen).
+Modulen. Die Bereiche der Tabelle unten sind Kategorien (z. B. *Abstände*), darin liegen
+die Gruppen (z. B. *Innenabstand oben und unten*). Jede Gruppe erscheint im Element als
+Auswahlfeld und erlaubt genau einen Stil. Jedes Element zeigt nur die Gruppen an, die für
+seinen Typ passen (z. B. *Raster* nur bei Elementgruppen, *Buttons* nur bei Hyperlink- und
+Text-Elementen).
 
-Die Gruppen und Stile liegen als normale Datensätze in der Datenbank. Unter
-*Layout › CSS Stile* lassen sie sich ändern, und eigene Gruppen kommen dazu. Die Vorlage
-ist `config/css-styles.yaml`. Importiert wird sie
+Kategorien und Gruppen liegen als normale Datensätze in der Datenbank, die Stile als Zeilen
+(CSS-Klasse und Titel) in ihrer Gruppe. Unter *Layout › CSS Stile* lassen sie sich ändern,
+sortieren (Gruppen und Stile per Drag & Drop) und um eigene Kategorien und Gruppen
+ergänzen; Bereiche und Elementtypen gelten jeweils für die ganze Gruppe
+(*Veröffentlichung*). Die Vorlage ist `config/css-styles.yaml`.
+Importiert wird sie
 
 - automatisch von `creuva:install`,
 - bei bestehenden Websites einmalig von `contao:migrate`, solange noch keine Creuva-Gruppe
@@ -558,10 +562,14 @@ ist `config/css-styles.yaml`. Importiert wird sie
 vendor/bin/contao-console creuva:css-styles
 ```
 
-Der Import ergänzt nur fehlende Gruppen und Stile. Änderungen im Backend (Titel,
-Elementtypen, entfernte Stile, eigene Gruppen) bleiben erhalten. Die importierten Gruppen
-erkennt der Import an ihrer Kennung (`creuvaGrid.columns` …), die Stile einer Gruppe an
-ihrer CSS-Klasse.
+Der Import ergänzt nur fehlende Kategorien, Gruppen und Stile. Änderungen im Backend
+(Titel, Elementtypen, entfernte Stile, eigene Kategorien und Gruppen) bleiben erhalten. Die
+importierten Kategorien und Gruppen erkennt der Import an ihrer Kennung (`creuvaGrid`,
+`creuvaGrid.columns` …), die Stile einer Gruppe an ihrer CSS-Klasse.
+
+Gruppen aus der Version vor den Kategorien (Titel „Bereich › Gruppe“) verschiebt
+`contao:migrate` in die Kategorie ihres Bereichs und kürzt den Titel auf den Gruppennamen,
+sofern er nicht im Backend geändert wurde.
 
 - Der Demo-Import wählt die Klassen der Demo-Elemente im CSS Style Selector vor.
 - Bei bestehenden Websites übernimmt die Migration (`contao:migrate`) Creuva-Klassen

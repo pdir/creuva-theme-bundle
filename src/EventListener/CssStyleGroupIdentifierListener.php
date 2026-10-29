@@ -13,9 +13,9 @@ namespace Pdir\CreuvaThemeBundle\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 
 /**
- * Adds the identifier of the groups imported from config/css-styles.yaml
- * (<section>.<group>) to the style groups of the CSS style selector, see
- * Pdir\CreuvaThemeBundle\Installer\CssStyleImporter.
+ * Adds the identifier of the categories (<section>) and groups
+ * (<section>.<group>) imported from config/css-styles.yaml to the tables of
+ * the CSS style selector, see Pdir\CreuvaThemeBundle\Installer\CssStyleImporter.
  *
  * A hook instead of contao/dca/tl_css_style_group.php: the CSS style selector
  * defines its DCA as a whole array, so a DCA file of Creuva loaded before it
@@ -27,11 +27,11 @@ class CssStyleGroupIdentifierListener
 {
     public function __invoke(string $table): void
     {
-        if ('tl_css_style_group' !== $table) {
+        if (!\in_array($table, ['tl_css_style_category', 'tl_css_style_group'], true)) {
             return;
         }
 
-        $GLOBALS['TL_DCA']['tl_css_style_group']['fields']['creuvaIdentifier'] = [
+        $GLOBALS['TL_DCA'][$table]['fields']['creuvaIdentifier'] = [
             'eval' => ['doNotCopy' => true],
             'sql' => ['type' => 'string', 'length' => 64, 'default' => ''],
         ];
