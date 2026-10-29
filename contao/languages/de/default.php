@@ -40,7 +40,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Speichert die Auswahl im St
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Gespeichert. Die Auswahl gilt jetzt für alle Besucher.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Speichern fehlgeschlagen. Bitte die Seite neu laden und erneut versuchen.';
 
-// Formats menu of the text editor (be_tinyCreuva.html5)
+// Formats menu of the text editor (be_tinyCreuva.html.twig)
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatText'] = 'Text';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatAccent'] = 'Akzentfarbe (grün)';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatMark'] = 'Markierung';

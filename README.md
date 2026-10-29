@@ -535,7 +535,8 @@ Der Texteditor hat das Menü **„Formate“** mit den Textstilen des Themes:
 - *Links:* Button, Button (sekundär) – den Link markieren und das Format wählen
 
 Technisch: Das Text-Element nutzt die Editor-Konfiguration `tinyCreuva`
-(`contao/templates/backend/be_tinyCreuva.html5`, erweitert `be_tinyMCE`).
+(`contao/templates/be_tinyCreuva.html.twig`, erweitert `@Contao/be_tinyMCE.html.twig`; als
+Twig-Template funktioniert sie in Contao 5.7 und 6).
 
 ### CSS-Klassen im CSS Style Selector
 
