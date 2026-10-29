@@ -406,10 +406,11 @@ news:
             subline: 'Bereit für'
             headline_inline: '1'
 modules:
-  news-neueste: { type: newslist, name: 'News – Neueste', imgSize: 'image_size:news', news_archives: ['news_archive:news-wissen'] }
+  news-neueste: { type: newslist, name: 'News – Neueste', imgSize: 'image_size:news', news_archives: ['news_archive:news-wissen'], cssID: u-news-no-author }
   breadcrumb: { type: breadcrumb, name: Breadcrumb }
   news-liste:
     type: newslist
+    cssID: u-news-no-author
     name: 'News – Liste'
     imgSize: 'image_size:news'
     perPage: 6
@@ -417,6 +418,7 @@ modules:
     news_archives: ['news_archive:news-wissen']
   news-leser:
     type: newsreader
+    cssID: u-news-no-author
     name: 'News – Leser'
     imgSize: 'image_size:news-detail'
     overviewPage: 'page:wissen'

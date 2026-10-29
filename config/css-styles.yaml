@@ -16,7 +16,8 @@
 # by their classes (src/Installer/CssStyleValues.php).
 #
 # Content elements: the styles are only offered for the types in
-# contentElements. Articles and modules: "article: true" and "module: true".
+# contentElements. Articles and modules: "article: true" and "module: true"
+# (or a list of module types, e.g. "module: [newslist]").
 # The description of a section is shown below the category title. The shared
 # element lists are defined as YAML anchors at their first use.
 
@@ -121,8 +122,8 @@ creuvaColors:
   groups:
     card:
       title: 'Hintergrund / Rahmen'
-      description: 'Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur ein farbiger Rahmen'
-      contentElements: &cardElements [text, ct_contentBox, ct_teaserBox, ct_priceBox, ct_featureElement]
+      description: 'Fläche in Weiß, Grau, Haupt- oder Akzentfarbe oder nur ein farbiger Rahmen; bei den Kennzahlen für jede einzelne Zahl (ohne Auswahl: nur auf dunklem Hintergrund eine leichte Fläche)'
+      contentElements: [text, description_list, ct_contentBox, ct_teaserBox, ct_priceBox, ct_featureElement]
       sorting: 100
       styles:
         u-card-white: 'Weiß'
@@ -133,6 +134,7 @@ creuvaColors:
         u-card-outline-primary: 'Rahmen in Hauptfarbe'
         u-card-outline-accent: 'Rahmen in Akzentfarbe'
         u-card-flat: 'Ohne Rahmen und Schatten'
+        u-card-none: 'Ohne Hintergrund'
     icon:
       title: 'Icon'
       description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen: hell, mittel (Akzentfarbe) oder dunkel (Hauptfarbe); bei mittel und dunkel wird das Icon weiß (einfarbige SVG-Icons)'
@@ -143,6 +145,7 @@ creuvaColors:
         u-icon-accent: 'Mittel (Akzentfarbe, Icon weiß)'
         u-icon-primary: 'Dunkel (Hauptfarbe, Icon weiß)'
         u-icon-white: 'Weißer Kreis'
+        u-icon-light: 'Weißer Kreis, Icon schwarz'
         u-icon-plain: 'Ohne Kreis'
 
 creuvaButton:
@@ -329,6 +332,13 @@ creuvaElements:
       styles:
         u-table-compare: 'Paket-Vergleich'
         u-table-league: 'Liga-Tabelle (eigene Mannschaft fett)'
+    news:
+      title: 'News'
+      description: 'Für Newsliste, Newsleser und Newsarchiv; das Datum bleibt stehen'
+      module: [newslist, newsreader, newsarchive]
+      sorting: 500
+      styles:
+        u-news-no-author: 'Autor ausblenden'
 
 creuvaVisibility:
   title: 'Sichtbarkeit'

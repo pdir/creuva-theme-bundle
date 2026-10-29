@@ -283,9 +283,10 @@ events:
         teaser: '<p>Endstand 2:1 (1:1). Knappe Niederlage nach starker erster Halbzeit.</p>'
 modules:
   breadcrumb: { type: breadcrumb, name: Breadcrumb }
-  news-neueste: { type: newslist, name: 'News – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:news'] }
+  news-neueste: { type: newslist, name: 'News – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:news'], cssID: u-news-no-author }
   news-liste:
     type: newslist
+    cssID: u-news-no-author
     name: 'News – Liste'
     imgSize: 'image_size:news'
     perPage: 6
@@ -293,6 +294,7 @@ modules:
     news_archives: ['news_archive:news']
   news-leser:
     type: newsreader
+    cssID: u-news-no-author
     name: 'News – Leser'
     imgSize: 'image_size:news-detail'
     overviewPage: 'page:news'

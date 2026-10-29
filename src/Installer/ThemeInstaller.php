@@ -22,8 +22,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class ThemeInstaller
 {
-    public const CLASS_SET = 'bundles/creuvatheme/sets/creuva.json';
-
     private const TEXTS = [
         'de' => [
             'home' => 'Startseite',
@@ -455,9 +453,7 @@ class ThemeInstaller
                 }
             }
 
-            // Assign the layout (and the Creuva class set) to the root pages
-            $hasClassSet = $this->hasColumn('tl_page', 'ac_set');
-
+            // Assign the layout to the root pages
             foreach ($rootIds as $rootId) {
                 $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'tstamp' => time()];
 
@@ -467,15 +463,9 @@ class ThemeInstaller
                     $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => ''];
                 }
 
-                if ($hasClassSet) {
-                    $data['ac_set'] = self::CLASS_SET;
-                }
-
                 $this->connection->update('tl_page', $data, ['id' => $rootId]);
                 $result->rootPages[] = $rootId;
             }
-
-            $result->classSetAssigned = $hasClassSet && [] !== $rootIds;
 
             return $result;
         });
@@ -703,13 +693,6 @@ class ThemeInstaller
         $this->connection->insert($table, array_filter($data, static fn ($v) => null !== $v) + ['tstamp' => time()]);
 
         return (int) $this->connection->lastInsertId();
-    }
-
-    private function hasColumn(string $table, string $column): bool
-    {
-        $columns = array_map(strtolower(...), array_keys($this->connection->createSchemaManager()->listTableColumns($table)));
-
-        return \in_array(strtolower($column), $columns, true);
     }
 
     private function uniqueAlias(string $table, string $alias): string

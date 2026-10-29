@@ -64,7 +64,7 @@ class InstallCommand extends Command
                   * theme "Creuva" with main navigation, header, brand, footer navigations and copyright modules
                     and an image size for the logo
                   * page layout of type "modern" with the template page/layout/creuva and all modules assigned to their slots
-                  * the layout (and the Creuva class set of the advanced classes bundle) for the selected website roots
+                  * the layout for the selected website roots
 
                 Assign the theme to an existing website:
 
@@ -272,10 +272,7 @@ class InstallCommand extends Command
         ]);
 
         if ($result->rootPages) {
-            $io->success(array_filter([
-                \sprintf('The Creuva layout is now used by the website root(s) %s.', implode(', ', $result->rootPages)),
-                $result->classSetAssigned ? 'The class set "Creuva" has been selected for the advanced classes bundle.' : null,
-            ]));
+            $io->success(\sprintf('The Creuva layout is now used by the website root(s) %s.', implode(', ', $result->rootPages)));
         } else {
             $io->success('The Creuva theme has been created.');
             $io->note('Assign the layout "page/layout/creuva" to a website root in the site structure, or run the command again with --root=<ID>.');

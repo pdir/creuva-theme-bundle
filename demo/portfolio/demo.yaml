@@ -175,9 +175,10 @@ news:
             singleSRC: 'file:bilder/projekte/form-und-ton.jpg'
 modules:
   breadcrumb: { type: breadcrumb, name: Breadcrumb }
-  journal-neueste: { type: newslist, name: 'Journal – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:journal'] }
+  journal-neueste: { type: newslist, name: 'Journal – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:journal'], cssID: u-news-no-author }
   journal-liste:
     type: newslist
+    cssID: u-news-no-author
     name: 'Journal – Liste'
     imgSize: 'image_size:news'
     perPage: 6
@@ -185,6 +186,7 @@ modules:
     news_archives: ['news_archive:journal']
   journal-leser:
     type: newsreader
+    cssID: u-news-no-author
     name: 'Journal – Leser'
     imgSize: 'image_size:news-detail'
     overviewPage: 'page:journal'

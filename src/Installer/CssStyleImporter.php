@@ -23,7 +23,8 @@ use Symfony\Component\Yaml\Yaml;
  * with the styles as rows), so editors can change them and add their own
  * categories and groups in the back end.
  *
- * Only missing categories, groups and styles are added: changes of the editors
+ * Only missing categories, groups, styles and element types (of groups limited
+ * to certain element types) are added: changes of the editors
  * (titles, element types, removed styles …) are never overwritten. The
  * imported categories and groups are recognized by their identifier (<section>
  * and <section>.<group>), the styles of a group by their CSS class.
@@ -166,6 +167,13 @@ class CssStyleImporter
         // Groups of the version before the categories
         $this->assignCategories();
 
+        // Categories that lost their identifier (e.g. after the identifier column was dropped by a database update)
+        foreach ($this->getSections() as $section => $config) {
+            if (false === $this->connection->fetchOne('SELECT id FROM tl_css_style_category WHERE creuvaIdentifier = ?', [$section])) {
+                $this->connection->executeStatement("UPDATE tl_css_style_category SET creuvaIdentifier = ? WHERE creuvaIdentifier = '' AND title = ? ORDER BY id LIMIT 1", [$section, $config['title']]);
+            }
+        }
+
         $this->connection->transactional(function () use (&$count): void {
             foreach ($this->getGroups() as $identifier => $group) {
                 $groupId = $this->connection->fetchOne('SELECT id FROM tl_css_style_group WHERE creuvaIdentifier = ?', [$identifier]);
@@ -184,6 +192,8 @@ class CssStyleImporter
 
                     $groupId = $this->connection->lastInsertId();
                     ++$count['groups'];
+                } else {
+                    $this->addElementTypes((int) $groupId, $group);
                 }
 
                 $count['styles'] += $this->importStyles((int) $groupId, $group);
@@ -209,6 +219,16 @@ class CssStyleImporter
         }
 
         $config = $this->getSections()[$section];
+
+        // A category with the title of the section but without identifier, e.g.
+        // after the identifier column was dropped by a database update
+        $categoryId = $this->connection->fetchOne("SELECT id FROM tl_css_style_category WHERE creuvaIdentifier = '' AND title = ? ORDER BY id LIMIT 1", [$config['title']]);
+
+        if (false !== $categoryId) {
+            $this->connection->update('tl_css_style_category', ['creuvaIdentifier' => $section], ['id' => $categoryId]);
+
+            return (int) $categoryId;
+        }
 
         $this->connection->insert('tl_css_style_category', [
             'tstamp' => time(),
@@ -255,10 +275,43 @@ class CssStyleImporter
             $data[CssStyleSelectorModel::getEnableField($type)] = isset($group['types'][$type]) ? 1 : 0;
         }
 
-        $elements = $group['types'][CssStyleSelectorModel::TYPE_CONTENT] ?? null;
-        $data[CssStyleSelectorModel::TYPE_RESTRICTIONS[CssStyleSelectorModel::TYPE_CONTENT]] = \is_array($elements) ? serialize($elements) : null;
+        // Element types of content elements and modules (none = all types)
+        foreach (CssStyleSelectorModel::TYPE_RESTRICTIONS as $type => $field) {
+            $types = $group['types'][$type] ?? null;
+            $data[$field] = \is_array($types) ? serialize($types) : null;
+        }
 
         return $data;
+    }
+
+    /**
+     * Adds new element types of the YAML file to an existing group that is
+     * limited to certain element types (e.g. after a theme update). Nothing is
+     * removed, and groups without a limit (all types) stay unlimited.
+     *
+     * @param array{types: array<string, list<string>|true>} $group
+     */
+    private function addElementTypes(int $groupId, array $group): void
+    {
+        $row = $this->connection->fetchAssociative('SELECT * FROM tl_css_style_group WHERE id = ?', [$groupId]);
+        $data = [];
+
+        foreach (CssStyleSelectorModel::TYPE_RESTRICTIONS as $type => $field) {
+            if (!\is_array($group['types'][$type] ?? null) || !\array_key_exists($field, (array) $row)) {
+                continue;
+            }
+
+            $current = StringUtil::deserialize($row[$field], true);
+            $new = array_values(array_diff($group['types'][$type], $current));
+
+            if ($current && $new) {
+                $data[$field] = serialize([...$current, ...$new]);
+            }
+        }
+
+        if ($data) {
+            $this->connection->update('tl_css_style_group', [...$data, 'tstamp' => time()], ['id' => $groupId]);
+        }
     }
 
     /**

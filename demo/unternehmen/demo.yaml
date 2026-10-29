@@ -237,9 +237,10 @@ news:
             text: '<p>Unsere Auszubildenden haben gezeigt, was sie können, und die Gäste beim Feilen, Biegen und Schweißen am Simulator begleitet. Für das kommende Ausbildungsjahr sind noch Plätze frei.</p><p><a href="{{link_url::karriere}}">Zu den Stellenangeboten</a></p>'
 modules:
   breadcrumb: { type: breadcrumb, name: Breadcrumb }
-  aktuelles-neueste: { type: newslist, name: 'Aktuelles – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:aktuelles'] }
+  aktuelles-neueste: { type: newslist, name: 'Aktuelles – Neueste', imgSize: 'image_size:news', numberOfItems: 3, news_archives: ['news_archive:aktuelles'], cssID: u-news-no-author }
   aktuelles-liste:
     type: newslist
+    cssID: u-news-no-author
     name: 'Aktuelles – Liste'
     imgSize: 'image_size:news'
     perPage: 6
@@ -247,24 +248,28 @@ modules:
     news_archives: ['news_archive:aktuelles']
   aktuelles-leser:
     type: newsreader
+    cssID: u-news-no-author
     name: 'Aktuelles – Leser'
     imgSize: 'image_size:news-detail'
     overviewPage: 'page:aktuelles'
     news_archives: ['news_archive:aktuelles']
   stellen:
     type: newslist
+    cssID: u-news-no-author
     name: 'Karriere – Stellenangebote'
     numberOfItems: 0
     news_template: news_creuva_job
     news_archives: ['news_archive:karriere']
   stellen-neueste:
     type: newslist
+    cssID: u-news-no-author
     name: 'Karriere – Neueste Stellen'
     numberOfItems: 3
     news_template: news_creuva_job
     news_archives: ['news_archive:karriere']
   stelle-leser:
     type: newsreader
+    cssID: u-news-no-author
     name: 'Karriere – Stellenanzeige'
     overviewPage: 'page:karriere'
     news_archives: ['news_archive:karriere']

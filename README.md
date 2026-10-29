@@ -27,7 +27,7 @@ Der Befehl legt alles an, was das Theme braucht:
   Footer-Navigationen, Copyright und untere Links
 - Seitenlayout vom Typ „Modern“ mit dem Template `page/layout/creuva`, alle Module
   sind ihren Slots zugewiesen
-- Zuweisung des Layouts und des Klassen-Sets „Creuva“ (Advanced Classes) zum Startpunkt
+- Zuweisung des Layouts zum Startpunkt
 
 ```bash
 # Bestehende Website: Startpunkt wird abgefragt oder per ID übergeben
@@ -405,8 +405,9 @@ vendor/bin/contao-console creuva:install --demo --reset
 4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius,
    Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
    Standard `2.25rem`) festlegen.
-5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
-   Redakteure können dann Hintergründe, Raster, Abstände usw. per Auswahlfeld setzen.
+
+Hintergründe, Raster, Abstände usw. setzen Redakteure im Bereich *CSS-Stil* der Elemente,
+Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-css-style-selector)).
 
 ## Inhaltselemente & Module
 
@@ -595,10 +596,9 @@ siehe `assets/scss/_element-styles.scss`), die alle Karten lesen.
 **letzten Absatz** zu Buttons, nebeneinander. In der Templatevariante „Bild & Text“
 und in Call-to-Action-Boxen (`u-bg-primary`, `u-bg-accent`) passiert das automatisch.
 
-### Klassen-Set (Advanced Classes)
+### Übersicht der Klassen
 
-Dieselben Klassen gibt es zusätzlich als Klassen-Set „Creuva“ für das Advanced
-Classes Bundle (`public/sets/creuva.json`).
+Alle Klassen, die als CSS-Stile bereitstehen:
 
 | Bereich | Klassen |
 |---------|---------|
@@ -619,8 +619,12 @@ Classes Bundle (`public/sets/creuva.json`).
 | Elemente | `u-accordion-icon`, `u-accordion-info`, `u-accordion-chat` (Akkordeon-Icon), `u-media-plain` (Bild & Text ohne Akzentfläche) |
 | Sichtbarkeit | `u-hide-mobile`, `u-hide-desktop` |
 
-Die Klassen funktionieren auch ohne das Advanced Classes Bundle über das Feld
-*CSS-Klasse*.
+Die Klassen funktionieren auch direkt im Feld *CSS-Klasse*, z. B. in Bereichen ohne
+CSS-Stil-Auswahl.
+
+Ein Klassen-Set für das Advanced Classes Bundle bringt Creuva nicht mehr mit. Das Bundle
+bleibt installiert, weil das Theme Components Bundle es voraussetzt. `contao:migrate`
+entfernt das frühere Set „Creuva“ aus Startpunkten und Formularen.
 
 ## Bilder in Galerien und Lightbox
 
@@ -659,7 +663,7 @@ Im Seitenlayout legt **Creuva-Design › Animationen** fest, was beim Scrollen e
 | Einstellung | Wirkung |
 |-------------|---------|
 | Alle Abschnitte (Standard) | Alle Elemente im Hauptbereich blenden von unten ein, Raster (`u-grid-*`) und News-Listen Element für Element, „Bild & Text“ von beiden Seiten |
-| Nur per CSS-Klasse | Nur Elemente mit einer Klasse aus „Animation“ (siehe Klassen-Set) |
+| Nur per CSS-Klasse | Nur Elemente mit einer Klasse aus „Animation“ (CSS-Stile, siehe Übersicht der Klassen) |
 | Keine | Keine Scroll-Animationen, keine Einstiegsanimation im Hero, Zahlen werden sofort angezeigt |
 
 - Die Klassen `u-reveal-*` legen die Richtung je Element fest und haben Vorrang vor der
@@ -815,12 +819,11 @@ composer require pdir/creuva-theme-bundle:@dev
 ```
 assets/            Quellcode (SCSS, JS) – wird nicht mit ausgeliefert
 config/            Symfony-Services, Farbschemen (color-schemes.json), CSS-Stile (css-styles.yaml)
-contao/config/     Registrierung des Klassen-Sets
 contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module, tl_news, tl_page, tl_css_style_group)
 contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
-public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
+public/            gebaute Assets → /bundles/creuvatheme/
 src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide, creuva:css-styles)
 styleguide/        Styleguide-Definition (styleguide.yaml) und Dateien
 theme-idee/        Konzept und Entwürfe
