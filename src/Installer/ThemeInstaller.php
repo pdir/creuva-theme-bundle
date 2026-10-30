@@ -226,8 +226,9 @@ class ThemeInstaller
                 $rootId = $this->createRootPage($options);
                 $rootIds = [$rootId];
 
-                $this->demoImporter->configureRootPage($demo, $rootId);
                 $result->pages = $this->demoImporter->importPages($demo, $rootId);
+                // After the pages, so the root settings can refer to them (e.g. "page:agb")
+                $this->demoImporter->configureRootPage($demo, $rootId);
                 $pageIds = $this->findPages($rootId) + array_filter(['home' => $result->pages['index'] ?? null]);
             } elseif ($options->createPages) {
                 $rootId = $this->createPages($options, $texts, $result);

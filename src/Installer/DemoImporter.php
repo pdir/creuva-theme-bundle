@@ -81,7 +81,8 @@ class DemoImporter
     }
 
     /**
-     * Applies the root page settings of the demo (e.g. date formats).
+     * Applies the root page settings of the demo (e.g. date formats). Call it after
+     * importPages(), references to pages ("page:<alias>") are resolved then.
      *
      * @param array<string, mixed> $definition
      */
