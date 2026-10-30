@@ -77,6 +77,7 @@ const initPreview = () => {
 
     // "auto": preview like the system setting of the editor
     preview.dataset.theme = 'auto' === variant ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : variant;
+    preview.dataset.typography = value('creuvaTypography') || 'modern';
     preview.dataset.radius = value('creuvaRadius') || 'large';
 
     // Custom colors override the scheme like in page/layout/creuva.html.twig

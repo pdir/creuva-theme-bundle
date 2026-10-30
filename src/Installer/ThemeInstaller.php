@@ -144,9 +144,9 @@ class ThemeInstaller
     public function getMissingColumns(): array
     {
         $required = [
-            'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
+            'tl_layout' => ['creuvavariant', 'creuvatypography', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
             'tl_module' => ['creuvanavigation', 'creuvasociallinks', 'creuvasearch', 'creuvasearchpage'],
-            'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvaradius'],
+            'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvatypography', 'creuvaradius'],
             'tl_content' => ['creuvaheadlineaccent'],
         ];
 
@@ -428,6 +428,7 @@ class ThemeInstaller
                 'template' => 'page/layout/creuva',
                 'modules' => serialize($layoutModules),
                 'creuvaVariant' => $options->variant,
+                'creuvaTypography' => $options->typography,
                 'creuvaScheme' => $options->scheme,
                 'creuvaLogoHeight' => preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($demo['design']['logoHeight'] ?? '')) ? (string) $demo['design']['logoHeight'] : '',
                 'creuvaStylesheets' => $this->getDemoStylesheets($demo),
@@ -460,7 +461,7 @@ class ThemeInstaller
                 // Remove the design settings of an existing website root, so the ones of the new
                 // layout apply (the root of a demo keeps the design of its definition)
                 if (null === $demo) {
-                    $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => ''];
+                    $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaTypography' => '', 'creuvaRadius' => ''];
                 }
 
                 $this->connection->update('tl_page', $data, ['id' => $rootId]);

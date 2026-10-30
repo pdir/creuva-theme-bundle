@@ -45,7 +45,7 @@ class DemoExporter
      * Fields that belong to the installation or are set by the importer.
      */
     private const SKIP_FIELDS = [
-        'tl_page' => ['layout', 'includeLayout', 'subpageLayout', 'mobileLayout', 'dns', 'language', 'fallback', 'ac_set', 'creuvaScheme', 'creuvaVariant', 'creuvaRadius'],
+        'tl_page' => ['layout', 'includeLayout', 'subpageLayout', 'mobileLayout', 'dns', 'language', 'fallback', 'ac_set', 'creuvaScheme', 'creuvaVariant', 'creuvaTypography', 'creuvaRadius'],
         'tl_article' => ['alias', 'author'],
         'tl_form' => ['recipient', 'sendViaEmail'],
         'tl_news' => ['author', 'date', 'time'],
@@ -265,6 +265,7 @@ class DemoExporter
         return $data + array_filter([
             'creuvaScheme' => $design['scheme'],
             'creuvaVariant' => $design['variant'],
+            'creuvaTypography' => 'modern' === $design['typography'] ? '' : $design['typography'],
             'creuvaRadius' => $design['radius'],
         ]);
     }

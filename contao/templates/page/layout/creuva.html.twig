@@ -28,6 +28,7 @@
 {% set html_attributes = attrs()
     .set('data-theme', 'auto' == creuva.variant ? 'light' : creuva.variant)
     .setIfExists('data-theme-mode', 'auto' == creuva.variant ? 'auto' : null)
+    .set('data-typography', creuva.typography|default('modern'))
     .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
     .set('data-animations', creuva.animations|default('auto'))

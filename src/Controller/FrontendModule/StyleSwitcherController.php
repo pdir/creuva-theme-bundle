@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Front end preview of the color schemes, design variants and corner radii
+ * Front end preview of the color schemes, color modes, typography and corner radii
  * (e.g. for a demo website). The choice is stored in the browser; in the front
  * end preview, administrators can also save it in the website root.
  */
@@ -60,10 +60,12 @@ class StyleSwitcherController extends AbstractFrontendModuleController
 
         $template->set('schemes', $this->designSettings->getSchemes($request->getLocale()));
         $template->set('variants', DesignSettings::VARIANTS);
+        $template->set('typographies', DesignSettings::TYPOGRAPHIES);
         $template->set('radii', DesignSettings::RADII);
         $template->set('defaults', [
             'scheme' => $settings['scheme'] ?: $this->designSettings->getDefaultScheme(),
             'theme' => $settings['variant'],
+            'typography' => $settings['typography'],
             'radius' => $settings['radius'],
         ]);
 

@@ -47,7 +47,8 @@ class InstallCommand extends Command
     {
         $this
             ->addOption('theme-name', null, InputOption::VALUE_REQUIRED, 'Name of the theme', 'Creuva')
-            ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Design variant ('.implode(', ', DesignSettings::VARIANTS).')', 'light')
+            ->addOption('variant', null, InputOption::VALUE_REQUIRED, 'Color mode ('.implode(', ', DesignSettings::VARIANTS).')', 'light')
+            ->addOption('typography', null, InputOption::VALUE_REQUIRED, 'Typography ('.implode(', ', DesignSettings::TYPOGRAPHIES).')', 'modern')
             ->addOption('scheme', null, InputOption::VALUE_REQUIRED, 'Color scheme ('.implode(', ', $this->designSettings->getSchemeNames()).')', $this->designSettings->getDefaultScheme())
             ->addOption('root', 'r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ID of an existing website root that should use the Creuva layout (multiple allowed)')
             ->addOption('with-pages', null, InputOption::VALUE_NONE, 'Create a new website root with start, contact, imprint, privacy, sitemap and search pages')
@@ -116,9 +117,21 @@ class InstallCommand extends Command
         }
 
         $variant = (string) $input->getOption('variant');
+        $typography = (string) $input->getOption('typography');
+
+        // The former variant "editorial" is a typography now (combinable with every color mode)
+        if ('editorial' === $variant) {
+            [$variant, $typography] = ['light', 'editorial'];
+        }
 
         if (!\in_array($variant, DesignSettings::VARIANTS, true)) {
             $io->error(\sprintf('Invalid variant "%s" (allowed: %s).', $variant, implode(', ', DesignSettings::VARIANTS)));
+
+            return Command::INVALID;
+        }
+
+        if (!\in_array($typography, DesignSettings::TYPOGRAPHIES, true)) {
+            $io->error(\sprintf('Invalid typography "%s" (allowed: %s).', $typography, implode(', ', DesignSettings::TYPOGRAPHIES)));
 
             return Command::INVALID;
         }
@@ -231,6 +244,7 @@ class InstallCommand extends Command
         $result = $this->installer->install(new InstallOptions(
             themeName: $themeName,
             variant: $variant,
+            typography: $typography,
             scheme: $scheme,
             createPages: $createPages,
             siteTitle: (string) $input->getOption('site-title'),
@@ -282,7 +296,7 @@ class InstallCommand extends Command
             'Next steps:',
             \sprintf(' * Add your logo in the header module (ID %d) and the brand module (ID %d)', $result->moduleIds['header'], $result->moduleIds['brand']),
             ...($demo ? [] : [\sprintf(' * Add the social media links in the brand module (ID %d)', $result->moduleIds['brand'])]),
-            \sprintf(' * Choose the color scheme, design variant and colors in the page layout (ID %d) under "Creuva design"', $result->layoutId),
+            \sprintf(' * Choose the color scheme, color mode, typography and colors in the page layout (ID %d) under "Creuva design"', $result->layoutId),
         ]);
 
         return Command::SUCCESS;

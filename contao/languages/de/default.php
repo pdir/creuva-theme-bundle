@@ -24,11 +24,13 @@ $GLOBALS['TL_LANG']['MSC']['creuvaReadingTime'] = '%s Min. Lesezeit';
 
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Design anpassen';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Farbschema';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Variante';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Modus';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_light'] = 'Light';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_dark'] = 'Dark';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_auto'] = 'System';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_editorial'] = 'Editorial';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography'] = 'Schrift';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography_modern'] = 'Modern';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography_editorial'] = 'Editorial';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius'] = 'Ecken';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_none'] = 'Eckig';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_small'] = 'Klein';

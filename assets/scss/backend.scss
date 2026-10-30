@@ -120,6 +120,12 @@
   }
 }
 
+// Typography "editorial": serif headings (system font, Fraunces is not loaded in the back end)
+.creuva-preview[data-typography='editorial'] .creuva-preview__title {
+  font-family: ui-serif, Georgia, serif;
+  font-weight: 600;
+}
+
 .creuva-preview__text {
   u {
     color: var(--c-link);

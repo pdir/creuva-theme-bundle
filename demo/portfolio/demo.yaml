@@ -15,7 +15,7 @@ root:
   timeFormat: 'H:i'
   datimFormat: d.m.Y
   creuvaScheme: terracotta
-  creuvaVariant: editorial
+  creuvaTypography: editorial
   creuvaRadius: small
 files:
   bilder/start.jpg: { alt: 'Weißes Wohnhaus mit Pool im Abendlicht' }

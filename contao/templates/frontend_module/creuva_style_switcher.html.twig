@@ -1,9 +1,10 @@
 {% extends '@Contao/frontend_module/_base.html.twig' %}
 
 {#
-    Style switcher for a front end preview of the color schemes, design variants
-    and corner radii (e.g. on a demo website). The choice is stored in the
-    localStorage and can be preset via URL, e.g. "?scheme=red&theme=dark".
+    Style switcher for a front end preview of the color schemes, color modes,
+    typography and corner radii (e.g. on a demo website). The choice is stored
+    in the localStorage and can be preset via URL, e.g.
+    "?scheme=red&theme=dark&typography=editorial".
 
     Place the module in the "top" slot: the inline script then applies the
     stored choice before the header and the content are rendered.
@@ -13,7 +14,7 @@
 #}
 
 {% set panel_id = 'creuva-style-switcher-' ~ data.id %}
-{% set allowed = {scheme: schemes|keys, theme: variants, radius: radii} %}
+{% set allowed = {scheme: schemes|keys, theme: variants, typography: typographies, radius: radii} %}
 
 {% set attributes = attrs(attributes|default)
     .addClass('c-style-switcher')
@@ -25,7 +26,7 @@
         (() => {
             const allowed = {{ allowed|json_encode|raw }};
             const root = document.documentElement;
-            const attribute = { scheme: 'data-scheme', theme: 'data-theme', radius: 'data-radius' };
+            const attribute = { scheme: 'data-scheme', theme: 'data-theme', typography: 'data-typography', radius: 'data-radius' };
 
             const apply = (state) => {
                 for (const [key, value] of Object.entries(state)) {
@@ -105,6 +106,18 @@
                     <label class="c-style-switcher__option">
                         <input type="radio" name="{{ panel_id }}-theme" value="{{ variant }}" data-style-key="theme">
                         <span>{{ ('MSC.creuvaStyleTheme_' ~ variant)|trans([], 'contao_default') }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <fieldset class="c-style-switcher__group">
+            <legend>{{ 'MSC.creuvaStyleTypography'|trans([], 'contao_default') }}</legend>
+            <div class="c-style-switcher__options">
+                {% for typography in typographies %}
+                    <label class="c-style-switcher__option">
+                        <input type="radio" name="{{ panel_id }}-typography" value="{{ typography }}" data-style-key="typography">
+                        <span>{{ ('MSC.creuvaStyleTypography_' ~ typography)|trans([], 'contao_default') }}</span>
                     </label>
                 {% endfor %}
             </div>

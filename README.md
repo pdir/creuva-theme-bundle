@@ -47,7 +47,8 @@ vendor/bin/contao-console creuva:install --demo
 | `--demo[=standard]` | Neuen Startpunkt mit der Demo anlegen (siehe unten) |
 | `--site-title`, `--language`, `--dns` | Titel, Sprache (Standard `de`) und Domain des neuen Startpunkts |
 | `--scheme` | Farbschema: `green` (Standard), `blue`, `red`, `yellow`, `petrol`, `violet`, `terracotta`, `ocean`, `indigo`, `gold`, `bordeaux`, `magenta`, `plum`, `orange`, `olive`, `sage`, `lime` |
-| `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial` |
+| `--variant` | Farbmodus: `light` (Standard), `dark`, `auto` (nach Systemeinstellung) |
+| `--typography` | Typografie: `modern` (Standard, Plus Jakarta Sans) oder `editorial` (Überschriften in Fraunces), mit jedem Farbmodus kombinierbar |
 | `--theme-name` | Name des Themes (Standard „Creuva“), z. B. für eine zweite Variante |
 
 Kontakt-, Impressum-, Datenschutz-, Sitemap- und Suchseiten einer bestehenden Website werden
@@ -109,7 +110,7 @@ mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
   zusätzlich als `<link rel="icon" type="image/svg+xml">` ein; `/favicon.ico` bleibt Fallback
 
 Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
-Besucher Farbschema, Variante und Eckenradius live ausprobieren können.
+Besucher Farbschema, Farbmodus, Typografie und Eckenradius live ausprobieren können.
 
 ### Styleguide
 
@@ -145,7 +146,7 @@ und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 ### Demo „Portfolio / Studio“
 
 `creuva:install --demo=portfolio` importiert die Demo für Fotografen, Architekten,
-Designer und Kreativstudios („Studio Lichtung“, Variante Editorial, Farbschema Terracotta,
+Designer und Kreativstudios („Studio Lichtung“, Typografie Editorial, Farbschema Terracotta,
 kleine Ecken):
 
 - **Seiten:** Startseite mit Vollbild-Hero, Arbeiten mit sechs Projektseiten (Architektur,
@@ -402,7 +403,7 @@ vendor/bin/contao-console creuva:install --demo --reset
    Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
 
-4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius,
+4. Unter **Creuva-Design** Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial), Eckenradius,
    Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
    Standard `2.25rem`) festlegen.
 
@@ -726,18 +727,20 @@ Eckenradius und eigener Farben (`public/backend.css` und `backend.js`, nur im Se
 Das Seitenlayout gibt das Schema als `data-scheme` am `<html>`-Element aus; eigene
 Primär-/Akzentfarben aus dem Layout überschreiben es.
 
-Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Variante und Eckenradius
+Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Farbmodus, Typografie und Eckenradius
 unter „Creuva-Design“ zusätzlich festlegen. Diese Werte haben Vorrang vor dem Seitenlayout;
 ein Schema im Startpunkt ersetzt auch die eigenen Farben des Layouts. So können mehrere
 Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Die frühere Variante „Corporate“
-ist jetzt das Schema „Blau“ (bestehende Layouts werden per Migration umgestellt).
+ist jetzt das Schema „Blau“, die frühere Variante „Editorial“ die Typografie „Editorial“ im Farbmodus Light
+(bestehende Layouts und Startpunkte werden per Migration umgestellt). Farbmodus und Typografie sind
+unabhängig voneinander, z. B. Editorial mit Dark.
 
 ### Style-Switcher
 
 Das Frontend-Modul *Creuva Style-Switcher* blendet am linken Rand ein Zahnrad ein, über das
-Besucher Farbschema, Variante und Eckenradius wechseln. Die Auswahl wird nur im Browser
+Besucher Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial) und Eckenradius wechseln. Die Auswahl wird nur im Browser
 (localStorage) gespeichert und gilt auf allen Seiten mit dem Modul. Per URL lässt sich eine
-Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&radius=none`. Das Modul im Slot
+Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&typography=editorial&radius=none`. Das Modul im Slot
 `top` platzieren, damit die Auswahl vor dem ersten Rendern greift.
 
 In der Frontend-Vorschau zeigt der Switcher Administratoren zusätzlich den Button
@@ -752,9 +755,9 @@ Vorschau). Besucher können das Design dann nicht ändern, eine früher im Brows
 Auswahl gilt für sie nicht mehr. Für Live-Websites diese Option setzen, ohne sie sieht jeder
 den Switcher (Demo-Website).
 
-### Variante „System“
+### Farbmodus „System“
 
-Die Designvariante „Light oder Dark nach Systemeinstellung“ (`auto`, im Seitenlayout oder im
+Der Farbmodus „Light oder Dark nach Systemeinstellung“ (`auto`, im Seitenlayout oder im
 Startpunkt) zeigt die Website hell oder dunkel, je nachdem, was im Betriebssystem bzw. Browser
 des Besuchers eingestellt ist, und wechselt mit, wenn sich die Einstellung ändert. Ein kleines
 Skript im `<head>` setzt dafür `data-theme` vor dem ersten Rendern (kein Aufblitzen); ohne
@@ -763,9 +766,9 @@ JavaScript bleibt die Seite hell. Im Style-Switcher heißt die Option „System�
 ## Schriften und Druck
 
 - **Schriften:** Plus Jakarta Sans (alle Gewichte von 200 bis 800) und Fraunces (Überschriften der
-  Variante „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
+  Typografie „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
   selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans wird vorab geladen (27 KB), Fraunces
-  lädt der Browser nur, wenn die Variante sie verwendet. Lizenz: SIL Open Font License 1.1
+  lädt der Browser nur, wenn die Typografie sie verwendet. Lizenz: SIL Open Font License 1.1
   (siehe `THIRD-PARTY-NOTICES.md`).
 - **Druck:** Gedruckt wird nur der Inhalt in Schwarz auf Weiß, ohne Header, Footer, Breadcrumb,
   Slider-Steuerung und Hintergründe. Links im Text erscheinen mit ihrer Adresse, Akkordeons sind

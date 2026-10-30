@@ -45,7 +45,7 @@ licensed under the SIL Open Font License 1.1, see `assets/fonts/OFL-*.txt`.
 | Schrift / Font    | Datei / File                    | Lizenz / License | Copyright / Quelle / Source |
 |-------------------|---------------------------------|------------------|-----------------------------|
 | Plus Jakarta Sans | `plus-jakarta-sans.woff2` (200–800) | OFL-1.1 | © 2020 The Plus Jakarta Sans Project Authors – https://github.com/tokotype/PlusJakartaSans |
-| Fraunces          | `fraunces.woff2` (400–700, nur Variante „Editorial“) | OFL-1.1 | © 2018 The Fraunces Project Authors – https://github.com/undercasetype/Fraunces |
+| Fraunces          | `fraunces.woff2` (400–700, nur Typografie „Editorial“) | OFL-1.1 | © 2018 The Fraunces Project Authors – https://github.com/undercasetype/Fraunces |
 
 ## Demo-Inhalte / Demo content
 

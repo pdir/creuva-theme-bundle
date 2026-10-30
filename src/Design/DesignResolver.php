@@ -34,7 +34,7 @@ class DesignResolver
      * @param array<string, mixed>      $page   page with details (rootId)
      * @param array<string, mixed>|null $layout
      *
-     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string}
+     * @return array{variant: string, typography: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string}
      */
     public function resolve(array $page, array|null $layout): array
     {
@@ -53,7 +53,7 @@ class DesignResolver
         if (!\array_key_exists($rootId, $this->rootPages)) {
             try {
                 $this->rootPages[$rootId] = $this->connection->fetchAssociative(
-                    'SELECT creuvaScheme, creuvaVariant, creuvaRadius FROM tl_page WHERE id = ?',
+                    'SELECT creuvaScheme, creuvaVariant, creuvaTypography, creuvaRadius FROM tl_page WHERE id = ?',
                     [$rootId],
                 ) ?: null;
             } catch (DbalException) {
