@@ -22,8 +22,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaMenu'] = 'Menu';
 $GLOBALS['TL_LANG']['MSC']['creuvaHome'] = 'Go to start page';
 $GLOBALS['TL_LANG']['MSC']['creuvaReadingTime'] = '%s min read';
 
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Customize design';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Color scheme';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Design preview';$GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Color scheme';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Mode';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_light'] = 'Light';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_dark'] = 'Dark';

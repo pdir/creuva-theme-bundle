@@ -6,6 +6,8 @@ import '../scss/backend.scss';
  */
 const LABELS = {
   de: {
+    heading: 'Live-Vorschau',
+    hint: 'Zeigt die Auswahl sofort an. Übernommen wird sie erst beim Speichern des Seitenlayouts.',
     kicker: 'Vorschau',
     title: ['Überschrift', 'mit Akzent'],
     text: ['Fließtext mit', 'einem Link', 'und', 'gedämpftem Text'],
@@ -16,6 +18,8 @@ const LABELS = {
     primary: ['Box', 'Primär', 'Text auf der Primärfarbe'],
   },
   en: {
+    heading: 'Live preview',
+    hint: 'Shows the selection right away. It is applied when the page layout is saved.',
     kicker: 'Preview',
     title: ['Headline', 'with accent'],
     text: ['Body text with', 'a link', 'and', 'muted text'],
@@ -31,6 +35,7 @@ const HEX = /^[0-9a-f]{6}$/i;
 const SCHEME_PROPERTIES = ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent'];
 
 const render = (t) => `
+  <h3>${t.heading}</h3>
   <div class="creuva-preview" aria-hidden="true">
     <p class="creuva-preview__kicker">${t.kicker}</p>
     <p class="creuva-preview__title">${t.title[0]} <span>${t.title[1]}</span></p>
@@ -44,7 +49,8 @@ const render = (t) => `
       <div class="creuva-preview__card creuva-preview__card--soft"><strong>${t.soft[0]}</strong>${t.soft[1]}</div>
       <div class="creuva-preview__card creuva-preview__card--primary"><strong>${t.primary[0]} <span>${t.primary[1]}</span></strong>${t.primary[2]}</div>
     </div>
-  </div>`;
+  </div>
+  <p class="tl_help tl_tip">${t.hint}</p>`;
 
 const initPreview = () => {
   const picker = document.querySelector('.creuva-scheme-picker');
@@ -61,7 +67,7 @@ const initPreview = () => {
   container.innerHTML = render(LABELS[document.documentElement.lang?.startsWith('de') ? 'de' : 'en']);
   picker.after(container);
 
-  const preview = container.firstElementChild;
+  const preview = container.querySelector('.creuva-preview');
   const value = (name) => form.querySelector(`[name="${name}"]`)?.value.trim().replace(/^#/, '') ?? '';
 
   const update = () => {

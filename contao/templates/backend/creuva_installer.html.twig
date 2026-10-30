@@ -1,0 +1,231 @@
+{% extends '@Contao/be_main.html.twig' %}
+{% trans_default_domain 'contao_creuva_installer' %}
+
+{#
+    Back end page "Layout › Creuva" (see InstallerController). Every form runs
+    the console command with the same name, the output is shown afterwards.
+    The sections are collapsible fieldsets like in the data container forms.
+#}
+
+{% macro label(name, for = null) %}
+    <h3><label{{ attrs().set('for', for) }}>{{ ('creuva_installer.' ~ name ~ '.0')|trans(domain: 'contao_creuva_installer') }}</label></h3>
+{% endmacro %}
+
+{% macro help(name) %}
+    {% set text = ('creuva_installer.' ~ name ~ '.1')|trans(domain: 'contao_creuva_installer') %}
+    {% if text %}<p class="tl_help">{{ text }}</p>{% endif %}
+{% endmacro %}
+
+{% macro checkbox(name, id, label = null) %}
+    <div class="tl_checkbox_single_container">
+        <input type="checkbox" name="{{ name }}" id="{{ id }}" class="tl_checkbox" value="1">
+        <label for="{{ id }}">{{ ('creuva_installer.' ~ (label ?? name) ~ '.0')|trans(domain: 'contao_creuva_installer') }}</label>
+    </div>
+{% endmacro %}
+
+{# Form with a collapsible fieldset; the submit button is part of the fieldset #}
+{% macro form_start(action, legend, open) %}
+    <form method="post" class="tl_form" data-turbo="false" data-creuva-installer="{{ action }}">
+        <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
+        <input type="hidden" name="action" value="{{ action }}">
+
+        {% set fieldset_attributes = attrs()
+            .addClass('tl_box cf')
+            .addClass('collapsed', not open)
+            .set('data-controller', 'contao--toggle-fieldset')
+            .set('data-contao--toggle-fieldset-collapsed-class', 'collapsed')
+        %}
+        <fieldset{{ fieldset_attributes }}>
+            <legend>
+                <button type="button" data-action="contao--toggle-fieldset#toggle">{{ ('creuva_installer.' ~ legend)|trans(domain: 'contao_creuva_installer') }}</button>
+            </legend>
+{% endmacro %}
+
+{% macro form_end(submit) %}
+            <div class="creuva-installer__submit">
+                <button type="submit" class="tl_submit">{{ ('creuva_installer.' ~ submit)|trans(domain: 'contao_creuva_installer') }}</button>
+            </div>
+        </fieldset>
+    </form>
+{% endmacro %}
+
+{% block main_content %}
+    {% import _self as f %}
+
+    {# The section of the last action stays open, otherwise the first one #}
+    {% set open = result.action|default('install') %}
+
+    <div class="creuva-installer tl_formbody_edit">
+        <div class="tl_tbox creuva-installer__head">
+            <p class="creuva-installer__text">{{ 'creuva_installer.intro'|trans }}</p>
+
+            {% if missing_columns %}
+                <p class="tl_error">{{ 'creuva_installer.missing_columns'|trans([missing_columns|join(', ')]) }}</p>
+            {% endif %}
+
+            {% if result %}
+                <div class="creuva-installer__result">
+                    <p class="{{ result.success ? 'tl_confirm' : 'tl_error' }}">{{ ('creuva_installer.' ~ (result.success ? 'success' : 'error'))|trans }}</p>
+                    <p class="creuva-installer__text">{{ 'creuva_installer.command'|trans }}:<br><code>{{ result.command }}</code></p>
+                    {% if result.output %}
+                        <details{{ attrs().set('open', not result.success) }}>
+                            <summary>{{ 'creuva_installer.output'|trans }}</summary>
+                            <pre>{{ result.output }}</pre>
+                        </details>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        {# Theme and demo (creuva:install) #}
+        {{ f.form_start('install', 'install_legend', 'install' == open) }}
+            <div class="widget clr">
+                {{ f.label('mode') }}
+                <div class="tl_radio_container">
+                    {% for mode in ['demo', 'pages', 'roots', 'theme'] %}
+                        <div class="creuva-installer__mode">
+                            <input type="radio" name="mode" id="creuva_mode_{{ mode }}" class="tl_radio" value="{{ mode }}"{{ loop.first ? ' checked' }}>
+                            <label for="creuva_mode_{{ mode }}"><strong>{{ ('creuva_installer.mode_' ~ mode ~ '.0')|trans }}</strong> – {{ ('creuva_installer.mode_' ~ mode ~ '.1')|trans }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="widget w50 clr" data-creuva-mode="demo">
+                {{ f.label('demo', 'creuva_demo') }}
+                <select name="demo" id="creuva_demo" class="tl_select">
+                    {% for name, title in demos %}
+                        <option value="{{ name }}"{{ 'standard' == name ? ' selected' }}>{{ title }}</option>
+                    {% endfor %}
+                </select>
+                {{ f.help('demo') }}
+            </div>
+
+            <div class="widget w50" data-creuva-mode="demo">
+                {{ f.label('demo_folder', 'creuva_demo_folder') }}
+                <input type="text" name="demo_folder" id="creuva_demo_folder" class="tl_text" placeholder="files/meine-demo">
+                {{ f.help('demo_folder') }}
+            </div>
+
+            <div class="widget clr" data-creuva-mode="roots">
+                {{ f.label('roots') }}
+                {% if root_pages %}
+                    <div class="tl_checkbox_container">
+                        {% for page in root_pages %}
+                            <input type="checkbox" name="roots[]" id="creuva_root_{{ page.id }}" class="tl_checkbox" value="{{ page.id }}">
+                            <label for="creuva_root_{{ page.id }}">{{ page.title }} <span class="tl_gray">(ID {{ page.id }}{{ page.dns ? ', ' ~ page.dns }}, {{ page.language }})</span></label><br>
+                        {% endfor %}
+                    </div>
+                    {{ f.help('roots') }}
+                {% else %}
+                    <p class="tl_help">{{ 'creuva_installer.no_roots'|trans }}</p>
+                {% endif %}
+            </div>
+
+            <div class="widget w50 clr" data-creuva-mode="pages">
+                {{ f.label('site_title', 'creuva_site_title') }}
+                <input type="text" name="site_title" id="creuva_site_title" class="tl_text" value="Creuva">
+                {{ f.help('site_title') }}
+            </div>
+
+            <div class="widget w50 clr" data-creuva-mode="demo pages">
+                {{ f.label('language', 'creuva_language') }}
+                <input type="text" name="language" id="creuva_language" class="tl_text" value="de" pattern="[a-z]{2}(-[A-Za-z]{2,4})?">
+                {{ f.help('language') }}
+            </div>
+
+            <div class="widget w50" data-creuva-mode="demo pages">
+                {{ f.label('dns', 'creuva_dns') }}
+                <input type="text" name="dns" id="creuva_dns" class="tl_text">
+                {{ f.help('dns') }}
+            </div>
+
+            <div class="widget w50 clr">
+                {{ f.label('theme_name', 'creuva_theme_name') }}
+                <input type="text" name="theme_name" id="creuva_theme_name" class="tl_text" value="{{ theme_name }}" required>
+                {{ f.help('theme_name') }}
+            </div>
+
+            <div class="widget clr" data-creuva-mode="demo pages">
+                {{ f.checkbox('reset', 'creuva_reset') }}
+                {{ f.help('reset') }}
+            </div>
+
+            <div class="widget clr" data-creuva-mode="demo pages">
+                {{ f.checkbox('no_backup', 'creuva_install_no_backup') }}
+                {{ f.help('no_backup') }}
+            </div>
+        {{ f.form_end('install_submit') }}
+
+        {# Styleguide (creuva:styleguide) #}
+        {% if root_pages %}
+            {{ f.form_start('styleguide', 'styleguide_legend', 'styleguide' == open) }}
+                <p class="creuva-installer__text">{{ 'creuva_installer.styleguide_intro'|trans }}</p>
+
+                <div class="widget w50 clr">
+                    {{ f.label('styleguide_root', 'creuva_styleguide_root') }}
+                    <select name="root" id="creuva_styleguide_root" class="tl_select">
+                        {% for page in root_pages %}
+                            <option value="{{ page.id }}">{{ page.title }} (ID {{ page.id }})</option>
+                        {% endfor %}
+                    </select>
+                    {{ f.help('styleguide_root') }}
+                </div>
+
+                <div class="widget w50 cbx m12">
+                    {{ f.checkbox('replace', 'creuva_styleguide_replace', 'styleguide_replace') }}
+                    {{ f.help('styleguide_replace') }}
+                </div>
+            {{ f.form_end('styleguide_submit') }}
+        {% endif %}
+
+        {# CSS styles (creuva:css-styles) #}
+        {{ f.form_start('css-styles', 'css_styles_legend', 'css-styles' == open) }}
+            <p class="creuva-installer__text">{{ 'creuva_installer.css_styles_intro'|trans }}</p>
+        {{ f.form_end('css_styles_submit') }}
+    </div>
+
+    <style>
+        /* Widgets have an inner spacing of 15px, texts and results get the same */
+        .creuva-installer__text { margin: 0 0 12px; padding: 0 15px; line-height: 1.5; }
+        .creuva-installer__head { padding-top: 15px; padding-bottom: 15px; }
+        .creuva-installer__head > .creuva-installer__text:last-child { margin-bottom: 0; }
+        .creuva-installer fieldset > .creuva-installer__text:first-of-type { margin-top: 6px; }
+        .creuva-installer .widget { margin-bottom: 6px; }
+        .creuva-installer__submit { clear: both; padding: 12px 15px 6px; }
+        .creuva-installer__mode { margin: 4px 0; }
+        .creuva-installer .tl_checkbox_single_container label, .creuva-installer__mode label { margin-left: 4px; }
+        .creuva-installer summary { cursor: pointer; }
+        .creuva-installer__result { margin-top: 15px; }
+        .creuva-installer__result > .tl_confirm, .creuva-installer__result > .tl_error { margin: 0 0 12px; }
+        .creuva-installer__result > details { padding: 0 15px; }
+        .creuva-installer__result code { word-break: break-all; }
+        .creuva-installer__result pre { overflow: auto; max-height: 400px; margin-top: 8px; padding: 10px; border-radius: 4px; background: var(--table-header, #f6f6f8); font-size: .75rem; white-space: pre-wrap; }
+        .creuva-installer [hidden], .creuva-installer fieldset.collapsed > :not(legend) { display: none !important; }
+    </style>
+
+    <script>
+        (() => {
+            // Shows the fields of the selected mode ("data-creuva-mode")
+            const form = document.querySelector('[data-creuva-installer="install"]');
+            const update = () => {
+                const mode = form.querySelector('input[name="mode"]:checked')?.value;
+
+                form.querySelectorAll('[data-creuva-mode]').forEach((el) => {
+                    el.hidden = !el.dataset.creuvaMode.split(' ').includes(mode);
+                    el.querySelectorAll('input, select').forEach((input) => input.disabled = el.hidden);
+                });
+            };
+
+            form?.addEventListener('change', update);
+            form && update();
+
+            // Importing a demo can take a while
+            document.querySelectorAll('[data-creuva-installer]').forEach((el) => el.addEventListener('submit', () => {
+                const button = el.querySelector('button[type="submit"]');
+                button.disabled = true;
+                button.textContent = {{ 'creuva_installer.running'|trans|json_encode|raw }};
+            }));
+        })();
+    </script>
+{% endblock %}

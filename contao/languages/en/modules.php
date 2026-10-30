@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Creuva theme bundle for Contao Open Source CMS
+ *
+ * Copyright (C) pdir GmbH <develop@pdir.de>
+ */
+
+$GLOBALS['TL_LANG']['MOD']['creuva'] = ['Creuva', 'Set up the theme and import demos.'];
