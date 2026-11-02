@@ -27,12 +27,18 @@
   }
 
   img,
-  picture,
   svg,
   video {
     display: block;
     max-width: 100%;
     height: auto;
+  }
+
+  // <picture> (modern image formats such as WebP) does not get a box of its
+  // own, so the image lays out as if it were a direct child (e.g. height: 100%
+  // in gallery cells, cards and the hero)
+  picture {
+    display: contents;
   }
 
   figure {
