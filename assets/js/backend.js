@@ -16,6 +16,10 @@ const LABELS = {
     badge: 'Beliebt',
     soft: ['Hinweisbox', 'Akzent-Hintergrund'],
     primary: ['Box', 'Primär', 'Text auf der Primärfarbe'],
+    contrast: 'Zu wenig Kontrast für WCAG AA (mindestens 4,5:1):',
+    primaryContrast: 'weiße Schrift auf der Primärfarbe',
+    accentOnWhite: 'Akzentfarbe als Schrift auf Weiß',
+    whiteOnAccent: 'weiße Schrift auf der Akzentfarbe',
   },
   en: {
     heading: 'Live preview',
@@ -28,7 +32,28 @@ const LABELS = {
     badge: 'Popular',
     soft: ['Info box', 'Accent background'],
     primary: ['Box', 'primary', 'Text on the primary color'],
+    contrast: 'Not enough contrast for WCAG AA (at least 4.5:1):',
+    primaryContrast: 'white text on the primary color',
+    accentOnWhite: 'accent color as text on white',
+    whiteOnAccent: 'white text on the accent color',
   },
+};
+
+// WCAG contrast ratio of two hex colors (without #)
+const luminance = (value) => {
+  const [r, g, b] = [0, 2, 4].map((i) => {
+    const c = parseInt(value.slice(i, i + 2), 16) / 255;
+
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+const contrast = (a, b) => {
+  const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+
+  return (l1 + 0.05) / (l2 + 0.05);
 };
 
 const HEX = /^[0-9a-f]{6}$/i;
@@ -68,6 +93,13 @@ const initPreview = () => {
   picker.after(container);
 
   const preview = container.querySelector('.creuva-preview');
+  const labels = LABELS[document.documentElement.lang?.startsWith('de') ? 'de' : 'en'];
+
+  // Contrast warning of the custom colors (they are used like in page/layout/creuva.html.twig)
+  const warning = document.createElement('p');
+  warning.className = 'tl_error creuva-contrast-warning';
+  warning.hidden = true;
+  preview.after(warning);
   const value = (name) => form.querySelector(`[name="${name}"]`)?.value.trim().replace(/^#/, '') ?? '';
 
   const update = () => {
@@ -102,6 +134,20 @@ const initPreview = () => {
       preview.style.setProperty('--scheme-accent-contrast', '#fff');
       preview.style.setProperty('--scheme-dark-accent', `color-mix(in srgb, #${accent} 60%, #fff)`);
     }
+
+    const ratio = (a, b) => `${contrast(a, b).toLocaleString(document.documentElement.lang || 'en', { maximumFractionDigits: 2 })}:1`;
+    const problems = [
+      HEX.test(primary) && contrast('ffffff', primary) < 4.5 && `${labels.primaryContrast} (${ratio('ffffff', primary)})`,
+      HEX.test(accent) && contrast(accent, 'ffffff') < 4.5 && `${labels.accentOnWhite} (${ratio(accent, 'ffffff')})`,
+    ].filter(Boolean);
+
+    // White text on the accent has the same ratio as the accent on white
+    if (HEX.test(accent) && contrast(accent, 'ffffff') < 4.5) {
+      problems.push(labels.whiteOnAccent);
+    }
+
+    warning.hidden = !problems.length;
+    warning.textContent = problems.length ? `${labels.contrast} ${problems.join(', ')}` : '';
   };
 
   form.addEventListener('change', update);

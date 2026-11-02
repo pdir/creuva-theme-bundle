@@ -44,7 +44,8 @@
         "en": "Petrol"
       },
       "primary": "#0f3a40",
-      "accent": "#0b7d7d"
+      "accent": "#0b7d7d",
+      "accentText": "#0b7878"
     },
     "ocean": {
       "label": {
@@ -60,7 +61,8 @@
         "en": "Blue"
       },
       "primary": "#1b2f4b",
-      "accent": "#2f6fd6"
+      "accent": "#2f6fd6",
+      "accentText": "#2d69c8"
     },
     "indigo": {
       "label": {
@@ -76,7 +78,8 @@
         "en": "Violet"
       },
       "primary": "#2a1846",
-      "accent": "#7c4dff"
+      "accent": "#7c4dff",
+      "accentText": "#7548ee"
     },
     "plum": {
       "label": {
@@ -116,7 +119,8 @@
         "en": "Terracotta"
       },
       "primary": "#3b2219",
-      "accent": "#b84f24"
+      "accent": "#b84f24",
+      "accentText": "#b04c23"
     },
     "orange": {
       "label": {

@@ -144,10 +144,10 @@ forms:
     alias: anfrage
     jumpTo: 'page:danke'
     fields:
-      - { type: text, name: company, label: Unternehmen }
-      - { type: text, name: name, mandatory: true, label: 'Ansprechpartner' }
-      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email }
-      - { type: text, name: phone, label: Telefon, rgxp: phone }
+      - { type: text, name: company, label: Unternehmen, autocomplete: organization }
+      - { type: text, name: name, mandatory: true, label: 'Ansprechpartner', autocomplete: name }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, autocomplete: email }
+      - { type: text, name: phone, label: Telefon, rgxp: phone, autocomplete: tel }
       - type: select
         name: topic
         label: Anliegen
@@ -179,9 +179,9 @@ forms:
           - { value: schweissen, label: 'Schweißer MAG/WIG (m/w/d)' }
           - { value: ausbildung, label: 'Ausbildung Metallbauer (m/w/d)' }
           - { value: initiativ, label: Initiativbewerbung }
-      - { type: text, name: name, mandatory: true, label: 'Vor- und Nachname' }
-      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email }
-      - { type: text, name: phone, label: Telefon, rgxp: phone }
+      - { type: text, name: name, mandatory: true, label: 'Vor- und Nachname', autocomplete: name }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, autocomplete: email }
+      - { type: text, name: phone, label: Telefon, rgxp: phone, autocomplete: tel }
       - { type: text, name: start, label: 'Frühester Eintrittstermin' }
       - { type: textarea, name: message, label: 'Ein paar Sätze zu Ihnen', size: ['5', '40'] }
       - { type: upload, name: documents, mandatory: true, label: 'Lebenslauf und Zeugnisse (PDF, max. 10 MB)', extensions: pdf, maxlength: 10485760 }

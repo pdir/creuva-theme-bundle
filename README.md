@@ -430,6 +430,13 @@ vendor/bin/contao-console creuva:install --demo --reset
 
    Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
+   Footer-Spalten und untere Leiste liegen gemeinsam in einem `<footer>`.
+
+   Barrierefreiheit: Jedes Navigationsmodul sollte unter *Experten-Einstellungen* eine
+   eindeutige ARIA-Beschriftung bekommen (z. B. „Hauptnavigation“, „Leistungen“,
+   „Service-Links“), die Überschriften der Footer-Spalten sind `h2`. In Formularen bei Name,
+   E-Mail, Telefon usw. das Feld *Autovervollständigen* setzen (`name`, `email`, `tel`,
+   `organization`, `bday`). Der Installer und die Demos machen das bereits.
 
 4. Unter **Creuva-Design** Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial), Eckenradius,
    Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
@@ -640,7 +647,7 @@ Alle Klassen, die als CSS-Stile bereitstehen:
 | News | `u-news-no-author` am Modul Newsliste, Newsleser oder Newsarchiv: blendet den Autor aus, das Datum bleibt (Contao 5 hat die Einstellung „Meta-Felder“ nicht mehr). Dafür setzen die Creuva-Templates `news_latest`/`news_short` den Autor in ein eigenes Element |
 | Abstände | Innenabstand `u-py-*` (oben und unten), `u-pt-*` (nur oben), `u-pb-*` (nur unten); Außenabstand `u-my-*`, `u-mt-*`, `u-mb-*` – jeweils `0`, `s`, `m`, `l`, `xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
-| Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
+| Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen; Schrift und Rahmen in der Akzent-Textfarbe, damit auch helle Akzente lesbar bleiben) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
 | Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`, `u-card-none` (ohne Hintergrund); bei den Kennzahlen gilt die Auswahl für jede einzelne Zahl (ohne Auswahl nur auf dunklem Hintergrund eine leichte Fläche, mit `u-card-none` auch dort keine). Icon der Icon-Box und der Kennzahlen: `u-icon-soft` (hell, Standard), `u-icon-accent` (mittel, Icon weiß), `u-icon-primary` (dunkel, Icon weiß), `u-icon-white`, `u-icon-light` (weißer Kreis, Icon schwarz – auch auf dunklem Hintergrund), `u-icon-plain`. SVG-Icons werden im Farbschema eingefärbt (CSS-Maske, Icon in Akzentfarbe bzw. Kontrastfarbe); `u-icon-original` (Gruppe *Icon-Farbe*) zeigt sie in den Farben der Datei, z. B. mehrfarbige Icons. Andere Bilder (PNG, JPG) behalten ihre Farben |
 | Icon-Box | `u-feature-plain` (ohne Karte), `u-feature-inline` (Icon links) |
 | Call to Action | `u-cta-stacked` (zentriert, Buttons unter dem Text) |
@@ -745,8 +752,15 @@ Quelle für das CSS, die Auswahl im Seitenlayout, den Style-Switcher und `creuva
 | `darkAccent` | nein | Primär- und Akzentfarbe der Variante „Dark“ (Standard: `accent` aufgehellt) |
 
 Neues Schema: Eintrag ergänzen und `npm run build` ausführen. Der Build prüft die
-WCAG-Kontraste (Text 4,5:1, große Schrift 3:1) für Light und Dark und bricht mit einer
-Meldung ab, wenn ein Schema sie nicht erreicht. Das Schema `default` gilt ohne Auswahl.
+WCAG-Kontraste (Text 4,5:1, große Schrift und Grafiken 3:1) für Light und Dark und bricht mit
+einer Meldung ab, wenn ein Schema sie nicht erreicht (`assets/build/color-schemes.js`). Geprüft
+werden Text, gedämpfter Text und Akzenttext auf allen Flächen (Hintergrund, Weiß, Grau, Akzent
+hell), Schrift auf Primär- und Akzentfarbe sowie auf Primär-Karten im Dark Mode. Reicht der
+Akzent als Textfarbe nicht, ein dunkleres `accentText` angeben. Das Schema `default` gilt ohne Auswahl.
+
+Eigene Primär- und Akzentfarben im Seitenlayout prüft die Live-Vorschau: Sie zeigt einen
+Hinweis, wenn weiße Schrift auf der Primärfarbe oder die Akzentfarbe als Schrift auf Weiß
+unter 4,5:1 liegt.
 
 Im Seitenlayout werden die Schemen als Farbpunkte zur Auswahl angeboten; darunter zeigt eine
 Live-Vorschau Überschrift, Buttons und Boxen im gewählten Schema – inklusive Variante,

@@ -508,7 +508,7 @@
 
   .content-hyperlink.u-button-outline-accent > a,
   .content-text.u-button-outline-accent .rte > p:last-child > a {
-    @include button-outline('--c-accent', '--c-accent-contrast');
+    @include button-outline('--c-accent', '--c-accent-contrast', '--c-accent-text');
   }
 
   // Downloads

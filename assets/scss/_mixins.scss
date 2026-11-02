@@ -140,11 +140,13 @@ $button-classes: '.u-button, .u-button-secondary, .u-button-accent, .u-button-ou
   }
 }
 
-// Outline button in a color ($color: custom property), filled on hover
-@mixin button-outline($color, $contrast) {
-  border: 2px solid var(#{$color});
+// Outline button in a color ($color: custom property), filled on hover; $text
+// is the color of the text and the border on the background, e.g. the darker
+// --c-accent-text for light accent colors (contrast 4.5:1)
+@mixin button-outline($color, $contrast, $text: $color) {
+  border: 2px solid var(#{$text});
   background: transparent;
-  color: var(#{$color});
+  color: var(#{$text});
 
   &:hover {
     background: var(#{$color});

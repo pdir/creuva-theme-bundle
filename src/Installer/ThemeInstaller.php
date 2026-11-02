@@ -31,6 +31,7 @@ class ThemeInstaller
             'sitemap' => 'Sitemap',
             'search' => 'Suche',
             'mainNavigation' => 'Hauptnavigation',
+            'serviceNavigation' => 'Service-Links',
             'header' => 'Header',
             'brand' => 'Footer – Marke',
             'footerPages' => 'Footer – Seiten',
@@ -58,6 +59,7 @@ class ThemeInstaller
             'sitemap' => 'Sitemap',
             'search' => 'Search',
             'mainNavigation' => 'Main navigation',
+            'serviceNavigation' => 'Service links',
             'header' => 'Header',
             'brand' => 'Footer – brand',
             'footerPages' => 'Footer – pages',
@@ -251,6 +253,7 @@ class ThemeInstaller
                 'type' => 'navigation',
                 'levelOffset' => 0,
                 'showLevel' => 2,
+                'ariaLabel' => $texts['mainNavigation'],
             ]);
 
             $header = [
@@ -289,6 +292,8 @@ class ThemeInstaller
             // Footer columns of the demo
             $footerColumns = [];
 
+            // The navigations get a unique name for screen readers (ariaLabel), the
+            // headlines of the columns are h2 (no gap after the h1 of short pages)
             foreach ($demo['footer'] ?? [] as $i => $column) {
                 $pages = array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, $column['pages'])));
                 $footerColumns['footer'.$i] = $column['pages'];
@@ -296,7 +301,8 @@ class ThemeInstaller
                 $modules['footer'.$i] = $this->insertModule($result, [
                     'name' => 'Footer – '.$column['headline'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $column['headline']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $column['headline']]),
+                    'ariaLabel' => $column['headline'],
                     'pages' => serialize(array_map('strval', $pages)),
                 ]);
 
@@ -309,7 +315,8 @@ class ThemeInstaller
                 $modules['footerPages'] = $this->insertModule($result, [
                     'name' => $texts['footerPages'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $texts['pages']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $texts['pages']]),
+                    'ariaLabel' => $texts['pages'],
                     'pages' => serialize(array_map('strval', $footerPages)),
                 ]);
             }
@@ -323,7 +330,8 @@ class ThemeInstaller
                 $modules['footerLegal'] = $this->insertModule($result, [
                     'name' => $texts['footerLegal'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $texts['legal']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $texts['legal']]),
+                    'ariaLabel' => $texts['legal'],
                     'pages' => $legalPages ? serialize(array_map('strval', $legalPages)) : null,
                 ]);
             }
@@ -338,6 +346,7 @@ class ThemeInstaller
                 $modules['bottomLinks'] = $this->insertModule($result, [
                     'name' => $texts['bottomLinks'],
                     'type' => 'customnav',
+                    'ariaLabel' => $texts['serviceNavigation'],
                     'pages' => serialize([(string) $pageIds['sitemap']]),
                 ]);
             }

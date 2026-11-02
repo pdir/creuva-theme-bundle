@@ -20,7 +20,7 @@
 
   .c-logos--primary {
     --c-text: var(--c-primary-contrast);
-    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 85%, transparent);
 
     background: var(--c-primary);
   }

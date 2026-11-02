@@ -19,7 +19,7 @@
 
     // Dark default (primary color)
     --c-text: var(--c-primary-contrast);
-    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 85%, transparent);
     --cta-highlight: var(--c-accent-on-primary);
     --cta-button-bg: var(--c-primary-contrast);
     --cta-button-color: var(--c-primary);

@@ -146,10 +146,10 @@ forms:
     alias: mitgliedsantrag
     jumpTo: 'page:danke'
     fields:
-      - { type: text, name: name, mandatory: true, label: 'Vor- und Nachname' }
-      - { type: text, name: birthday, mandatory: true, label: Geburtsdatum, rgxp: date, placeholder: TT.MM.JJJJ }
-      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, placeholder: name@beispiel.de }
-      - { type: text, name: phone, label: Telefon, rgxp: phone }
+      - { type: text, name: name, mandatory: true, label: 'Vor- und Nachname', autocomplete: name }
+      - { type: text, name: birthday, mandatory: true, label: Geburtsdatum, rgxp: date, placeholder: TT.MM.JJJJ, autocomplete: bday }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, placeholder: name@beispiel.de, autocomplete: email }
+      - { type: text, name: phone, label: Telefon, rgxp: phone, autocomplete: tel }
       - type: select
         name: department
         mandatory: true
@@ -180,8 +180,8 @@ forms:
     alias: kontakt
     jumpTo: 'page:danke'
     fields:
-      - { type: text, name: name, mandatory: true, label: 'Ihr Name' }
-      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email }
+      - { type: text, name: name, mandatory: true, label: 'Ihr Name', autocomplete: name }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, autocomplete: email }
       - type: select
         name: topic
         label: 'Worum geht es?'

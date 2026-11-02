@@ -168,8 +168,8 @@ forms:
     alias: projektanfrage
     jumpTo: 'page:danke'
     fields:
-      - { type: text, name: name, mandatory: true, label: 'Ihr Name', placeholder: 'Vor- und Nachname' }
-      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, placeholder: name@beispiel.de }
+      - { type: text, name: name, mandatory: true, label: 'Ihr Name', placeholder: 'Vor- und Nachname', autocomplete: name }
+      - { type: text, name: email, mandatory: true, label: E-Mail-Adresse, rgxp: email, placeholder: name@beispiel.de, autocomplete: email }
       - type: select
         name: topic
         label: 'Worum geht es?'

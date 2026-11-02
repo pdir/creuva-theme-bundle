@@ -116,14 +116,16 @@
       font-size: var(--fs-large);
     }
 
+    // White button with the dark primary color of the scheme, also in dark mode
+    // (--c-primary is light there and would have too little contrast on white)
     .c-button--primary {
       border-color: #fff;
       background: #fff;
-      color: var(--c-primary);
+      color: var(--scheme-primary);
 
       &:hover {
         border-color: #fff;
-        background: color-mix(in srgb, #fff 88%, var(--c-primary));
+        background: color-mix(in srgb, #fff 88%, var(--scheme-primary));
       }
     }
 

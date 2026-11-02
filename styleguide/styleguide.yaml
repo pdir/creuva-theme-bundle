@@ -48,8 +48,8 @@ forms:
     title: Styleguide – Formular
     method: POST
     fields:
-      - { type: 'text', name: 'name', label: 'Textfeld', mandatory: true, placeholder: 'Ihr Name' }
-      - { type: 'text', name: 'email', label: 'E-Mail', rgxp: 'email', placeholder: 'name@beispiel.de' }
+      - { type: 'text', name: 'name', label: 'Textfeld', mandatory: true, placeholder: 'Ihr Name', autocomplete: name }
+      - { type: 'text', name: 'email', label: 'E-Mail', rgxp: 'email', placeholder: 'name@beispiel.de', autocomplete: email }
       - type: select
         name: topic
         label: Auswahlfeld
