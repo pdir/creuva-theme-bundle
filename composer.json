@@ -34,7 +34,7 @@
         "symfony/security-csrf": "^7.4 || ^8.0",
         "symfony/yaml": "^7.4 || ^8.0",
         "twig/twig": "^3.0",
-        "pdir/css-style-selector-bundle": "^2.1"
+        "pdir/css-style-selector-bundle": "^2.0"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0"
