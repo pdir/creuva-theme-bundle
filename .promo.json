@@ -1,0 +1,13 @@
+{
+    "name": "Creuva",
+    "screenshot": "docs/promo-screenshot.png",
+    "template": "creuva",
+    "de": {
+        "headline": "Flexibles Theme für Contao 5.7 und 6",
+        "features": ["17 Farbschemata, hell, dunkel oder Editorial", "Einrichtung mit einem Befehl", "Fertige Demo-Websites mit Inhalten"]
+    },
+    "en": {
+        "headline": "Flexible theme for Contao 5.7 and 6",
+        "features": ["17 color schemes, light, dark or editorial", "Set up with a single command", "Ready-made demo websites with content"]
+    }
+}
