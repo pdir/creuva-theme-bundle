@@ -75,27 +75,65 @@ imageSizes:
   logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
   cover:
     name: 'Vollbild (16:9)'
+    densities: '960w, 1440w, 2000w'
+    sizes: '100vw'
     width: 2000
     height: 1125
     resizeMode: crop
-    items: [{ media: '(max-width: 47.99rem)', densities: '1.5x', width: 800, height: 1100, resizeMode: crop }]
-  hero: { name: Hero, densities: '1x, 2x', width: 720, height: 480, resizeMode: crop }
-  card: { name: 'Karte (4:3)', lazyLoading: true, densities: 2x, width: 800, height: 600, resizeMode: crop }
+    items: [{ media: '(max-width: 47.99rem)', densities: '480w, 800w, 1200w', sizes: '100vw', width: 800, height: 1100, resizeMode: crop }]
+  hero:
+    name: Hero
+    densities: '480w, 720w, 960w, 1440w'
+    sizes: '(min-width: 80rem) 612px, (min-width: 60rem) 48vw, calc(100vw - 2rem)'
+    width: 720
+    height: 480
+    resizeMode: crop
+  card:
+    name: 'Karte (4:3)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 44rem) 31vw, (min-width: 30rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 600
+    resizeMode: crop
+  media:
+    name: 'Bild & Text (4:3)'
+    lazyLoading: true
+    densities: '480w, 640w, 800w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 560px, (min-width: 56rem) 44vw, calc(100vw - 3.5rem)'
+    width: 1200
+    height: 900
+    resizeMode: crop
   wide:
     name: 'Breit (21:9)'
     lazyLoading: true
+    densities: '800w, 1200w, 1600w'
+    sizes: '(min-width: 80rem) 1216px, calc(100vw - 2rem)'
     width: 1600
     height: 686
     resizeMode: crop
-    items: [{ media: '(max-width: 40rem)', densities: 2x, width: 640, height: 480, resizeMode: crop }]
-  team: { name: 'Team (1:1)', lazyLoading: true, densities: 1.5x, width: 480, height: 480, resizeMode: crop }
-  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 120, height: 120, resizeMode: crop }
-  news: { name: 'News-Teaser (3:2)', lazyLoading: true, densities: 2x, width: 800, height: 533, resizeMode: crop }
-  news-detail: { name: News-Detail, width: 1200, height: 700, resizeMode: crop }
+    items: [{ media: '(max-width: 40rem)', densities: '480w, 640w, 960w', sizes: 'calc(100vw - 2rem)', width: 640, height: 480, resizeMode: crop }]
+  team: { name: 'Team (1:1)', lazyLoading: true, densities: 2x, width: 240, height: 240, resizeMode: crop }
+  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 48, height: 48, resizeMode: crop }
+  news:
+    name: 'News-Teaser (3:2)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 60rem) 31vw, (min-width: 40rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 533
+    resizeMode: crop
+  news-detail:
+    name: News-Detail
+    densities: '480w, 720w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 600px, (min-width: 64rem) 48vw, calc(100vw - 2rem)'
+    width: 1200
+    height: 700
+    resizeMode: crop
   gallery:
     name: 'Galerie (responsiv)'
     lazyLoading: true
-    densities: '480w, 800w, 1200w, 1600w'
+    densities: '320w, 480w, 640w, 800w, 1200w, 1600w'
     sizes: '(min-width: 64rem) 50vw, 100vw'
     width: 1600
     resizeMode: proportional
@@ -414,7 +452,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'Verlässlich.'
             text: '<p>Seit 1987 steht Kessler für solide Metalltechnik aus Oberschwaben. Als Familienunternehmen in zweiter Generation denken wir langfristig – bei unseren Kunden, unseren Mitarbeitenden und unseren Investitionen.</p><ul><li>Zertifiziert nach ISO 9001, ISO 14001 und EN 1090 EXC 3</li><li>Feste Ansprechpartner für jedes Projekt</li><li>Eigene Ausbildungswerkstatt</li></ul><p><a href="{{link_url::unternehmen}}">Über das Unternehmen</a></p>'
             singleSRC: 'file:bilder/firmensitz.jpg'
@@ -506,7 +544,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Konstruktion.
             text: '<p>Unsere Konstrukteure planen Bauteile, Baugruppen und Stahlkonstruktionen in 3D und erstellen alle Zeichnungen für Fertigung und Montage.</p><ul><li>3D-CAD mit Tekla Structures und Inventor</li><li>Abstimmung mit Statik und Architektur</li><li>Fertigungsgerechte Optimierung</li></ul><p><a href="{{link_url::konstruktion}}">Mehr zur Konstruktion</a></p>'
             singleSRC: 'file:bilder/buero.jpg'
@@ -516,7 +554,7 @@ pages:
             creuvaKicker: '01'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Fertigung.
             text: '<p>Auf 9.500 m² schneiden, kanten, bohren, fräsen und schweißen wir – vom Einzelteil bis zur Serie.</p><ul><li>Faserlaser 12 kW, Abkantpressen bis 4 m</li><li>CNC-Bearbeitung und Schweißroboter</li><li>Pulverbeschichtung und Feuerverzinkung über Partner</li></ul><p><a href="{{link_url::fertigung}}">Mehr zur Fertigung</a></p>'
             singleSRC: 'file:bilder/schweissen.jpg'
@@ -526,7 +564,7 @@ pages:
             creuvaKicker: '02'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'Montage & Service.'
             text: '<p>Unsere Montageteams bauen Ihre Konstruktion vor Ort auf – deutschlandweit und mit eigenem Gerät. Danach kümmern wir uns um Wartung und Ersatzteile.</p><ul><li>Montage mit Kran und Hubarbeitsbühnen</li><li>Wartungsverträge und Prüfungen</li><li>Ersatzteile auch nach Jahren</li></ul><p><a href="{{link_url::montage-service}}">Mehr zu Montage und Service</a></p>'
             singleSRC: 'file:bilder/stahlbau.jpg'
@@ -735,7 +773,7 @@ pages:
             children:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h2, value: Maschinenbau }
                 text: '<p>Maschinengestelle, Verkleidungen, Schutzzäune und komplette Baugruppen – einbaufertig und termingenau.</p><p><a href="{{link_url::maschinenbau}}">Zur Branche</a></p>'
                 singleSRC: 'file:bilder/halle.jpg'
@@ -743,7 +781,7 @@ pages:
                 subline: Industrie
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h2, value: 'Bau & Architektur' }
                 text: '<p>Stahlkonstruktionen, Treppen, Geländer und Fassadenelemente nach EN 1090 bis EXC 3.</p><p><a href="{{link_url::bau-architektur}}">Zur Branche</a></p>'
                 singleSRC: 'file:bilder/stahlbau.jpg'
@@ -751,7 +789,7 @@ pages:
                 subline: Bau
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h2, value: 'Energie & Anlagenbau' }
                 text: '<p>Unterkonstruktionen, Bühnen, Podeste und Rohrbrücken für Kraftwerke, Solar- und Windparks.</p><p><a href="{{link_url::energie-anlagenbau}}">Zur Branche</a></p>'
                 singleSRC: 'file:bilder/stahlbau-abend.jpg'
@@ -759,7 +797,7 @@ pages:
                 subline: Energie
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h2, value: Lebensmittelindustrie }
                 text: '<p>Edelstahlkonstruktionen nach Hygienic Design – leicht zu reinigen und lebensmittelecht.</p><p><a href="{{link_url::lebensmittelindustrie}}">Zur Branche</a></p>'
                 singleSRC: 'file:bilder/lebensmittel.jpg'
@@ -1110,7 +1148,7 @@ pages:
             children:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h3, value: 'Neuburg an der Riß' }
                 text: '<p>Industriestraße 14, 88400 Neuburg<br>Verwaltung, Konstruktion und Fertigung<br><a href="tel:+497300000000">+49 730 0000000</a></p><p><a href="https://www.openstreetmap.org/">Route planen</a></p>'
                 singleSRC: 'file:bilder/firmensitz.jpg'
@@ -1118,7 +1156,7 @@ pages:
                 subline: Hauptsitz
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: { unit: h3, value: Ulm }
                 text: '<p>Donautal 8, 89079 Ulm<br>Montage, Service und Lager<br><a href="tel:+497310000000">+49 731 0000000</a></p><p><a href="https://www.openstreetmap.org/">Route planen</a></p>'
                 singleSRC: 'file:bilder/stahlbau.jpg'

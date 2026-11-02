@@ -720,6 +720,47 @@ const initLightbox = () => {
 };
 
 /**
+ * Small copy of a slide image for its thumbnail: the same image variants
+ * (srcset of the image and of the <source> elements, e.g. WebP) with the size
+ * of the thumbnail, so the browser loads the smallest suitable file instead
+ * of the large slide image.
+ */
+const createThumbImage = (image) => {
+  // Thumbnails are at most 8rem wide (gallery slider, see _slider.scss)
+  const sizes = '8rem';
+  const thumb = document.createElement('img');
+
+  thumb.src = image.getAttribute('src') || image.currentSrc;
+  thumb.alt = '';
+  thumb.loading = 'lazy';
+
+  if (image.srcset) {
+    thumb.srcset = image.srcset;
+    thumb.sizes = sizes;
+  }
+
+  const picture = image.closest('picture');
+
+  if (!picture) {
+    return thumb;
+  }
+
+  const copy = document.createElement('picture');
+
+  picture.querySelectorAll('source').forEach((source) => {
+    const clone = document.createElement('source');
+
+    ['type', 'media', 'srcset'].forEach((attribute) => source.hasAttribute(attribute) && clone.setAttribute(attribute, source.getAttribute(attribute)));
+    clone.sizes = sizes;
+    copy.append(clone);
+  });
+
+  copy.append(thumb);
+
+  return copy;
+};
+
+/**
  * Thumbnails of the content slider (setting "Thumbnails"): a button per slide
  * with its first image (or its number), below the slider. Contao initializes
  * Swiper with an inline script at the end of the body, so the instance exists
@@ -748,11 +789,7 @@ const initSliderThumbs = () => {
       button.setAttribute('aria-label', label.replace('%s', String(index + 1)));
 
       if (image) {
-        const thumb = document.createElement('img');
-        thumb.src = image.currentSrc || image.getAttribute('src');
-        thumb.alt = '';
-        thumb.loading = 'lazy';
-        button.append(thumb);
+        button.append(createThumbImage(image));
       } else {
         button.textContent = String(index + 1);
       }

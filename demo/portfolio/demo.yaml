@@ -75,30 +75,89 @@ imageSizes:
   logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
   cover:
     name: 'Vollbild (16:9)'
+    densities: '960w, 1440w, 2000w'
+    sizes: '100vw'
     width: 2000
     height: 1125
     resizeMode: crop
-    items: [{ media: '(max-width: 47.99rem)', densities: '1.5x', width: 800, height: 1100, resizeMode: crop }]
-  hero: { name: Hero, densities: '1x, 2x', width: 720, height: 540, resizeMode: crop }
-  tile-portrait: { name: 'Kachel hoch (4:5)', lazyLoading: true, densities: 2x, width: 720, height: 900, resizeMode: crop }
-  tile-landscape: { name: 'Kachel quer (3:2)', lazyLoading: true, densities: 2x, width: 960, height: 640, resizeMode: crop }
-  card: { name: 'Karte (4:3)', lazyLoading: true, densities: 2x, width: 800, height: 600, resizeMode: crop }
+    items: [{ media: '(max-width: 47.99rem)', densities: '480w, 800w, 1200w', sizes: '100vw', width: 800, height: 1100, resizeMode: crop }]
+  hero:
+    name: Hero
+    densities: '480w, 720w, 960w, 1440w'
+    sizes: '(min-width: 80rem) 612px, (min-width: 60rem) 48vw, calc(100vw - 2rem)'
+    width: 720
+    height: 540
+    resizeMode: crop
+  tile-portrait:
+    name: 'Kachel hoch (4:5)'
+    lazyLoading: true
+    densities: '480w, 720w, 960w'
+    sizes: '(min-width: 80rem) 580px, (min-width: 40rem) 46vw, calc(100vw - 2rem)'
+    width: 720
+    height: 900
+    resizeMode: crop
+  tile-landscape:
+    name: 'Kachel quer (3:2)'
+    lazyLoading: true
+    densities: '480w, 720w, 960w'
+    sizes: '(min-width: 80rem) 580px, (min-width: 40rem) 46vw, calc(100vw - 2rem)'
+    width: 960
+    height: 640
+    resizeMode: crop
+  card:
+    name: 'Karte (4:3)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 44rem) 31vw, (min-width: 30rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 600
+    resizeMode: crop
+  media:
+    name: 'Bild & Text (4:3)'
+    lazyLoading: true
+    densities: '480w, 640w, 800w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 560px, (min-width: 56rem) 44vw, calc(100vw - 3.5rem)'
+    width: 1200
+    height: 900
+    resizeMode: crop
   wide:
     name: 'Breit (21:9)'
     lazyLoading: true
+    densities: '800w, 1200w, 1600w'
+    sizes: '(min-width: 80rem) 1216px, calc(100vw - 2rem)'
     width: 1600
     height: 686
     resizeMode: crop
-    items: [{ media: '(max-width: 40rem)', densities: 2x, width: 640, height: 480, resizeMode: crop }]
-  slider: { name: 'Slider (3:2)', lazyLoading: true, width: 1500, height: 1000, resizeMode: crop }
-  team: { name: 'Team (4:5)', lazyLoading: true, densities: 1.5x, width: 480, height: 600, resizeMode: crop }
-  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 120, height: 120, resizeMode: crop }
-  news: { name: 'Journal-Teaser (3:2)', lazyLoading: true, densities: 2x, width: 800, height: 533, resizeMode: crop }
-  news-detail: { name: Journal-Detail, width: 1200, height: 700, resizeMode: crop }
+    items: [{ media: '(max-width: 40rem)', densities: '480w, 640w, 960w', sizes: 'calc(100vw - 2rem)', width: 640, height: 480, resizeMode: crop }]
+  slider:
+    name: 'Slider (3:2)'
+    lazyLoading: true
+    densities: '800w, 1200w, 1600w'
+    sizes: '(min-width: 80rem) 1216px, calc(100vw - 2rem)'
+    width: 1600
+    height: 1067
+    resizeMode: crop
+  team: { name: 'Team (4:5)', lazyLoading: true, densities: 2x, width: 240, height: 300, resizeMode: crop }
+  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 48, height: 48, resizeMode: crop }
+  news:
+    name: 'Journal-Teaser (3:2)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 60rem) 31vw, (min-width: 40rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 533
+    resizeMode: crop
+  news-detail:
+    name: Journal-Detail
+    densities: '480w, 720w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 600px, (min-width: 64rem) 48vw, calc(100vw - 2rem)'
+    width: 1200
+    height: 700
+    resizeMode: crop
   gallery:
     name: 'Galerie (responsiv)'
     lazyLoading: true
-    densities: '480w, 800w, 1200w, 1600w'
+    densities: '320w, 480w, 640w, 800w, 1200w, 1600w'
     sizes: '(min-width: 64rem) 50vw, 100vw'
     width: 1600
     resizeMode: proportional
@@ -681,7 +740,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: Werkstatt.
                 text: '<p>Statt im Studio haben wir direkt in der Manufaktur fotografiert. Das spart Transporte, und die Bilder erzählen ganz nebenbei, wo die Stücke entstehen.</p><ul><li>Ein Nordfenster als einzige Lichtquelle</li><li>Hintergründe in den Farben der Glasuren</li><li>Freisteller und Stillleben in einem Durchgang</li></ul>'
                 singleSRC: 'file:bilder/projekte/form-und-ton-atelier.jpg'
@@ -961,7 +1020,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Licht.
             text: '<p>Wir arbeiten fast immer mit vorhandenem Licht. Deshalb beginnt jedes Projekt mit einem Besuch vor Ort: Wann fällt die Sonne in den Raum? Wie verändert sich die Fassade im Laufe des Tages?</p><ul><li>Ortsbesichtigung und Lichtplan vor jedem Termin</li><li>Wenige Motive, dafür die richtigen</li><li>Sorgfältige Bearbeitung ohne künstlichen Look</li><li>Nutzungsrechte klar geregelt</li></ul>'
             singleSRC: 'file:bilder/projekte/haus-am-hang-innen.jpg'
@@ -1075,7 +1134,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Fotografie.
             text: '<p>Architektur, Interieurs, Produkte und Porträts – für Wettbewerbe, Websites, Kataloge und Presse.</p><ul><li>Architektur bei Tag und zur blauen Stunde</li><li>Interieur und Hotel</li><li>Produkt und Stillleben</li></ul><p><a href="{{link_url::haus-am-hang}}">Beispiel ansehen</a></p>'
             singleSRC: 'file:bilder/projekte/haus-am-hang.jpg'
@@ -1084,7 +1143,7 @@ pages:
             creuvaKicker: '01'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'Ausstellung & Raum.'
             text: '<p>Ausstellungen, Leitsysteme und Messestände: Wir planen Raumfolgen, Licht und Grafik und begleiten den Aufbau.</p><ul><li>Konzept und Raumfolge</li><li>Licht, Farbe und Hängung</li><li>Beschriftung und Leitsystem</li></ul><p><a href="{{link_url::kunsthalle}}">Beispiel ansehen</a></p>'
             singleSRC: 'file:bilder/projekte/kunsthalle-raum.jpg'
@@ -1094,7 +1153,7 @@ pages:
             creuvaKicker: '02'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'Buch & Editorial.'
             text: '<p>Bildbände, Kataloge und Magazine – von der Bildauswahl über die Gestaltung bis zur Abnahme an der Druckmaschine.</p><ul><li>Konzept und Bildredaktion</li><li>Gestaltung und Satz</li><li>Papier, Druck und Bindung</li></ul><p><a href="{{link_url::atlas-der-stille}}">Beispiel ansehen</a></p>'
             singleSRC: 'file:bilder/projekte/atlas-nebel.jpg'

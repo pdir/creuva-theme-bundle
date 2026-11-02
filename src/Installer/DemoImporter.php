@@ -12,6 +12,7 @@ namespace Pdir\CreuvaThemeBundle\Installer;
 
 use Contao\CoreBundle\Filesystem\VirtualFilesystemInterface;
 use Doctrine\DBAL\Connection;
+use Imagine\Image\ImagineInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -50,6 +51,12 @@ class DemoImporter
     private const WRITE_OPTIONS = ['directory_visibility' => 'public'];
 
     /**
+     * Modern formats of the demo image sizes (if supported by the image
+     * library); AVIF is left out, encoding it with GD is very slow.
+     */
+    private const IMAGE_FORMATS = ['webp'];
+
+    /**
      * @var array<string, array<string, int|string>> type => key => ID/UUID
      */
     private array $refs = [];
@@ -77,6 +84,8 @@ class DemoImporter
         #[Autowire(param: 'contao.upload_path')]
         private readonly string $uploadPath,
         private readonly CssStyleValues $cssStyleValues,
+        #[Autowire(service: 'contao.image.imagine')]
+        private readonly ImagineInterface $imagine,
     ) {
     }
 
@@ -251,6 +260,10 @@ class DemoImporter
         $items = $size['items'] ?? [];
         unset($size['items']);
 
+        // Modern image formats for JPEG and PNG images ("formats: [webp]" by
+        // default, "formats: []" for none), only if the image library supports them
+        $size['formats'] = $this->getFormats((array) ($size['formats'] ?? self::IMAGE_FORMATS));
+
         $id = $this->insert('tl_image_size', ($this->resolveRow($size) ?? []) + ['pid' => $themeId]);
 
         foreach (array_values($items) as $i => $item) {
@@ -258,6 +271,28 @@ class DemoImporter
         }
 
         return $id;
+    }
+
+    /**
+     * Returns the value of tl_image_size.formats for the given target formats
+     * (e.g. "webp"), in the format of the options in the back end.
+     *
+     * @param array<string> $targets
+     */
+    private function getFormats(array $targets): string
+    {
+        $formats = [];
+
+        foreach ($targets as $target) {
+            if (!$this->imagine->getDriverInfo()->isFormatSupported((string) $target)) {
+                continue;
+            }
+
+            $formats[] = "jpg:jpg,$target;jpeg:jpeg,$target";
+            $formats[] = "png:png,$target";
+        }
+
+        return $formats ? serialize($formats) : '';
     }
 
     /**

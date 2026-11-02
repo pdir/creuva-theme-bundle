@@ -79,23 +79,59 @@ footer:
 styleguide: true
 imageSizes:
   logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
-  hero: { name: Hero, densities: '1x, 2x', width: 720, height: 480, resizeMode: crop }
-  card: { name: 'Karte (4:3)', lazyLoading: true, densities: 2x, width: 800, height: 600, resizeMode: crop }
+  hero:
+    name: Hero
+    densities: '480w, 720w, 960w, 1440w'
+    sizes: '(min-width: 80rem) 612px, (min-width: 60rem) 48vw, calc(100vw - 2rem)'
+    width: 720
+    height: 480
+    resizeMode: crop
+  card:
+    name: 'Karte (4:3)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 44rem) 31vw, (min-width: 30rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 600
+    resizeMode: crop
+  media:
+    name: 'Bild & Text (4:3)'
+    lazyLoading: true
+    densities: '480w, 640w, 800w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 560px, (min-width: 56rem) 44vw, calc(100vw - 3.5rem)'
+    width: 1200
+    height: 900
+    resizeMode: crop
   wide:
     name: 'Breit (16:9)'
     lazyLoading: true
-    width: 1200
-    height: 675
+    densities: '800w, 1200w, 1600w'
+    sizes: '(min-width: 80rem) 1216px, calc(100vw - 2rem)'
+    width: 1600
+    height: 900
     resizeMode: crop
-    items: [{ media: '(max-width: 40rem)', densities: 2x, width: 640, height: 480, resizeMode: crop }]
-  team: { name: 'Team (1:1)', lazyLoading: true, densities: 1.5x, width: 480, height: 480, resizeMode: crop }
-  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 120, height: 120, resizeMode: crop }
-  news: { name: 'News-Teaser (16:10)', lazyLoading: true, densities: 2x, width: 800, height: 500, resizeMode: crop }
-  news-detail: { name: News-Detail, width: 1200, height: 700, resizeMode: crop }
+    items: [{ media: '(max-width: 40rem)', densities: '480w, 640w, 960w', sizes: 'calc(100vw - 2rem)', width: 640, height: 480, resizeMode: crop }]
+  team: { name: 'Team (1:1)', lazyLoading: true, densities: 2x, width: 240, height: 240, resizeMode: crop }
+  avatar: { name: Avatar, lazyLoading: true, densities: 2x, width: 48, height: 48, resizeMode: crop }
+  news:
+    name: 'News-Teaser (16:10)'
+    lazyLoading: true
+    densities: '400w, 600w, 800w'
+    sizes: '(min-width: 80rem) 384px, (min-width: 60rem) 31vw, (min-width: 40rem) 46vw, calc(100vw - 2rem)'
+    width: 800
+    height: 500
+    resizeMode: crop
+  news-detail:
+    name: News-Detail
+    densities: '480w, 720w, 960w, 1200w'
+    sizes: '(min-width: 80rem) 600px, (min-width: 64rem) 48vw, calc(100vw - 2rem)'
+    width: 1200
+    height: 700
+    resizeMode: crop
   gallery:
     name: 'Galerie (responsiv)'
     lazyLoading: true
-    densities: '480w, 800w, 1200w, 1600w'
+    densities: '320w, 480w, 640w, 800w, 1200w, 1600w'
     sizes: '(min-width: 64rem) 50vw, 100vw'
     width: 1600
     resizeMode: proportional
@@ -189,7 +225,7 @@ news:
                 cssID: 'u-icon-primary u-feature-inline'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'gut lesbar.'
             text: |-
               <p>Fließtext braucht ein Kontrastverhältnis von mindestens 4,5 : 1, große Schrift und Bedienelemente mindestens 3 : 1. Die Farbschemas von Creuva sind darauf abgestimmt – auch in der dunklen Variante.</p>
@@ -256,7 +292,7 @@ news:
             creuvaKicker: 'Core Web Vitals'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: optimieren.
             text: |-
               <p>Bilder sind fast immer der größte Brocken. Contao erzeugt über die Bildgrößen im Theme automatisch passende Varianten für jedes Gerät – Sie müssen sie nur sinnvoll anlegen.</p>
@@ -492,7 +528,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Agentur.
             text: '<p>Wir sind ein eingespieltes Team aus Designern, Entwicklern und Strategen. Unser Ziel – digitale Lösungen, die nicht nur funktionieren, sondern wirklich zu Ihnen passen.</p><ul><li>Individuelle Konzepte statt Baukasten</li><li>Persönliche Beratung und direkte Kommunikation</li><li>Langfristige Partnerschaften</li><li>Leidenschaft für gutes Design und sauberen Code</li></ul><p><a href="{{link_url::ueber-uns}}">Mehr über uns</a></p>'
             singleSRC: 'file:bilder/about.jpg'
@@ -757,7 +793,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: wirken.
             text: '<p>Wir entwickeln individuelle Webdesigns, die Ihre Marke klar kommunizieren, Emotionen wecken und Ihre Zielgruppe gezielt ansprechen.</p><ul><li>Individuelles Designkonzept</li><li>Responsive Gestaltung für alle Endgeräte</li><li>Barrierearme und suchmaschinenfreundliche Umsetzung</li><li>Enge Zusammenarbeit und klarer Prozess</li></ul><p><a href="{{link_url::webdesign}}">Mehr zum Webdesign</a></p>'
             singleSRC: 'file:bilder/detail-3.jpg'
@@ -768,7 +804,7 @@ pages:
             headline_inline: '1'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'Möglichkeiten schafft.'
             text: '<p>Wir setzen Ihre Website mit Contao und modernen Technologien um – sauber, performant und zukunftssicher.</p><ul><li>Contao-Entwicklung und individuelle Erweiterungen</li><li>Performance-Optimierung</li><li>Schnittstellen und Integrationen</li><li>Wartung, Updates und Support</li></ul><p><a href="{{link_url::entwicklung}}">Mehr zur Entwicklung</a></p>'
             singleSRC: 'file:bilder/detail-2.jpg'
@@ -779,7 +815,7 @@ pages:
             headline_inline: '1'
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: 'nachhaltigen Erfolg.'
             text: '<p>Wir beraten Sie von der ersten Idee bis zum laufenden Betrieb und entwickeln gemeinsam eine Strategie, die zu Ihren Zielen und Ressourcen passt.</p><ul><li>Strategische Beratung und Zieldefinition</li><li>Analyse bestehender Websites</li><li>Konzeption und Planung</li><li>Begleitung bei der Umsetzung</li></ul><p><a href="{{link_url::beratung}}">Mehr zur Beratung</a></p>'
             singleSRC: 'file:bilder/detail-1.jpg'
@@ -831,7 +867,7 @@ pages:
                   - type: text
                     sectionHeadline: { unit: h3, value: 'Was kostet eine neue Website?' }
                     text: '<p>Das hängt vom Umfang ab. Einen Überblick geben unsere <a href="{{link_url::preise}}">Pakete und Preise</a>.</p>'
-              - { type: image, size: 'image_size:card', singleSRC: 'file:bilder/detail-3.jpg' }
+              - { type: image, size: 'image_size:media', singleSRC: 'file:bilder/detail-3.jpg' }
       - title: CTA
         elements:
           - type: text
@@ -898,7 +934,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: wächst.
                 text: '<p>Farben, Typografie und Komponenten bilden ein Designsystem, das mit Ihrem Unternehmen wächst – und das Ihre Redakteure ohne Programmierkenntnisse nutzen.</p><ul><li>Prototypen zum Durchklicken</li><li>Abgestimmte Bildsprache</li><li>Styleguide für alle Elemente</li></ul><p><a href="{{link_url::kontakt}}">Projekt anfragen</a> <a href="{{link_url::preise}}">Preise ansehen</a></p>'
                 singleSRC: 'file:bilder/detail-1.jpg'
@@ -972,7 +1008,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: zukunftssicher.
                 text: '<p>Wir setzen auf Contao, Twig und moderne Standards. Ihre Website bleibt updatefähig, schnell und sicher – heute und in Zukunft.</p><ul><li>Code-Reviews und automatisierte Tests</li><li>Performance- und Sicherheitsoptimierung</li><li>Wartung und Updates</li></ul><p><a href="{{link_url::kontakt}}">Projekt anfragen</a></p>'
                 singleSRC: 'file:bilder/projekte/projekt-stadtwerke.jpg'
@@ -1251,7 +1287,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'Vertrauen schafft.'
                 text: |-
                   <p>Klare Strukturen, freundliche Farben und echte Bilder aus der Region sorgen für einen nahbaren, professionellen Auftritt.</p>
@@ -1417,7 +1453,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'Vertrauen schafft.'
                 text: |-
                   <p>Dunkle Hintergründe, starke Kontraste und eine klare Typografie schaffen einen hochwertigen Rahmen für ausdrucksstarke Fotografien.</p>
@@ -1585,7 +1621,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'zum Ankommen.'
                 text: |-
                   <p>Natürliche Farben, hochwertige Fotografien und eine ruhige Gestaltung greifen den Charakter des Berghotels auf und machen Lust auf eine Auszeit in den Bergen.</p>
@@ -1755,7 +1791,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'einfach funktioniert.'
                 text: |-
                   <p>Ein ruhiges Blau, klare Symbole und eine Gliederung nach Anliegen machen das Serviceportal übersichtlich und vertrauenswürdig.</p>
@@ -1925,7 +1961,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'Lust auf Kaffee macht.'
                 text: |-
                   <p>Warme Beerentöne, appetitliche Produktbilder und eine klare Struktur machen das Einkaufen auf dem Smartphone zum Genuss.</p>
@@ -2095,7 +2131,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'Gemeinschaft zeigt.'
                 text: |-
                   <p>Kräftige Vereinsfarben, echte Bilder vom Platz und eine klare Struktur machen Lust auf Training, Spieltag und Vereinsleben.</p>
@@ -2218,7 +2254,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Zukunft.
             text: '<p>Wir entwickeln digitale Projekte, die nicht nur heute überzeugen, sondern auch morgen noch Bestand haben. Unser Ziel ist es, Unternehmen, Organisationen und Marken langfristig zu unterstützen – mit durchdachten Konzepten, moderner Technologie und einem Team, das mitdenkt.</p><p><a href="{{link_url::team}}">Unser Team kennenlernen</a></p>'
             singleSRC: 'file:bilder/detail-2.jpg'
@@ -2254,7 +2290,7 @@ pages:
                   - type: text
                     text: '<p>Was mit der Leidenschaft für gutes Webdesign begann, ist heute ein eingespieltes Team von Spezialisten mit einem gemeinsamen Ziel: digitale Projekte, die begeistern.</p>'
                     cssID: u-muted
-                  - { type: image, size: 'image_size:card', singleSRC: 'file:bilder/detail-3.jpg' }
+                  - { type: image, size: 'image_size:media', singleSRC: 'file:bilder/detail-3.jpg' }
               - type: description_list
                 customTpl: content_element/description_list/creuva_timeline
                 data:
@@ -2436,7 +2472,7 @@ pages:
             elements:
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: Kollegen.
                 text: '<p>Wir setzen auf ein offenes Miteinander, kurze Wege und eine positive Arbeitsatmosphäre. So entstehen nicht nur großartige Projekte, sondern auch ein Team, das sich gegenseitig unterstützt.</p><ul><li>Flache Hierarchien</li><li>Offene Kommunikation</li><li>Eigenverantwortung und Freiraum</li><li>Gemeinsame Weiterentwicklung</li></ul>'
                 singleSRC: 'file:bilder/about.jpg'
@@ -2447,7 +2483,7 @@ pages:
                 headline_inline: '1'
               - type: text
                 addImage: true
-                size: 'image_size:card'
+                size: 'image_size:media'
                 headline: 'zu werden?'
                 text: '<p>Du möchtest an spannenden Projekten mitarbeiten und die digitale Zukunft mitgestalten? Wir freuen uns auf neue Talente.</p><p><a href="{{link_url::kontakt}}">Zu den offenen Stellen</a></p>'
                 singleSRC: 'file:bilder/detail-3.jpg'
@@ -2819,7 +2855,7 @@ pages:
                         text: '<p>Sie haben eine individuelle Frage oder möchten Ihr Projekt mit uns besprechen? Wir freuen uns auf Ihre Nachricht.</p><p><a href="{{link_url::kontakt}}">Jetzt Kontakt aufnehmen</a></p>'
                         cssID: 'u-bg-accent u-button'
                         creuvaKicker: 'Noch offene Fragen?'
-                      - { type: image, size: 'image_size:card', singleSRC: 'file:bilder/detail-1.jpg' }
+                      - { type: image, size: 'image_size:media', singleSRC: 'file:bilder/detail-1.jpg' }
           - title: Support
             cssID: u-bg-muted
             elements:
@@ -3016,7 +3052,7 @@ pages:
                         singleSRC: 'file:icons/standort.svg'
                         customTpl: content_element/text/creuva_feature
                         cssID: 'u-icon-accent u-feature-inline'
-                  - { type: image, size: 'image_size:card', singleSRC: 'file:bilder/detail-3.jpg' }
+                  - { type: image, size: 'image_size:media', singleSRC: 'file:bilder/detail-3.jpg' }
       - title: Ansprechpartner
         teaserCssID: ['', '']
         elements:
@@ -3060,7 +3096,7 @@ pages:
         elements:
           - type: text
             addImage: true
-            size: 'image_size:card'
+            size: 'image_size:media'
             headline: Dresden.
             text: '<p>Unsere Büroräume befinden sich zentral in der Dresdner Innenstadt und sind sowohl mit dem Auto als auch mit öffentlichen Verkehrsmitteln gut erreichbar.</p><ul><li>Haltestelle Postplatz – 5 Minuten zu Fuß</li><li>Parkmöglichkeiten im direkten Umfeld</li></ul><p><a href="https://www.openstreetmap.org/search?query=Dresden">Route planen</a></p>'
             singleSRC: 'file:bilder/detail-1.jpg'

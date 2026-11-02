@@ -95,8 +95,9 @@ mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
   [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
 - **Module:** Hauptnavigation, Header mit CTA und Suche, Footer mit vier Spalten und Social-Media-Links,
   News-Liste und -Leser, Sitemap, Suchmaschine
-- **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
-  der Demo verweisen
+- **Bildgrößen** im Theme (Logo, Hero, Karte, Bild & Text, Breit, Team, Avatar, News, Galerie),
+  auf die alle Bilder der Demo verweisen – mit mehreren Breiten, WebP und verzögertem Laden
+  (siehe *Bildgrößen der Demos* unter [Eigene Demo aus der Dateiverwaltung](#eigene-demo-aus-der-dateiverwaltung))
 - **News-Archiv** mit drei ausführlichen Beiträgen (nur wenn das News-Bundle installiert ist)
 - **Autor** der Artikel und News: der erste Administrator (sonst der erste Backend-Benutzer).
   Ältere Importe ohne Autor ergänzt `contao:migrate`.
@@ -251,9 +252,10 @@ imageSizes:
     width: 800
     height: 600
     resizeMode: crop
-    densities: 1.5x, 2x
+    densities: 400w, 600w, 800w
+    sizes: '(min-width: 80rem) 384px, (min-width: 44rem) 31vw, (min-width: 30rem) 46vw, calc(100vw - 2rem)'
     lazyLoading: true
-    formats: ['jpg:jpg,webp;jpeg:jpeg,webp', 'png:png,webp']   # wie in tl_image_size gespeichert
+    formats: [webp]   # Standard; [] = ohne moderne Formate
     items:
       - { media: '(max-width: 40rem)', width: 640, height: 640, resizeMode: 'crop' }
 pages:
@@ -264,6 +266,27 @@ pages:
 modules:
   newslist: { name: 'News', type: 'newslist', news_archives: ['news_archive:blog'], imgSize: 'image_size:card' }
 ```
+
+**Bildgrößen der Demos:** Jede Größe ist für einen Platz im Layout gedacht, damit der Browser
+nicht mehr lädt als nötig (PageSpeed: „Bilder richtig dimensionieren“). Inhaltsbilder haben
+mehrere Breiten (`…w`) und eine `sizes`-Angabe passend zu Containerbreite (76rem), Spalten und
+Breakpoints; kleine Bilder fester Größe (Team, Avatar) haben `2x`. Alle Größen außer Hero,
+Vollbild und News-Detail (meist das größte Bild oben, siehe *Bevorzugtes Laden*) laden verzögert.
+JPEG- und PNG-Bilder bekommen zusätzlich WebP, wenn die Bildbibliothek des Servers es kann
+(`formats`, Standard `[webp]`; AVIF bleibt aus, weil GD dafür sehr langsam ist).
+
+| Key | Name | Für |
+|-----|------|-----|
+| `hero` | Hero | Bild im Hero-Element |
+| `cover` | Vollbild (16:9) | Hero über die volle Breite, auf Smartphones hochkant |
+| `card` | Karte (4:3) | Karten in drei oder vier Spalten, Slider mit mehreren Karten |
+| `media` | Bild & Text (4:3) | Templatevariante „Bild & Text“, Bilder und Karten in zwei Spalten |
+| `wide` | Breit | Bild über die Inhaltsbreite (auf Smartphones 4:3) |
+| `tile-portrait`, `tile-landscape` | Kachel hoch/quer | Bildkacheln (Portfolio, Sportverein) |
+| `slider` | Slider (3:2) | Bilder im Slider über die Inhaltsbreite (Portfolio) |
+| `team`, `avatar` | Team, Avatar | Personenbild (max. 14rem) und Kundenstimme (3rem) |
+| `news`, `news-detail` | News-Teaser, News-Detail | Newsliste und Kopf des Newslesers |
+| `gallery` | Galerie (responsiv) | Galerien, `sizes` setzt das Galerie-Template pro Bild |
 
 Header und Footer-Marke verwenden die Bildgröße mit dem Key `logo`. Ohne eine solche Größe legt
 der Installer eine eigene Bildgröße „Logo“ an (480 × 120 px Box, 2x-Dichte), auch ohne Demo.
@@ -632,7 +655,7 @@ entfernt das frühere Set „Creuva“ aus Startpunkten und Formularen.
 
 **Bildgröße:** Eine Galerie hat nur eine Bildgröße für alle Bilder. Damit trotzdem jede
 Kachel passend geladen wird, bringen Demo und Styleguide die Bildgröße
-**„Galerie (responsiv)“** mit: proportional, Breiten 480/800/1200/1600 px als `srcset`.
+**„Galerie (responsiv)“** mit: proportional, Breiten 320/480/640/800/1200/1600 px als `srcset`.
 Das Galerie-Template (`contao/templates/content_element/gallery.html.twig`) ersetzt das
 `sizes` der Bildgröße pro Bild: passend zu Anordnung (`u-gallery-*`), Position und
 „Bilder pro Reihe“, begrenzt auf die Inhaltsbreite (1216 px). Beim Mosaik bekommt das große

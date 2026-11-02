@@ -149,6 +149,11 @@
     opacity: 0.6;
     transition: opacity var(--transition), border-color var(--transition);
 
+    // Copy of the slide picture (creuva.js), the image fills the button
+    picture {
+      display: contents;
+    }
+
     img {
       display: block;
       width: 100%;
