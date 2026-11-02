@@ -527,6 +527,7 @@ pages:
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-soft u-icon-white', headline: { unit: 'h3', value: 'Weißer Kreis' }, text: '<p>u-icon-white (auf u-card-soft)</p>', addImage: true, singleSRC: 'file:icons/team.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-plain', headline: { unit: 'h3', value: 'Ohne Kreis' }, text: '<p>u-icon-plain</p>', addImage: true, singleSRC: 'file:icons/uhr.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-primary u-icon-light', headline: { unit: 'h3', value: 'Icon schwarz' }, text: '<p>u-icon-light (auf u-card-primary)</p>', addImage: true, singleSRC: 'file:icons/kalender.svg' }
+              - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-icon-original', headline: { unit: 'h3', value: 'Originalfarben' }, text: '<p>u-icon-original (SVG wie in der Datei)</p>', addImage: true, singleSRC: 'file:icons/stern.svg' }
               - { type: 'text', customTpl: 'content_element/text/creuva_feature', cssID: 'u-card-none', headline: { unit: 'h3', value: 'Ohne Hintergrund' }, text: '<p>u-card-none</p>', addImage: true, singleSRC: 'file:icons/haken.svg' }
           - type: element_group
             cssID: u-grid-3

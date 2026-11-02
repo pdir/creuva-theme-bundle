@@ -1,5 +1,7 @@
 {#
-    Icon box: small image or SVG icon, headline and text.
+    Icon box: small image or SVG icon, headline and text. SVG icons are shown
+    as a mask in the color of the theme (CSS class "u-icon-original": in the
+    colors of the file); the image stays in the markup for its alt text.
 #}
 {% extends '@Contao/content_element/text.html.twig' %}
 
@@ -8,7 +10,12 @@
 
 {% block inner %}
     {% if image %}
-        <div class="c-feature__icon">
+        {% set icon_src = image.image.imageSrc %}
+        {% set icon_mask = icon_src|lower ends with '.svg' %}
+        <div class="c-feature__icon{{ icon_mask ? ' has-mask' }}">
+            {% if icon_mask %}
+                <span class="c-icon-mask" style="mask-image: url('{{ icon_src }}')" aria-hidden="true"></span>
+            {% endif %}
             {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
         </div>
     {% endif %}

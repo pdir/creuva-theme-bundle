@@ -260,9 +260,41 @@
     }
   }
 
+  // SVG icon as a mask (templates creuva_feature and creuva_stats): it takes
+  // the color --icon-color, so the icons follow the color scheme. The image
+  // itself stays in the markup (alt text) but is hidden; with the CSS class
+  // u-icon-original the image is shown in the colors of the file instead.
+  // Other images (PNG, JPG) keep their colors, --icon-filter changes them.
+  .c-icon-mask {
+    grid-area: 1 / 1;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    background-color: var(--icon-color, var(--c-accent-text));
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    transition: background-color var(--transition-hover), transform var(--transition-hover);
+  }
+
+  .has-mask > :not(.c-icon-mask) {
+    grid-area: 1 / 1;
+    visibility: hidden;
+  }
+
+  .u-icon-original {
+    .c-icon-mask {
+      display: none;
+    }
+
+    .has-mask > :not(.c-icon-mask) {
+      visibility: visible;
+    }
+  }
+
   // Round icon; on hover it is filled with the primary color and the icon
-  // turns into the contrast color (works for single-colored SVG icons)
+  // turns into the contrast color
   .c-feature__icon {
+    --icon-size: 1.75rem;
     --icon-filter-hover-default: brightness(0) invert(1);
 
     display: grid;
@@ -279,8 +311,8 @@
     }
 
     img {
-      width: 1.75rem;
-      height: 1.75rem;
+      width: var(--icon-size);
+      height: var(--icon-size);
       object-fit: contain;
       border-radius: 0 !important;
       filter: var(--icon-filter, none);
@@ -295,6 +327,11 @@
 
   :root[data-theme='dark'] .c-feature__icon {
     --icon-filter-hover-default: brightness(0);
+  }
+
+  .c-feature:hover .c-icon-mask {
+    background-color: var(--icon-color-hover, var(--c-primary-contrast));
+    transform: rotate(-6deg);
   }
 
   :root[data-radius='none'] .c-feature__icon {
@@ -338,14 +375,11 @@
     }
 
     .c-feature__icon {
+      --icon-size: 2rem;
+
       width: 4rem;
       height: 4rem;
       margin-bottom: var(--space-s);
-
-      img {
-        width: 2rem;
-        height: 2rem;
-      }
     }
   }
 
@@ -376,17 +410,14 @@
     }
 
     .c-feature__icon {
+      --icon-size: 2rem;
+
       grid-row: 1 / -1;
       grid-column: 1;
       align-self: center;
       width: 4rem;
       height: 4rem;
       margin-bottom: 0;
-
-      img {
-        width: 2rem;
-        height: 2rem;
-      }
     }
 
     > :is(h2, h3, h4) {

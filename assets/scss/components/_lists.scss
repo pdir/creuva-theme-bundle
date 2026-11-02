@@ -102,6 +102,8 @@
   // Optional icon above the figure (field "Icons (Kennzahlen)"); same custom
   // properties as the icon box, so the icon classes u-icon-* work here too
   .c-stats__icon {
+    --icon-size: 2rem;
+
     display: grid;
     place-items: center;
     width: 4rem;
@@ -112,8 +114,8 @@
     transition: background-color var(--transition-hover), transform var(--transition-hover);
 
     img {
-      width: 2rem;
-      height: 2rem;
+      width: var(--icon-size);
+      height: var(--icon-size);
       object-fit: contain;
       filter: var(--icon-filter, none);
       transition: filter var(--transition-hover);
@@ -126,6 +128,10 @@
 
     img {
       filter: var(--icon-filter-hover, brightness(0) invert(1));
+    }
+
+    .c-icon-mask {
+      background-color: var(--icon-color-hover, var(--c-primary-contrast));
     }
   }
 
@@ -140,6 +146,7 @@
     --stats-unit: var(--c-accent-on-primary);
     --icon-bg: color-mix(in srgb, var(--c-primary-contrast) 12%, transparent);
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
   }
 
   // Phones: the numbers are stacked, less space above and below each of them

@@ -137,16 +137,23 @@ creuvaColors:
         u-card-none: 'Ohne Hintergrund'
     icon:
       title: 'Icon'
-      description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen: hell, mittel (Akzentfarbe) oder dunkel (Hauptfarbe); bei mittel und dunkel wird das Icon weiß (einfarbige SVG-Icons)'
+      description: 'Kreis hinter dem Icon der Icon-Box bzw. der Kennzahlen: hell, mittel (Akzentfarbe) oder dunkel (Hauptfarbe); SVG-Icons erscheinen in der passenden Farbe des Farbschemas'
       contentElements: [text, description_list]
       sorting: 200
       styles:
-        u-icon-soft: 'Hell (Akzent hell, Icon farbig)'
+        u-icon-soft: 'Hell (Akzent hell, Icon in Akzentfarbe)'
         u-icon-accent: 'Mittel (Akzentfarbe, Icon weiß)'
         u-icon-primary: 'Dunkel (Hauptfarbe, Icon weiß)'
         u-icon-white: 'Weißer Kreis'
         u-icon-light: 'Weißer Kreis, Icon schwarz'
         u-icon-plain: 'Ohne Kreis'
+    iconColor:
+      title: 'Icon-Farbe'
+      description: 'Ohne Auswahl werden SVG-Icons im Farbschema eingefärbt; mit „Originalfarben“ erscheinen sie wie in der Datei (z. B. mehrfarbige Icons)'
+      contentElements: [text, description_list]
+      sorting: 300
+      styles:
+        u-icon-original: 'Originalfarben der SVG-Datei'
 
 creuvaButton:
   title: 'Buttons'

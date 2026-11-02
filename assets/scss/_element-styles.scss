@@ -62,6 +62,8 @@
     --card-border: transparent;
     --icon-bg: var(--c-surface);
     --icon-bg-hover: var(--c-primary);
+    // --c-accent-text is the contrast color here, it would vanish in the white circle
+    --icon-color: var(--c-accent);
 
     color: var(--c-text);
   }
@@ -147,32 +149,46 @@
   :where(.u-bg-primary .c-stats, .c-stats.u-bg-primary):where(.u-card-white, .u-card-muted, .u-card-soft) {
     --icon-bg: var(--c-accent-soft);
     --icon-filter: none;
+    --icon-color: var(--c-accent-text);
   }
 
-  .c-stats:where(.u-card-primary, .u-card-accent) {
+  .c-stats:where(.u-card-primary) {
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
+  }
+
+  // White circle (u-card-accent): icon in the accent color
+  .c-stats:where(.u-card-accent) {
+    --icon-filter: none;
+    --icon-color: var(--c-accent);
   }
 
   // Icon circle of the icon box and the key figures: light (accent light with
-  // the icon in its own color, the default), medium (accent color) or dark
-  // (primary color) with a white icon
+  // the icon in the accent color, the default), medium (accent color) or dark
+  // (primary color) with a white icon. SVG icons take --icon-color (mask),
+  // other images are recolored with --icon-filter.
   .u-icon-soft {
     --icon-bg: var(--c-accent-soft);
     --icon-filter: none;
+    --icon-color: var(--c-accent-text);
   }
 
   .u-icon-primary {
     --icon-bg: var(--c-primary);
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
     --icon-bg-hover: var(--c-accent);
     --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-accent-contrast);
   }
 
   .u-icon-accent {
     --icon-bg: var(--c-accent);
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-accent-contrast);
     --icon-bg-hover: var(--c-primary);
     --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-primary-contrast);
   }
 
   .u-icon-white {
@@ -183,24 +199,27 @@
   .u-icon-light {
     --icon-bg: #fff;
     --icon-filter: brightness(0);
+    --icon-color: #000;
     --icon-bg-hover: var(--c-accent);
     --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-accent-contrast);
   }
 
   .u-icon-plain {
     --icon-bg: transparent;
     --icon-bg-hover: transparent;
     --icon-filter-hover: none;
+    --icon-color-hover: var(--icon-color, var(--c-accent-text));
 
     .c-feature__icon {
-      width: auto;
+      --icon-size: 2.25rem;
+
+      // As wide as the icon, so it stays on the start side like the circle
+      width: fit-content;
       height: auto;
       box-shadow: none !important;
     }
-
-    .c-feature__icon img {
-      width: 2.25rem;
-      height: 2.25rem;
-    }
   }
+
+  // u-icon-original (SVG icons in the colors of the file): _cards.scss
 }
