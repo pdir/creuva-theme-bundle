@@ -107,6 +107,32 @@ const initPreview = () => {
   form.addEventListener('change', update);
   form.addEventListener('input', update);
   update();
+
+  // The color picker of Contao (Pickr) starts transparent if the field is empty:
+  // start with the color of the selected scheme instead. Typing into the result
+  // field of Pickr only changes the picker, the field is set on "Save".
+  Object.entries({ creuvaPrimaryColor: '--scheme-primary', creuvaAccentColor: '--scheme-accent' }).forEach(([name, property]) => {
+    const input = form.querySelector(`[name="${name}"]`);
+    const widget = input?.closest('[data-controller~="contao--color-picker"]');
+
+    widget?.addEventListener('click', (event) => {
+      if (!event.target.closest('[data-contao--color-picker-target="button"]') || input.value.trim()) {
+        return;
+      }
+
+      const color = getComputedStyle(preview).getPropertyValue(property).trim();
+
+      // Pickr shows its panel after the click
+      setTimeout(() => {
+        const result = document.querySelector('.pcr-app.visible .pcr-result');
+
+        if (color && result) {
+          result.value = color;
+          result.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+    });
+  });
 };
 
 // The back end uses Turbo, so the page is not always loaded from scratch

@@ -254,20 +254,7 @@ class DemoExporter
             }
         }
 
-        // Effective design of the website (page layout and root settings)
-        $layout = $root['includeLayout'] ? $this->connection->fetchAssociative('SELECT * FROM tl_layout WHERE id = ?', [$root['layout']]) : false;
-        $design = $this->designSettings->resolve($layout ?: null, $root);
-
-        if ($design['primary'] || $design['accent']) {
-            $this->warnings[] = 'The custom colors of the page layout are not part of the demo, please choose a color scheme.';
-        }
-
-        return $data + array_filter([
-            'creuvaScheme' => $design['scheme'],
-            'creuvaVariant' => $design['variant'],
-            'creuvaTypography' => 'modern' === $design['typography'] ? '' : $design['typography'],
-            'creuvaRadius' => $design['radius'],
-        ]);
+        return $data;
     }
 
     /**
@@ -295,9 +282,21 @@ class DemoExporter
             $this->registerImageSize((int) $id);
         }
 
-        if (preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($layout['creuvaLogoHeight'] ?? ''))) {
-            $data['design']['logoHeight'] = (string) $layout['creuvaLogoHeight'];
+        // Effective design of the website (page layout and root settings); the import
+        // stores it in the page layout, so changes in the theme apply to the website
+        $design = $this->designSettings->resolve($layout, $root);
+
+        if ($design['primary'] || $design['accent']) {
+            $this->warnings[] = 'The custom colors of the page layout are not part of the demo, please choose a color scheme.';
         }
+
+        $data['design'] = array_filter([
+            'scheme' => $design['scheme'],
+            'variant' => $design['variant'],
+            'typography' => 'modern' === $design['typography'] ? '' : $design['typography'],
+            'radius' => $design['radius'],
+            'logoHeight' => $design['logoHeight'],
+        ]);
 
         foreach ($this->unserialize($layout['modules']) ?? [] as $slot) {
             $module = $this->connection->fetchAssociative('SELECT * FROM tl_module WHERE id = ?', [(int) ($slot['mod'] ?? 0)]);

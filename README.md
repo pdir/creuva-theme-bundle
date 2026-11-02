@@ -295,6 +295,10 @@ mit `logoSize`:
 
 ```yaml
 design:
+  scheme: green       # Farbschema, Farbmodus, Typografie und Eckenradius des Seitenlayouts
+  variant: light      # (der Startpunkt bleibt leer, damit Änderungen im Layout greifen)
+  typography: modern
+  radius: large
   logoHeight: 4rem    # Logohöhe des Layouts (Standard 2.25rem), der Header wächst mit
   stylesheets: ['files/design/custom.css']   # eigenes CSS, wird angelegt, falls nicht vorhanden
 header:
@@ -365,8 +369,9 @@ Die Vorlage lässt sich in jede Installation importieren: Ordner nach `files/kun
 und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach `demo/<name>/`).
 
 - Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
-  Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante und Eckenradius
-  aus Seitenlayout und Startpunkt. Eigene Farben des Layouts werden nicht exportiert.
+  Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante, Typografie und
+  Eckenradius aus Seitenlayout und Startpunkt (als `design:`, der Import setzt sie im Seitenlayout).
+  Eigene Farben des Layouts werden nicht exportiert.
 - Vom Startpunkt werden Datums-/Zeitformate und das Favicon übernommen
   (`root: { favicon: file:… }`).
 - Bildgrößen: alle Größen des Themes, dem das Seitenlayout gehört, und alle in Inhalten und
@@ -753,7 +758,10 @@ Primär-/Akzentfarben aus dem Layout überschreiben es.
 Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Farbmodus, Typografie und Eckenradius
 unter „Creuva-Design“ zusätzlich festlegen. Diese Werte haben Vorrang vor dem Seitenlayout;
 ein Schema im Startpunkt ersetzt auch die eigenen Farben des Layouts. So können mehrere
-Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Die frühere Variante „Corporate“
+Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Der Installer und die Demos
+lassen die Felder im Startpunkt leer („Wie im Seitenlayout“), damit Änderungen im Seitenlayout
+sichtbar werden; ältere Demo-Definitionen mit `creuvaScheme` … unter `root:` landen ebenfalls im
+Seitenlayout. Die frühere Variante „Corporate“
 ist jetzt das Schema „Blau“, die frühere Variante „Editorial“ die Typografie „Editorial“ im Farbmodus Light
 (bestehende Layouts und Startpunkte werden per Migration umgestellt). Farbmodus und Typografie sind
 unabhängig voneinander, z. B. Editorial mit Dark.

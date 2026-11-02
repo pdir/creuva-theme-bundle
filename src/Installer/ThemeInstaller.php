@@ -110,6 +110,7 @@ class ThemeInstaller
         private readonly DemoImporter $demoImporter,
         private readonly StyleguideInstaller $styleguideInstaller,
         private readonly CssStyleImporter $cssStyleImporter,
+        private readonly DesignSettings $designSettings,
     ) {
     }
 
@@ -427,9 +428,7 @@ class ThemeInstaller
                 'type' => 'modern',
                 'template' => 'page/layout/creuva',
                 'modules' => serialize($layoutModules),
-                'creuvaVariant' => $options->variant,
-                'creuvaTypography' => $options->typography,
-                'creuvaScheme' => $options->scheme,
+                ...$this->getDesign($options, $demo),
                 'creuvaLogoHeight' => preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($demo['design']['logoHeight'] ?? '')) ? (string) $demo['design']['logoHeight'] : '',
                 'creuvaStylesheets' => $this->getDemoStylesheets($demo),
             ]);
@@ -456,13 +455,17 @@ class ThemeInstaller
 
             // Assign the layout to the root pages
             foreach ($rootIds as $rootId) {
-                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'tstamp' => time()];
-
-                // Remove the design settings of an existing website root, so the ones of the new
-                // layout apply (the root of a demo keeps the design of its definition)
-                if (null === $demo) {
-                    $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaTypography' => '', 'creuvaRadius' => ''];
-                }
+                // Without design settings in the website root, so the ones of the page
+                // layout apply and changes in the theme are not overridden unnoticed
+                $data = [
+                    'includeLayout' => 1,
+                    'layout' => $result->layoutId,
+                    'creuvaScheme' => '',
+                    'creuvaVariant' => '',
+                    'creuvaTypography' => '',
+                    'creuvaRadius' => '',
+                    'tstamp' => time(),
+                ];
 
                 $this->connection->update('tl_page', $data, ['id' => $rootId]);
                 $result->rootPages[] = $rootId;
@@ -470,6 +473,35 @@ class ThemeInstaller
 
             return $result;
         });
+    }
+
+    /**
+     * Design settings of the page layout: the ones of the demo ("design: scheme,
+     * variant, typography, radius", formerly creuvaScheme … in "root:") or the
+     * options of the command.
+     *
+     * @param array<string, mixed>|null $demo
+     *
+     * @return array{creuvaScheme: string, creuvaVariant: string, creuvaTypography: string, creuvaRadius: string}
+     */
+    private function getDesign(InstallOptions $options, array|null $demo): array
+    {
+        $design = (array) ($demo['design'] ?? []);
+        $root = (array) ($demo['root'] ?? []);
+
+        $settings = $this->designSettings->resolve([
+            'creuvaScheme' => $design['scheme'] ?? $root['creuvaScheme'] ?? $options->scheme,
+            'creuvaVariant' => $design['variant'] ?? $root['creuvaVariant'] ?? $options->variant,
+            'creuvaTypography' => $design['typography'] ?? $root['creuvaTypography'] ?? $options->typography,
+            'creuvaRadius' => $design['radius'] ?? $root['creuvaRadius'] ?? '',
+        ]);
+
+        return [
+            'creuvaScheme' => $settings['scheme'] ?: $options->scheme,
+            'creuvaVariant' => $settings['variant'],
+            'creuvaTypography' => $settings['typography'],
+            'creuvaRadius' => $settings['radius'],
+        ];
     }
 
     /**

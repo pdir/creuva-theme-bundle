@@ -16,9 +16,10 @@ root:
   dateFormat: d.m.Y
   timeFormat: 'H:i'
   datimFormat: 'd.m.Y H:i'
-  creuvaScheme: ocean
-  creuvaVariant: light
-  creuvaRadius: none
+design:
+  scheme: ocean
+  variant: light
+  radius: none
 files:
   bilder/start.jpg: { alt: 'Fertigungshalle mit CNC-Maschinen und Mitarbeitenden' }
   bilder/fertigung.jpg: { alt: 'Bearbeitungszentrum in der Fertigung' }

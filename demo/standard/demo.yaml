@@ -10,9 +10,10 @@ root:
   dateFormat: d.m.Y
   timeFormat: 'H:i'
   datimFormat: d.m.Y
-  creuvaScheme: green
-  creuvaVariant: light
-  creuvaRadius: large
+design:
+  scheme: green
+  variant: light
+  radius: large
 files:
   bilder/about.jpg: { alt: 'Illustration mit Kennzahlen der Agentur' }
   bilder/detail-1.jpg: { alt: 'Drei Smartphone-Ansichten einer Website' }
