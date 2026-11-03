@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Pdir\CreuvaThemeBundle\Command;
 
+use Pdir\CreuvaThemeBundle\Installer\CachePurger;
 use Pdir\CreuvaThemeBundle\Installer\ContentReset;
 use Pdir\CreuvaThemeBundle\Installer\DemoImporter;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -27,8 +28,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ResetCommand extends Command
 {
-    public function __construct(private readonly ContentReset $contentReset)
-    {
+    public function __construct(
+        private readonly ContentReset $contentReset,
+        private readonly CachePurger $cachePurger,
+    ) {
         parent::__construct();
     }
 
@@ -124,7 +127,7 @@ class ResetCommand extends Command
 
         // Cached pages and generated images of the old contents
         if ($this->getApplication()?->has('contao:automator')) {
-            foreach (['purgePageCache', 'purgeImageCache', 'purgeXmlFiles'] as $task) {
+            foreach ($this->cachePurger->getAutomatorTasks() as $task) {
                 $this->getApplication()->find('contao:automator')->run(new ArrayInput(['task' => $task]), new NullOutput());
             }
         }

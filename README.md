@@ -49,6 +49,9 @@ vendor/bin/contao-console creuva:install --demo
 | `--scheme` | Farbschema: `green` (Standard), `blue`, `red`, `yellow`, `petrol`, `violet`, `terracotta`, `ocean`, `indigo`, `gold`, `bordeaux`, `magenta`, `plum`, `orange`, `olive`, `sage`, `lime` |
 | `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial` |
 | `--theme-name` | Name des Themes (Standard „Creuva“), z. B. für eine zweite Variante |
+| `--replace` | Website mit gleicher Domain und Sprache samt Theme vorher löschen – erneuter Import in einer Multisite (siehe [Inhalte zurücksetzen](#inhalte-zurücksetzen)) |
+| `--reset` | Alle Contao-Inhalte vorher löschen (siehe `creuva:reset`) |
+| `--force`, `--no-backup` | Mit `--reset`/`--replace`: ohne Rückfrage bzw. ohne Datenbank-Backup |
 
 Kontakt-, Impressum-, Datenschutz-, Sitemap- und Suchseiten einer bestehenden Website werden
 anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `sitemap`, `suche`, …) und im
@@ -293,6 +296,23 @@ layout:
   prefooter: [partner]
 ```
 
+Die Links der unteren Leiste (neben dem Copyright) legt `bottom:` fest, z. B. die Rechtstexte,
+damit der Footer selbst mit Marke und drei Linkspalten in eine Zeile passt (ohne `bottom:` steht
+dort nur die Sitemap). Ein Kontaktbereich über die volle Breite unter den Spalten (Dachzeile, Titel, Text, Fakten mit
+Häkchen und Button; ab 72rem in einer Zeile) ist ein HTML-Modul mit der Klasse `c-footer-contact`
+im Slot `footer`:
+
+```yaml
+bottom: ['impressum', 'datenschutz', 'agb', 'sitemap']
+modules:
+  footerContact:
+    name: 'Footer – Kontakt'
+    type: html
+    html: '<div class="c-footer-contact"><div class="c-footer-contact__text"><p class="c-footer-contact__kicker">Beratung</p><p class="c-footer-contact__title">Fragen zum Projekt?</p><p>{{email::info@example.org}}</p></div><ul class="c-footer-contact__facts"><li>Fakt 1</li><li>Fakt 2</li></ul><a class="c-button c-button--primary" href="{{link_url::kontakt}}">Kontakt</a></div>'
+layout:
+  footer: [footerContact]
+```
+
 Termine (Kalender-Bundle) werden wie News unter `events:` definiert; das Datum ist ein
 `strtotime()`-Ausdruck (`"2026-12-05"`, `"5 December"` = aktuelles Jahr), Uhrzeiten als `HH:MM`.
 Module referenzieren den Kalender mit `calendar:<key>`:
@@ -311,7 +331,8 @@ modules:
 - Der Pfad ist relativ zum Projektverzeichnis und muss innerhalb von `files/` liegen
   (nicht in `files/creuva-demo`).
 - Die Dateien werden nach `files/creuva-demo/local-<ordnername>/` kopiert; der Quellordner
-  bleibt unverändert und kann mit `--reset` beliebig oft neu importiert werden.
+  bleibt unverändert und kann mit `--replace` (Multisite) oder `--reset` beliebig oft neu importiert
+  werden.
 - Mit `filesFolder: inhalte` in der `demo.yaml` landen die Dateien stattdessen in
   `files/inhalte/` (der Ordner wird öffentlich geschaltet). Er wird von `creuva:reset` nicht
   gelöscht; bei einem erneuten Import werden die Dateien überschrieben und behalten ihre UUID.
@@ -377,6 +398,41 @@ vendor/bin/contao-console creuva:install --demo --reset
 - Vorher wird ein Backup unter `var/backups/creuva-reset__<Zeitstempel>.sql.gz` angelegt;
   zurückspielen mit `contao:backup:restore <Dateiname>`. Ohne Backup: `--no-backup`.
 - Ohne Rückfrage (z. B. in Skripten): `--force`.
+
+#### Eine Website einer Multisite ersetzen (`--replace`)
+
+`--reset` löscht **alle** Websites. Laufen mehrere Websites in einer Installation, ersetzt
+`--replace` nur die Website, die der Import neu anlegen würde:
+
+```bash
+vendor/bin/contao-console creuva:install --demo=files/meine-demo \
+    --site-title="Meine Firma" --dns=example.org --theme-name="Meine Firma" --replace
+```
+
+Gelöscht werden:
+
+- die Startpunkte mit derselben Domain (`--dns`) und Sprache (`--language`) samt allen
+  Unterseiten, Artikeln und Inhaltselementen (auch verschachtelte)
+- das Theme mit dem Namen aus `--theme-name` und die Themes, deren Layouts diese Website nutzt,
+  jeweils mit Layouts, Modulen und Bildgrößen
+- Formulare (Inhaltselemente und Module vom Typ *Formular*), News-Archive und Kalender (aus den
+  Modulen der gelöschten Themes) samt Feldern, Nachrichten, Events und deren Inhalten – aber nur,
+  wenn keine andere Website sie verwendet
+
+Sicherheitsregeln:
+
+- Wird das Theme aus `--theme-name` auch von einer anderen Website genutzt (Layout oder Modul),
+  bricht der Befehl ab, ohne etwas zu löschen. Andere gemeinsam genutzte Themes, Formulare,
+  Archive und Kalender bleiben erhalten (mit Hinweis).
+- Vor dem Löschen zeigt der Befehl alle betroffenen Datensätze und fragt nach; ohne Rückfrage:
+  `--force`. Vorher wird ein Backup unter `var/backups/creuva-replace__<Zeitstempel>.sql.gz`
+  angelegt (`--no-backup` zum Abschalten).
+- Dateien bleiben erhalten; der Import überschreibt die Demo-Dateien, ihre UUIDs bleiben gleich.
+- Bild- und Sitemap-Cache werden geleert, der Seiten-Cache nur, wenn ein Reverse Proxy
+  konfiguriert ist (sonst bei Bedarf `cache:clear`). Den Suchindex danach mit `contao:crawl`
+  neu aufbauen.
+- Gibt es noch keine passende Website, legt `--replace` sie einfach neu an.
+- Nicht kombinierbar mit `--reset` und `--root`; erfordert `--demo` oder `--with-pages`.
 
 ## Manuelle Einrichtung
 

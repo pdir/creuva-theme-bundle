@@ -336,11 +336,17 @@ class ThemeInstaller
                 'html' => '<p>© {{date::Y}} {{page::rootPageTitle}}. '.$texts['rights'].'</p>',
             ]);
 
-            if (isset($pageIds['sitemap'])) {
+            // Links in the bottom bar: the pages of the demo ("bottom: [impressum, datenschutz]")
+            // or the sitemap
+            $bottomPages = isset($demo['bottom'])
+                ? array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, (array) $demo['bottom'])))
+                : array_values(array_filter([$pageIds['sitemap'] ?? null]));
+
+            if ($bottomPages) {
                 $modules['bottomLinks'] = $this->insertModule($result, [
                     'name' => $texts['bottomLinks'],
                     'type' => 'customnav',
-                    'pages' => serialize([(string) $pageIds['sitemap']]),
+                    'pages' => serialize(array_map('strval', $bottomPages)),
                 ]);
             }
 
