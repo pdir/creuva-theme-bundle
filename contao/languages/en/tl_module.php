@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 $GLOBALS['TL_LANG']['tl_module']['creuva_logo_legend'] = 'Logo';
+$GLOBALS['TL_LANG']['tl_module']['link_legend'] = 'Call to action button';
 $GLOBALS['TL_LANG']['tl_module']['creuva_social_legend'] = 'Social media';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogo'] = ['Logo', 'Logo file (SVG recommended). Without a logo, the logo text is shown.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogoText'] = ['Logo text', 'Text logo or alternative text. Default: page title of the website root.'];
