@@ -11,8 +11,10 @@ declare(strict_types=1);
 namespace Pdir\CreuvaThemeBundle\Command;
 
 use Pdir\CreuvaThemeBundle\Design\DesignSettings;
+use Pdir\CreuvaThemeBundle\Installer\CachePurger;
 use Pdir\CreuvaThemeBundle\Installer\DemoImporter;
 use Pdir\CreuvaThemeBundle\Installer\InstallOptions;
+use Pdir\CreuvaThemeBundle\Installer\SiteReplacer;
 use Pdir\CreuvaThemeBundle\Installer\ThemeInstaller;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,8 +35,10 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class InstallCommand extends Command
 {
     public function __construct(
+        private readonly CachePurger $cachePurger,
         private readonly ThemeInstaller $installer,
         private readonly DesignSettings $designSettings,
+        private readonly SiteReplacer $siteReplacer,
         #[Autowire(param: 'contao.web_dir')]
         private readonly string $webDir,
         #[Autowire(param: 'contao.upload_path')]
@@ -57,8 +61,9 @@ class InstallCommand extends Command
             ->addOption('language', null, InputOption::VALUE_REQUIRED, 'Language of the new website root (with --with-pages)', 'de')
             ->addOption('dns', null, InputOption::VALUE_REQUIRED, 'Domain of the new website root (with --with-pages)', '')
             ->addOption('reset', null, InputOption::VALUE_NONE, 'Delete all existing contents first (see creuva:reset), e.g. to import the demo again')
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Reset without asking for confirmation (with --reset)')
-            ->addOption('no-backup', null, InputOption::VALUE_NONE, 'Do not create a database backup before the reset (with --reset)')
+            ->addOption('replace', null, InputOption::VALUE_NONE, 'Delete the website with the same domain and language (--dns, --language) and the theme named --theme-name first, e.g. to import a demo again in a multisite installation')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Delete without asking for confirmation (with --reset or --replace)')
+            ->addOption('no-backup', null, InputOption::VALUE_NONE, 'Do not create a database backup before deleting (with --reset or --replace)')
             ->setHelp(<<<'HELP'
                 The <info>%command.name%</info> command sets up the Creuva theme:
 
@@ -87,6 +92,12 @@ class InstallCommand extends Command
                 Delete all existing contents first and import the demo again (a database backup is created):
 
                   <info>php %command.full_name% --demo --reset</info>
+
+                Import a demo again in a multisite installation: only the website with the same domain and language,
+                its theme and the forms, news archives and calendars that no other website uses are deleted
+                (a database backup is created):
+
+                  <info>php %command.full_name% --demo=files/my-demo --dns=example.com --theme-name="Example" --replace</info>
 
                 Contact, imprint, privacy, sitemap and search pages of an existing website are detected by their alias
                 (e.g. kontakt, impressum, datenschutz, suche) and linked in the header and footer.
@@ -180,6 +191,26 @@ class InstallCommand extends Command
             $reset->setInteractive($input->isInteractive());
 
             if (Command::SUCCESS !== $this->getApplication()?->find('creuva:reset')->run($reset, $output)) {
+                return Command::FAILURE;
+            }
+
+            $rootPages = $this->installer->getRootPages();
+        }
+
+        if ($input->getOption('replace')) {
+            if (!$createPages) {
+                $io->error('The option --replace requires --demo or --with-pages.');
+
+                return Command::INVALID;
+            }
+
+            if ($input->getOption('reset') || $rootIds) {
+                $io->error('The option --replace cannot be combined with --reset or --root.');
+
+                return Command::INVALID;
+            }
+
+            if (Command::SUCCESS !== $this->replaceSite($input, $output, $io, $themeName)) {
                 return Command::FAILURE;
             }
 
@@ -298,6 +329,104 @@ class InstallCommand extends Command
             ...($demo ? [] : [\sprintf(' * Add the social media links in the brand module (ID %d)', $result->moduleIds['brand'])]),
             \sprintf(' * Choose the color scheme, color mode, typography and colors in the page layout (ID %d) under "Creuva design"', $result->layoutId),
         ]);
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * Deletes the website with the domain and language of the new website root and the
+     * theme named --theme-name (creuva:install --replace).
+     */
+    private function replaceSite(InputInterface $input, OutputInterface $output, SymfonyStyle $io, string $themeName): int
+    {
+        $dns = (string) $input->getOption('dns');
+        $language = (string) $input->getOption('language');
+
+        $plan = $this->siteReplacer->plan($this->siteReplacer->findRootPages($dns, $language), $themeName);
+
+        if ($plan->errors) {
+            $io->error(['Nothing has been deleted.', ...$plan->errors]);
+
+            return Command::FAILURE;
+        }
+
+        if ($plan->isEmpty()) {
+            $io->note(\sprintf('There is no website for the domain "%s" and the language "%s" and no theme named "%s" – nothing to replace.', $dns ?: '*', $language, $themeName));
+
+            return Command::SUCCESS;
+        }
+
+        $io->section('Replace');
+        $io->text('The following records will be deleted:');
+        $io->listing([
+            ...array_map(static fn (int $id, string $title): string => \sprintf('Website root "%s" (ID %d)', $title, $id), array_keys($plan->rootPages), $plan->rootPages),
+            ...array_map(static fn (int $id, string $name): string => \sprintf('Theme "%s" (ID %d)', $name, $id), array_keys($plan->themes), $plan->themes),
+            ...array_map(
+                static fn (string $table, int $rows): string => \sprintf('%s: %d %s', $table, $rows, 1 === $rows ? 'row' : 'rows'),
+                array_keys($plan->getSummary()),
+                $plan->getSummary(),
+            ),
+        ]);
+
+        foreach ($plan->warnings as $warning) {
+            $io->warning($warning);
+        }
+
+        $io->text('Other websites, users, members and the files in the file manager are kept (demo files are overwritten).');
+
+        if (!$input->getOption('force')) {
+            if (!$input->isInteractive()) {
+                $io->error('Use --force to replace the website without confirmation.');
+
+                return Command::FAILURE;
+            }
+
+            if (!$io->confirm('Do you really want to delete these records?', false)) {
+                $io->note('Nothing has been changed.');
+
+                return Command::FAILURE;
+            }
+        }
+
+        if (!$input->getOption('no-backup') && Command::SUCCESS !== $this->createBackup($io)) {
+            return Command::FAILURE;
+        }
+
+        $this->siteReplacer->remove($plan);
+
+        // Cached pages and generated images of the old website
+        if ($this->getApplication()?->has('contao:automator')) {
+            foreach ($this->cachePurger->getAutomatorTasks() as $task) {
+                $this->getApplication()->find('contao:automator')->run(new ArrayInput(['task' => $task]), new NullOutput());
+            }
+        }
+
+        $io->text(\sprintf('%d records have been deleted.', array_sum($plan->getSummary())));
+        $io->newLine();
+
+        return Command::SUCCESS;
+    }
+
+    private function createBackup(SymfonyStyle $io): int
+    {
+        $application = $this->getApplication();
+
+        if (!$application?->has('contao:backup:create')) {
+            $io->error('The backup could not be created (command "contao:backup:create" not found). Use --no-backup to replace the website anyway.');
+
+            return Command::FAILURE;
+        }
+
+        $backup = new ArrayInput(['name' => 'creuva-replace__'.date('YmdHis').'.sql.gz']);
+        $backup->setInteractive(false);
+
+        if (Command::SUCCESS !== $application->find('contao:backup:create')->run($backup, new NullOutput())) {
+            $io->error('The backup could not be created. Nothing has been changed.');
+
+            return Command::FAILURE;
+        }
+
+        $io->text(\sprintf('Backup created: var/backups/%s', $backup->getArgument('name')));
 
         return Command::SUCCESS;
     }
