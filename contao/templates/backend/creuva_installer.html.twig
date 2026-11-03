@@ -2,9 +2,10 @@
 {% trans_default_domain 'contao_creuva_installer' %}
 
 {#
-    Back end page "Layout › Creuva" (see InstallerController). Every form runs
-    the console command with the same name, the output is shown afterwards.
-    The sections are collapsible fieldsets like in the data container forms.
+    Back end page "Layout › Creuva" (see InstallerController). Tiles switch
+    between the areas, every form runs the console command with the same name
+    and the output is shown afterwards. Exports stay in var/exports and are
+    listed with download and delete buttons.
 #}
 
 {% macro label(name, for = null) %}
@@ -23,191 +24,435 @@
     </div>
 {% endmacro %}
 
-{# Form with a collapsible fieldset; the submit button is part of the fieldset #}
-{% macro form_start(action, legend, open) %}
-    <form method="post" class="tl_form" data-turbo="false" data-creuva-installer="{{ action }}">
+{# Line icons (24 × 24, stroke in the text color) #}
+{% macro icon(name) %}
+    {% set paths = {
+        install: '<path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>',
+        export: '<path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>',
+        styleguide: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/>',
+        'css-styles': '<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.9 1.2-1.8-.5-1.2.3-2.2 1.5-2.2H17a4 4 0 0 0 4-4c0-5-4-10-9-10Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="8" r="1"/>',
+        download: '<path d="M12 4v11m0 0-4-4m4 4 4-4"/><path d="M5 20h14"/>',
+        delete: '<path d="M4 7h16M10 11v6m4-6v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/>',
+        warning: '<path d="M10.3 4.2 2.5 17.6A2 2 0 0 0 4.2 20.6h15.6a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4m0 3.2v.1"/>',
+    } %}
+    <svg class="creuva-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ paths[name]|raw }}</svg>
+{% endmacro %}
+
+{% macro form_start(action) %}
+    <form method="post" class="tl_form creuva-admin__form" data-turbo="false" data-creuva-installer="{{ action }}">
         <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
         <input type="hidden" name="action" value="{{ action }}">
-
-        {% set fieldset_attributes = attrs()
-            .addClass('tl_box cf')
-            .addClass('collapsed', not open)
-            .set('data-controller', 'contao--toggle-fieldset')
-            .set('data-contao--toggle-fieldset-collapsed-class', 'collapsed')
-        %}
-        <fieldset{{ fieldset_attributes }}>
-            <legend>
-                <button type="button" data-action="contao--toggle-fieldset#toggle">{{ ('creuva_installer.' ~ legend)|trans(domain: 'contao_creuva_installer') }}</button>
-            </legend>
+        <div class="creuva-admin__fields cf">
 {% endmacro %}
 
 {% macro form_end(submit) %}
-            <div class="creuva-installer__submit">
-                <button type="submit" class="tl_submit">{{ ('creuva_installer.' ~ submit)|trans(domain: 'contao_creuva_installer') }}</button>
-            </div>
-        </fieldset>
+        </div>
+        <div class="creuva-admin__submit">
+            <button type="submit" class="tl_submit">{{ ('creuva_installer.' ~ submit)|trans(domain: 'contao_creuva_installer') }}</button>
+        </div>
     </form>
+{% endmacro %}
+
+{# Head of an area with icon, title and description #}
+{% macro panel_head(area) %}
+    {% import _self as f %}
+    <div class="creuva-admin__panel-head">
+        <span class="creuva-admin__panel-icon">{{ f.icon(area) }}</span>
+        <div>
+            <h2>{{ ('creuva_installer.tile_' ~ area|replace({'-': '_'}) ~ '.0')|trans(domain: 'contao_creuva_installer') }}</h2>
+            <p>{{ ('creuva_installer.' ~ area|replace({'-': '_'}) ~ '_intro')|trans(domain: 'contao_creuva_installer') }}</p>
+        </div>
+    </div>
 {% endmacro %}
 
 {% block main_content %}
     {% import _self as f %}
 
-    {# The section of the last action stays open, otherwise the first one #}
-    {% set open = result.action|default('install') %}
+    {% set areas = ['install', 'export'] %}
+    {% if root_pages %}{% set areas = areas|merge(['styleguide']) %}{% endif %}
+    {% set areas = areas|merge(['css-styles']) %}
 
-    <div class="creuva-installer tl_formbody_edit">
-        <div class="tl_tbox creuva-installer__head">
-            <p class="creuva-installer__text">{{ 'creuva_installer.intro'|trans }}</p>
+    {# The area of the last action stays open, otherwise the first one #}
+    {% set active = result.action|default('install') in areas ? result.action|default('install') : 'install' %}
+
+    <div class="creuva-admin">
+        <div class="creuva-admin__intro">
+            <p>{{ 'creuva_installer.intro'|trans }}</p>
 
             {% if missing_columns %}
                 <p class="tl_error">{{ 'creuva_installer.missing_columns'|trans([missing_columns|join(', ')]) }}</p>
             {% endif %}
+        </div>
 
-            {% if result %}
-                <div class="creuva-installer__result">
-                    <p class="{{ result.success ? 'tl_confirm' : 'tl_error' }}">{{ ('creuva_installer.' ~ (result.success ? 'success' : 'error'))|trans }}</p>
-                    <p class="creuva-installer__text">{{ 'creuva_installer.command'|trans }}:<br><code>{{ result.command }}</code></p>
-                    {% if result.output %}
-                        <details{{ attrs().set('open', not result.success) }}>
-                            <summary>{{ 'creuva_installer.output'|trans }}</summary>
-                            <pre>{{ result.output }}</pre>
-                        </details>
-                    {% endif %}
-                </div>
-            {% endif %}
+        {% if result %}
+            <div class="creuva-admin__result creuva-admin__result--{{ result.success ? 'success' : 'error' }}" role="status">
+                <p class="creuva-admin__result-title">
+                    {{ ('creuva_installer.' ~ (result.message|default(result.success ? 'success' : 'error')))|trans }}
+                </p>
+
+                {% if result.export|default %}
+                    <p>
+                        {{ 'creuva_installer.export_ready'|trans }}
+                        <a class="tl_submit creuva-admin__button" href="{{ path('creuva_installer_download', {name: result.export}) }}" data-turbo="false">
+                            {{ f.icon('download') }} {{ 'creuva_installer.export_download'|trans }}
+                        </a>
+                    </p>
+                {% endif %}
+
+                {% if result.command %}
+                    <p class="creuva-admin__muted">{{ 'creuva_installer.command'|trans }}: <code>{{ result.command }}</code></p>
+                {% endif %}
+
+                {% if result.output %}
+                    <details{{ attrs().set('open', not result.success) }}>
+                        <summary>{{ 'creuva_installer.output'|trans }}</summary>
+                        <pre>{{ result.output }}</pre>
+                    </details>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {# Tiles: switch between the areas #}
+        <div class="creuva-admin__tiles" role="tablist">
+            {% for area in areas %}
+                {% set key = area|replace({'-': '_'}) %}
+                <button type="button" class="creuva-admin__tile" role="tab" id="creuva-tab-{{ area }}" aria-controls="creuva-panel-{{ area }}" aria-selected="{{ area == active ? 'true' : 'false' }}" data-creuva-tab="{{ area }}">
+                    <span class="creuva-admin__tile-icon">{{ f.icon(area) }}</span>
+                    <span class="creuva-admin__tile-title">{{ ('creuva_installer.tile_' ~ key ~ '.0')|trans }}</span>
+                    <span class="creuva-admin__tile-text">{{ ('creuva_installer.tile_' ~ key ~ '.1')|trans }}</span>
+                </button>
+            {% endfor %}
         </div>
 
         {# Theme and demo (creuva:install) #}
-        {{ f.form_start('install', 'install_legend', 'install' == open) }}
-            <div class="widget clr">
-                {{ f.label('mode') }}
-                <div class="tl_radio_container">
-                    {% for mode in ['demo', 'pages', 'roots', 'theme'] %}
-                        <div class="creuva-installer__mode">
-                            <input type="radio" name="mode" id="creuva_mode_{{ mode }}" class="tl_radio" value="{{ mode }}"{{ loop.first ? ' checked' }}>
-                            <label for="creuva_mode_{{ mode }}"><strong>{{ ('creuva_installer.mode_' ~ mode ~ '.0')|trans }}</strong> – {{ ('creuva_installer.mode_' ~ mode ~ '.1')|trans }}</label>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+        <section class="creuva-admin__panel" role="tabpanel" id="creuva-panel-install" aria-labelledby="creuva-tab-install"{{ 'install' != active ? ' hidden' }}>
+            {{ f.panel_head('install') }}
 
-            <div class="widget w50 clr" data-creuva-mode="demo">
-                {{ f.label('demo', 'creuva_demo') }}
-                <select name="demo" id="creuva_demo" class="tl_select">
-                    {% for name, title in demos %}
-                        <option value="{{ name }}"{{ 'standard' == name ? ' selected' }}>{{ title }}</option>
-                    {% endfor %}
-                </select>
-                {{ f.help('demo') }}
-            </div>
-
-            <div class="widget w50" data-creuva-mode="demo">
-                {{ f.label('demo_folder', 'creuva_demo_folder') }}
-                <input type="text" name="demo_folder" id="creuva_demo_folder" class="tl_text" placeholder="files/meine-demo">
-                {{ f.help('demo_folder') }}
-            </div>
-
-            <div class="widget clr" data-creuva-mode="roots">
-                {{ f.label('roots') }}
-                {% if root_pages %}
-                    <div class="tl_checkbox_container">
-                        {% for page in root_pages %}
-                            <input type="checkbox" name="roots[]" id="creuva_root_{{ page.id }}" class="tl_checkbox" value="{{ page.id }}">
-                            <label for="creuva_root_{{ page.id }}">{{ page.title }} <span class="tl_gray">(ID {{ page.id }}{{ page.dns ? ', ' ~ page.dns }}, {{ page.language }})</span></label><br>
+            {{ f.form_start('install') }}
+                <div class="widget clr">
+                    {{ f.label('mode') }}
+                    <div class="creuva-admin__modes">
+                        {% for mode in ['demo', 'pages', 'roots', 'theme'] %}
+                            <label class="creuva-admin__mode" for="creuva_mode_{{ mode }}">
+                                <input type="radio" name="mode" id="creuva_mode_{{ mode }}" class="tl_radio" value="{{ mode }}"{{ loop.first ? ' checked' }}>
+                                <span><strong>{{ ('creuva_installer.mode_' ~ mode ~ '.0')|trans }}</strong>{{ ('creuva_installer.mode_' ~ mode ~ '.1')|trans }}</span>
+                            </label>
                         {% endfor %}
                     </div>
-                    {{ f.help('roots') }}
+                </div>
+
+                <div class="widget w50 clr" data-creuva-mode="demo">
+                    {{ f.label('demo', 'creuva_demo') }}
+                    <select name="demo" id="creuva_demo" class="tl_select">
+                        {% for name, title in demos %}
+                            <option value="{{ name }}"{{ 'standard' == name ? ' selected' }}>{{ title }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ f.help('demo') }}
+                </div>
+
+                <div class="widget w50" data-creuva-mode="demo">
+                    {{ f.label('demo_folder', 'creuva_demo_folder') }}
+                    <input type="text" name="demo_folder" id="creuva_demo_folder" class="tl_text" placeholder="files/meine-demo">
+                    {{ f.help('demo_folder') }}
+                </div>
+
+                <div class="widget clr" data-creuva-mode="roots">
+                    {{ f.label('roots') }}
+                    {% if root_pages %}
+                        <div class="creuva-admin__roots">
+                            {% for page in root_pages %}
+                                <div class="tl_checkbox_single_container">
+                                    <input type="checkbox" name="roots[]" id="creuva_root_{{ page.id }}" class="tl_checkbox" value="{{ page.id }}">
+                                    <label for="creuva_root_{{ page.id }}">{{ page.title }} <span class="tl_gray">(ID {{ page.id }}{{ page.dns ? ', ' ~ page.dns }}, {{ page.language }})</span></label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {{ f.help('roots') }}
+                    {% else %}
+                        <p class="tl_help">{{ 'creuva_installer.no_roots'|trans }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="widget w50 clr" data-creuva-mode="pages">
+                    {{ f.label('site_title', 'creuva_site_title') }}
+                    <input type="text" name="site_title" id="creuva_site_title" class="tl_text" value="Creuva">
+                    {{ f.help('site_title') }}
+                </div>
+
+                <div class="widget w50 clr" data-creuva-mode="demo pages">
+                    {{ f.label('language', 'creuva_language') }}
+                    <input type="text" name="language" id="creuva_language" class="tl_text" value="de" pattern="[a-z]{2}(-[A-Za-z]{2,4})?">
+                    {{ f.help('language') }}
+                </div>
+
+                <div class="widget w50" data-creuva-mode="demo pages">
+                    {{ f.label('dns', 'creuva_dns') }}
+                    <input type="text" name="dns" id="creuva_dns" class="tl_text">
+                    {{ f.help('dns') }}
+                </div>
+
+                <div class="widget w50 clr">
+                    {{ f.label('theme_name', 'creuva_theme_name') }}
+                    <input type="text" name="theme_name" id="creuva_theme_name" class="tl_text" value="{{ theme_name }}" required>
+                    {{ f.help('theme_name') }}
+                </div>
+
+                {# Deleting all contents: marked as dangerous, the backup option only appears with it #}
+                <div class="widget clr creuva-admin__danger" data-creuva-mode="demo pages">
+                    <p class="creuva-admin__danger-title">{{ f.icon('warning') }} {{ 'creuva_installer.danger_zone'|trans }}</p>
+                    {{ f.checkbox('reset', 'creuva_reset') }}
+                    {{ f.help('reset') }}
+
+                    <div class="creuva-admin__danger-backup">
+                        {{ f.checkbox('no_backup', 'creuva_install_no_backup') }}
+                        {{ f.help('no_backup') }}
+                    </div>
+                </div>
+            {{ f.form_end('install_submit') }}
+        </section>
+
+        {# Export of a website (creuva:export) #}
+        <section class="creuva-admin__panel" role="tabpanel" id="creuva-panel-export" aria-labelledby="creuva-tab-export"{{ 'export' != active ? ' hidden' }}>
+            {{ f.panel_head('export') }}
+
+            {% if root_pages %}
+                {{ f.form_start('export') }}
+                    <div class="widget w50 clr">
+                        {{ f.label('export_root', 'creuva_export_root') }}
+                        <select name="root" id="creuva_export_root" class="tl_select">
+                            {% for page in root_pages %}
+                                <option value="{{ page.id }}">{{ page.title }} (ID {{ page.id }}{{ page.dns ? ', ' ~ page.dns }})</option>
+                            {% endfor %}
+                        </select>
+                        {{ f.help('export_root') }}
+                    </div>
+
+                    <div class="widget w50">
+                        {{ f.label('export_title', 'creuva_export_title') }}
+                        <input type="text" name="export_title" id="creuva_export_title" class="tl_text">
+                        {{ f.help('export_title') }}
+                    </div>
+
+                    <div class="widget w50 clr">
+                        {{ f.label('export_name', 'creuva_export_name') }}
+                        <input type="text" name="name" id="creuva_export_name" class="tl_text" pattern="[A-Za-z0-9][A-Za-z0-9._\-]*" placeholder="kunde-x">
+                        {{ f.help('export_name') }}
+                    </div>
+
+                    <div class="widget w50 cbx m12">
+                        {{ f.checkbox('force', 'creuva_export_force', 'export_force') }}
+                        {{ f.help('export_force') }}
+                    </div>
+                {{ f.form_end('export_submit') }}
+            {% else %}
+                <p class="creuva-admin__empty">{{ 'creuva_installer.no_roots'|trans }}</p>
+            {% endif %}
+
+            <div class="creuva-admin__exports">
+                <h3>{{ 'creuva_installer.exports'|trans }}</h3>
+
+                {% if exports %}
+                    <ul class="creuva-admin__export-list">
+                        {% for export in exports %}
+                            <li class="creuva-admin__export{{ export.name == result.export|default ? ' is-new' }}">
+                                <div class="creuva-admin__export-info">
+                                    <strong>{{ export.title }}</strong>
+                                    <span class="creuva-admin__muted">
+                                        var/exports/{{ export.name }} · {{ export.date|date('d.m.Y, H:i') }} ·
+                                        {{ 'creuva_installer.export_files'|trans([export.files]) }} ·
+                                        {{ export.size >= 1048576 ? (export.size / 1048576)|number_format(1, ',', '.') ~ ' MB' : (export.size / 1024)|number_format(0, ',', '.') ~ ' KB' }}
+                                    </span>
+                                </div>
+                                <div class="creuva-admin__export-actions">
+                                    <a class="tl_submit creuva-admin__button" href="{{ path('creuva_installer_download', {name: export.name}) }}" data-turbo="false">
+                                        {{ f.icon('download') }} {{ 'creuva_installer.export_download'|trans }}
+                                    </a>
+                                    <form method="post" data-turbo="false" data-creuva-confirm="{{ 'creuva_installer.export_delete_confirm'|trans([export.title]) }}">
+                                        <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
+                                        <input type="hidden" name="action" value="export-delete">
+                                        <input type="hidden" name="name" value="{{ export.name }}">
+                                        <button type="submit" class="tl_submit creuva-admin__button creuva-admin__button--icon" title="{{ 'creuva_installer.export_delete'|trans }}" aria-label="{{ 'creuva_installer.export_delete'|trans }}: {{ export.title }}">
+                                            {{ f.icon('delete') }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% else %}
-                    <p class="tl_help">{{ 'creuva_installer.no_roots'|trans }}</p>
+                    <p class="creuva-admin__empty">{{ 'creuva_installer.exports_empty'|trans }}</p>
                 {% endif %}
-            </div>
 
-            <div class="widget w50 clr" data-creuva-mode="pages">
-                {{ f.label('site_title', 'creuva_site_title') }}
-                <input type="text" name="site_title" id="creuva_site_title" class="tl_text" value="Creuva">
-                {{ f.help('site_title') }}
+                <p class="tl_help">{{ 'creuva_installer.export_hint'|trans }}</p>
             </div>
-
-            <div class="widget w50 clr" data-creuva-mode="demo pages">
-                {{ f.label('language', 'creuva_language') }}
-                <input type="text" name="language" id="creuva_language" class="tl_text" value="de" pattern="[a-z]{2}(-[A-Za-z]{2,4})?">
-                {{ f.help('language') }}
-            </div>
-
-            <div class="widget w50" data-creuva-mode="demo pages">
-                {{ f.label('dns', 'creuva_dns') }}
-                <input type="text" name="dns" id="creuva_dns" class="tl_text">
-                {{ f.help('dns') }}
-            </div>
-
-            <div class="widget w50 clr">
-                {{ f.label('theme_name', 'creuva_theme_name') }}
-                <input type="text" name="theme_name" id="creuva_theme_name" class="tl_text" value="{{ theme_name }}" required>
-                {{ f.help('theme_name') }}
-            </div>
-
-            <div class="widget clr" data-creuva-mode="demo pages">
-                {{ f.checkbox('reset', 'creuva_reset') }}
-                {{ f.help('reset') }}
-            </div>
-
-            <div class="widget clr" data-creuva-mode="demo pages">
-                {{ f.checkbox('no_backup', 'creuva_install_no_backup') }}
-                {{ f.help('no_backup') }}
-            </div>
-        {{ f.form_end('install_submit') }}
+        </section>
 
         {# Styleguide (creuva:styleguide) #}
         {% if root_pages %}
-            {{ f.form_start('styleguide', 'styleguide_legend', 'styleguide' == open) }}
-                <p class="creuva-installer__text">{{ 'creuva_installer.styleguide_intro'|trans }}</p>
+            <section class="creuva-admin__panel" role="tabpanel" id="creuva-panel-styleguide" aria-labelledby="creuva-tab-styleguide"{{ 'styleguide' != active ? ' hidden' }}>
+                {{ f.panel_head('styleguide') }}
 
-                <div class="widget w50 clr">
-                    {{ f.label('styleguide_root', 'creuva_styleguide_root') }}
-                    <select name="root" id="creuva_styleguide_root" class="tl_select">
-                        {% for page in root_pages %}
-                            <option value="{{ page.id }}">{{ page.title }} (ID {{ page.id }})</option>
-                        {% endfor %}
-                    </select>
-                    {{ f.help('styleguide_root') }}
-                </div>
+                {{ f.form_start('styleguide') }}
+                    <div class="widget w50 clr">
+                        {{ f.label('styleguide_root', 'creuva_styleguide_root') }}
+                        <select name="root" id="creuva_styleguide_root" class="tl_select">
+                            {% for page in root_pages %}
+                                <option value="{{ page.id }}">{{ page.title }} (ID {{ page.id }})</option>
+                            {% endfor %}
+                        </select>
+                        {{ f.help('styleguide_root') }}
+                    </div>
 
-                <div class="widget w50 cbx m12">
-                    {{ f.checkbox('replace', 'creuva_styleguide_replace', 'styleguide_replace') }}
-                    {{ f.help('styleguide_replace') }}
-                </div>
-            {{ f.form_end('styleguide_submit') }}
+                    <div class="widget w50 cbx m12">
+                        {{ f.checkbox('replace', 'creuva_styleguide_replace', 'styleguide_replace') }}
+                        {{ f.help('styleguide_replace') }}
+                    </div>
+                {{ f.form_end('styleguide_submit') }}
+            </section>
         {% endif %}
 
         {# CSS styles (creuva:css-styles) #}
-        {{ f.form_start('css-styles', 'css_styles_legend', 'css-styles' == open) }}
-            <p class="creuva-installer__text">{{ 'creuva_installer.css_styles_intro'|trans }}</p>
-        {{ f.form_end('css_styles_submit') }}
+        <section class="creuva-admin__panel" role="tabpanel" id="creuva-panel-css-styles" aria-labelledby="creuva-tab-css-styles"{{ 'css-styles' != active ? ' hidden' }}>
+            {{ f.panel_head('css-styles') }}
+
+            {{ f.form_start('css-styles') }}{{ f.form_end('css_styles_submit') }}
+        </section>
     </div>
 
     <style>
-        /* Widgets have an inner spacing of 15px, texts and results get the same */
-        .creuva-installer__text { margin: 0 0 12px; padding: 0 15px; line-height: 1.5; }
-        .creuva-installer__head { padding-top: 15px; padding-bottom: 15px; }
-        .creuva-installer__head > .creuva-installer__text:last-child { margin-bottom: 0; }
-        .creuva-installer fieldset > .creuva-installer__text:first-of-type { margin-top: 6px; }
-        .creuva-installer .widget { margin-bottom: 6px; }
-        .creuva-installer__submit { clear: both; padding: 12px 15px 6px; }
-        .creuva-installer__mode { margin: 4px 0; }
-        .creuva-installer .tl_checkbox_single_container label, .creuva-installer__mode label { margin-left: 4px; }
-        .creuva-installer summary { cursor: pointer; }
-        .creuva-installer__result { margin-top: 15px; }
-        .creuva-installer__result > .tl_confirm, .creuva-installer__result > .tl_error { margin: 0 0 12px; }
-        .creuva-installer__result > details { padding: 0 15px; }
-        .creuva-installer__result code { word-break: break-all; }
-        .creuva-installer__result pre { overflow: auto; max-height: 400px; margin-top: 8px; padding: 10px; border-radius: 4px; background: var(--table-header, #f6f6f8); font-size: .75rem; white-space: pre-wrap; }
-        .creuva-installer [hidden], .creuva-installer fieldset.collapsed > :not(legend) { display: none !important; }
+        .creuva-admin { display: grid; gap: 16px; max-width: 1100px; padding: 16px 15px 24px; color: var(--text); }
+        .creuva-admin [hidden] { display: none !important; }
+        .creuva-admin p { margin: 0; line-height: 1.5; }
+        .creuva-admin__muted { color: var(--gray); }
+        .creuva-admin__intro { display: grid; gap: 10px; max-width: 70ch; }
+
+        /* Result of the last action */
+        .creuva-admin__result { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--content-border); border-left: 4px solid var(--green); border-radius: var(--border-radius-lg, 12px); background: var(--confirm-bg); }
+        .creuva-admin__result--error { border-left-color: var(--red); background: var(--error-bg); }
+        .creuva-admin__result-title { font-weight: 600; }
+        .creuva-admin__result code { word-break: break-all; }
+        .creuva-admin__result summary { cursor: pointer; }
+        .creuva-admin__result pre { overflow: auto; max-height: 400px; margin: 8px 0 0; padding: 10px; border-radius: var(--border-radius, 6px); background: var(--content-bg); font-size: .75rem; white-space: pre-wrap; }
+
+        /* Tiles */
+        /* Tiles and modes: 4 in a row if there is room, otherwise 2 × 2 or below each other (never 3 + 1) */
+        .creuva-admin { container-type: inline-size; }
+        .creuva-admin__tiles, .creuva-admin__modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        @container (min-width: 1000px) { .creuva-admin__tiles, .creuva-admin__modes { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+        @container (max-width: 520px) { .creuva-admin__tiles, .creuva-admin__modes { grid-template-columns: minmax(0, 1fr); } }
+        .creuva-admin__tiles { gap: 12px; }
+        .creuva-admin__tile { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: start; padding: 14px 16px; border: 1px solid var(--content-border); border-radius: var(--border-radius-lg, 12px); background: var(--content-bg); color: var(--text); font: inherit; text-align: left; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+        .creuva-admin__tile:hover { border-color: var(--contao); transform: translateY(-1px); }
+        .creuva-admin__tile:focus-visible { outline: 2px solid var(--contao); outline-offset: 2px; }
+        .creuva-admin__tile[aria-selected="true"] { border-color: var(--contao); box-shadow: inset 0 0 0 1px var(--contao); }
+        .creuva-admin__tile-icon { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: color-mix(in srgb, var(--contao) 12%, transparent); color: var(--contao); }
+        .creuva-admin__tile-title { font-weight: 600; }
+        .creuva-admin__tile-text { color: var(--gray); font-size: .8125rem; line-height: 1.4; }
+        .creuva-icon { width: 22px; height: 22px; flex-shrink: 0; }
+
+        /* Panel of the active area */
+        .creuva-admin__panel { border: 1px solid var(--content-border); border-radius: var(--border-radius-lg, 12px); background: var(--content-bg); overflow: hidden; }
+        .creuva-admin__panel-head { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px 4px; }
+        .creuva-admin__panel-head h2 { margin: 0 0 4px; font-size: 1.0625rem; }
+        .creuva-admin__panel-head p { max-width: 75ch; color: var(--gray); }
+        .creuva-admin__panel-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: color-mix(in srgb, var(--contao) 12%, transparent); color: var(--contao); flex-shrink: 0; }
+        .creuva-admin__fields { padding: 8px 5px 0; }
+        .creuva-admin__fields:empty { display: none; }
+        .creuva-admin .widget { margin-bottom: 6px; }
+        .creuva-admin__submit { padding: 12px 20px 18px; }
+        .creuva-admin .tl_checkbox_single_container label { margin-left: 4px; }
+        .creuva-admin__empty { padding: 12px 20px; color: var(--gray); }
+
+        /* Modes of the installation as selectable cards */
+        .creuva-admin__modes { gap: 8px; margin: 10px 0 14px; }
+        .creuva-admin__roots { display: grid; gap: 6px; margin: 8px 0 4px; }
+        .creuva-admin__roots .tl_checkbox_single_container { margin: 0; }
+        .creuva-admin .widget:has(> .creuva-admin__roots) { margin-bottom: 14px; }
+        .creuva-admin__mode { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--content-border); border-radius: var(--border-radius, 6px); cursor: pointer; line-height: 1.4; }
+        .creuva-admin__mode:hover { border-color: var(--form-border); }
+        .creuva-admin__mode:has(input:checked) { border-color: var(--contao); background: color-mix(in srgb, var(--contao) 6%, transparent); }
+        .creuva-admin__mode input { margin-top: 3px; }
+        .creuva-admin__mode strong { display: block; margin-bottom: 2px; }
+        .creuva-admin__mode span { color: var(--gray); font-size: .8125rem; }
+        .creuva-admin__mode strong { color: var(--text); font-size: .875rem; }
+
+        /* Deleting all contents: red frame, stronger when selected; the submit button turns red */
+        .creuva-admin .creuva-admin__danger { width: auto; margin: 12px 15px 6px; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--red) 45%, transparent); border-left-width: 4px; border-radius: var(--border-radius, 6px); background: color-mix(in srgb, var(--red) 6%, transparent); }
+        .creuva-admin__danger:has(#creuva_reset:checked) { border-color: var(--red); background: var(--error-bg); }
+        .creuva-admin__danger-title { display: flex; gap: 6px; align-items: center; margin-bottom: 8px !important; color: var(--red); font-weight: 600; }
+        .creuva-admin__danger-title .creuva-icon { width: 18px; height: 18px; }
+        .creuva-admin__danger label[for="creuva_reset"] { color: var(--red); font-weight: 600; }
+        .creuva-admin__danger-backup { margin-top: 10px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--red) 25%, transparent); }
+        .creuva-admin__danger-backup .tl_help { margin: 2px 0 0; color: var(--gray); font-size: .75rem; line-height: 1.4; }
+        .creuva-admin__danger:not(:has(#creuva_reset:checked)) .creuva-admin__danger-backup { display: none; }
+        .creuva-admin__form:has(#creuva_reset:checked:not(:disabled)) .tl_submit { border-color: var(--red); background: var(--red); color: #fff; }
+
+        /* Saved exports */
+        .creuva-admin__exports { display: grid; gap: 10px; padding: 16px 20px 20px; border-top: 1px solid var(--content-border); }
+        .creuva-admin__exports h3 { margin: 0; font-size: .9375rem; }
+        .creuva-admin__exports .creuva-admin__empty { padding: 0; }
+        .creuva-admin__export-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+        .creuva-admin__export { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--content-border); border-radius: var(--border-radius, 6px); background: var(--table-even); }
+        .creuva-admin__export.is-new { border-color: var(--green); }
+        .creuva-admin__export-info { display: grid; gap: 2px; min-width: 0; }
+        .creuva-admin__export-info .creuva-admin__muted { font-size: .8125rem; overflow-wrap: anywhere; }
+        .creuva-admin__export-actions { display: flex; gap: 6px; align-items: center; }
+        .creuva-admin__export-actions form { margin: 0; }
+        /* Links styled as buttons: centered by flexbox instead of the fixed line height of .tl_submit (icon is taller than the line) */
+        .creuva-admin .creuva-admin__button { display: inline-flex; gap: 6px; align-items: center; justify-content: center; box-sizing: border-box; height: auto; min-height: 30px; padding-block: 0; line-height: 1; text-decoration: none; }
+        .creuva-admin__button .creuva-icon { width: 16px; height: 16px; }
+        .creuva-admin__button--icon { padding-inline: 8px; }
+        .creuva-admin__button--icon:hover { color: var(--red); }
+        .creuva-admin__result .creuva-admin__button { margin-left: 8px; vertical-align: middle; }
     </style>
 
     <script>
         (() => {
+            const root = document.querySelector('.creuva-admin');
+
+            // Tiles switch the areas, the selection is kept in the URL (#export)
+            const tabs = root.querySelectorAll('[data-creuva-tab]');
+            const select = (area, focus = false) => {
+                tabs.forEach((tab) => {
+                    const selected = tab.dataset.creuvaTab === area;
+                    tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+                    tab.tabIndex = selected ? 0 : -1;
+                    document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+
+                    if (selected && focus) {
+                        tab.focus();
+                    }
+                });
+            };
+
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    select(tab.dataset.creuvaTab);
+                    history.replaceState(null, '', '#' + tab.dataset.creuvaTab);
+                });
+
+                // Arrow keys move between the tiles
+                tab.addEventListener('keydown', (event) => {
+                    const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+
+                    if (step) {
+                        event.preventDefault();
+                        select(tabs[(index + step + tabs.length) % tabs.length].dataset.creuvaTab, true);
+                    }
+                });
+            });
+
+            const hash = location.hash.slice(1);
+
+            if ({{ result ? 'false' : 'true' }} && [...tabs].some((tab) => tab.dataset.creuvaTab === hash)) {
+                select(hash);
+            } else {
+                select([...tabs].find((tab) => tab.getAttribute('aria-selected') === 'true')?.dataset.creuvaTab);
+            }
+
             // Shows the fields of the selected mode ("data-creuva-mode")
-            const form = document.querySelector('[data-creuva-installer="install"]');
+            const form = root.querySelector('[data-creuva-installer="install"]');
             const update = () => {
                 const mode = form.querySelector('input[name="mode"]:checked')?.value;
 
@@ -220,8 +465,24 @@
             form?.addEventListener('change', update);
             form && update();
 
-            // Importing a demo can take a while
-            document.querySelectorAll('[data-creuva-installer]').forEach((el) => el.addEventListener('submit', () => {
+            // Deleting an export needs a confirmation
+            root.querySelectorAll('[data-creuva-confirm]').forEach((el) => el.addEventListener('submit', (event) => {
+                if (!confirm(el.dataset.creuvaConfirm)) {
+                    event.preventDefault();
+                }
+            }));
+
+            // Importing a demo or exporting a website can take a while; deleting all
+            // contents first needs a confirmation
+            root.querySelectorAll('[data-creuva-installer]').forEach((el) => el.addEventListener('submit', (event) => {
+                const reset = el.querySelector('#creuva_reset');
+
+                if (reset?.checked && !reset.disabled && !confirm({{ 'creuva_installer.reset_confirm'|trans|json_encode|raw }})) {
+                    event.preventDefault();
+
+                    return;
+                }
+
                 const button = el.querySelector('button[type="submit"]');
                 button.disabled = true;
                 button.textContent = {{ 'creuva_installer.running'|trans|json_encode|raw }};

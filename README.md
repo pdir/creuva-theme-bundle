@@ -368,6 +368,13 @@ var/exports/kunde-x/
 Die Vorlage lässt sich in jede Installation importieren: Ordner nach `files/kunde-x` kopieren
 und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach `demo/<name>/`).
 
+**Im Backend** (Layout › Creuva › *Website exportieren*, nur für Administratoren) führt dasselbe
+Formular `creuva:export` aus. Darunter stehen alle Exporte aus `var/exports` mit Titel, Datum,
+Anzahl der Dateien und Größe; sie lassen sich als ZIP herunterladen und löschen. Das ZIP wird
+beim Download erzeugt (`Exporter/ZipWriter`, mit `ZipArchive` oder ohne die PHP-Erweiterung
+„zip“) und danach wieder gelöscht. Eigene Tabellen anderer Erweiterungen sind nicht Teil des
+Exports; für den Umzug einer kompletten Website ein Datenbank-Backup verwenden.
+
 - Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
   Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante, Typografie und
   Eckenradius aus Seitenlayout und Startpunkt (als `design:`, der Import setzt sie im Seitenlayout).

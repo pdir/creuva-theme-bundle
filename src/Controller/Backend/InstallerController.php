@@ -11,43 +11,72 @@ declare(strict_types=1);
 namespace Pdir\CreuvaThemeBundle\Controller\Backend;
 
 use Contao\CoreBundle\Controller\Backend\AbstractBackendController;
+use Pdir\CreuvaThemeBundle\Exporter\ZipWriter;
 use Pdir\CreuvaThemeBundle\Installer\ThemeInstaller;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Back end page "Layout › Creuva": the same actions as the console commands
- * creuva:install, creuva:styleguide and creuva:css-styles. The commands are run
- * with the options of the forms, so both ways behave exactly the same. A reset
- * without a new installation is only available on the console (creuva:reset).
+ * creuva:install, creuva:export, creuva:styleguide and creuva:css-styles. The
+ * commands are run with the options of the forms, so both ways behave exactly
+ * the same. A reset without a new installation is only available on the
+ * console (creuva:reset). Exports stay in var/exports and can be downloaded as
+ * a ZIP file.
  */
 #[IsGranted('ROLE_ADMIN', message: 'Access restricted to administrators.')]
-#[Route('%contao.backend.route_prefix%/creuva', name: self::ROUTE, defaults: ['_scope' => 'backend'], methods: ['GET', 'POST'])]
 class InstallerController extends AbstractBackendController
 {
     public const ROUTE = 'creuva_installer';
 
+    public const DOWNLOAD_ROUTE = 'creuva_installer_download';
+
     private const RESULT_KEY = 'creuva_installer_result';
+
+    private const NAME_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9._-]*$/';
 
     public function __construct(
         private readonly ThemeInstaller $installer,
         private readonly KernelInterface $kernel,
+        private readonly ZipWriter $zipWriter,
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $projectDir,
+        private readonly Filesystem $filesystem = new Filesystem(),
     ) {
     }
 
+    #[Route('%contao.backend.route_prefix%/creuva', name: self::ROUTE, defaults: ['_scope' => 'backend'], methods: ['GET', 'POST'])]
     public function __invoke(Request $request): Response
     {
         $session = $this->getBackendSessionBag();
 
         if ($request->isMethod('POST')) {
-            if (null !== ($command = $this->buildCommand($request))) {
-                $session?->set(self::RESULT_KEY, ['action' => $request->request->get('action'), ...$this->run($command)]);
+            $action = (string) $request->request->get('action');
+
+            if ('export-delete' === $action) {
+                $session?->set(self::RESULT_KEY, ['action' => 'export', ...$this->deleteExport((string) $request->request->get('name'))]);
+            } elseif (null !== ($command = $this->buildCommand($request))) {
+                $result = ['action' => $action, ...$this->run($command)];
+
+                // Offer the new export for download right away
+                if ('export' === $action && $result['success']) {
+                    $result['export'] = $this->getExports()[0]['name'] ?? null;
+                }
+
+                $session?->set(self::RESULT_KEY, $result);
             }
 
             return $this->redirectToRoute(self::ROUTE, [], Response::HTTP_SEE_OTHER);
@@ -66,7 +95,35 @@ class InstallerController extends AbstractBackendController
             'demos' => $this->installer->getAvailableDemos(),
             'root_pages' => $rootPages,
             'theme_name' => $this->suggestThemeName(),
+            'exports' => $this->getExports(),
         ]);
+    }
+
+    /**
+     * Downloads an export of var/exports as a ZIP file (demo.yaml and the folder
+     * "files"); the archive is created on the fly (ZipWriter, works without the
+     * PHP extension "zip").
+     */
+    #[Route('%contao.backend.route_prefix%/creuva/export/{name}', name: self::DOWNLOAD_ROUTE, defaults: ['_scope' => 'backend'], methods: ['GET'])]
+    public function download(string $name): Response
+    {
+        $dir = $this->getExportDir($name);
+
+        if (null === $dir) {
+            throw new NotFoundHttpException(\sprintf('The export "%s" does not exist.', $name));
+        }
+
+        @set_time_limit(0);
+
+        // Next to the exports, the temporary directory of the system may not be writable
+        $archive = $this->projectDir.'/var/exports/.'.$name.'-'.bin2hex(random_bytes(4)).'.zip';
+        $this->zipWriter->create($dir, $archive);
+
+        $response = new BinaryFileResponse($archive);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name.'.zip');
+        $response->deleteFileAfterSend();
+
+        return $response;
     }
 
     /**
@@ -86,8 +143,82 @@ class InstallerController extends AbstractBackendController
                 '--replace' => $post->getBoolean('replace'),
             ]),
             'css-styles' => ['command' => 'creuva:css-styles'],
+            'export' => array_filter([
+                'command' => 'creuva:export',
+                'root' => (string) $post->getInt('root') ?: null,
+                '--name' => trim((string) $post->get('name')) ?: null,
+                '--title' => trim((string) $post->get('export_title')) ?: null,
+                '--force' => $post->getBoolean('force'),
+            ]),
             default => null,
         };
+    }
+
+    /**
+     * Exports in var/exports, newest first.
+     *
+     * @return list<array{name: string, title: string, date: int, files: int, size: int}>
+     */
+    private function getExports(): array
+    {
+        $exports = [];
+
+        foreach (glob($this->projectDir.'/var/exports/*/demo.yaml') ?: [] as $file) {
+            $dir = \dirname($file);
+            $name = basename($dir);
+
+            if (!preg_match(self::NAME_PATTERN, $name)) {
+                continue;
+            }
+
+            try {
+                $title = (string) (Yaml::parseFile($file)['title'] ?? $name);
+            } catch (\Throwable) {
+                $title = $name;
+            }
+
+            $files = 0;
+            $size = filesize($file) ?: 0;
+
+            if (is_dir($dir.'/files')) {
+                foreach ((new Finder())->files()->in($dir.'/files') as $item) {
+                    ++$files;
+                    $size += $item->getSize();
+                }
+            }
+
+            $exports[] = ['name' => $name, 'title' => $title, 'date' => (int) filemtime($file), 'files' => $files, 'size' => $size];
+        }
+
+        usort($exports, static fn (array $a, array $b): int => $b['date'] <=> $a['date']);
+
+        return $exports;
+    }
+
+    private function getExportDir(string $name): string|null
+    {
+        $dir = $this->projectDir.'/var/exports/'.$name;
+
+        return preg_match(self::NAME_PATTERN, $name) && is_file($dir.'/demo.yaml') ? $dir : null;
+    }
+
+    /**
+     * @return array{success: bool, command: string, output: string, message: string}
+     */
+    private function deleteExport(string $name): array
+    {
+        $dir = $this->getExportDir($name);
+
+        if (null !== $dir) {
+            $this->filesystem->remove($dir);
+        }
+
+        return [
+            'success' => null !== $dir,
+            'command' => '',
+            'output' => '',
+            'message' => null !== $dir ? 'export_deleted' : 'export_missing',
+        ];
     }
 
     /**
@@ -174,7 +305,14 @@ class InstallerController extends AbstractBackendController
             }
 
             foreach ((array) $value as $item) {
-                $parts[] = true === $item ? $name : $name.'='.(preg_match('/^[\w.\/:-]+$/', (string) $item) ? $item : "'".str_replace("'", "'\\''", (string) $item)."'");
+                $quoted = preg_match('/^[\w.\/:-]+$/', (string) $item) ? $item : "'".str_replace("'", "'\\''", (string) $item)."'";
+
+                // Arguments (e.g. the root of creuva:export) without the name
+                $parts[] = match (true) {
+                    true === $item => $name,
+                    !str_starts_with($name, '-') => $quoted,
+                    default => $name.'='.$quoted,
+                };
             }
         }
 
