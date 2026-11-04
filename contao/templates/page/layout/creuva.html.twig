@@ -73,6 +73,32 @@
     <script src="{{ asset('creuva.js', 'creuva_theme') }}" defer></script>
 {% endblock %}
 
+{# Open Graph tags for link previews, in the deferred part of the head, so they
+   contain the title and description set by readers of news or events. Not on
+   pages hidden from search engines and not on error pages. #}
+{% block end_of_head %}
+    {{ parent() }}
+    {% if response_context.head|default and 'noindex' not in response_context.head.metaRobots and not (page.type starts with 'error_') %}
+        {% set og_image = creuva_og_image(page.id) %}
+        {% set og_figure = og_image ? figure(og_image, [1200, 630, 'crop']) : null %}
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="{{ page.rootPageTitle }}">
+        <meta property="og:title" content="{{ response_context.head.title }}">
+        <meta property="og:url" content="{{ app.request.uri|split('?')|first }}">
+        <meta property="og:locale" content="{{ page.language|replace({'-': '_'}) }}">
+        {% if response_context.head.metaDescription %}
+            <meta property="og:description" content="{{ response_context.head.metaDescription|u.truncate(300, '…') }}">
+        {% endif %}
+        {% if og_figure %}
+            <meta property="og:image" content="{{ absolute_url(asset(og_figure.image.imageSrc)) }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+            <meta property="og:image:alt" content="{{ og_figure.metadata.alt|default }}">
+        {% endif %}
+        <meta name="twitter:card" content="{{ og_figure ? 'summary_large_image' : 'summary' }}">
+    {% endif %}
+{% endblock %}
+
 {% block body_content %}
     {# Only the main area is added to the search index, so header, footer and
        copyright texts do not appear in the search results #}

@@ -579,6 +579,7 @@ class ThemeInstaller
             'dns' => $options->dns,
             'language' => $options->language,
             'fallback' => $hasFallback ? 0 : 1,
+            'enableCanonical' => 1,
             'published' => 1,
         ]);
 

@@ -77,6 +77,13 @@ Das Seitenlayout nimmt nur den Bereich `main` in den Suchindex auf; Header, Foot
 erscheinen deshalb nicht in den Suchergebnissen. Nach einem Update den Suchindex einmal neu
 aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
+## Suchmaschinen und Linkvorschau
+
+Das Creuva-Layout gibt auf allen indexierbaren Seiten Open-Graph-Tags aus: Titel, Beschreibung, Adresse und
+das erste Hero- oder Bild-Element im Hauptbereich (1200 × 630 px, keine SVG-Dateien). Startpunkte von
+`creuva:install` haben das Canonical-Tag aktiviert, bei bestehenden Websites lässt es sich im Startpunkt
+einschalten. Der Styleguide steht auf `noindex,nofollow`.
+
 ## Demo-Inhalte
 
 Es gibt vier Demos, jede wird als eigener Startpunkt importiert (bei einer bestehenden Website
