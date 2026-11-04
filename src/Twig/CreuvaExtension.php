@@ -38,7 +38,7 @@ class CreuvaExtension extends AbstractExtension
             new TwigFunction('creuva_stylesheets', $this->stylesheetResolver->resolve(...)),
             // Usage: {% set icons = creuva_uuids(data.creuvaIcons|default) %} → list of UUIDs for figure()
             new TwigFunction('creuva_uuids', $this->uuids(...)),
-            // Usage: creuva_gallery_sizes(classes, loop.index0, items_per_row), creuva_image_focus(figure)
+            // Usage: creuva_gallery_sizes(classes, loop.index0, items_per_row, figure), creuva_image_focus(figure)
             new TwigFunction('creuva_gallery_sizes', $this->galleryImages->sizes(...)),
             new TwigFunction('creuva_image_focus', $this->galleryImages->focus(...)),
             // Usage: {% set favicon_svg = creuva_favicon_svg(page) %}

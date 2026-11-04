@@ -20,7 +20,9 @@ use Contao\FilesModel;
  *  - sizes(): the "sizes" attribute of an image depending on the gallery layout
  *    (CSS classes u-gallery-*), its position and the images per row, so the
  *    browser loads the width that fits the cell (image size with several
- *    widths, e.g. "Galerie (responsiv)")
+ *    widths, e.g. "Galerie (responsiv)"). An image that is wider than its cell
+ *    is cropped by object-fit and shown larger than the cell, the "sizes" value
+ *    takes this into account, otherwise the image would be enlarged and blurry.
  *  - focus(): the important part of the image (file manager) as CSS
  *    object-position, so cropping by object-fit keeps the subject
  *
@@ -32,6 +34,19 @@ class GalleryImages
 {
     private const CONTAINER = 1216;
 
+    // Width ÷ height of the cells on wide screens (see _content.scss)
+    private const RATIO_REGULAR = 4 / 3;
+
+    private const RATIO_MOSAIC_LARGE = 600 / 528;
+
+    private const RATIO_MOSAIC_WIDE = 600 / 256;
+
+    private const RATIO_MOSAIC_SMALL = 292 / 256;
+
+    private const RATIO_FEATURED_LARGE = 1216 / 464;
+
+    private const RATIO_FEATURED_SMALL = 400 / 224;
+
     /**
      * @var array<string, string|null> file path => object-position
      */
@@ -41,8 +56,9 @@ class GalleryImages
      * @param string $classes  CSS classes of the gallery element
      * @param int    $index    position of the image (0-based)
      * @param int    $perRow   images per row (gallery setting)
+     * @param mixed  $figure   figure of the image, for its proportions
      */
-    public function sizes(string $classes, int $index, int $perRow = 4): string
+    public function sizes(string $classes, int $index, int $perRow = 4, mixed $figure = null): string
     {
         $perRow = max(1, min(6, $perRow));
 
@@ -50,16 +66,18 @@ class GalleryImages
         // of the width; on small screens the large and the last one span both columns
         if (preg_match('/\bu-gallery-mosaic(-right)?\b/', $classes)) {
             return match ($index % 4) {
-                0 => $this->build(2, '100vw'),
-                1 => $this->build(2, '50vw'),
-                2 => $this->build(4, '50vw'),
-                default => $this->build(4, '100vw'),
+                0 => $this->fit($this->build(2, '100vw'), $figure, self::RATIO_MOSAIC_LARGE),
+                1 => $this->fit($this->build(2, '50vw'), $figure, self::RATIO_MOSAIC_WIDE),
+                2 => $this->fit($this->build(4, '50vw'), $figure, self::RATIO_MOSAIC_SMALL),
+                default => $this->fit($this->build(4, '100vw'), $figure, self::RATIO_MOSAIC_SMALL),
             };
         }
 
         // Featured: the first image over the full width, the others in three columns
         if (preg_match('/\bu-gallery-featured\b/', $classes)) {
-            return 0 === $index ? $this->build(1, '100vw') : $this->build(3, '50vw');
+            return 0 === $index
+                ? $this->fit($this->build(1, '100vw'), $figure, self::RATIO_FEATURED_LARGE)
+                : $this->fit($this->build(3, '50vw'), $figure, self::RATIO_FEATURED_SMALL);
         }
 
         // Masonry: up to three columns of at least 14rem
@@ -68,7 +86,7 @@ class GalleryImages
         }
 
         // Regular grid: images per row from 48rem, below up to two columns of 14rem
-        return $this->build($perRow, 1 === $perRow ? '100vw' : '(min-width: 30rem) 50vw, 100vw');
+        return $this->fit($this->build($perRow, 1 === $perRow ? '100vw' : '(min-width: 30rem) 50vw, 100vw'), $figure, self::RATIO_REGULAR);
     }
 
     /**
@@ -100,6 +118,35 @@ class GalleryImages
         $y = ((float) $file->importantPartY + $height / 2) * 100;
 
         return $this->focus[$path] = \sprintf('%s%% %s%%', round($x, 1), round($y, 1));
+    }
+
+    /**
+     * Enlarges the widths of "sizes" if the image is wider than its cell: it fills
+     * the height of the cell and its sides are cropped.
+     */
+    private function fit(string $sizes, mixed $figure, float $cellRatio): string
+    {
+        if (!$figure instanceof Figure) {
+            return $sizes;
+        }
+
+        $size = $figure->getImage()->getOriginalDimensions()->getSize();
+
+        if ($size->getWidth() <= 0 || $size->getHeight() <= 0) {
+            return $sizes;
+        }
+
+        $scale = $size->getWidth() / $size->getHeight() / $cellRatio;
+
+        if ($scale <= 1) {
+            return $sizes;
+        }
+
+        return (string) preg_replace_callback(
+            '/(\d+(?:\.\d+)?)(px|vw)/',
+            static fn (array $m): string => round((float) $m[1] * $scale, 2).$m[2],
+            $sizes,
+        );
     }
 
     /**

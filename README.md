@@ -169,6 +169,9 @@ u. a. die Bildform **„Vollbild (Text auf dem Bild)“** des Heros, die Templat
 **`creuva_tile`** („Bildkachel“: Bild in der Proportion seiner Bildgröße, ganze Kachel
 klickbar), das Inhaltselement **„Logoleiste“** (`creuva_logos`, ohne eigenen Hintergrund, den
 bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset`, zweite Spalte tiefer).
+Im Dark Mode stehen die Logos der Logoleiste auf einer hellen Fläche, damit dunkle und farbige Logos
+lesbar bleiben. Ausnahmen sind der Hintergrund „Primärfarbe“ und die Klasse `u-logos-original`, beide
+für weiße Logos.
 
 Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
 der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
@@ -746,7 +749,9 @@ Das Galerie-Template (`contao/templates/content_element/gallery.html.twig`) erse
 `sizes` der Bildgröße pro Bild: passend zu Anordnung (`u-gallery-*`), Position und
 „Bilder pro Reihe“, begrenzt auf die Inhaltsbreite (1216 px). Beim Mosaik bekommt das große
 Bild z. B. `(min-width: 80rem) 608px, (min-width: 48rem) 50vw, 100vw`, die kleinen 304px
-bzw. 25vw. So lädt der Browser für kleine Kacheln kleine und für große Bilder große Varianten
+bzw. 25vw. Ist ein Bild breiter als seine Kachel, wird es seitlich beschnitten und größer als die
+Kachel dargestellt; `sizes` wird dann entsprechend erhöht, damit es nicht unscharf wird. So lädt
+der Browser für kleine Kacheln kleine und für große Bilder große Varianten
 (`src/Image/GalleryImages.php`). Zugeschnitten wird per CSS (`object-fit`), die Bilder bleiben
 unbeschnitten gespeichert. Der **„Wichtige Bereich“** aus der Dateiverwaltung wird dabei als
 `object-position` gesetzt, damit das Motiv in der Kachel sichtbar bleibt. Für eigene Galerien

@@ -28,7 +28,7 @@ class ThemeInstaller
             'contact' => 'Kontakt',
             'imprint' => 'Impressum',
             'privacy' => 'Datenschutz',
-            'accessibility' => 'Zugänglichkeitserklärung',
+            'accessibility' => "Zugänglichkeits\u{00AD}erklärung", // soft hyphen for narrow footer columns
             'sitemap' => 'Sitemap',
             'search' => 'Suche',
             'mainNavigation' => 'Hauptnavigation',
@@ -608,6 +608,7 @@ class ThemeInstaller
                 'pid' => $rootId,
                 'sorting' => $sorting += 128,
                 'title' => $texts[$key],
+                'pageTitle' => str_contains($texts[$key], "\u{00AD}") ? str_replace("\u{00AD}", '', $texts[$key]) : '',
                 'alias' => $alias,
                 'type' => 'regular',
                 'hide' => \in_array($key, $hidden, true) ? 1 : 0,

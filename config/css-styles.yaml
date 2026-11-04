@@ -154,6 +154,13 @@ creuvaColors:
       sorting: 300
       styles:
         u-icon-original: 'Originalfarben der SVG-Datei'
+    logosDark:
+      title: 'Logos im Dark Mode'
+      description: 'Ohne Auswahl stehen die Logos im Dark Mode auf einer hellen Fläche'
+      contentElements: [creuva_logos]
+      sorting: 310
+      styles:
+        u-logos-original: 'Ohne helle Fläche (für weiße Logos)'
 
 creuvaButton:
   title: 'Buttons'

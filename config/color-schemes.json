@@ -129,7 +129,7 @@
       },
       "primary": "#2d1b0e",
       "accent": "#f08c00",
-      "accentText": "#b45309",
+      "accentText": "#ad4f08",
       "accentContrast": "#2d1b0e"
     },
     "yellow": {
@@ -139,7 +139,7 @@
       },
       "primary": "#26241c",
       "accent": "#f2b705",
-      "accentText": "#8a6a00",
+      "accentText": "#866700",
       "accentContrast": "#26241c"
     },
     "gold": {

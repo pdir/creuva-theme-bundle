@@ -52,7 +52,7 @@ export const resolveScheme = (scheme) => {
       primary,
       bg: mix(primary, 0.03, WHITE),
       surface: WHITE,
-      surfaceMuted: mix(primary, 0.05, WHITE),
+      surfaceMuted: mix(primary, 0.07, WHITE),
       text: mix(primary, 0.65, [0, 0, 0]),
       textMuted: mix(primary, 0.45, hex('#808080')),
       accent,
@@ -64,7 +64,7 @@ export const resolveScheme = (scheme) => {
     dark: {
       bg: darkBg,
       surface: mix(primary, 0.42, hex('#0c0c0c')),
-      surfaceMuted: mix(primary, 0.5, hex('#0e0e0e')),
+      surfaceMuted: mix(primary, 0.62, hex('#0e0e0e')),
       text: mix(primary, 0.06, WHITE),
       textMuted: mix(primary, 0.2, hex('#d0d0d0')),
       accent: darkAccent,

@@ -450,11 +450,11 @@
     }
 
     tbody tr:nth-child(even) > * {
-      background: color-mix(in srgb, var(--c-surface-muted) 50%, var(--c-surface));
+      background: color-mix(in srgb, var(--c-surface-muted) 70%, var(--c-surface));
     }
 
     tbody tr:has(strong) > * {
-      background: var(--c-accent-soft);
+      background: color-mix(in srgb, var(--c-accent) 16%, var(--c-surface));
       color: var(--c-text);
     }
 

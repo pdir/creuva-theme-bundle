@@ -69,6 +69,22 @@
     }
   }
 
+  // Dark mode: logos are usually made for light backgrounds and can have any
+  // colors or file type, a light area keeps them all readable and unchanged.
+  // Not on the primary color, it is meant for white logos, and not with
+  // u-logos-original (e.g. white logos in the section of a dark website).
+  :root[data-theme='dark'] .c-logos:not(.c-logos--primary, .u-bg-primary, .u-bg-primary *, .u-logos-original) .c-logos__item {
+    figure {
+      padding: 0.625rem 1rem;
+      border-radius: var(--radius-s);
+      background: #fff;
+    }
+
+    img {
+      opacity: 1;
+    }
+  }
+
   .c-logos__link {
     display: block;
     border-radius: var(--radius-s);

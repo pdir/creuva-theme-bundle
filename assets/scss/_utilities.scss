@@ -188,6 +188,13 @@
     :is(.u-grid-3, .u-grid-4) { --grid-cols: 1; }
   }
 
+  // Exactly three elements (a visually hidden headline does not count): one
+  // column instead of two plus a single one
+  @media (max-width: 47.99rem) {
+    .u-grid-3:has(> :nth-child(3 of :not(.u-visually-hidden)):last-child) { --grid-cols: 1; }
+  }
+
+
   // Column widths of a two-column grid from tablet width on: the first (or the
   // second) column is wider, e.g. a table with a list of features next to it
   @media (min-width: 56rem) {

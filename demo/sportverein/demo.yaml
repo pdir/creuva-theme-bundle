@@ -501,7 +501,7 @@ pages:
         elements:
           - type: creuva_logos
             headline: { unit: h2, value: 'Unsere Partner' }
-            multiSRC: ['file:sponsoren/brauerei-rotenbach.svg', 'file:sponsoren/stadtwerke-rotenbach.svg', 'file:sponsoren/autohaus-keller.svg', 'file:sponsoren/baeckerei-mayer.svg', 'file:sponsoren/elektro-hahn.svg', 'file:sponsoren/holzbau-brenner.svg']
+            multiSRC: ['file:sponsoren/brauerei-rotenbach.svg', 'file:sponsoren/stadtwerke-rotenbach.svg', 'file:sponsoren/autohaus-keller.svg', 'file:sponsoren/baeckerei-mayer.svg', 'file:sponsoren/elektro-hahn.svg']
             creuvaLogosHeight: 2.75rem
           - type: text
             text: '<p><a href="{{link_url::sponsoren}}">Alle Sponsoren</a></p>'
@@ -797,7 +797,7 @@ pages:
                 headline: { unit: h2, value: 'Eindrücke' }
                 size: 'image_size:gallery'
                 fullsize: true
-                multiSRC: ['file:bilder/mannschaft-bambini.jpg', 'file:bilder/training-jugend.jpg', 'file:bilder/mannschaft-jugend.jpg']
+                multiSRC: ['file:bilder/mannschaft-bambini.jpg', 'file:bilder/training-jugend.jpg', 'file:bilder/mannschaft-jugend.jpg', 'file:bilder/start.jpg']
                 sortBy: custom
                 cssID: u-gallery-mosaic
   - type: regular
@@ -1301,7 +1301,8 @@ pages:
             text: '<p>Dies ist ein Platzhalter. Bitte ersetzen Sie diesen Text durch Ihre eigene Datenschutzerklärung.</p>'
             cssID: u-narrow
   - type: regular
-    title: Zugänglichkeitserklärung
+    title: "Zugänglichkeits\u00ADerklärung"
+    pageTitle: Zugänglichkeitserklärung
     alias: zugaenglichkeitserklaerung
     hide: true
     description: 'Informationen zur digitalen Barrierefreiheit dieser Website.'

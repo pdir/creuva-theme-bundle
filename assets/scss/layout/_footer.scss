@@ -9,19 +9,53 @@
   .l-footer__inner {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-l) var(--space-xl);
+    gap: var(--space-l);
 
+    // Small screens: brand on top, link columns in pairs. A long link such as
+    // "Zugänglichkeitserklärung" is hyphenated instead of widening its column.
     > * {
-      flex: 1 1 9rem;
+      flex: 1 1 calc(50% - var(--space-l) / 2);
+      min-width: 0;
     }
 
-    > .c-footer-brand {
-      flex: 2 1 16rem;
+    :is(.mod_navigation, .mod_customnav) a {
+      hyphens: auto;
+      overflow-wrap: anywhere;
     }
 
-    // Full-width panel below the link columns (HTML module, see README)
+    // Medium screens: brand on top, all link columns in one row
+    @media (min-width: 48rem) {
+      > * {
+        flex-basis: 0;
+      }
+    }
+
+    // Brand on top on small and medium screens, full-width panel below the link
+    // columns (HTML module, see README)
+    > .c-footer-brand,
     > .c-footer-contact {
       flex-basis: 100%;
+    }
+
+    // Wide screens: brand and link columns in one row
+    @media (min-width: 80rem) {
+      > * {
+        flex-basis: 9rem;
+        min-width: auto;
+      }
+
+      > .c-footer-brand {
+        flex: 2 1 16rem;
+      }
+
+      > .c-footer-contact {
+        flex-basis: 100%;
+      }
+
+      :is(.mod_navigation, .mod_customnav) a {
+        hyphens: none;
+        overflow-wrap: normal;
+      }
     }
   }
 

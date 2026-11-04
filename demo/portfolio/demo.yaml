@@ -1348,7 +1348,8 @@ pages:
             text: '<p>Dies ist ein Platzhalter. Bitte ersetzen Sie diesen Text durch Ihre eigene Datenschutzerklärung.</p>'
             cssID: u-narrow
   - type: regular
-    title: Zugänglichkeitserklärung
+    title: "Zugänglichkeits\u00ADerklärung"
+    pageTitle: Zugänglichkeitserklärung
     alias: zugaenglichkeitserklaerung
     hide: true
     description: 'Informationen zur digitalen Barrierefreiheit dieser Website.'

@@ -6,6 +6,7 @@
   // scrolls into view (assets/js/creuva.js; disabled with u-no-countup).
   // The script wraps prefix/suffix ("+", "%") in .c-stats__unit.
   .c-stats {
+    container-type: inline-size;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -16,9 +17,36 @@
 
     dl {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--space-m);
       margin: 0;
+    }
+
+    // Even rows instead of a single figure in the last row: 4 figures as 4, 2 or
+    // 1 columns, 3 as 3 or 1. Each column needs 12rem, based on the width of the
+    // element, because it can also be placed in a narrow column.
+    @container (min-width: 25.5rem) {
+      dl:not(:has(> :nth-child(3):last-child), :has(> :only-child)) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 39rem) {
+      dl:has(> :nth-child(3)):not(:has(> :nth-child(4):last-child)) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 52.5rem) {
+      dl:has(> :nth-child(4):last-child) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 66rem) {
+      dl:has(> :nth-child(5):last-child) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
     }
   }
 
