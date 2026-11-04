@@ -70,7 +70,7 @@ brand:
 footer:
   - { headline: Arbeiten, pages: [arbeiten, haus-am-hang, kunsthalle, atlas-der-stille, bildarchiv] }
   - { headline: Studio, pages: [studio, leistungen, journal, kontakt] }
-  - { headline: Rechtliches, pages: [impressum, datenschutz, styleguide] }
+  - { headline: Rechtliches, pages: [impressum, datenschutz, zugaenglichkeitserklaerung, styleguide] }
 styleguide: true
 imageSizes:
   logo: { name: Logo, skipIfDimensionsMatch: true, densities: 2x, width: 480, height: 120, resizeMode: box }
@@ -1346,6 +1346,83 @@ pages:
           - type: text
             headline: { unit: h1, value: Datenschutzerklärung }
             text: '<p>Dies ist ein Platzhalter. Bitte ersetzen Sie diesen Text durch Ihre eigene Datenschutzerklärung.</p>'
+            cssID: u-narrow
+  - type: regular
+    title: Zugänglichkeitserklärung
+    alias: zugaenglichkeitserklaerung
+    hide: true
+    description: 'Informationen zur digitalen Barrierefreiheit dieser Website.'
+    sitemap: map_always
+    articles:
+      - title: Zugänglichkeitserklärung
+        elements:
+          - type: text
+            headline: { unit: h1, value: "Zugäng\u00ADlichkeits\u00ADerklärung" }
+            text: '<p>Diese Erklärung gilt für die Website {{env::host}}. Sie beschreibt, wie zugänglich die Inhalte sind, wo es noch Einschränkungen gibt und wie Sie uns Barrieren melden können.</p><p>Dies ist ein Muster. Bitte prüfen Sie Ihre Website und passen Sie die Angaben an. Weitere Abschnitte, z. B. zu PDF-Dokumenten und Videos, sind im Backend ausgeblendet und lassen sich bei Bedarf einzeln einblenden.</p>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Stand der Zugänglichkeit }
+            text: '<p>Grundlage sind die Zugänglichkeitsrichtlinien für Webinhalte (WCAG) 2.1, Stufe AA. Diese Website ist <strong>teilweise konform</strong>: Die geprüften Seiten erfüllen die Anforderungen weitgehend, einzelne Inhalte können aber noch Einschränkungen haben.</p>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Was wir umsetzen }
+            text: '<ul><li>Bedienung per Tastatur mit sichtbarem Fokus und einem Link direkt zum Inhalt</li><li>Klare Seitenstruktur mit Überschriften, Navigationsbereichen und Beschriftungen</li><li>Farbkontraste von mindestens 4,5:1 für normalen Text</li><li>Formularfelder mit eindeutigen Beschriftungen</li><li>Alternativtexte für Bilder, die Informationen vermitteln</li><li>Darstellung, die sich an Bildschirmgröße und Vergrößerung anpasst</li><li>Weniger Animationen, wenn Sie das in Ihrem System eingestellt haben</li></ul>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: PDF-Dokumente }
+            text: '<p>Einzelne PDF-Dokumente auf dieser Website sind noch nicht vollständig barrierefrei. Wenn Sie ein Dokument in einem anderen Format benötigen, schreiben Sie uns bitte. Wir stellen Ihnen die Inhalte dann in einer passenden Form bereit.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Videos und Audio }
+            text: '<p>Einige Videos sind über YouTube oder Vimeo eingebunden. Nicht alle Videos haben Untertitel, Transkripte oder Audiodeskriptionen. Wenn Sie die Inhalte eines Videos in anderer Form benötigen, schreiben Sie uns bitte.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Karten }
+            text: '<p>Eingebettete Karten sind nicht vollständig per Tastatur oder Screenreader nutzbar. Adresse und Anfahrt finden Sie deshalb auch als Text auf der <a href="{{link_url::kontakt}}">Kontaktseite</a>.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Inhalte von Drittanbietern }
+            text: '<p>Einige Funktionen stammen von externen Anbietern, z. B. Terminbuchung, Zahlungsabwicklung oder Bewertungen. Auf deren Zugänglichkeit haben wir nur begrenzt Einfluss. Wenn Sie dabei auf Barrieren stoßen, helfen wir Ihnen auf anderem Weg weiter.</p>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Rückmeldung }
+            text: '<p>Sind Ihnen Barrieren aufgefallen oder benötigen Sie Inhalte in einer anderen Form? Dann freuen wir uns über Ihre Nachricht. Unsere Kontaktdaten finden Sie auf der <a href="{{link_url::kontakt}}">Kontaktseite</a>.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Informationen nach dem Barrierefreiheitsstärkungsgesetz }
+            text: '<p>Dieser Abschnitt ist für Websites gedacht, über die Verbraucherinnen und Verbraucher Verträge abschließen, z. B. Online-Shops und Buchungen.</p><p><strong>Unsere Dienstleistung:</strong> Beschreiben Sie hier allgemein verständlich, was Sie anbieten.</p><p><strong>Ablauf:</strong> Erläutern Sie hier, wie die Dienstleistung abläuft, z. B. von der Auswahl über die Bestellung bis zur Bestätigung.</p><p><strong>Umsetzung der Anforderungen:</strong> Beschreiben Sie hier, wie Ihre Dienstleistung die Anforderungen an die Barrierefreiheit erfüllt.</p><p><strong>Zuständige Marktüberwachungsbehörde:</strong><br>Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen (MLBF)<br>Carl-Miller-Straße 6<br>39112 Magdeburg</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Durchsetzung und Schlichtung }
+            text: '<p>Dieser Abschnitt ist für öffentliche Stellen gedacht. Bitte tragen Sie die Stelle ein, die für Sie zuständig ist. Das ist je nach Bund oder Bundesland unterschiedlich.</p><p>Wenn Sie auf eine Rückmeldung keine zufriedenstellende Antwort erhalten, können Sie sich an diese Stelle wenden: [Name, Anschrift und Kontaktdaten der zuständigen Stelle].</p>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Darstellung anpassen }
+            text: '<p>Sie können die Darstellung in Ihrem Browser selbst anpassen:</p><ul><li>Vergrößern: <kbd>Strg</kbd> und <kbd>+</kbd> (Mac: <kbd>Cmd</kbd> und <kbd>+</kbd>)</li><li>Verkleinern: <kbd>Strg</kbd> und <kbd>-</kbd> (Mac: <kbd>Cmd</kbd> und <kbd>-</kbd>)</li><li>Zurücksetzen: <kbd>Strg</kbd> und <kbd>0</kbd> (Mac: <kbd>Cmd</kbd> und <kbd>0</kbd>)</li></ul>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Browser und Technik }
+            text: '<p>Die Website ist für die aktuellen Versionen der gängigen Browser ausgelegt. Sie nutzt HTML, WAI-ARIA, CSS und SVG, JavaScript ergänzt einzelne Funktionen.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Getestete Screenreader }
+            text: '<p>Wir haben die Website mit diesen Screenreadern getestet: [z. B. NVDA, JAWS, VoiceOver, TalkBack].</p>'
+            cssID: u-narrow
+          - type: text
+            headline: { unit: h2, value: Bewertungsansatz }
+            text: '<p>Wir haben die Zugänglichkeit dieser Website durch eine Selbstevaluierung und den <a href="https://pdir.de/website-check.html">pdir Website Check</a> bewertet.</p>'
+            cssID: u-narrow
+          - type: text
+            invisible: true
+            headline: { unit: h2, value: Unsere Maßnahmen }
+            text: '<p>Bitte behalten Sie nur die Punkte, die auf Ihre Organisation zutreffen:</p><ul><li>Zugänglichkeit ist eine feste Anforderung für alle neuen Inhalte.</li><li>Für die Zugänglichkeit gibt es klare Ziele und Verantwortlichkeiten.</li><li>Unsere Redaktion wird zur Barrierefreiheit geschult.</li><li>Barrierefreiheit ist in unseren internen Richtlinien verankert.</li><li>Wir führen Nutzungstests mit Menschen mit Behinderungen durch.</li></ul>'
             cssID: u-narrow
   - type: regular
     title: Sitemap

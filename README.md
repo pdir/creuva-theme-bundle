@@ -33,7 +33,7 @@ Der Befehl legt alles an, was das Theme braucht:
 # Bestehende Website: Startpunkt wird abgefragt oder per ID übergeben
 vendor/bin/contao-console creuva:install --root=1
 
-# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz, Sitemap und Suche
+# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap und Suche
 vendor/bin/contao-console creuva:install --with-pages --site-title="Meine Firma" --dns=example.org
 
 # Komplette Demo-Website mit Beispielinhalten, Bildern, News und Formular
@@ -54,8 +54,8 @@ vendor/bin/contao-console creuva:install --demo
 | `--reset` | Alle Contao-Inhalte vorher löschen (siehe `creuva:reset`) |
 | `--force`, `--no-backup` | Mit `--reset`/`--replace`: ohne Rückfrage bzw. ohne Datenbank-Backup |
 
-Kontakt-, Impressum-, Datenschutz-, Sitemap- und Suchseiten einer bestehenden Website werden
-anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `sitemap`, `suche`, …) und im
+Kontakt-, Impressum-, Datenschutz-, Barrierefreiheits-, Sitemap- und Suchseiten einer bestehenden Website werden
+anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `barrierefreiheit`, `sitemap`, `suche`, …) und im
 Header-Button, in der Header-Suche bzw. im Footer verlinkt. Modulnamen und Texte richten sich
 nach der Sprache des Startpunkts (Deutsch oder Englisch).
 
@@ -93,7 +93,7 @@ mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und eine 404-Seite („Diese Seite hat
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap, Suche und eine 404-Seite („Diese Seite hat
   sich verlaufen.“ mit Illustration und Links zu Leistungen, Projekten und Wissen); dazu der
   [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
 - **Module:** Hauptnavigation, Header mit CTA und Suche, Footer mit vier Spalten und Social-Media-Links,
@@ -156,7 +156,7 @@ kleine Ecken):
 - **Seiten:** Startseite mit Vollbild-Hero, Arbeiten mit sechs Projektseiten (Architektur,
   Ausstellung, Produkt, Hotel, Bürohaus, freie Serie), Bildarchiv (Masonry-Galerie mit
   Lightbox), Studio mit Team und Auszeichnungen, Leistungen mit Preisen und FAQ, Journal,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und 404-Seite
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap, Suche und 404-Seite
 - **Projektseiten:** Vollbild-Hero, Projektdaten (Fakten), Text, je eine andere
   Galerie-Anordnung oder ein Slider mit Thumbnails und ein Link zum nächsten Projekt
 - **Module:** Journal-Liste und -Leser, Breadcrumb, Sitemap, Suche; die Kundenlogos sind ein
@@ -469,6 +469,17 @@ Sicherheitsregeln:
   neu aufbauen.
 - Gibt es noch keine passende Website, legt `--replace` sie einfach neu an.
 - Nicht kombinierbar mit `--reset` und `--root`; erfordert `--demo` oder `--with-pages`.
+
+### Zugänglichkeitserklärung
+
+Jede Demo bringt die Seite `zugaenglichkeitserklaerung` mit, die im Footer verlinkt ist. Jeder
+Abschnitt ist ein eigenes Text-Element. Abschnitte, die nicht auf jede Website passen (PDF-Dokumente,
+Videos und Audio, Karten, Drittanbieter, BFSG, Schlichtung, Screenreader,
+Maßnahmen), sind ausgeblendet und lassen sich im Artikel über das Augen-Symbol einblenden.
+`--with-pages` legt die Seite mit einem Platzhalter an.
+
+Der Text ist ein Muster, das Theme allein macht eine Website nicht konform. Der Stand und
+die Angaben müssen zur jeweiligen Website passen.
 
 ## Manuelle Einrichtung
 

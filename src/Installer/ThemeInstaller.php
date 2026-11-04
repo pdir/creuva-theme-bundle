@@ -28,6 +28,7 @@ class ThemeInstaller
             'contact' => 'Kontakt',
             'imprint' => 'Impressum',
             'privacy' => 'Datenschutz',
+            'accessibility' => 'Zugänglichkeitserklärung',
             'sitemap' => 'Sitemap',
             'search' => 'Suche',
             'mainNavigation' => 'Hauptnavigation',
@@ -56,6 +57,7 @@ class ThemeInstaller
             'contact' => 'Contact',
             'imprint' => 'Imprint',
             'privacy' => 'Privacy policy',
+            'accessibility' => 'Accessibility statement',
             'sitemap' => 'Sitemap',
             'search' => 'Search',
             'mainNavigation' => 'Main navigation',
@@ -103,6 +105,7 @@ class ThemeInstaller
         'contact' => ['kontakt', 'contact', 'kontaktformular'],
         'imprint' => ['impressum', 'imprint', 'legal-notice'],
         'privacy' => ['datenschutz', 'datenschutzerklaerung', 'privacy', 'privacy-policy'],
+        'accessibility' => ['zugaenglichkeitserklaerung', 'zugaenglichkeit', 'barrierefreiheit', 'barrierefreiheitserklaerung', 'erklaerung-zur-barrierefreiheit', 'accessibility-statement', 'accessibility'],
         'sitemap' => ['sitemap'],
         'search' => ['suche', 'search', 'suchergebnisse', 'search-results'],
     ];
@@ -322,7 +325,7 @@ class ThemeInstaller
                 ]);
             }
 
-            $legalPages = array_values(array_filter([$pageIds['imprint'] ?? null, $pageIds['privacy'] ?? null]));
+            $legalPages = array_values(array_filter([$pageIds['imprint'] ?? null, $pageIds['privacy'] ?? null, $pageIds['accessibility'] ?? null]));
 
             if (!$demo) {
                 $footerSlots[] = 'footerPages';
@@ -590,13 +593,13 @@ class ThemeInstaller
         $rootId = $this->createRootPage($options);
 
         $aliases = 'de' === $this->textLanguage($options->language)
-            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'sitemap' => 'sitemap', 'search' => 'suche']
-            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'sitemap' => 'sitemap', 'search' => 'search'];
+            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'accessibility' => 'zugaenglichkeitserklaerung', 'sitemap' => 'sitemap', 'search' => 'suche']
+            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'accessibility' => 'accessibility-statement', 'sitemap' => 'sitemap', 'search' => 'search'];
 
         // Only the start page and the contact page appear in the main navigation,
         // the legal pages are linked in the footer and listed in the sitemap, the
         // search results page is opened by the search in the header
-        $hidden = ['imprint', 'privacy', 'sitemap', 'search'];
+        $hidden = ['imprint', 'privacy', 'accessibility', 'sitemap', 'search'];
 
         $sorting = 0;
 
@@ -608,7 +611,7 @@ class ThemeInstaller
                 'alias' => $alias,
                 'type' => 'regular',
                 'hide' => \in_array($key, $hidden, true) ? 1 : 0,
-                'sitemap' => \in_array($key, ['imprint', 'privacy'], true) ? 'map_always' : 'map_default',
+                'sitemap' => \in_array($key, ['imprint', 'privacy', 'accessibility'], true) ? 'map_always' : 'map_default',
                 'published' => 1,
             ];
 
