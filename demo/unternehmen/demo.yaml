@@ -641,6 +641,31 @@ pages:
                     singleSRC: 'file:icons/zahnrad.svg'
                     customTpl: content_element/text/creuva_feature
                     cssID: u-feature-plain
+          - title: Arbeitsweise
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Vom Modell zum Bauteil.'
+                text: '<p>Aus dem 3D-Modell entstehen Zeichnungen, Stücklisten und die Daten für Laser, Abkantpresse und CNC-Bearbeitung. So gibt es keine Übertragungsfehler zwischen Büro und Halle.</p><ul><li>Prüfung Ihrer Zeichnungen auf Fertigbarkeit</li><li>Kollisionsprüfung im Gesamtmodell</li><li>Änderungsstände zentral dokumentiert</li></ul>'
+                singleSRC: 'file:bilder/teile-2.jpg'
+                floating: right
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Arbeitsweise'
+          - title: Ablauf
+            teaserCssID: ['', '']
+            cssID: u-bg-muted
+            elements:
+              - { type: headline, headline: 'Vier Schritte bis zur Freigabe.', subline: 'So arbeiten wir' }
+              - type: description_list
+                customTpl: content_element/description_list/creuva_steps
+                data:
+                  - { key: 'Anforderungen', value: 'Sie schicken uns Skizzen, Modelle oder Lastenhefte, wir klären offene Punkte.' }
+                  - { key: '3D-Modell', value: 'Wir modellieren das Bauteil und stimmen uns mit Statik und Architektur ab.' }
+                  - { key: 'Freigabe', value: 'Sie prüfen Modell und Zeichnungen und geben sie für die Fertigung frei.' }
+                  - { key: 'Übergabe', value: 'Die Fertigungsdaten gehen direkt an die Halle, Änderungen bleiben nachvollziehbar.' }
           - title: Ansprechpartner
             teaserCssID: ['', '']
             elements:
@@ -683,7 +708,7 @@ pages:
               - type: gallery
                 size: 'image_size:gallery'
                 fullsize: true
-                multiSRC: ['file:bilder/fertigung.jpg', 'file:bilder/schweissen-hoch.jpg', 'file:bilder/teile.jpg']
+                multiSRC: ['file:bilder/fertigung.jpg', 'file:bilder/schweissen-hoch.jpg', 'file:bilder/teile.jpg', 'file:bilder/halle.jpg']
                 sortBy: custom
                 cssID: u-gallery-mosaic
               - type: element_group
@@ -706,6 +731,42 @@ pages:
                   - type: downloads
                     headline: { unit: h3, value: 'Technische Unterlagen' }
                     multiSRC: ['file:downloads/datenblatt-laserschneiden.pdf', 'file:downloads/zertifikat-en-1090.pdf']
+          - title: Kennzahlen
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: description_list
+                headline: { unit: h2, value: 'Fertigung in Zahlen' }
+                customTpl: content_element/description_list/creuva_stats
+                data:
+                  - { key: '9.500 m²', value: 'Fertigungsfläche' }
+                  - { key: '12 kW', value: 'Faserlaser' }
+                  - { key: '± 0,1 mm', value: 'Toleranz beim Laserschneiden' }
+                  - { key: '12', value: 'Schweißplätze' }
+                cssID: 'u-bg-primary u-full-bleed u-text-center u-no-countup'
+          - title: Qualität
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Qualität, die dokumentiert ist.'
+                text: '<p>Jeder Auftrag durchläuft feste Prüfschritte. Sie erhalten auf Wunsch alle Nachweise mit der Lieferung.</p><ul><li>Schweißen nach ISO 3834-2 und EN 1090</li><li>Maßprotokolle und Materialzeugnisse</li><li>Rückverfolgbarkeit bis zur Charge</li></ul>'
+                singleSRC: 'file:bilder/schweissen.jpg'
+                floating: left
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Qualität'
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Teile anfragen.'
+                text: '<p>Schicken Sie uns Ihre Zeichnung oder Stückliste. Ein Angebot erhalten Sie meist innerhalb von 48 Stunden.</p><p><a href="{{link_url::kontakt|urlattr}}">Anfrage stellen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-primary u-full-bleed'
+                creuvaKicker: 'Fertigung'
       - type: regular
         title: 'Montage & Service'
         alias: montage-service
@@ -752,6 +813,41 @@ pages:
                     singleSRC: 'file:icons/support.svg'
                     customTpl: content_element/text/creuva_feature
                     cssID: u-icon-soft
+          - title: Montage
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Montage aus einer Hand.'
+                text: '<p>Wir liefern und montieren, was wir gefertigt haben. Dadurch gibt es auf der Baustelle keine Schnittstellen zwischen Hersteller und Monteur.</p><ul><li>Eigener Fuhrpark und Kran</li><li>Schweißer mit gültigen Prüfungen</li><li>Montage auch im laufenden Betrieb</li></ul>'
+                singleSRC: 'file:bilder/stahlbau.jpg'
+                floating: right
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Vor Ort'
+          - title: Ablauf
+            teaserCssID: ['', '']
+            cssID: u-bg-muted
+            elements:
+              - { type: headline, headline: 'So läuft Ihre Montage.', subline: 'In vier Schritten' }
+              - type: description_list
+                customTpl: content_element/description_list/creuva_steps
+                data:
+                  - { key: 'Aufmaß', value: 'Wir prüfen die Situation vor Ort und nehmen alle Maße auf.' }
+                  - { key: 'Planung', value: 'Termine, Zufahrten, Kran und Sicherheit stimmen wir mit Ihnen ab.' }
+                  - { key: 'Aufbau', value: 'Unser Team montiert termingerecht und hält die Baustelle sauber.' }
+                  - { key: 'Abnahme', value: 'Wir übergeben die Konstruktion gemeinsam mit allen Unterlagen.' }
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Service anfragen.'
+                text: '<p>Sie brauchen eine Wartung, eine Prüfung oder ein Ersatzteil? Wir kümmern uns darum.</p><p><a href="{{link_url::kontakt|urlattr}}">Kontakt aufnehmen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-soft u-full-bleed'
+                creuvaKicker: 'Service'
   - type: regular
     title: Branchen
     alias: branchen
@@ -804,6 +900,52 @@ pages:
                 singleSRC: 'file:bilder/lebensmittel.jpg'
                 customTpl: content_element/text/creuva_card
                 subline: Edelstahl
+      - title: Warum Kessler
+        teaserCssID: ['', '']
+        cssID: u-bg-surface
+        elements:
+          - { type: headline, headline: 'Was alle Branchen verbindet.', subline: 'Warum Kessler' }
+          - type: element_group
+            cssID: u-grid-3
+            children:
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Normen im Griff' }
+                text: '<p>Zertifiziert nach ISO 9001, ISO 3834-2 und EN 1090 bis EXC 3.</p>'
+                singleSRC: 'file:icons/schild.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Alles aus einer Hand' }
+                text: '<p>Konstruktion, Fertigung und Montage mit einem Ansprechpartner.</p>'
+                singleSRC: 'file:icons/zahnrad.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+              - type: text
+                addImage: true
+                headline: { unit: h3, value: 'Termine, die halten' }
+                text: '<p>98 % Liefertreue, auch bei Serien und Rahmenverträgen.</p>'
+                singleSRC: 'file:icons/uhr.svg'
+                customTpl: content_element/text/creuva_feature
+                cssID: u-icon-soft
+      - title: Kunden
+        teaserCssID: ['', '']
+        elements:
+          - type: creuva_logos
+            headline: { unit: h2, value: 'Unternehmen, die uns vertrauen' }
+            multiSRC: ['file:kunden/bergmann-maschinenbau.svg', 'file:kunden/rheintal-anlagenbau.svg', 'file:kunden/nordbau.svg', 'file:kunden/alpina-food.svg', 'file:kunden/solaris-energie.svg', 'file:kunden/wieland-foerdertechnik.svg']
+            creuvaLogosHeight: 2.5rem
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'Ihre Branche ist nicht dabei?'
+            text: '<p>Sprechen Sie uns an. Viele Lösungen lassen sich auf andere Anforderungen übertragen.</p><p><a href="{{link_url::kontakt|urlattr}}">Projekt besprechen</a></p>'
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-primary u-full-bleed'
+            creuvaKicker: 'Beratung'
     children:
       - type: regular
         title: Maschinenbau
@@ -842,6 +984,59 @@ pages:
                   - { key: Kunde, value: 'Bergmann Maschinenbau' }
                   - { key: Bauteile, value: 'Maschinengestelle und Schutzverkleidungen' }
                   - { key: Umfang, value: '420 Gestelle pro Jahr, Rahmenvertrag seit 2014' }
+          - title: Bauteile
+            teaserCssID: ['', '']
+            elements:
+              - { type: headline, headline: 'Was wir für Sie fertigen.', subline: 'Bauteile' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Maschinengestelle' }
+                    text: '<p>Geschweißt, spannungsarm geglüht und mechanisch bearbeitet.</p>'
+                    singleSRC: 'file:icons/fabrik.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Verkleidungen' }
+                    text: '<p>Schutzzäune und Abdeckungen aus Blech, einbaufertig lackiert.</p>'
+                    singleSRC: 'file:icons/schild.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Baugruppen' }
+                    text: '<p>Komplett montiert und geprüft, direkt an Ihre Linie geliefert.</p>'
+                    singleSRC: 'file:icons/zahnrad.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+          - title: Eindrücke
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: gallery
+                headline: { unit: h2, value: 'Aus unserer Fertigung' }
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/halle.jpg', 'file:bilder/teile.jpg', 'file:bilder/teile-2.jpg', 'file:bilder/fertigung.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic
+          - title: Stimme
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                overwriteMeta: true
+                size: 'image_size:avatar'
+                headline: { unit: h3, value: 'Dr. Martin Bergmann' }
+                text: '<p>Kessler fertigt seit über zehn Jahren unsere Maschinengestelle. Die Qualität stimmt, die Termine auch – und wenn es einmal eng wird, findet das Team eine Lösung.</p>'
+                singleSRC: 'file:bilder/team-3.jpg'
+                alt: 'Dr. Martin Bergmann'
+                customTpl: content_element/text/creuva_testimonial
+                cssID: 'u-narrow u-card-muted'
+                subline: 'Geschäftsführer, Bergmann Maschinenbau'
           - title: CTA
             teaserCssID: ['', '']
             cssID: u-py-0
@@ -875,7 +1070,7 @@ pages:
               - type: gallery
                 size: 'image_size:gallery'
                 fullsize: true
-                multiSRC: ['file:bilder/stahlbau-abend.jpg', 'file:bilder/fassade.jpg', 'file:bilder/montage.jpg']
+                multiSRC: ['file:bilder/stahlbau-abend.jpg', 'file:bilder/fassade.jpg', 'file:bilder/montage.jpg', 'file:bilder/stahlbau.jpg']
                 sortBy: custom
                 cssID: u-gallery-mosaic-right
               - type: element_group
@@ -902,6 +1097,47 @@ pages:
                     singleSRC: 'file:icons/bau.svg'
                     customTpl: content_element/text/creuva_feature
                     cssID: u-feature-plain
+          - title: Referenz
+            teaserCssID: ['', '']
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-start'
+                children:
+                  - type: text
+                    headline: { unit: h2, value: 'Produktionshalle Rheintal' }
+                    text: '<p>Für Rheintal Anlagenbau haben wir die komplette Stahlkonstruktion einer neuen Halle konstruiert, gefertigt und montiert.</p><p><a href="{{link_url::referenzen}}">Alle Referenzen</a></p>'
+                  - type: description_list
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: 'Fläche', value: '4.200 m²' }
+                      - { key: 'Stahl', value: '380 t' }
+                      - { key: 'Ausführungsklasse', value: 'EXC 2' }
+                      - { key: 'Leistung', value: 'Konstruktion, Fertigung und Montage' }
+          - title: Normen
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Geprüft nach EN 1090.'
+                text: '<p>Wir sind nach EN 1090 bis EXC 3 zertifiziert und liefern alle Nachweise für Ihre Bauakte.</p><ul><li>Leistungserklärung und CE-Kennzeichnung</li><li>Abstimmung mit Statik und Architektur</li><li>Oberflächen verzinkt oder pulverbeschichtet</li></ul><p><a href="{{link_url::downloads}}">Zertifikate ansehen</a></p>'
+                singleSRC: 'file:bilder/fassade.jpg'
+                floating: left
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Qualität'
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Sprechen wir über Ihr Bauvorhaben.'
+                text: '<p>Schicken Sie uns Ihre Pläne, wir erstellen ein Angebot für Konstruktion, Fertigung und Montage.</p><p><a href="{{link_url::kontakt|urlattr}}">Anfrage stellen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-primary u-full-bleed'
+                creuvaKicker: 'Bau & Architektur'
       - type: regular
         title: 'Energie & Anlagenbau'
         alias: energie-anlagenbau
@@ -929,6 +1165,75 @@ pages:
                   - { key: '1.200 t', value: 'Stahl pro Jahr' }
                   - { key: 'EXC 3', value: 'Ausführungsklasse' }
                 cssID: u-no-countup
+          - title: Leistungen
+            teaserCssID: ['', '']
+            elements:
+              - { type: headline, headline: 'Was wir für Sie bauen.', subline: 'Leistungen' }
+              - type: element_group
+                cssID: u-grid-3
+                children:
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Unterkonstruktionen' }
+                    text: '<p>Für Solarparks, feuerverzinkt und auf Ihr Modul abgestimmt.</p>'
+                    singleSRC: 'file:icons/energie.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Bühnen & Podeste' }
+                    text: '<p>Mit Treppen und Geländern für den sicheren Zugang zu Anlagen.</p>'
+                    singleSRC: 'file:icons/ebenen.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+                  - type: text
+                    addImage: true
+                    headline: { unit: h3, value: 'Rohrbrücken' }
+                    text: '<p>Vorgefertigt und in kurzen Montagefenstern aufgebaut.</p>'
+                    singleSRC: 'file:icons/bau.svg'
+                    customTpl: content_element/text/creuva_feature
+                    cssID: u-icon-soft
+          - title: Referenz
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-start'
+                children:
+                  - type: text
+                    headline: { unit: h2, value: 'Solarpark Höhenried' }
+                    text: '<p>Für Solaris Energie haben wir die Unterkonstruktion gefertigt und mit eigenen Teams montiert.</p><p><a href="{{link_url::referenzen}}">Alle Referenzen</a></p>'
+                  - type: description_list
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: 'Leistung', value: '18 MW' }
+                      - { key: 'Montagezeit', value: 'zehn Wochen' }
+                      - { key: 'Korrosionsschutz', value: 'Feuerverzinkung' }
+                      - { key: 'Umfang', value: 'Konstruktion, Fertigung und Montage' }
+          - title: Montage
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Montage im laufenden Betrieb.'
+                text: '<p>Bei Anlagen zählt jede Stunde Stillstand. Wir planen die Montage so, dass sie zu Ihrem Betrieb passt.</p><ul><li>Vormontage in der eigenen Halle</li><li>Abstimmung mit Ihrer Betriebsführung</li><li>Arbeiten auch nachts und am Wochenende</li></ul>'
+                singleSRC: 'file:bilder/schweissen.jpg'
+                floating: right
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Vor Ort'
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Sprechen wir über Ihre Anlage.'
+                text: '<p>Wir beraten Sie gerne zu Konstruktion, Korrosionsschutz und Montage.</p><p><a href="{{link_url::kontakt|urlattr}}">Projekt besprechen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-primary u-full-bleed'
+                creuvaKicker: 'Energie & Anlagen'
       - type: regular
         title: Lebensmittelindustrie
         alias: lebensmittelindustrie
@@ -973,6 +1278,57 @@ pages:
                     singleSRC: 'file:icons/uhr.svg'
                     customTpl: content_element/text/creuva_feature
                     cssID: u-icon-soft
+          - title: Hygiene
+            teaserCssID: ['', '']
+            elements:
+              - type: text
+                addImage: true
+                size: 'image_size:media'
+                headline: 'Gebaut für die Reinigung.'
+                text: '<p>In der Lebensmittelproduktion entscheidet jede Naht über die Hygiene. Deshalb konstruieren wir von Anfang an reinigungsgerecht.</p><ul><li>Offene Profile und geneigte Flächen</li><li>Geschliffene und passivierte Schweißnähte</li><li>Materialzeugnisse für jedes Bauteil</li></ul>'
+                singleSRC: 'file:bilder/teile.jpg'
+                floating: left
+                customTpl: content_element/text/creuva_media
+                cssID: u-media-plain
+                creuvaKicker: 'Hygienic Design'
+          - title: Eindrücke
+            teaserCssID: ['', '']
+            cssID: u-bg-surface
+            elements:
+              - type: gallery
+                headline: { unit: h2, value: 'Aus unserer Fertigung' }
+                size: 'image_size:gallery'
+                fullsize: true
+                multiSRC: ['file:bilder/lebensmittel.jpg', 'file:bilder/schweissen-hoch.jpg', 'file:bilder/teile-2.jpg', 'file:bilder/fertigung.jpg']
+                sortBy: custom
+                cssID: u-gallery-mosaic-right
+          - title: Referenz
+            teaserCssID: ['', '']
+            elements:
+              - type: element_group
+                cssID: 'u-grid-2 u-align-start'
+                children:
+                  - type: text
+                    headline: { unit: h2, value: 'Abfülllinie Alpina Food' }
+                    text: '<p>Für Alpina Food haben wir Bühnen und Gestelle aus Edelstahl gefertigt und ohne Produktionsstopp eingebaut.</p><p><a href="{{link_url::referenzen}}">Alle Referenzen</a></p>'
+                  - type: description_list
+                    customTpl: content_element/description_list/creuva_facts
+                    cssID: u-card
+                    data:
+                      - { key: 'Bauteile', value: 'Edelstahlbühnen und Gestelle' }
+                      - { key: 'Werkstoff', value: '1.4301 und 1.4404' }
+                      - { key: 'Bauweise', value: 'Hygienic Design' }
+                      - { key: 'Einbau', value: 'am Wochenende' }
+          - title: CTA
+            teaserCssID: ['', '']
+            cssID: u-py-0
+            elements:
+              - type: text
+                headline: 'Sprechen wir über Ihre Linie.'
+                text: '<p>Schicken Sie uns Ihre Anforderungen, wir finden die passende Edelstahllösung.</p><p><a href="{{link_url::kontakt|urlattr}}">Anfrage stellen</a></p>'
+                customTpl: content_element/text/creuva_cta
+                cssID: 'u-card-primary u-full-bleed'
+                creuvaKicker: 'Lebensmittelindustrie'
   - type: regular
     title: Referenzen
     alias: referenzen
@@ -1049,6 +1405,30 @@ pages:
             headline: { unit: h2, value: 'Auswahl unserer Kunden' }
             multiSRC: ['file:kunden/bergmann-maschinenbau.svg', 'file:kunden/rheintal-anlagenbau.svg', 'file:kunden/nordbau.svg', 'file:kunden/alpina-food.svg', 'file:kunden/solaris-energie.svg', 'file:kunden/wieland-foerdertechnik.svg']
             creuvaLogosHeight: 2.5rem
+      - title: Stimme
+        teaserCssID: ['', '']
+        elements:
+          - type: text
+            addImage: true
+            overwriteMeta: true
+            size: 'image_size:avatar'
+            headline: { unit: h3, value: 'Dr. Martin Bergmann' }
+            text: '<p>Kessler fertigt seit über zehn Jahren unsere Maschinengestelle. Die Qualität stimmt, die Termine auch – und wenn es einmal eng wird, findet das Team eine Lösung.</p>'
+            singleSRC: 'file:bilder/team-3.jpg'
+            alt: 'Dr. Martin Bergmann'
+            customTpl: content_element/text/creuva_testimonial
+            cssID: 'u-narrow u-card-muted'
+            subline: 'Geschäftsführer, Bergmann Maschinenbau'
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'Ihr Projekt als nächste Referenz?'
+            text: '<p>Erzählen Sie uns von Ihrem Vorhaben, wir melden uns mit einem Vorschlag.</p><p><a href="{{link_url::kontakt|urlattr}}">Projekt besprechen</a></p>'
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-primary u-full-bleed'
+            creuvaKicker: 'Ihr Projekt'
   - type: regular
     title: Unternehmen
     alias: unternehmen
@@ -1318,6 +1698,16 @@ pages:
               - { type: downloads, headline: { unit: h2, value: 'Technische Daten' }, multiSRC: ['file:downloads/datenblatt-laserschneiden.pdf'] }
               - { type: downloads, headline: { unit: h2, value: Zertifikate }, multiSRC: ['file:downloads/zertifikat-iso-9001.pdf', 'file:downloads/zertifikat-en-1090.pdf'] }
               - { type: downloads, headline: { unit: h2, value: Bedingungen }, multiSRC: ['file:downloads/lieferbedingungen.pdf'] }
+      - title: CTA
+        teaserCssID: ['', '']
+        cssID: u-py-0
+        elements:
+          - type: text
+            headline: 'Nicht das Richtige dabei?'
+            text: '<p>Sie brauchen weitere Datenblätter oder Nachweise? Wir schicken sie Ihnen gerne zu.</p><p><a href="{{link_url::kontakt|urlattr}}">Unterlagen anfragen</a></p>'
+            customTpl: content_element/text/creuva_cta
+            cssID: 'u-card-soft u-full-bleed'
+            creuvaKicker: 'Downloads'
   - type: regular
     title: Aktuelles
     alias: aktuelles

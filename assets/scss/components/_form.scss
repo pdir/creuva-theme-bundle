@@ -43,6 +43,50 @@
     resize: vertical;
   }
 
+  // File upload: a dashed drop area with the browser's button in the style of the
+  // theme (the input also accepts dropped files, without JavaScript)
+  input[type='file'] {
+    width: 100%;
+    padding: 1rem;
+    border: 1px dashed color-mix(in srgb, var(--c-text-muted) 55%, transparent);
+    border-radius: var(--radius-s);
+    background: var(--c-surface);
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+    cursor: pointer;
+    transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+
+    &:hover {
+      border-color: var(--c-accent-text);
+      background: var(--c-accent-soft);
+    }
+
+    &:focus-visible {
+      border-style: solid;
+      border-color: var(--c-accent-text);
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 25%, transparent);
+    }
+
+    &::file-selector-button {
+      margin-right: 1rem;
+      padding: 0.6em 1.25em;
+      border: 1px solid var(--c-primary);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--c-primary);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    &:hover::file-selector-button {
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+    }
+  }
+
   // Select: own arrow in the text color (two gradients, works in every browser
   // and in dark mode); the placeholder option ("Bitte auswählen …") is muted
   select:not([multiple], [size]) {
