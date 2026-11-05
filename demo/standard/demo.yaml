@@ -226,7 +226,7 @@ news:
                 cssID: 'u-icon-primary u-feature-inline'
           - type: text
             addImage: true
-            size: 'image_size:media'
+            size: 'image_size:wide'
             headline: 'gut lesbar.'
             text: |-
               <p>Fließtext braucht ein Kontrastverhältnis von mindestens 4,5 : 1, große Schrift und Bedienelemente mindestens 3 : 1. Die Farbschemas von Creuva sind darauf abgestimmt – auch in der dunklen Variante.</p>
@@ -293,7 +293,7 @@ news:
             creuvaKicker: 'Core Web Vitals'
           - type: text
             addImage: true
-            size: 'image_size:media'
+            size: 'image_size:wide'
             headline: optimieren.
             text: |-
               <p>Bilder sind fast immer der größte Brocken. Contao erzeugt über die Bildgrößen im Theme automatisch passende Varianten für jedes Gerät – Sie müssen sie nur sinnvoll anlegen.</p>

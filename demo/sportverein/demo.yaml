@@ -898,7 +898,7 @@ pages:
                   - { key: '2021', value: '100 Jahre TSV mit großem Jubiläumsfest' }
                   - { key: '2026', value: 'Neue LED-Flutlichtanlage am Hauptplatz' }
               - type: gallery
-                size: 'image_size:gallery'
+                size: 'image_size:media'
                 fullsize: true
                 perRow: 1
                 multiSRC: ['file:bilder/geschichte-1921.jpg', 'file:bilder/geschichte-1974.jpg']

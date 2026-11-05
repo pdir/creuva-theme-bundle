@@ -555,14 +555,14 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Text | `creuva_card` | Karte mit Bild, Kategorie (Subline), Titel und Text; der letzte Link macht die ganze Karte klickbar |
 | Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im CSS Style Selector unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
 | Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im CSS Style Selector: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
-| Text | `creuva_media` | Bild & Text: Bild links oder rechts neben dem Text, oder oben bzw. unten im Format 16:9 (*Bildausrichtung*), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
+| Text | `creuva_media` | Bild & Text: Bild links oder rechts neben dem Text, oder oben bzw. unten (*Bildausrichtung*, dann am besten eine breite Bildgröße), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
 | Text | `creuva_price` | Preis-Karte: Paket als Überschrift, Preis als Subline, Leistungsliste, letzter Link als Button; mit `u-featured` hervorgehoben |
 | Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“, „Uhr“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Bereiche wie „11–20 Uhr“ bekommen die Einheit ebenfalls, zählen aber nicht hoch; Datumsangaben („24.11.“, „24.11.2026“) bleiben unverändert. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben, SVG-Icons erscheinen im Farbschema |
 | Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
 | Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
-| Galerie | `creuva_slider` | Galerie als Slider (Swiper wie der Content-Slider): *Bilder pro Reihe* legt fest, wie viele Bilder ein Slide zeigt (1–6; auf Tablets höchstens zwei, auf Smartphones eines); Pfeile und Punkte blättern um so viele Bilder weiter. Bilder im Format 4:3, der wichtige Bereich (Dateiverwaltung) bleibt im Ausschnitt; *Großansicht* öffnet die Lightbox |
+| Galerie | `creuva_slider` | Galerie als Slider (Swiper wie der Content-Slider): *Bilder pro Reihe* legt fest, wie viele Bilder ein Slide zeigt (1–6; auf Tablets höchstens zwei, auf Smartphones eines); Pfeile und Punkte blättern um so viele Bilder weiter. Das Format kommt aus der Bildgröße (für gleich hohe Slides eine Größe mit festem Zuschnitt wählen); *Großansicht* öffnet die Lightbox |
 
 In Kästen mit `u-bg-primary` oder `u-bg-accent` wird ein Link, der allein im letzten
 Absatz steht, automatisch als Button dargestellt (Call-to-Action-Box). In Texten mit
@@ -639,6 +639,10 @@ Das Creuva-Feld **„Dachzeile“** (Text, Beschreibungsliste) steht zusätzlich
 Der News-Leser zeigt einen Kopfbereich wie der Hero: Archiv, Datum und Lesezeit als Dachzeile,
 Überschrift, Unterüberschrift als Einleitung und Autor, daneben das Bild des Beitrags (Bildgröße
 im Modul *News – Leser*). Die Inhaltselemente folgen in der Lesespalte.
+
+**Bildunterschrift des News-Bildes:** In Listen erscheint keine. Im News-Leser erscheint sie nur, wenn sie
+im Beitrag selbst unter *Metadaten überschreiben* eingetragen ist; die Bildunterschrift aus der
+Dateiverwaltung wird nicht übernommen (`src/EventListener/NewsImageCaptionListener.php`).
 
 Im Beitrag gibt es das Feld **„Hervorgehobener Teil“** (neben der Überschrift): Der eingetragene
 Text erscheint im Beitrag in der Akzentfarbe, z. B. „**Barrierefreiheit wird Pflicht** – was
@@ -763,7 +767,14 @@ der Browser für kleine Kacheln kleine und für große Bilder große Varianten
 unbeschnitten gespeichert. Der **„Wichtige Bereich“** aus der Dateiverwaltung wird dabei als
 `object-position` gesetzt, damit das Motiv in der Kachel sichtbar bleibt. Für eigene Galerien
 diese Bildgröße wählen oder nach demselben Prinzip anlegen (Breiten genügen, `sizes` setzt das
-Template). Feste Zuschnitte wie „Karte (4:3)“ passen nur zum gleichmäßigen Raster.
+Template).
+
+**Bildformat:** Das Format eines Bildes legt die Bildgröße fest, nicht das CSS. Das gilt für Galerie,
+Galerie-Slider, Bild & Text, Hero, News, Suchergebnisse und die Teaser-Box. Galerie-Raster und
+Galerie-Slider brauchen für gleich hohe Bilder eine Größe mit festem Zuschnitt (z. B. „Karte (4:3)“),
+Mosaik und „Erstes Bild groß“ füllen ihre Kacheln mit jeder Größe, Masonry braucht eine Größe ohne
+Zuschnitt. Fest bleiben nur Formen, die das Element selbst vorgibt: das runde Team-Bild (1:1), die
+Vorschaubilder des Sliders und die Wappen im Spiel-Element.
 
 **Lightbox:** Mit *Großansicht/Neues Fenster* öffnen Bilder der Galerie und des Bild-Elements
 die Creuva-Lightbox (`assets/js/creuva.js`, `components/_lightbox.scss`). Sie bietet einen

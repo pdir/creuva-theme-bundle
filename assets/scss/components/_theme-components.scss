@@ -118,7 +118,6 @@
     overflow: hidden;
 
     img {
-      aspect-ratio: 16 / 10;
       object-fit: cover;
       transition: transform 0.7s var(--ease-out);
     }

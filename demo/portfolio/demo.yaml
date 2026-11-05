@@ -202,7 +202,7 @@ news:
           - type: text
             text: '<p>Wenn die Sonne untergegangen ist, bleibt am Himmel ein tiefes, gleichmäßiges Blau. Gleichzeitig leuchten die Räume von innen. Für etwa zwanzig Minuten sind beide gleich hell – Fassade, Fenster und Landschaft lassen sich dann in einer Aufnahme zeigen, ohne dass etwas ausbrennt oder absäuft.</p><p>Diese Minuten planen wir genau: Wir prüfen vorab den Sonnenstand, stellen das Licht in allen Räumen ein und bauen die Kamera rechtzeitig auf. Meist entstehen an einem Abend nur zwei oder drei Motive – dafür die wichtigsten.</p>'
           - type: gallery
-            size: 'image_size:gallery'
+            size: 'image_size:media'
             fullsize: true
             multiSRC: ['file:bilder/projekte/haus-am-hang-abend.jpg', 'file:bilder/projekte/lindenhof-abend.jpg']
             sortBy: custom
@@ -874,7 +874,7 @@ pages:
             elements:
               - { type: image, size: 'image_size:wide', singleSRC: 'file:bilder/projekte/lindenhof-abend.jpg' }
               - type: gallery
-                size: 'image_size:gallery'
+                size: 'image_size:card'
                 fullsize: true
                 perRow: 3
                 multiSRC: ['file:bilder/projekte/lindenhof-raster.jpg', 'file:bilder/projekte/lindenhof-foyer.jpg', 'file:bilder/projekte/lindenhof.jpg']

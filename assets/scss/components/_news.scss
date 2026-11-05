@@ -47,7 +47,6 @@
       img {
         display: block;
         width: 100%;
-        aspect-ratio: 16 / 10;
         object-fit: cover;
         border-radius: 0;
         transition: transform 0.7s var(--ease-out);
@@ -262,7 +261,6 @@
     img {
       display: block;
       width: 100%;
-      aspect-ratio: 16 / 10;
       object-fit: cover;
       box-shadow: var(--shadow-m);
     }

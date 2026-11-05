@@ -92,6 +92,19 @@
     color: var(--c-text-muted);
   }
 
+  // Image inserted in the running text (rich text editor)
+  .rte figure {
+    margin-block: var(--space-m);
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   .media--left,
   .media--right {
     display: flow-root;
@@ -167,9 +180,9 @@
       border-radius: var(--radius-m);
     }
 
+    // The format comes from the image size
     img {
       width: 100%;
-      aspect-ratio: 4 / 3;
       object-fit: cover;
       transition: transform 0.7s var(--ease-out), filter var(--transition-hover);
     }
@@ -208,7 +221,6 @@
 
     img {
       height: 100%;
-      aspect-ratio: auto;
     }
   }
 
@@ -280,7 +292,6 @@
 
     img {
       height: auto;
-      aspect-ratio: auto;
     }
   }
 

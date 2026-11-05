@@ -58,9 +58,9 @@
     }
   }
 
-  // Organic: the image is cropped to 4:3 and masked with a blob shape
+  // Organic: the image is masked with a blob shape, the format comes from the
+  // image size
   .c-hero--organic .c-hero__media img {
-    aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 42% 58% 38% 62% / 52% 38% 62% 48%;
   }

@@ -173,8 +173,8 @@
   }
 }
 
-// Gallery as slider (template variant gallery/creuva_slider): the images in the
-// same format and with the same zoom on hover as in the gallery grid
+// Gallery as slider (template variant gallery/creuva_slider): the same zoom on
+// hover as in the gallery grid, the format comes from the image size
 .c-slider.c-slider--gallery {
   figure {
     margin: 0;
@@ -185,7 +185,6 @@
   img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
     object-fit: cover;
     transition: transform 0.7s var(--ease-out);
   }

@@ -49,7 +49,6 @@
     img {
       display: block;
       width: 100%;
-      aspect-ratio: 4 / 3;
       object-fit: cover;
       border-radius: var(--radius-l) !important;
       box-shadow: var(--shadow-l);
@@ -81,14 +80,10 @@
     }
   }
 
-  // Image above or below the text: one column, wider image, the text keeps a
-  // comfortable line length
+  // Image above or below the text: one column, the text keeps a comfortable
+  // line length (use a wide image size)
   .c-media:is(.c-media--above, .c-media--below) {
     align-items: start;
-
-    .c-media__visual img {
-      aspect-ratio: 16 / 9;
-    }
 
     .c-media__body {
       max-width: 48rem;
