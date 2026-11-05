@@ -804,7 +804,8 @@ Im Seitenlayout legt **Creuva-Design › Animationen** fest, was beim Scrollen e
   automatischen Animation; `u-reveal-none` nimmt ein Element (oder einen ganzen Artikel) aus.
 - Inhalte, die beim Laden schon sichtbar sind, werden nie ausgeblendet; ohne JavaScript ist
   alles sofort sichtbar.
-- Der Hero blendet beim Laden ein, die Fläche hinter dem Bild bewegt sich langsam.
+- Der Hero blendet beim Laden kurz ein (0,35 s, längere Animationen verschlechtern den Speed Index
+  in PageSpeed); die Fläche hinter dem Bild und das Badge bewegen sich erst nach 3 Sekunden.
 - Besucher mit der Systemeinstellung „Bewegung reduzieren“ sehen keine Animationen.
 - Hover-Effekte (Karten heben sich, Bilder zoomen, Pfeile wandern mit) sind immer aktiv.
 - Dauer, Weg und Verzögerung lassen sich per CSS anpassen:
@@ -909,8 +910,10 @@ JavaScript bleibt die Seite hell. Im Style-Switcher heißt die Option „System�
 
 - **Schriften:** Plus Jakarta Sans (alle Gewichte von 200 bis 800) und Fraunces (Überschriften der
   Typografie „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
-  selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans wird vorab geladen (27 KB), Fraunces
-  lädt der Browser nur, wenn die Typografie sie verwendet. Lizenz: SIL Open Font License 1.1
+  selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans (27 KB) wird bewusst nicht per
+  Preload geladen, weil das mit `creuva.css` konkurriert und das erste Rendern verzögert; bis die Datei da
+  ist, steht der Text in der Ersatzschrift (`font-display: swap`). Fraunces lädt der Browser nur, wenn
+  die Typografie sie verwendet. Lizenz: SIL Open Font License 1.1
   (siehe `THIRD-PARTY-NOTICES.md`).
 - **Druck:** Gedruckt wird nur der Inhalt in Schwarz auf Weiß, ohne Header, Footer, Breadcrumb,
   Slider-Steuerung und Hintergründe. Links im Text erscheinen mit ihrer Adresse, Akkordeons sind

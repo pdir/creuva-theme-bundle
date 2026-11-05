@@ -1,7 +1,8 @@
 // Self-hosted web fonts (no requests to third parties): variable fonts with the
-// latin subset of Google Fonts, one file for all weights. Plus Jakarta Sans is
-// preloaded in the page layout, Fraunces is only downloaded by the browser when
-// the "editorial" typography uses it.
+// latin subset of Google Fonts, one file for all weights. No preload: it would
+// compete with creuva.css and delay the first paint, the text appears in the
+// fallback font until the file is there (swap). Fraunces is only downloaded by
+// the browser when the "editorial" typography uses it.
 @layer creuva.base {
   @font-face {
     font-family: "Plus Jakarta Sans";

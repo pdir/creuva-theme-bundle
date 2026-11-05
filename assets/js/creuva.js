@@ -334,19 +334,17 @@ const initReveal = () => {
   }
 
   const items = new Map();
-  const root = document.documentElement;
-  const stagger = readTime(root, '--reveal-stagger', 90);
 
-  const add = (element, type, delay = 0) => {
+  const add = (element, type, step = 0) => {
     if (!items.has(element) && !element.closest('.u-reveal-none')) {
-      items.set(element, { type, delay });
+      items.set(element, { type, step, measured: false });
     }
   };
 
   const addChildren = (container, type) => {
     [...container.children]
       .filter((child) => !child.matches('script, style, template'))
-      .forEach((child, index) => add(child, getRevealType(child, type), Math.min(index, 5) * stagger));
+      .forEach((child, index) => add(child, getRevealType(child, type), Math.min(index, 5)));
   };
 
   // Explicit classes first, they win over the automatic animation
@@ -372,10 +370,10 @@ const initReveal = () => {
     });
   }
 
-  const duration = readTime(root, '--reveal-duration', 800);
+  let timing;
 
   const reveal = (element) => {
-    const { delay } = items.get(element);
+    const { step } = items.get(element);
 
     element.classList.add('is-revealed');
 
@@ -384,37 +382,52 @@ const initReveal = () => {
       element.removeAttribute('data-reveal');
       element.classList.remove('is-revealed');
       element.style.removeProperty('--reveal-delay');
-    }, delay + duration + 400);
+    }, step * timing.stagger + timing.duration + 400);
   };
 
+  // The observer reports the position of every element once at the start, after
+  // the browser has done the layout anyway. Reading it here (and the timing below,
+  // before the first change) avoids a forced reflow while the page is loading.
   const observer = new IntersectionObserver(
     (entries) => {
+      timing ??= {
+        stagger: readTime(document.documentElement, '--reveal-stagger', 90),
+        duration: readTime(document.documentElement, '--reveal-duration', 800),
+      };
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          reveal(entry.target);
+        const { target } = entry;
+        const item = items.get(target);
+
+        if (item.measured) {
+          if (entry.isIntersecting) {
+            observer.unobserve(target);
+            reveal(target);
+          }
+
+          return;
+        }
+
+        item.measured = true;
+
+        // Content that is already visible (or above it) is never hidden
+        if (entry.boundingClientRect.top < entry.rootBounds.bottom) {
+          observer.unobserve(target);
+
+          return;
+        }
+
+        target.dataset.reveal = item.type;
+
+        if (item.step) {
+          target.style.setProperty('--reveal-delay', `${item.step * timing.stagger}ms`);
         }
       });
     },
     { rootMargin: '0px 0px -8% 0px' },
   );
 
-  const fold = window.innerHeight * 0.92;
-
-  items.forEach(({ type, delay }, element) => {
-    // Content that is already visible is never hidden
-    if (element.getBoundingClientRect().top < fold) {
-      return;
-    }
-
-    element.dataset.reveal = type;
-
-    if (delay) {
-      element.style.setProperty('--reveal-delay', `${delay}ms`);
-    }
-
-    observer.observe(element);
-  });
+  items.forEach((item, element) => observer.observe(element));
 };
 
 const escapeHtml = (text) => text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
