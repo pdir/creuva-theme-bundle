@@ -6,7 +6,11 @@
 
 @layer creuva.tokens {
   @each $name, $scheme in data.$schemes {
-    $selector: if($name == data.$default, ":root, :root[data-scheme='#{$name}']", ":root[data-scheme='#{$name}']");
+    $selector: ":root[data-scheme='#{$name}']";
+
+    @if $name == data.$default {
+      $selector: ":root, #{$selector}";
+    }
 
     #{$selector} {
       @include colors.scheme($scheme);
