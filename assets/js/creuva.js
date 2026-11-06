@@ -334,19 +334,17 @@ const initReveal = () => {
   }
 
   const items = new Map();
-  const root = document.documentElement;
-  const stagger = readTime(root, '--reveal-stagger', 90);
 
-  const add = (element, type, delay = 0) => {
+  const add = (element, type, step = 0) => {
     if (!items.has(element) && !element.closest('.u-reveal-none')) {
-      items.set(element, { type, delay });
+      items.set(element, { type, step, measured: false });
     }
   };
 
   const addChildren = (container, type) => {
     [...container.children]
       .filter((child) => !child.matches('script, style, template'))
-      .forEach((child, index) => add(child, getRevealType(child, type), Math.min(index, 5) * stagger));
+      .forEach((child, index) => add(child, getRevealType(child, type), Math.min(index, 5)));
   };
 
   // Explicit classes first, they win over the automatic animation
@@ -372,10 +370,10 @@ const initReveal = () => {
     });
   }
 
-  const duration = readTime(root, '--reveal-duration', 800);
+  let timing;
 
   const reveal = (element) => {
-    const { delay } = items.get(element);
+    const { step } = items.get(element);
 
     element.classList.add('is-revealed');
 
@@ -384,37 +382,52 @@ const initReveal = () => {
       element.removeAttribute('data-reveal');
       element.classList.remove('is-revealed');
       element.style.removeProperty('--reveal-delay');
-    }, delay + duration + 400);
+    }, step * timing.stagger + timing.duration + 400);
   };
 
+  // The observer reports the position of every element once at the start, after
+  // the browser has done the layout anyway. Reading it here (and the timing below,
+  // before the first change) avoids a forced reflow while the page is loading.
   const observer = new IntersectionObserver(
     (entries) => {
+      timing ??= {
+        stagger: readTime(document.documentElement, '--reveal-stagger', 90),
+        duration: readTime(document.documentElement, '--reveal-duration', 800),
+      };
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          reveal(entry.target);
+        const { target } = entry;
+        const item = items.get(target);
+
+        if (item.measured) {
+          if (entry.isIntersecting) {
+            observer.unobserve(target);
+            reveal(target);
+          }
+
+          return;
+        }
+
+        item.measured = true;
+
+        // Content that is already visible (or above it) is never hidden
+        if (entry.boundingClientRect.top < entry.rootBounds.bottom) {
+          observer.unobserve(target);
+
+          return;
+        }
+
+        target.dataset.reveal = item.type;
+
+        if (item.step) {
+          target.style.setProperty('--reveal-delay', `${item.step * timing.stagger}ms`);
         }
       });
     },
     { rootMargin: '0px 0px -8% 0px' },
   );
 
-  const fold = window.innerHeight * 0.92;
-
-  items.forEach(({ type, delay }, element) => {
-    // Content that is already visible is never hidden
-    if (element.getBoundingClientRect().top < fold) {
-      return;
-    }
-
-    element.dataset.reveal = type;
-
-    if (delay) {
-      element.style.setProperty('--reveal-delay', `${delay}ms`);
-    }
-
-    observer.observe(element);
-  });
+  items.forEach((item, element) => observer.observe(element));
 };
 
 const escapeHtml = (text) => text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
@@ -444,6 +457,28 @@ const parseFigure = (text) => {
   const grouping = /[\s\u00a0\u202f]/.test(raw) || separators.length > (isDecimal ? 1 : 0);
 
   return Number.isNaN(value) ? null : { prefix, raw, suffix, value, decimals, grouping };
+};
+
+/**
+ * Dates like "24.11.", "24.11" or "24.11.2026" are shown as they are (no unit,
+ * no counting). Without the trailing dot, the month needs two digits, so
+ * "1.500" or "4,9" stay numbers.
+ */
+const isDate = (text) => {
+  const match = text.match(/^(\d{1,2})\.\s?(\d{1,2})\.(?:\s?\d{2,4})?$/) || text.match(/^(\d{1,2})\.(\d{2})$/);
+
+  return !!match && +match[1] >= 1 && +match[1] <= 31 && +match[2] >= 1 && +match[2] <= 12;
+};
+
+/**
+ * Ranges and other values with several numbers ("11–20 Uhr", "10–12 %"): the
+ * text before the first and after the last digit is styled as unit, the value
+ * does not count up.
+ */
+const splitRange = (text) => {
+  const match = text.match(/^(\D*?)(\d.*\d)(\D*)$/);
+
+  return match ? { prefix: match[1], raw: match[2], suffix: match[3] } : null;
 };
 
 /**
@@ -504,9 +539,21 @@ const initCountUp = () => {
     : null;
 
   terms.forEach((term) => {
-    const figure = parseFigure(term.textContent.trim());
+    const text = term.textContent.trim();
+
+    if (isDate(text)) {
+      return;
+    }
+
+    const figure = parseFigure(text);
 
     if (!figure) {
+      const range = splitRange(text);
+
+      if (range) {
+        term.innerHTML = `${unit(range.prefix)}<span class="c-stats__range">${escapeHtml(range.raw)}</span>${unit(range.suffix)}`;
+      }
+
       return;
     }
 
@@ -622,11 +669,17 @@ const initLightbox = () => {
     });
   };
 
+  // Caption or title of the image (file metadata), not the alternative text:
+  // that one describes the image for those who cannot see it
   const caption = (link) => {
     const figure = link.closest('figure');
-    const text = figure?.querySelector('figcaption')?.textContent.trim() || link.getAttribute('title') || '';
 
-    return text || link.querySelector('img')?.getAttribute('alt') || '';
+    return (
+      figure?.querySelector('figcaption')?.textContent.trim() ||
+      link.getAttribute('title')?.trim() ||
+      link.querySelector('img')?.getAttribute('title')?.trim() ||
+      ''
+    );
   };
 
   const preload = (i) => {
@@ -680,6 +733,47 @@ const initLightbox = () => {
 };
 
 /**
+ * Small copy of a slide image for its thumbnail: the same image variants
+ * (srcset of the image and of the <source> elements, e.g. WebP) with the size
+ * of the thumbnail, so the browser loads the smallest suitable file instead
+ * of the large slide image.
+ */
+const createThumbImage = (image) => {
+  // Thumbnails are at most 8rem wide (gallery slider, see _slider.scss)
+  const sizes = '8rem';
+  const thumb = document.createElement('img');
+
+  thumb.src = image.getAttribute('src') || image.currentSrc;
+  thumb.alt = '';
+  thumb.loading = 'lazy';
+
+  if (image.srcset) {
+    thumb.srcset = image.srcset;
+    thumb.sizes = sizes;
+  }
+
+  const picture = image.closest('picture');
+
+  if (!picture) {
+    return thumb;
+  }
+
+  const copy = document.createElement('picture');
+
+  picture.querySelectorAll('source').forEach((source) => {
+    const clone = document.createElement('source');
+
+    ['type', 'media', 'srcset'].forEach((attribute) => source.hasAttribute(attribute) && clone.setAttribute(attribute, source.getAttribute(attribute)));
+    clone.sizes = sizes;
+    copy.append(clone);
+  });
+
+  copy.append(thumb);
+
+  return copy;
+};
+
+/**
  * Thumbnails of the content slider (setting "Thumbnails"): a button per slide
  * with its first image (or its number), below the slider. Contao initializes
  * Swiper with an inline script at the end of the body, so the instance exists
@@ -708,11 +802,7 @@ const initSliderThumbs = () => {
       button.setAttribute('aria-label', label.replace('%s', String(index + 1)));
 
       if (image) {
-        const thumb = document.createElement('img');
-        thumb.src = image.currentSrc || image.getAttribute('src');
-        thumb.alt = '';
-        thumb.loading = 'lazy';
-        button.append(thumb);
+        button.append(createThumbImage(image));
       } else {
         button.textContent = String(index + 1);
       }

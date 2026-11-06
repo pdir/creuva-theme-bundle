@@ -1,0 +1,36 @@
+{#
+    TinyMCE configuration of the Creuva theme ("rte" => "tinyCreuva", see
+    contao/dca/tl_content.php): the Contao default plus a "Formats" menu with the
+    text styles of the theme (accent color, highlight, lead, kicker, buttons).
+    The colors in "content_style" are only used for the preview in the editor.
+
+    Twig template for Contao 5.7 and 6 (Contao 6 only loads the Twig variant,
+    Contao 5 prefers it over a .html5 template of the same name).
+#}
+{% extends '@Contao/be_tinyMCE.html.twig' %}
+
+{% trans_default_domain 'contao_default' %}
+
+{% block toolbar %}
+    toolbar: 'link unlink | image | blocks styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code',
+{% endblock %}
+
+{% block custom %}
+    {{ parent() }}
+    style_formats: [
+        { title: '{{ 'MSC.creuvaFormatText'|trans|e('js') }}', items: [
+            { title: '{{ 'MSC.creuvaFormatAccent'|trans|e('js') }}', inline: 'span', classes: 'u-accent' },
+            { title: '{{ 'MSC.creuvaFormatMark'|trans|e('js') }}', inline: 'mark' },
+            { title: '{{ 'MSC.creuvaFormatMuted'|trans|e('js') }}', inline: 'span', classes: 'u-muted' }
+        ] },
+        { title: '{{ 'MSC.creuvaFormatParagraph'|trans|e('js') }}', items: [
+            { title: '{{ 'MSC.creuvaFormatLead'|trans|e('js') }}', block: 'p', classes: 'u-lead' },
+            { title: '{{ 'MSC.creuvaFormatKicker'|trans|e('js') }}', block: 'p', classes: 'u-kicker' }
+        ] },
+        { title: '{{ 'MSC.creuvaFormatLinks'|trans|e('js') }}', items: [
+            { title: '{{ 'MSC.creuvaFormatButton'|trans|e('js') }}', selector: 'a', classes: 'c-button c-button--primary' },
+            { title: '{{ 'MSC.creuvaFormatButtonSecondary'|trans|e('js') }}', selector: 'a', classes: 'c-button c-button--secondary' }
+        ] }
+    ],
+    content_style: '.u-accent{color:#2d7a23}.u-muted{color:#5a6660}mark{background:#e3f1df;color:inherit;padding:0 .2em;border-radius:.2em}.u-lead{font-size:1.15em}.u-kicker{font-size:.8em;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#5a6660}a.c-button{display:inline-block;padding:.35em 1em;border-radius:99px;background:#1d3b2a;color:#fff;text-decoration:none}a.c-button--secondary{background:#fff;color:#1d3b2a;border:1px solid #ccd3cf}',
+{% endblock %}

@@ -13,6 +13,16 @@
     }
   }
 
+  // Exactly three news: three columns or one instead of two plus a single one
+  .mod_newslist:has(> .layout_latest ~ .layout_latest ~ .layout_latest):not(:has(> .layout_latest ~ .layout_latest ~ .layout_latest ~ .layout_latest)) {
+    grid-template-columns: minmax(0, 1fr);
+
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+
   .layout_latest {
     @include card;
 
@@ -20,6 +30,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    overflow-wrap: anywhere; // long words in narrow cards
+    hyphens: auto;
 
     @include hover-lift;
 
@@ -35,7 +47,6 @@
       img {
         display: block;
         width: 100%;
-        aspect-ratio: 16 / 10;
         object-fit: cover;
         border-radius: 0;
         transition: transform 0.7s var(--ease-out);
@@ -223,6 +234,11 @@
     font-size: var(--fs-small);
   }
 
+  // Module option "Autor ausblenden" (Style Manager › Elementoptionen › News)
+  .u-news-no-author :is(.c-news-header .info, .info .author) {
+    display: none;
+  }
+
   .c-news-header__media {
     position: relative;
     isolation: isolate;
@@ -245,7 +261,6 @@
     img {
       display: block;
       width: 100%;
-      aspect-ratio: 16 / 10;
       object-fit: cover;
       box-shadow: var(--shadow-m);
     }

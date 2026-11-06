@@ -17,6 +17,7 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Contao\NewsBundle\ContaoNewsBundle;
 use ContaoThemesNet\ThemeComponentsBundle\ThemeComponentsBundle;
+use Craffft\CssStyleSelectorBundle\CraffftCssStyleSelectorBundle;
 use Pdir\CreuvaThemeBundle\CreuvaThemeBundle;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -32,6 +33,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                     ContaoCoreBundle::class,
                     ContaoNewsBundle::class,
                     ThemeComponentsBundle::class,
+                    CraffftCssStyleSelectorBundle::class,
                 ]),
         ];
     }

@@ -43,6 +43,145 @@
     resize: vertical;
   }
 
+  // File upload: a dashed drop area with the browser's button in the style of the
+  // theme (the input also accepts dropped files, without JavaScript)
+  input[type='file'] {
+    width: 100%;
+    padding: 1rem;
+    border: 1px dashed color-mix(in srgb, var(--c-text-muted) 55%, transparent);
+    border-radius: var(--radius-s);
+    background: var(--c-surface);
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+    cursor: pointer;
+    transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+
+    &:hover {
+      border-color: var(--c-accent-text);
+      background: var(--c-accent-soft);
+    }
+
+    &:focus-visible {
+      border-style: solid;
+      border-color: var(--c-accent-text);
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 25%, transparent);
+    }
+
+    &::file-selector-button {
+      margin-right: 1rem;
+      padding: 0.6em 1.25em;
+      border: 1px solid var(--c-primary);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--c-primary);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    &:hover::file-selector-button {
+      background: var(--c-primary);
+      color: var(--c-primary-contrast);
+    }
+  }
+
+  // Select: own arrow in the text color (two gradients, works in every browser
+  // and in dark mode); the placeholder option ("Bitte auswählen …") is muted
+  select:not([multiple], [size]) {
+    padding-right: 2.75rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+      right 1.35rem center,
+      right 1rem center;
+    background-size: 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+    appearance: none;
+    cursor: pointer;
+
+    &:has(option[value='']:checked) {
+      color: var(--c-text-muted);
+    }
+  }
+
+  // Browsers with customizable select (appearance: base-select, e.g. Chrome
+  // 135+): the opened list in the style of the theme, without JavaScript.
+  // Other browsers show their own list.
+  @supports (appearance: base-select) {
+    select:not([multiple], [size]) {
+      &,
+      &::picker(select) {
+        appearance: base-select;
+      }
+
+      & {
+        display: flex;
+        align-items: center;
+        padding-right: 1rem;
+        background-image: none;
+      }
+
+      &::picker-icon {
+        width: 0.6rem;
+        height: 0.6rem;
+        margin-left: auto;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        content: '';
+        transform: translateY(-25%) rotate(45deg);
+        transition: transform var(--transition);
+      }
+
+      &:open::picker-icon {
+        transform: translateY(25%) rotate(225deg);
+      }
+
+      &::picker(select) {
+        margin-block: 0.375rem;
+        padding: 0.375rem;
+        border: 1px solid var(--c-border);
+        border-radius: var(--radius-s);
+        background: var(--c-surface);
+        color: var(--c-text);
+        box-shadow: var(--shadow-m);
+      }
+
+      option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: calc(var(--radius-s) * 0.75);
+        color: var(--c-text);
+        cursor: pointer;
+
+        &:hover,
+        &:focus-visible {
+          outline: none;
+          background: var(--c-accent-soft);
+        }
+
+        &:checked {
+          font-weight: 600;
+        }
+
+        // Check mark of the selected option at the end of the row
+        &::checkmark {
+          order: 1;
+          margin-left: auto;
+          color: var(--c-accent-text);
+        }
+
+        &[value=''] {
+          color: var(--c-text-muted);
+        }
+      }
+    }
+  }
+
   input[type='checkbox'],
   input[type='radio'],
   input[type='range'] {

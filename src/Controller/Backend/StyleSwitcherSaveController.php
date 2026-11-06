@@ -58,11 +58,13 @@ class StyleSwitcherSaveController
 
         $scheme = (string) $request->request->get('scheme');
         $variant = (string) $request->request->get('theme');
+        $typography = (string) $request->request->get('typography');
         $radius = (string) $request->request->get('radius');
 
         if (
             !$this->designSettings->hasScheme($scheme)
             || !\in_array($variant, DesignSettings::VARIANTS, true)
+            || !\in_array($typography, DesignSettings::TYPOGRAPHIES, true)
             || !\in_array($radius, DesignSettings::RADII, true)
         ) {
             return new JsonResponse(['success' => false], Response::HTTP_BAD_REQUEST);
@@ -79,7 +81,7 @@ class StyleSwitcherSaveController
 
         $this->connection->update(
             'tl_page',
-            ['creuvaScheme' => $scheme, 'creuvaVariant' => $variant, 'creuvaRadius' => $radius, 'tstamp' => time()],
+            ['creuvaScheme' => $scheme, 'creuvaVariant' => $variant, 'creuvaTypography' => $typography, 'creuvaRadius' => $radius, 'tstamp' => time()],
             ['id' => $rootId],
         );
 

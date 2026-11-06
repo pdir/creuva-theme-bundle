@@ -51,39 +51,60 @@ export const resolveScheme = (scheme) => {
     light: {
       primary,
       bg: mix(primary, 0.03, WHITE),
+      surface: WHITE,
+      surfaceMuted: mix(primary, 0.07, WHITE),
       text: mix(primary, 0.65, [0, 0, 0]),
       textMuted: mix(primary, 0.45, hex('#808080')),
       accent,
       accentText,
       accentContrast,
+      accentSoft: mix(accent, 0.1, WHITE),
+      accentOnPrimary: mix(accent, 0.55, WHITE),
     },
     dark: {
       bg: darkBg,
       surface: mix(primary, 0.42, hex('#0c0c0c')),
+      surfaceMuted: mix(primary, 0.62, hex('#0e0e0e')),
+      text: mix(primary, 0.06, WHITE),
       textMuted: mix(primary, 0.2, hex('#d0d0d0')),
       accent: darkAccent,
+      accentSoft: mix(darkAccent, 0.14, darkBg),
       accentOnPrimary: mix(accent, 0.4, darkBg),
     },
   };
 };
 
 /**
+ * Text on the surfaces of the theme: 4.5:1 for text, 3:1 for large text and
+ * graphics (icons). Transparent text colors (e.g. 85 % on primary surfaces)
+ * are mixed with their background like the browser does.
+ *
  * @return list<string> failed checks
  */
 export const checkScheme = (name, scheme) => {
   const { light, dark } = resolveScheme(scheme);
+  const onPrimaryMuted = (fg, bg) => mix(fg, 0.85, bg);
   const checks = [
+    // Light: text and muted text on all surfaces
+    ...[['background', light.bg], ['white', light.surface], ['gray surface', light.surfaceMuted], ['accent light', light.accentSoft]].flatMap(([surface, bg]) => [
+      [`text on ${surface}`, light.text, bg, 4.5],
+      [`muted text on ${surface}`, light.textMuted, bg, 4.5],
+      [`accent text on ${surface} (links, kicker, tags)`, light.accentText, bg, 4.5],
+    ]),
+    ['link (primary) on background', light.primary, light.bg, 4.5],
     ['white text on primary (buttons)', WHITE, light.primary, 4.5],
-    ['text on background', light.text, light.bg, 4.5],
-    ['muted text on background', light.textMuted, light.bg, 4.5],
-    ['accent text on background (links, kicker)', light.accentText, light.bg, 4.5],
-    ['accent contrast on accent (badges)', light.accentContrast, light.accent, 4.5],
-    ['accent on primary (headline accent in primary boxes)', mix(light.accent, 0.55, WHITE), light.primary, 3],
-    ['dark: accent on background', dark.accent, dark.bg, 4.5],
-    ['dark: accent on surface', dark.accent, dark.surface, 4.5],
-    ['dark: background on accent (buttons)', dark.bg, dark.accent, 4.5],
-    ['dark: muted text on surface', dark.textMuted, dark.surface, 4.5],
-    ['dark: accent on primary (headline accent in primary boxes)', dark.accentOnPrimary, dark.accent, 3],
+    ['muted text on primary (85 %)', onPrimaryMuted(WHITE, light.primary), light.primary, 4.5],
+    ['accent on primary (kicker, units)', light.accentOnPrimary, light.primary, 4.5],
+    ['accent contrast on accent (buttons, badges, accent cards)', light.accentContrast, light.accent, 4.5],
+    // Dark: text, muted text and accent on all surfaces
+    ...[['background', dark.bg], ['surface', dark.surface], ['gray surface', dark.surfaceMuted], ['accent light', dark.accentSoft]].flatMap(([surface, bg]) => [
+      [`dark: text on ${surface}`, dark.text, bg, 4.5],
+      [`dark: muted text on ${surface}`, dark.textMuted, bg, 4.5],
+      [`dark: accent on ${surface}`, dark.accent, bg, 4.5],
+    ]),
+    ['dark: background on accent (buttons, primary cards)', dark.bg, dark.accent, 4.5],
+    ['dark: muted text on primary cards (85 %)', onPrimaryMuted(dark.bg, dark.accent), dark.accent, 4.5],
+    ['dark: accent on primary cards', dark.accentOnPrimary, dark.accent, 3],
   ];
 
   return checks

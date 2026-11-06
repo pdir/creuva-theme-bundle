@@ -8,5 +8,4 @@ declare(strict_types=1);
  * Copyright (C) pdir GmbH <develop@pdir.de>
  */
 
-// CSS class set for the advanced classes bundle
-$GLOBALS['customAdvancedClassesSets'][] = 'bundles/creuvatheme/sets/creuva.json';
+$GLOBALS['TL_LANG']['MOD']['creuva'] = ['Creuva', 'Set up the theme and import demos.'];

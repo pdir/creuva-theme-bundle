@@ -1,5 +1,5 @@
-// Utility classes – offered to editors via the advanced classes bundle
-// (see public/sets/creuva.json)
+// Utility classes – offered to editors as CSS styles
+// (see config/css-styles.yaml)
 @use 'mixins' as *;
 
 @layer creuva.utilities {
@@ -18,7 +18,7 @@
 
   .u-bg-primary {
     --c-text: var(--c-primary-contrast);
-    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+    --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 85%, transparent);
     --c-link: var(--c-primary-contrast);
     --c-surface: color-mix(in srgb, var(--c-primary-contrast) 8%, var(--c-primary));
     --c-border: color-mix(in srgb, var(--c-primary-contrast) 18%, transparent);
@@ -110,7 +110,7 @@
 
   // Spacing: inner (p) and outer (m) spacing for top and bottom (y), only
   // top (t) or only bottom (b), e.g. u-py-l, u-pt-0, u-mb-xl
-  // (Style Manager › Abstände, also for articles)
+  // (CSS styles › Abstände, also for articles)
   $spacing-properties: (
     'py': padding-block,
     'pt': padding-top,
@@ -187,6 +187,13 @@
   @media (max-width: 29.99rem) {
     :is(.u-grid-3, .u-grid-4) { --grid-cols: 1; }
   }
+
+  // Exactly three elements (a visually hidden headline does not count): one
+  // column instead of two plus a single one
+  @media (max-width: 47.99rem) {
+    .u-grid-3:has(> :nth-child(3 of :not(.u-visually-hidden)):last-child) { --grid-cols: 1; }
+  }
+
 
   // Column widths of a two-column grid from tablet width on: the first (or the
   // second) column is wider, e.g. a table with a list of features next to it

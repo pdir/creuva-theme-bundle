@@ -66,7 +66,7 @@ PaletteManipulator::create()
 ;
 
 // Text editor with the formats of the theme (accent color, lead, buttons …),
-// template contao/templates/backend/be_tinyCreuva.html5
+// template contao/templates/be_tinyCreuva.html.twig
 if ('tinyMCE' === ($GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] ?? null)) {
     $GLOBALS['TL_DCA']['tl_content']['fields']['text']['eval']['rte'] = 'tinyCreuva';
 }
@@ -106,7 +106,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadge'] = [
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeroMask'] = [
     'inputType' => 'select',
-    'options' => ['organic', 'rounded', 'none', 'cover'],
+    'options' => ['organic', 'rounded', 'none', 'blob', 'cover'],
     'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'],
     'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'organic'],

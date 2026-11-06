@@ -1,0 +1,101 @@
+{#
+    Gallery as slider (Swiper, like the content slider): "Images per row" sets
+    how many images a slide shows (1–6; at most two on tablets, one on phones),
+    arrows and dots move on by that many images. Arrows and dots sit in a bar
+    below the images. The script and stylesheet are the ones of the content
+    slider (same names, so they are added only once per page).
+#}
+{% extends '@Contao/content_element/gallery.html.twig' %}
+{% use '@Contao/component/_stylesheet.html.twig' %}
+
+{% set creuva_view = max(1, min(6, (items_per_row|default(4)) + 0)) %}
+{% set creuva_tablet = min(creuva_view, 2) %}
+
+{% set slider_settings = {
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 16,
+    watchOverflow: true,
+    breakpoints: {
+        640: { slidesPerView: creuva_tablet, slidesPerGroup: creuva_tablet, spaceBetween: 16 },
+        1024: { slidesPerView: creuva_view, slidesPerGroup: creuva_view, spaceBetween: 24 },
+    },
+    a11y: {
+        prevSlideMessage: 'MSC.creuvaSliderPrev'|trans([], 'contao_default'),
+        nextSlideMessage: 'MSC.creuvaSliderNext'|trans([], 'contao_default'),
+        paginationBulletMessage: 'MSC.creuvaSliderGoTo'|trans(['{{index}}'], 'contao_default'),
+    },
+} %}
+
+{# Width of an image per view, so the browser loads the fitting image width #}
+{% set creuva_sizes = '(min-width: 64rem) ' ~ (100 / creuva_view)|round ~ 'vw, (min-width: 40rem) ' ~ (100 / creuva_tablet)|round ~ 'vw, 100vw' %}
+
+{% set attributes = attrs(attributes|default)
+    .addClass(['c-slider', 'c-slider--gallery', 'c-slider--view-' ~ creuva_view])
+%}
+
+{% block content %}
+    <div class="swiper" data-settings="{{ slider_settings|json_encode }}">
+        <div class="swiper-wrapper">
+            {% for item in images %}
+                <div class="swiper-slide">
+                    {% set creuva_focus = creuva_image_focus(item) %}
+                    {% with {
+                        figure: item,
+                        img_attributes: attrs()
+                            .set('sizes', creuva_sizes)
+                            .setIfExists('style', creuva_focus ? 'object-position: ' ~ creuva_focus : null),
+                        source_attributes: attrs().set('sizes', creuva_sizes),
+                    } %}{{ block('figure_component') }}{% endwith %}
+                </div>
+            {% endfor %}
+        </div>
+        {% if not as_editor_view|default(false) %}
+            <div class="c-slider__controls">
+                <div class="swiper-pagination"></div>
+                <div class="c-slider__arrows">
+                    <button type="button" class="swiper-button-prev"></button>
+                    <button type="button" class="swiper-button-next"></button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{# Same as content_element/swiper.html.twig of Contao #}
+{% block script %}
+    {% add 'swiper_js' to body %}
+        {% set script_attributes = attrs()
+            .setIfExists('nonce', csp_nonce('script-src'))
+            .mergeWith(script_attributes|default)
+        %}
+        <script src="{{ asset('js/swiper-bundle.min.js', 'contao-components/swiper') }}"></script>
+        <script{{ script_attributes }}>
+            (function() {
+                const swiper = document.querySelectorAll('.swiper');
+                swiper.forEach (el => {
+                    let opts = JSON.parse(el.getAttribute('data-settings') ?? '{}');
+
+                    new Swiper(el, Object.assign({
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            prevEl: '.swiper-button-prev',
+                            nextEl: '.swiper-button-next',
+                        },
+                    }, opts));
+                });
+            })();
+        </script>
+    {% endadd %}
+{% endblock %}
+
+{% block style %}
+    {% add 'swiper_css' to stylesheets %}
+        {% with {file: asset('css/swiper-bundle.min.css', 'contao-components/swiper')} %}
+            {{ block('stylesheet_component') }}
+        {% endwith %}
+    {% endadd %}
+{% endblock %}

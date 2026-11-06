@@ -39,9 +39,12 @@
     overflow: hidden;
   }
 
+  // Image and caption as one block in the middle, the counter below
   .c-lightbox__figure {
     display: grid;
     place-items: center;
+    align-content: center;
+    gap: var(--space-s);
     width: 100%;
     height: 100%;
     min-height: 0;
@@ -62,12 +65,27 @@
     transform: scale(0.98);
   }
 
+  // At most two lines, so the image keeps a fixed room above it
   .c-lightbox__caption {
+    display: -webkit-box;
     max-width: 48rem;
-    margin-top: var(--space-s);
+    margin: 0;
+    overflow: hidden;
     color: color-mix(in srgb, #fff 82%, transparent);
     font-size: var(--fs-small);
+    line-height: 1.5;
     text-align: center;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .c-lightbox:has(.c-lightbox__caption:not([hidden])) .c-lightbox__image {
+    max-height: calc(100dvh - 9rem - 2 * 1.5 * var(--fs-small) - var(--space-s));
   }
 
   .c-lightbox__counter {
@@ -158,13 +176,20 @@
     display: none;
   }
 
-  // Small screens: navigation at the bottom
+  // Small screens: navigation at the bottom, the counter between the buttons
   @media (max-width: 40rem) {
     .c-lightbox__prev,
     .c-lightbox__next {
       top: auto;
       bottom: 1rem;
       translate: none;
+    }
+
+    .c-lightbox__counter {
+      display: grid;
+      place-items: center;
+      min-height: 3rem;
+      margin-top: var(--space-s);
     }
   }
 

@@ -11,12 +11,23 @@ declare(strict_types=1);
 namespace Pdir\CreuvaThemeBundle\Design;
 
 /**
- * Design options of the Creuva layout: variants, corner radii and the color
- * schemes defined in config/color-schemes.json (shared with the SCSS build).
+ * Design options of the Creuva layout: color modes (variants), typography,
+ * corner radii and the color schemes defined in config/color-schemes.json
+ * (shared with the SCSS build).
  */
 class DesignSettings
 {
-    public const VARIANTS = ['light', 'dark', 'editorial'];
+    /**
+     * Color mode. "auto" is light or dark depending on the system setting of
+     * the visitor (resolved in the browser, see page/layout/creuva.html.twig).
+     */
+    public const VARIANTS = ['light', 'dark', 'auto'];
+
+    /**
+     * Typography, independent of the color mode: "editorial" uses a serif font
+     * for the headings.
+     */
+    public const TYPOGRAPHIES = ['modern', 'editorial'];
 
     public const RADII = ['none', 'small', 'medium', 'large'];
 
@@ -88,11 +99,12 @@ class DesignSettings
      * @param array<string, mixed>|null $layout
      * @param array<string, mixed>|null $rootPage
      *
-     * @return array{variant: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string, animations: string}
+     * @return array{variant: string, typography: string, scheme: string, radius: string, primary: string, accent: string, logoHeight: string, animations: string}
      */
     public function resolve(array|null $layout, array|null $rootPage = null): array
     {
         $variant = (string) ($layout['creuvaVariant'] ?? '');
+        $typography = (string) ($layout['creuvaTypography'] ?? '');
         $scheme = (string) ($layout['creuvaScheme'] ?? '');
 
         // The former variant "corporate" is the color scheme "blue" now
@@ -100,11 +112,17 @@ class DesignSettings
             [$variant, $scheme] = ['light', $scheme ?: 'blue'];
         }
 
+        // The former variant "editorial" is the light mode with the editorial typography now
+        if ('editorial' === $variant) {
+            [$variant, $typography] = ['light', 'editorial'];
+        }
+
         $radius = (string) ($layout['creuvaRadius'] ?? '');
         $animations = (string) ($layout['creuvaAnimations'] ?? '');
 
         $settings = [
             'variant' => \in_array($variant, self::VARIANTS, true) ? $variant : 'light',
+            'typography' => \in_array($typography, self::TYPOGRAPHIES, true) ? $typography : 'modern',
             'scheme' => $this->hasScheme($scheme) ? $scheme : '',
             'radius' => \in_array($radius, self::RADII, true) ? $radius : 'large',
             'primary' => (string) ($layout['creuvaPrimaryColor'] ?? ''),
@@ -119,6 +137,12 @@ class DesignSettings
 
         if (\in_array($rootPage['creuvaVariant'] ?? null, self::VARIANTS, true)) {
             $settings['variant'] = $rootPage['creuvaVariant'];
+        } elseif ('editorial' === ($rootPage['creuvaVariant'] ?? null)) {
+            [$settings['variant'], $settings['typography']] = ['light', 'editorial'];
+        }
+
+        if (\in_array($rootPage['creuvaTypography'] ?? null, self::TYPOGRAPHIES, true)) {
+            $settings['typography'] = $rootPage['creuvaTypography'];
         }
 
         if (\in_array($rootPage['creuvaRadius'] ?? null, self::RADII, true)) {

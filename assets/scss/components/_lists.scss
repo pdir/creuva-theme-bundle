@@ -6,6 +6,7 @@
   // scrolls into view (assets/js/creuva.js; disabled with u-no-countup).
   // The script wraps prefix/suffix ("+", "%") in .c-stats__unit.
   .c-stats {
+    container-type: inline-size;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -16,9 +17,36 @@
 
     dl {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--space-m);
       margin: 0;
+    }
+
+    // Even rows instead of a single figure in the last row: 4 figures as 4, 2 or
+    // 1 columns, 3 as 3 or 1. Each column needs 12rem, based on the width of the
+    // element, because it can also be placed in a narrow column.
+    @container (min-width: 25.5rem) {
+      dl:not(:has(> :nth-child(3):last-child), :has(> :only-child)) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 39rem) {
+      dl:has(> :nth-child(3)):not(:has(> :nth-child(4):last-child)) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 52.5rem) {
+      dl:has(> :nth-child(4):last-child) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 66rem) {
+      dl:has(> :nth-child(5):last-child) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
     }
   }
 
@@ -34,12 +62,22 @@
     pointer-events: none;
   }
 
+  // Background of the single figures: none by default, light on a primary
+  // section; editors choose it with the card classes (_element-styles.scss),
+  // which set --stats-bg, --stats-border, --stats-number …
   .c-stats__item {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
     padding: var(--space-m);
+    border: var(--stats-border-width, 1px) solid var(--stats-border, transparent);
+    border-radius: var(--radius-l);
+    background: var(--stats-bg, transparent);
     transition: box-shadow var(--transition-hover), transform var(--transition-hover), border-color var(--transition);
+  }
+
+  :root[data-radius='none'] .c-stats__item {
+    border-radius: 0;
   }
 
   .c-stats dt {
@@ -49,13 +87,18 @@
     font-variant-numeric: tabular-nums;
     line-height: 1;
     letter-spacing: -0.03em;
-    color: var(--c-primary);
+    color: var(--stats-number, var(--c-primary));
   }
 
   .c-stats__unit {
     margin-inline: .1em;
-    color: var(--c-accent-text);
+    color: var(--stats-unit, var(--c-accent-text));
     font-size: .8em;
+  }
+
+  // Range like "11–20" (no line break after the dash)
+  .c-stats__range {
+    white-space: nowrap;
   }
 
   // Number while counting; the final value is kept in the layout (invisible)
@@ -79,7 +122,7 @@
   // Label with a small accent line above
   .c-stats dd {
     margin: 0;
-    color: var(--c-text-muted);
+    color: var(--stats-label, var(--c-text-muted));
     font-size: var(--fs-large);
     font-weight: 400;
   }
@@ -87,6 +130,8 @@
   // Optional icon above the figure (field "Icons (Kennzahlen)"); same custom
   // properties as the icon box, so the icon classes u-icon-* work here too
   .c-stats__icon {
+    --icon-size: 2rem;
+
     display: grid;
     place-items: center;
     width: 4rem;
@@ -97,8 +142,8 @@
     transition: background-color var(--transition-hover), transform var(--transition-hover);
 
     img {
-      width: 2rem;
-      height: 2rem;
+      width: var(--icon-size);
+      height: var(--icon-size);
       object-fit: contain;
       filter: var(--icon-filter, none);
       transition: filter var(--transition-hover);
@@ -112,6 +157,10 @@
     img {
       filter: var(--icon-filter-hover, brightness(0) invert(1));
     }
+
+    .c-icon-mask {
+      background-color: var(--icon-color-hover, var(--c-primary-contrast));
+    }
   }
 
   :root[data-radius='none'] .c-stats__icon {
@@ -120,17 +169,12 @@
 
   .u-bg-primary .c-stats,
   .c-stats.u-bg-primary {
-    dt {
-      color: var(--c-primary-contrast);
-    }
-
-    .c-stats__unit {
-      color: var(--c-accent-on-primary);
-    }
-
-    .c-stats__item {
-      background: color-mix(in srgb, var(--c-primary-contrast) 8%, transparent);
-    }
+    --stats-bg: color-mix(in srgb, var(--c-primary-contrast) 8%, transparent);
+    --stats-number: var(--c-primary-contrast);
+    --stats-unit: var(--c-accent-on-primary);
+    --icon-bg: color-mix(in srgb, var(--c-primary-contrast) 12%, transparent);
+    --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
   }
 
   // Phones: the numbers are stacked, less space above and below each of them
@@ -246,6 +290,15 @@
     gap: 0;
     margin: 0;
     padding: var(--space-xs) var(--space-m);
+  }
+
+  // The element itself is a card (u-card, e.g. with the headline inside):
+  // the list does not get a second frame
+  .c-facts.u-card dl {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
   }
 
   .c-facts__item {

@@ -72,7 +72,7 @@
   :root[data-radius='small'] { --radius-s: 0.25rem; --radius-m: 0.375rem; --radius-l: 0.5rem; }
   :root[data-radius='medium'] { --radius-s: 0.375rem; --radius-m: 0.75rem; --radius-l: 1rem; }
 
-  // Design variants
+  // Color mode
   :root[data-theme='dark'] {
     @include colors.dark;
 
@@ -80,7 +80,8 @@
     --shadow-l: 0 28px 56px -24px rgb(0 0 0 / 0.7);
   }
 
-  :root[data-theme='editorial'] {
+  // Typography, combinable with every color mode
+  :root[data-typography='editorial'] {
     --font-heading: "Fraunces", ui-serif, Georgia, serif;
     --font-weight-heading: 600;
     --fs-h1: clamp(2.75rem, 1.8rem + 4vw, 5rem);

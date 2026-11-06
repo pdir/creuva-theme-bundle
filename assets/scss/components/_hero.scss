@@ -58,9 +58,9 @@
     }
   }
 
-  // Organic: the image is cropped to 4:3 and masked with a blob shape
+  // Organic: the image is masked with a blob shape, the format comes from the
+  // image size
   .c-hero--organic .c-hero__media img {
-    aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 42% 58% 38% 62% / 52% 38% 62% 48%;
   }
@@ -80,6 +80,12 @@
   // Image unchanged: no shape, no blob, no cropping
   .c-hero--none .c-hero__media::before {
     display: none;
+  }
+
+  // Image unchanged with accent shape: no shadow, no cropping, a large blob
+  // behind the image (e.g. for cut-out images with a transparent background)
+  .c-hero--blob .c-hero__media::before {
+    inset: -6% 4% -2% -4%;
   }
 
   // Full screen: the image fills the section (behind the text), a gradient
@@ -116,14 +122,16 @@
       font-size: var(--fs-large);
     }
 
+    // White button with the dark primary color of the scheme, also in dark mode
+    // (--c-primary is light there and would have too little contrast on white)
     .c-button--primary {
       border-color: #fff;
       background: #fff;
-      color: var(--c-primary);
+      color: var(--scheme-primary);
 
       &:hover {
         border-color: #fff;
-        background: color-mix(in srgb, #fff 88%, var(--c-primary));
+        background: color-mix(in srgb, #fff 88%, var(--scheme-primary));
       }
     }
 

@@ -1,4 +1,4 @@
-// Element styles for editors (Style Manager › Elementoptionen): colors of
+// Element styles for editors (CSS styles › Elementoptionen): colors of
 // cards and icon boxes. The classes only set custom properties that all
 // card-like elements read (mixin "card", .c-feature__icon), so they work for
 // cards, icon boxes, testimonials, price cards and the theme components boxes.
@@ -11,7 +11,7 @@
 // Text colors on a dark surface (primary color)
 @mixin on-primary {
   --c-text: var(--c-primary-contrast);
-  --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+  --c-text-muted: color-mix(in srgb, var(--c-primary-contrast) 85%, transparent);
   --c-link: var(--c-primary-contrast);
   --c-accent-text: var(--c-accent-on-primary);
   --c-border: color-mix(in srgb, var(--c-primary-contrast) 18%, transparent);
@@ -53,7 +53,8 @@
 
   .u-card-accent {
     --c-text: var(--c-accent-contrast);
-    --c-text-muted: color-mix(in srgb, var(--c-accent-contrast) 82%, transparent);
+    // Full contrast color: lighter text would fall below 4.5:1 on most accents
+    --c-text-muted: var(--c-accent-contrast);
     --c-link: var(--c-accent-contrast);
     --c-accent-text: var(--c-accent-contrast);
     --c-border: color-mix(in srgb, var(--c-accent-contrast) 25%, transparent);
@@ -62,6 +63,8 @@
     --card-border: transparent;
     --icon-bg: var(--c-surface);
     --icon-bg-hover: var(--c-primary);
+    // --c-accent-text is the contrast color here, it would vanish in the white circle
+    --icon-color: var(--c-accent);
 
     color: var(--c-text);
   }
@@ -91,46 +94,133 @@
     --card-shadow: none;
   }
 
+  // Without background, also in sections that tint the cards (u-bg-surface)
+  .u-card-none {
+    --card-bg: transparent;
+    --card-bg-hover: transparent;
+    --card-border: transparent;
+    --card-shadow: none;
+  }
+
+  // Key figures (.c-stats): the card colors apply to every single figure, the
+  // heading of the element keeps the colors of the section
+  .c-stats:is(.u-card-white, .u-card-muted, .u-card-soft, .u-card-primary, .u-card-accent, .u-card-outline-primary, .u-card-outline-accent, .u-card-flat, .u-card-none) {
+    --stats-bg: var(--card-bg);
+    --stats-border: var(--card-border);
+    --stats-border-width: var(--card-border-width, 1px);
+  }
+
+  .c-stats:is(.u-card-primary, .u-card-accent) {
+    --c-text: inherit;
+    --c-text-muted: inherit;
+    --c-link: inherit;
+    --c-accent-text: inherit;
+    --c-border: inherit;
+
+    color: inherit;
+  }
+
+  .c-stats.u-card-primary {
+    --stats-number: var(--c-primary-contrast);
+    --stats-unit: var(--c-accent-on-primary);
+    --stats-label: color-mix(in srgb, var(--c-primary-contrast) 75%, transparent);
+  }
+
+  .c-stats.u-card-accent {
+    --stats-number: var(--c-accent-contrast);
+    --stats-unit: var(--c-accent-contrast);
+    --stats-label: color-mix(in srgb, var(--c-accent-contrast) 82%, transparent);
+  }
+
+  // Light figures in a primary section: the section redefines the surface and
+  // text colors, so the figures get light surfaces and dark text explicitly
+  // (primary background on the section or on the element itself)
+  :is(:where(.u-bg-primary) .c-stats, .c-stats.u-bg-primary):is(.u-card-white, .u-card-muted, .u-card-soft) {
+    --stats-number: var(--c-primary);
+    --stats-unit: var(--c-accent-text);
+    --stats-label: color-mix(in srgb, var(--c-primary) 72%, var(--c-primary-contrast));
+  }
+
+  :is(:where(.u-bg-primary) .c-stats, .c-stats.u-bg-primary).u-card-white { --stats-bg: var(--c-primary-contrast); }
+  :is(:where(.u-bg-primary) .c-stats, .c-stats.u-bg-primary).u-card-muted { --stats-bg: color-mix(in srgb, var(--c-primary-contrast) 90%, var(--c-primary)); }
+  :is(:where(.u-bg-primary) .c-stats, .c-stats.u-bg-primary).u-card-soft { --stats-bg: var(--c-accent-soft); }
+
+  // Default icon colors for these figures (low specificity, so the u-icon-*
+  // classes below still win)
+  :where(.u-bg-primary .c-stats, .c-stats.u-bg-primary):where(.u-card-white, .u-card-muted, .u-card-soft) {
+    --icon-bg: var(--c-accent-soft);
+    --icon-filter: none;
+    --icon-color: var(--c-accent-text);
+  }
+
+  .c-stats:where(.u-card-primary) {
+    --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
+  }
+
+  // White circle (u-card-accent): icon in the accent color
+  .c-stats:where(.u-card-accent) {
+    --icon-filter: none;
+    --icon-color: var(--c-accent);
+  }
+
   // Icon circle of the icon box and the key figures: light (accent light with
-  // the icon in its own color, the default), medium (accent color) or dark
-  // (primary color) with a white icon
+  // the icon in the accent color, the default), medium (accent color) or dark
+  // (primary color) with a white icon. SVG icons take --icon-color (mask),
+  // other images are recolored with --icon-filter.
   .u-icon-soft {
     --icon-bg: var(--c-accent-soft);
     --icon-filter: none;
+    --icon-color: var(--c-accent-text);
   }
 
   .u-icon-primary {
     --icon-bg: var(--c-primary);
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-primary-contrast);
     --icon-bg-hover: var(--c-accent);
     --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-accent-contrast);
   }
 
   .u-icon-accent {
     --icon-bg: var(--c-accent);
     --icon-filter: brightness(0) invert(1);
+    --icon-color: var(--c-accent-contrast);
     --icon-bg-hover: var(--c-primary);
     --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-primary-contrast);
   }
 
   .u-icon-white {
     --icon-bg: var(--c-surface);
   }
 
+  // White circle with a black icon, also on dark sections and in dark mode
+  .u-icon-light {
+    --icon-bg: #fff;
+    --icon-filter: brightness(0);
+    --icon-color: #000;
+    --icon-bg-hover: var(--c-accent);
+    --icon-filter-hover: brightness(0) invert(1);
+    --icon-color-hover: var(--c-accent-contrast);
+  }
+
   .u-icon-plain {
     --icon-bg: transparent;
     --icon-bg-hover: transparent;
     --icon-filter-hover: none;
+    --icon-color-hover: var(--icon-color, var(--c-accent-text));
 
     .c-feature__icon {
-      width: auto;
+      --icon-size: 2.25rem;
+
+      // As wide as the icon, so it stays on the start side like the circle
+      width: fit-content;
       height: auto;
       box-shadow: none !important;
     }
-
-    .c-feature__icon img {
-      width: 2.25rem;
-      height: 2.25rem;
-    }
   }
+
+  // u-icon-original (SVG icons in the colors of the file): _cards.scss
 }

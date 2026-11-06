@@ -24,8 +24,11 @@
     creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
 ]|filter(v => v)|join(';') %}
 
+{# Variant "auto": light until the inline script in the head switches to dark #}
 {% set html_attributes = attrs()
-    .set('data-theme', creuva.variant)
+    .set('data-theme', 'auto' == creuva.variant ? 'light' : creuva.variant)
+    .setIfExists('data-theme-mode', 'auto' == creuva.variant ? 'auto' : null)
+    .set('data-typography', creuva.typography|default('modern'))
     .setIfExists('data-scheme', creuva.scheme ?: null)
     .set('data-radius', creuva.radius)
     .set('data-animations', creuva.animations|default('auto'))
@@ -35,9 +38,24 @@
 
 {% block head %}
     {{ parent() }}
-    {# The web font is needed on every page: load it in parallel with the stylesheet
-       (same URL as in creuva.css, without version parameter, so it is not loaded twice) #}
-    <link rel="preload" href="{{ asset('plus-jakarta-sans.woff2', 'creuva_theme')|split('?')|first }}" as="font" type="font/woff2" crossorigin>
+    {# Variant "auto" (data-theme-mode): light or dark like the system setting,
+       also when it changes; runs before the page is rendered. The style
+       switcher uses window.creuvaUpdateTheme() for its option "System". #}
+    <script{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}>
+        (() => {
+            const root = document.documentElement;
+            const dark = matchMedia('(prefers-color-scheme: dark)');
+            const update = () => {
+                if ('auto' === root.dataset.themeMode) {
+                    root.dataset.theme = dark.matches ? 'dark' : 'light';
+                }
+            };
+            update();
+            dark.addEventListener('change', update);
+            document.addEventListener('visibilitychange', update);
+            window.creuvaUpdateTheme = update;
+        })();
+    </script>
     {# SVG favicon next to the favicon of the website root, /favicon.ico remains the fallback #}
     {% set favicon_svg = creuva_favicon_svg(page) %}
     {% if favicon_svg %}
@@ -49,7 +67,32 @@
     {% for stylesheet in creuva_stylesheets(layout|default(null)) %}
         <link rel="stylesheet" href="{{ asset(stylesheet) }}">
     {% endfor %}
-    <script src="{{ asset('creuva.js', 'creuva_theme') }}" defer></script>
+{% endblock %}
+
+{# Open Graph tags for link previews, in the deferred part of the head, so they
+   contain the title and description set by readers of news or events. Not on
+   pages hidden from search engines and not on error pages. #}
+{% block end_of_head %}
+    {{ parent() }}
+    {% if response_context.head|default and 'noindex' not in response_context.head.metaRobots and not (page.type starts with 'error_') %}
+        {% set og_image = creuva_og_image(page.id) %}
+        {% set og_figure = og_image ? figure(og_image, [1200, 630, 'crop']) : null %}
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="{{ page.rootPageTitle }}">
+        <meta property="og:title" content="{{ response_context.head.title }}">
+        <meta property="og:url" content="{{ app.request.uri|split('?')|first }}">
+        <meta property="og:locale" content="{{ page.language|replace({'-': '_'}) }}">
+        {% if response_context.head.metaDescription %}
+            <meta property="og:description" content="{{ response_context.head.metaDescription|u.truncate(300, '…') }}">
+        {% endif %}
+        {% if og_figure %}
+            <meta property="og:image" content="{{ absolute_url(asset(og_figure.image.imageSrc)) }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+            <meta property="og:image:alt" content="{{ og_figure.metadata.alt|default }}">
+        {% endif %}
+        <meta name="twitter:card" content="{{ og_figure ? 'summary_large_image' : 'summary' }}">
+    {% endif %}
 {% endblock %}
 
 {% block body_content %}
@@ -79,18 +122,25 @@
         <div class="l-prefooter">{{ slot() }}</div>
     {% endslot %}
 
-    {% slot footer %}
-        <footer class="l-footer">
-            <div class="l-container l-footer__inner">{{ slot() }}</div>
-        </footer>
-    {% endslot %}
+    {# Footer columns and the bottom bar in one footer landmark, so the copyright
+       is not outside of a landmark (accessibility) #}
+    <footer class="l-site-footer">
+        {% slot footer %}
+            <div class="l-footer">
+                <div class="l-container l-footer__inner">{{ slot() }}</div>
+            </div>
+        {% endslot %}
 
-    {# The copyright link is required by the theme licence (see LICENSE, section 2) #}
-    <div class="l-bottom">
-        <div class="l-container l-bottom__inner">
-            {% slot bottom %}{{ slot() }}{% endslot %}
-            <p class="c-powered-by">powered by <a href="https://contao-themes.net/creuva" hreflang="de">contao-themes.net</a></p>
+        {# The copyright link is required by the theme licence (see LICENSE, section 2) #}
+        <div class="l-bottom">
+            <div class="l-container l-bottom__inner">
+                {% slot bottom %}{{ slot() }}{% endslot %}
+                <p class="c-powered-by">powered by <a href="https://contao-themes.net/creuva" hreflang="de">contao-themes.net</a></p>
+            </div>
         </div>
-    </div>
+    </footer>
     <!-- indexer::continue -->
+
+    {# At the end of the page, nothing above waits for it (runs on DOMContentLoaded) #}
+    <script src="{{ asset('creuva.js', 'creuva_theme') }}" defer></script>
 {% endblock %}

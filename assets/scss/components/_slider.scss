@@ -149,6 +149,7 @@
     opacity: 0.6;
     transition: opacity var(--transition), border-color var(--transition);
 
+    // Copy of the slide picture (creuva.js), the image fills the button
     img {
       display: block;
       width: 100%;
@@ -168,6 +169,33 @@
     &:focus-visible {
       outline: 2px solid var(--c-accent);
       outline-offset: 2px;
+    }
+  }
+}
+
+// Gallery as slider (template variant gallery/creuva_slider): the same zoom on
+// hover as in the gallery grid, the format comes from the image size
+.c-slider.c-slider--gallery {
+  figure {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .swiper-slide:hover img {
+    transform: scale(1.06);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      transition: none;
     }
   }
 }

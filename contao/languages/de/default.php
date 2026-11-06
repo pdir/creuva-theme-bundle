@@ -22,12 +22,14 @@ $GLOBALS['TL_LANG']['MSC']['creuvaMenu'] = 'Menü';
 $GLOBALS['TL_LANG']['MSC']['creuvaHome'] = 'Zur Startseite';
 $GLOBALS['TL_LANG']['MSC']['creuvaReadingTime'] = '%s Min. Lesezeit';
 
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Design anpassen';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Farbschema';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Variante';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleSwitcher'] = 'Design-Vorschau';$GLOBALS['TL_LANG']['MSC']['creuvaStyleScheme'] = 'Farbschema';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme'] = 'Modus';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_light'] = 'Light';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_dark'] = 'Dark';
-$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_editorial'] = 'Editorial';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTheme_auto'] = 'System';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography'] = 'Schrift';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography_modern'] = 'Modern';
+$GLOBALS['TL_LANG']['MSC']['creuvaStyleTypography_editorial'] = 'Editorial';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius'] = 'Ecken';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_none'] = 'Eckig';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleRadius_small'] = 'Klein';
@@ -39,7 +41,7 @@ $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveHint'] = 'Speichert die Auswahl im St
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaved'] = 'Gespeichert. Die Auswahl gilt jetzt für alle Besucher.';
 $GLOBALS['TL_LANG']['MSC']['creuvaStyleSaveError'] = 'Speichern fehlgeschlagen. Bitte die Seite neu laden und erneut versuchen.';
 
-// Formats menu of the text editor (be_tinyCreuva.html5)
+// Formats menu of the text editor (be_tinyCreuva.html.twig)
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatText'] = 'Text';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatAccent'] = 'Akzentfarbe (grün)';
 $GLOBALS['TL_LANG']['MSC']['creuvaFormatMark'] = 'Markierung';

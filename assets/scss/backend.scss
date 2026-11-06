@@ -4,15 +4,20 @@
 @use 'base/scheme-data' as data;
 @use 'base/color-tokens' as colors;
 
-// Radio buttons as chips with a swatch of the scheme (the labels stay plain
-// text, the swatch color is selected via the option value)
+// Radio buttons as small tiles: a swatch with the primary color and the accent
+// color as a dot, the name below; the selected one with a frame and a check
+// mark (the labels stay plain text, the swatch colors come from the option value)
 .creuva-scheme-picker .tl_radio_container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
-  gap: 0.375rem;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.625rem;
+  max-width: 64rem;
+  margin-top: 0.25rem;
 
   > span {
     position: relative;
+    display: block;
+    margin: 0;
   }
 
   input {
@@ -22,33 +27,57 @@
   }
 
   label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.6rem 0.35rem 0.4rem;
-    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-    border-radius: 999px;
+    position: relative;
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0.375rem 0.375rem 0.5rem;
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, currentColor 3%, transparent);
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    text-align: center;
     cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 
+    // Primary color with the accent color as a dot
     &::before {
       content: "";
-      flex-shrink: 0;
-      width: 1.25rem;
-      height: 1.25rem;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--swatch-primary, #999) 50%, var(--swatch-accent, #ccc) 50%);
-      box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+      height: 2.75rem;
+      border-radius: 0.5rem;
+      background:
+        radial-gradient(circle at calc(100% - 0.95rem) 50%, var(--swatch-accent, #ccc) 0.55rem, transparent 0.6rem),
+        var(--swatch-primary, #999);
+      // Frame in the text color, so dark swatches stand out in the dark back end too
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 12%, transparent);
     }
 
     &:hover {
-      border-color: color-mix(in srgb, currentColor 45%, transparent);
+      border-color: color-mix(in srgb, currentColor 40%, transparent);
+      transform: translateY(-1px);
     }
   }
 
   input:checked + label {
     border-color: currentColor;
-    box-shadow: inset 0 0 0 1px currentColor;
+    box-shadow: 0 0 0 1px currentColor;
     font-weight: 600;
+
+    // Check mark on the swatch
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 50%;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 0.8rem no-repeat,
+        #fff;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+    }
   }
 
   input:focus-visible + label {
@@ -118,6 +147,12 @@
   span {
     color: var(--c-accent-text);
   }
+}
+
+// Typography "editorial": serif headings (system font, Fraunces is not loaded in the back end)
+.creuva-preview[data-typography='editorial'] .creuva-preview__title {
+  font-family: ui-serif, Georgia, serif;
+  font-weight: 600;
 }
 
 .creuva-preview__text {

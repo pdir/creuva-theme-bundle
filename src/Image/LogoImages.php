@@ -30,7 +30,7 @@ class LogoImages
     }
 
     /**
-     * @return list<array{figure: Figure, href: string|null}>
+     * @return list<array{figure: Figure}>
      */
     public function build(mixed $multiSRC, mixed $size): array
     {
@@ -41,11 +41,14 @@ class LogoImages
                 ->createFigureBuilder()
                 ->fromFilesModel($file)
                 ->setSize($size)
+                // The figure links to the URL of the metadata by itself
+                ->setLinkAttribute('class', 'c-logos__link')
+                ->setLinkAttribute('target', '_blank')
                 ->buildIfResourceExists()
             ;
 
             if (null !== $figure) {
-                $logos[] = ['figure' => $figure, 'href' => $figure->hasMetadata() ? ($figure->getMetadata()->getUrl() ?: null) : null];
+                $logos[] = ['figure' => $figure];
             }
         }
 

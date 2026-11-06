@@ -92,6 +92,19 @@
     color: var(--c-text-muted);
   }
 
+  // Image inserted in the running text (rich text editor)
+  .rte figure {
+    margin-block: var(--space-m);
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   .media--left,
   .media--right {
     display: flow-root;
@@ -99,6 +112,15 @@
     > figure {
       margin-bottom: var(--space-m);
     }
+  }
+
+  // Image above or below the text (text element, news, events)
+  .media--above > figure {
+    margin-bottom: var(--space-m);
+  }
+
+  .media--below > figure {
+    margin-top: var(--space-m);
   }
 
   // Float images next to the text from tablet width on
@@ -158,9 +180,9 @@
       border-radius: var(--radius-m);
     }
 
+    // The format comes from the image size
     img {
       width: 100%;
-      aspect-ratio: 4 / 3;
       object-fit: cover;
       transition: transform 0.7s var(--ease-out), filter var(--transition-hover);
     }
@@ -180,7 +202,7 @@
     }
   }
 
-  // Gallery layouts (Style Manager › Elementoptionen › Galerie), they win over
+  // Gallery layouts (CSS styles › Elementoptionen › Galerie), they win over
   // the images per row. The images fill their cells (cropped by object-fit).
   .content-gallery:is(.u-gallery-mosaic, .u-gallery-mosaic-right, .u-gallery-featured) > ul {
     grid-auto-flow: dense;
@@ -199,7 +221,6 @@
 
     img {
       height: 100%;
-      aspect-ratio: auto;
     }
   }
 
@@ -271,7 +292,6 @@
 
     img {
       height: auto;
-      aspect-ratio: auto;
     }
   }
 
@@ -441,11 +461,11 @@
     }
 
     tbody tr:nth-child(even) > * {
-      background: color-mix(in srgb, var(--c-surface-muted) 50%, var(--c-surface));
+      background: color-mix(in srgb, var(--c-surface-muted) 70%, var(--c-surface));
     }
 
     tbody tr:has(strong) > * {
-      background: var(--c-accent-soft);
+      background: color-mix(in srgb, var(--c-accent) 16%, var(--c-surface));
       color: var(--c-text);
     }
 
@@ -499,7 +519,7 @@
 
   .content-hyperlink.u-button-outline-accent > a,
   .content-text.u-button-outline-accent .rte > p:last-child > a {
-    @include button-outline('--c-accent', '--c-accent-contrast');
+    @include button-outline('--c-accent', '--c-accent-contrast', '--c-accent-text');
   }
 
   // Downloads

@@ -3,7 +3,8 @@
     Prefix and suffix ("+", "%") are highlighted and the numbers count up when
     they scroll into view (CSS class "u-no-countup" disables counting).
     Optional icons above the figures: field "Icons (Kennzahlen)", in the order
-    of the entries.
+    of the entries. SVG icons are shown as a mask in the color of the theme
+    (CSS class "u-icon-original": in the colors of the file).
 #}
 {% extends '@Contao/content_element/description_list.html.twig' %}
 
@@ -24,7 +25,12 @@
         {% if icon %}
             {% set icon_figure = figure(icon, null) %}
             {% if icon_figure %}
-                <span class="c-stats__icon" aria-hidden="true"><img src="{{ icon_figure.image.imageSrc }}" alt="" width="48" height="48" loading="lazy"></span>
+                {% set icon_src = icon_figure.image.imageSrc %}
+                {% set icon_mask = icon_src|lower ends with '.svg' %}
+                <span class="c-stats__icon{{ icon_mask ? ' has-mask' }}" aria-hidden="true">
+                    {%- if icon_mask %}<span class="c-icon-mask" style="mask-image: url('{{ icon_src }}')"></span>{% endif -%}
+                    <img src="{{ icon_src }}" alt="" width="48" height="48" loading="lazy">
+                </span>
             {% endif %}
         {% endif %}
         {{ parent() }}

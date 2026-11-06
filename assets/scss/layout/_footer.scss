@@ -9,14 +9,53 @@
   .l-footer__inner {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-l) var(--space-xl);
+    gap: var(--space-l);
 
+    // Small screens: brand on top, link columns in pairs. A long link such as
+    // "Zugänglichkeitserklärung" is hyphenated instead of widening its column.
     > * {
-      flex: 1 1 9rem;
+      flex: 1 1 calc(50% - var(--space-l) / 2);
+      min-width: 0;
     }
 
-    > .c-footer-brand {
-      flex: 2 1 16rem;
+    :is(.mod_navigation, .mod_customnav) a {
+      hyphens: auto;
+      overflow-wrap: anywhere;
+    }
+
+    // Medium screens: brand on top, all link columns in one row
+    @media (min-width: 48rem) {
+      > * {
+        flex-basis: 0;
+      }
+    }
+
+    // Brand on top on small and medium screens, full-width panel below the link
+    // columns (HTML module, see README)
+    > .c-footer-brand,
+    > .c-footer-contact {
+      flex-basis: 100%;
+    }
+
+    // Wide screens: brand and link columns in one row
+    @media (min-width: 80rem) {
+      > * {
+        flex-basis: 9rem;
+        min-width: auto;
+      }
+
+      > .c-footer-brand {
+        flex: 2 1 16rem;
+      }
+
+      > .c-footer-contact {
+        flex-basis: 100%;
+      }
+
+      :is(.mod_navigation, .mod_customnav) a {
+        hyphens: none;
+        overflow-wrap: normal;
+      }
     }
   }
 
@@ -102,6 +141,102 @@
 
     &:hover {
       color: var(--c-text);
+    }
+  }
+
+  // Contact panel in the footer (HTML module, see README): kicker, title and text,
+  // facts with check marks and a button – one row on wide screens, stacked on small ones
+  .c-footer-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-m);
+    align-items: center;
+    margin-top: var(--space-s);
+    padding: var(--space-m);
+    border: 1px solid color-mix(in srgb, var(--c-primary) 10%, transparent);
+    border-radius: var(--radius-l);
+    background: color-mix(in srgb, var(--c-primary) 5%, var(--c-surface));
+
+    p {
+      margin: 0;
+    }
+
+    a:not([class]) {
+      color: var(--c-text);
+      font-weight: 600;
+    }
+
+    .c-button {
+      justify-self: start;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 48rem) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: var(--space-m) var(--space-l);
+
+      .c-footer-contact__facts {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (min-width: 72rem) {
+      grid-template-columns: minmax(0, 1.2fr) auto auto;
+      gap: var(--space-l);
+
+      .c-footer-contact__facts {
+        grid-column: auto;
+      }
+    }
+  }
+
+  .c-footer-contact__text {
+    display: grid;
+    gap: 0.375rem;
+    max-width: 36rem;
+  }
+
+  .c-footer-contact__kicker {
+    color: var(--c-accent-text);
+    font-size: var(--fs-small);
+    font-weight: 600;
+  }
+
+  .c-footer-contact__title {
+    color: var(--c-text);
+    font-family: var(--font-heading);
+    font-size: var(--fs-h3);
+    font-weight: var(--font-weight-heading);
+    line-height: 1.25;
+  }
+
+  .c-footer-contact__facts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem var(--space-m);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--fs-small);
+    color: var(--c-text);
+
+    @media (min-width: 30rem) {
+      grid-template-columns: repeat(2, max-content);
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: "";
+        flex: none;
+        width: 1.1em;
+        height: 1.1em;
+        background: var(--c-accent-text);
+        mask: var(--icon-check) center / contain no-repeat;
+      }
     }
   }
 

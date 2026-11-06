@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 $GLOBALS['TL_LANG']['tl_module']['creuva_logo_legend'] = 'Logo';
+$GLOBALS['TL_LANG']['tl_module']['link_legend'] = 'Call to action button';
 $GLOBALS['TL_LANG']['tl_module']['creuva_social_legend'] = 'Social media';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogo'] = ['Logo', 'Logo file (SVG recommended). Without a logo, the logo text is shown.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogoText'] = ['Logo text', 'Text logo or alternative text. Default: page title of the website root.'];
@@ -17,7 +18,7 @@ $GLOBALS['TL_LANG']['tl_module']['creuvaUrl1'] = ['CTA button link', 'Target of 
 $GLOBALS['TL_LANG']['tl_module']['creuvaLinkTitle1'] = ['CTA button text', 'Label of the button.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaClaim'] = ['Claim', 'Short text below the logo.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaSocialLinks'] = ['Social media links', 'One URL per line. Instagram, LinkedIn, X, YouTube, Facebook, Xing, GitHub, TikTok and Mastodon are detected automatically.'];
-$GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Administrators in the preview only', 'Show the style switcher to administrators in the front end preview only, e.g. to choose the design of a live website. Visitors do not see it then.'];
+$GLOBALS['TL_LANG']['tl_module']['creuvaPreviewOnly'] = ['Logged in back end users only', 'Show the style switcher only when logged in to the back end (front end and preview), e.g. to choose the design of a live website. Visitors do not see it and cannot change the design. Without the checkbox, everyone sees it (demo website).'];
 $GLOBALS['TL_LANG']['tl_module']['creuva_logos_legend'] = 'Appearance';
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant'] = ['Background', '"Primary color" suits white logos.'];
 $GLOBALS['TL_LANG']['tl_module']['creuvaLogosVariant_options'] = ['surface' => 'Light', 'muted' => 'Muted', 'primary' => 'Primary color'];

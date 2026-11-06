@@ -22,17 +22,17 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class ThemeInstaller
 {
-    public const CLASS_SET = 'bundles/creuvatheme/sets/creuva.json';
-
     private const TEXTS = [
         'de' => [
             'home' => 'Startseite',
             'contact' => 'Kontakt',
             'imprint' => 'Impressum',
             'privacy' => 'Datenschutz',
+            'accessibility' => "Zugänglichkeits\u{00AD}erklärung", // soft hyphen for narrow footer columns
             'sitemap' => 'Sitemap',
             'search' => 'Suche',
             'mainNavigation' => 'Hauptnavigation',
+            'serviceNavigation' => 'Service-Links',
             'header' => 'Header',
             'brand' => 'Footer – Marke',
             'footerPages' => 'Footer – Seiten',
@@ -57,9 +57,11 @@ class ThemeInstaller
             'contact' => 'Contact',
             'imprint' => 'Imprint',
             'privacy' => 'Privacy policy',
+            'accessibility' => 'Accessibility statement',
             'sitemap' => 'Sitemap',
             'search' => 'Search',
             'mainNavigation' => 'Main navigation',
+            'serviceNavigation' => 'Service links',
             'header' => 'Header',
             'brand' => 'Footer – brand',
             'footerPages' => 'Footer – pages',
@@ -103,6 +105,7 @@ class ThemeInstaller
         'contact' => ['kontakt', 'contact', 'kontaktformular'],
         'imprint' => ['impressum', 'imprint', 'legal-notice'],
         'privacy' => ['datenschutz', 'datenschutzerklaerung', 'privacy', 'privacy-policy'],
+        'accessibility' => ['zugaenglichkeitserklaerung', 'zugaenglichkeit', 'barrierefreiheit', 'barrierefreiheitserklaerung', 'erklaerung-zur-barrierefreiheit', 'accessibility-statement', 'accessibility'],
         'sitemap' => ['sitemap'],
         'search' => ['suche', 'search', 'suchergebnisse', 'search-results'],
     ];
@@ -111,7 +114,8 @@ class ThemeInstaller
         private readonly Connection $connection,
         private readonly DemoImporter $demoImporter,
         private readonly StyleguideInstaller $styleguideInstaller,
-        private readonly StyleManagerImporter $styleManagerImporter,
+        private readonly CssStyleImporter $cssStyleImporter,
+        private readonly DesignSettings $designSettings,
     ) {
     }
 
@@ -146,9 +150,9 @@ class ThemeInstaller
     public function getMissingColumns(): array
     {
         $required = [
-            'tl_layout' => ['creuvavariant', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
+            'tl_layout' => ['creuvavariant', 'creuvatypography', 'creuvascheme', 'creuvaradius', 'creuvalogoheight'],
             'tl_module' => ['creuvanavigation', 'creuvasociallinks', 'creuvasearch', 'creuvasearchpage'],
-            'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvaradius'],
+            'tl_page' => ['creuvascheme', 'creuvavariant', 'creuvatypography', 'creuvaradius'],
             'tl_content' => ['creuvaheadlineaccent'],
         ];
 
@@ -206,8 +210,8 @@ class ThemeInstaller
             $result = new InstallResult();
             $texts = self::TEXTS[$this->textLanguage($options->language)];
 
-            // CSS classes as selections in the Style Manager (editable in the back end)
-            $this->styleManagerImporter->import();
+            // CSS classes as styles in the CSS style selector (editable in the back end)
+            $this->cssStyleImporter->import();
 
             $result->themeId = $this->insert('tl_theme', [
                 'name' => $options->themeName,
@@ -226,8 +230,9 @@ class ThemeInstaller
                 $rootId = $this->createRootPage($options);
                 $rootIds = [$rootId];
 
-                $this->demoImporter->configureRootPage($demo, $rootId);
                 $result->pages = $this->demoImporter->importPages($demo, $rootId);
+                // After the pages, so the root settings can refer to them (e.g. "page:agb")
+                $this->demoImporter->configureRootPage($demo, $rootId);
                 $pageIds = $this->findPages($rootId) + array_filter(['home' => $result->pages['index'] ?? null]);
             } elseif ($options->createPages) {
                 $rootId = $this->createPages($options, $texts, $result);
@@ -252,6 +257,7 @@ class ThemeInstaller
                 'type' => 'navigation',
                 'levelOffset' => 0,
                 'showLevel' => 2,
+                'ariaLabel' => $texts['mainNavigation'],
             ]);
 
             $header = [
@@ -290,6 +296,8 @@ class ThemeInstaller
             // Footer columns of the demo
             $footerColumns = [];
 
+            // The navigations get a unique name for screen readers (ariaLabel), the
+            // headlines of the columns are h2 (no gap after the h1 of short pages)
             foreach ($demo['footer'] ?? [] as $i => $column) {
                 $pages = array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, $column['pages'])));
                 $footerColumns['footer'.$i] = $column['pages'];
@@ -297,7 +305,8 @@ class ThemeInstaller
                 $modules['footer'.$i] = $this->insertModule($result, [
                     'name' => 'Footer – '.$column['headline'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $column['headline']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $column['headline']]),
+                    'ariaLabel' => $column['headline'],
                     'pages' => serialize(array_map('strval', $pages)),
                 ]);
 
@@ -310,12 +319,13 @@ class ThemeInstaller
                 $modules['footerPages'] = $this->insertModule($result, [
                     'name' => $texts['footerPages'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $texts['pages']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $texts['pages']]),
+                    'ariaLabel' => $texts['pages'],
                     'pages' => serialize(array_map('strval', $footerPages)),
                 ]);
             }
 
-            $legalPages = array_values(array_filter([$pageIds['imprint'] ?? null, $pageIds['privacy'] ?? null]));
+            $legalPages = array_values(array_filter([$pageIds['imprint'] ?? null, $pageIds['privacy'] ?? null, $pageIds['accessibility'] ?? null]));
 
             if (!$demo) {
                 $footerSlots[] = 'footerPages';
@@ -324,7 +334,8 @@ class ThemeInstaller
                 $modules['footerLegal'] = $this->insertModule($result, [
                     'name' => $texts['footerLegal'],
                     'type' => 'customnav',
-                    'headline' => serialize(['unit' => 'h3', 'value' => $texts['legal']]),
+                    'headline' => serialize(['unit' => 'h2', 'value' => $texts['legal']]),
+                    'ariaLabel' => $texts['legal'],
                     'pages' => $legalPages ? serialize(array_map('strval', $legalPages)) : null,
                 ]);
             }
@@ -335,11 +346,18 @@ class ThemeInstaller
                 'html' => '<p>© {{date::Y}} {{page::rootPageTitle}}. '.$texts['rights'].'</p>',
             ]);
 
-            if (isset($pageIds['sitemap'])) {
+            // Links in the bottom bar: the pages of the demo ("bottom: [impressum, datenschutz]")
+            // or the sitemap
+            $bottomPages = isset($demo['bottom'])
+                ? array_values(array_filter(array_map(fn (string $alias) => $result->pages[$alias] ?? null, (array) $demo['bottom'])))
+                : array_values(array_filter([$pageIds['sitemap'] ?? null]));
+
+            if ($bottomPages) {
                 $modules['bottomLinks'] = $this->insertModule($result, [
                     'name' => $texts['bottomLinks'],
                     'type' => 'customnav',
-                    'pages' => serialize([(string) $pageIds['sitemap']]),
+                    'ariaLabel' => $texts['serviceNavigation'],
+                    'pages' => serialize(array_map('strval', $bottomPages)),
                 ]);
             }
 
@@ -429,8 +447,7 @@ class ThemeInstaller
                 'type' => 'modern',
                 'template' => 'page/layout/creuva',
                 'modules' => serialize($layoutModules),
-                'creuvaVariant' => $options->variant,
-                'creuvaScheme' => $options->scheme,
+                ...$this->getDesign($options, $demo),
                 'creuvaLogoHeight' => preg_match(DesignSettings::LOGO_HEIGHT_PATTERN, (string) ($demo['design']['logoHeight'] ?? '')) ? (string) $demo['design']['logoHeight'] : '',
                 'creuvaStylesheets' => $this->getDemoStylesheets($demo),
             ]);
@@ -455,30 +472,55 @@ class ThemeInstaller
                 }
             }
 
-            // Assign the layout (and the Creuva class set) to the root pages
-            $hasClassSet = $this->hasColumn('tl_page', 'ac_set');
-
+            // Assign the layout to the root pages
             foreach ($rootIds as $rootId) {
-                $data = ['includeLayout' => 1, 'layout' => $result->layoutId, 'tstamp' => time()];
-
-                // Remove the design settings of an existing website root, so the ones of the new
-                // layout apply (the root of a demo keeps the design of its definition)
-                if (null === $demo) {
-                    $data += ['creuvaScheme' => '', 'creuvaVariant' => '', 'creuvaRadius' => ''];
-                }
-
-                if ($hasClassSet) {
-                    $data['ac_set'] = self::CLASS_SET;
-                }
+                // Without design settings in the website root, so the ones of the page
+                // layout apply and changes in the theme are not overridden unnoticed
+                $data = [
+                    'includeLayout' => 1,
+                    'layout' => $result->layoutId,
+                    'creuvaScheme' => '',
+                    'creuvaVariant' => '',
+                    'creuvaTypography' => '',
+                    'creuvaRadius' => '',
+                    'tstamp' => time(),
+                ];
 
                 $this->connection->update('tl_page', $data, ['id' => $rootId]);
                 $result->rootPages[] = $rootId;
             }
 
-            $result->classSetAssigned = $hasClassSet && [] !== $rootIds;
-
             return $result;
         });
+    }
+
+    /**
+     * Design settings of the page layout: the ones of the demo ("design: scheme,
+     * variant, typography, radius", formerly creuvaScheme … in "root:") or the
+     * options of the command.
+     *
+     * @param array<string, mixed>|null $demo
+     *
+     * @return array{creuvaScheme: string, creuvaVariant: string, creuvaTypography: string, creuvaRadius: string}
+     */
+    private function getDesign(InstallOptions $options, array|null $demo): array
+    {
+        $design = (array) ($demo['design'] ?? []);
+        $root = (array) ($demo['root'] ?? []);
+
+        $settings = $this->designSettings->resolve([
+            'creuvaScheme' => $design['scheme'] ?? $root['creuvaScheme'] ?? $options->scheme,
+            'creuvaVariant' => $design['variant'] ?? $root['creuvaVariant'] ?? $options->variant,
+            'creuvaTypography' => $design['typography'] ?? $root['creuvaTypography'] ?? $options->typography,
+            'creuvaRadius' => $design['radius'] ?? $root['creuvaRadius'] ?? '',
+        ]);
+
+        return [
+            'creuvaScheme' => $settings['scheme'] ?: $options->scheme,
+            'creuvaVariant' => $settings['variant'],
+            'creuvaTypography' => $settings['typography'],
+            'creuvaRadius' => $settings['radius'],
+        ];
     }
 
     /**
@@ -537,6 +579,7 @@ class ThemeInstaller
             'dns' => $options->dns,
             'language' => $options->language,
             'fallback' => $hasFallback ? 0 : 1,
+            'enableCanonical' => 1,
             'published' => 1,
         ]);
 
@@ -551,13 +594,13 @@ class ThemeInstaller
         $rootId = $this->createRootPage($options);
 
         $aliases = 'de' === $this->textLanguage($options->language)
-            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'sitemap' => 'sitemap', 'search' => 'suche']
-            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'sitemap' => 'sitemap', 'search' => 'search'];
+            ? ['home' => 'index', 'contact' => 'kontakt', 'imprint' => 'impressum', 'privacy' => 'datenschutz', 'accessibility' => 'zugaenglichkeitserklaerung', 'sitemap' => 'sitemap', 'search' => 'suche']
+            : ['home' => 'index', 'contact' => 'contact', 'imprint' => 'imprint', 'privacy' => 'privacy', 'accessibility' => 'accessibility-statement', 'sitemap' => 'sitemap', 'search' => 'search'];
 
         // Only the start page and the contact page appear in the main navigation,
         // the legal pages are linked in the footer and listed in the sitemap, the
         // search results page is opened by the search in the header
-        $hidden = ['imprint', 'privacy', 'sitemap', 'search'];
+        $hidden = ['imprint', 'privacy', 'accessibility', 'sitemap', 'search'];
 
         $sorting = 0;
 
@@ -566,10 +609,11 @@ class ThemeInstaller
                 'pid' => $rootId,
                 'sorting' => $sorting += 128,
                 'title' => $texts[$key],
+                'pageTitle' => str_contains($texts[$key], "\u{00AD}") ? str_replace("\u{00AD}", '', $texts[$key]) : '',
                 'alias' => $alias,
                 'type' => 'regular',
                 'hide' => \in_array($key, $hidden, true) ? 1 : 0,
-                'sitemap' => \in_array($key, ['imprint', 'privacy'], true) ? 'map_always' : 'map_default',
+                'sitemap' => \in_array($key, ['imprint', 'privacy', 'accessibility'], true) ? 'map_always' : 'map_default',
                 'published' => 1,
             ];
 
@@ -703,13 +747,6 @@ class ThemeInstaller
         $this->connection->insert($table, array_filter($data, static fn ($v) => null !== $v) + ['tstamp' => time()]);
 
         return (int) $this->connection->lastInsertId();
-    }
-
-    private function hasColumn(string $table, string $column): bool
-    {
-        $columns = array_map(strtolower(...), array_keys($this->connection->createSchemaManager()->listTableColumns($table)));
-
-        return \in_array(strtolower($column), $columns, true);
     }
 
     private function uniqueAlias(string $table, string $alias): string

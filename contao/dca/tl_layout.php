@@ -17,7 +17,7 @@ use Pdir\CreuvaThemeBundle\Design\DesignSettings;
  */
 PaletteManipulator::create()
     ->addLegend('creuva_legend', 'modules_legend', PaletteManipulator::POSITION_AFTER)
-    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaRadius', 'creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight', 'creuvaAnimations', 'creuvaStylesheets'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['creuvaScheme', 'creuvaVariant', 'creuvaTypography', 'creuvaRadius','creuvaPrimaryColor', 'creuvaAccentColor', 'creuvaLogoHeight', 'creuvaAnimations', 'creuvaStylesheets'], 'creuva_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('modern', 'tl_layout')
 ;
 
@@ -37,17 +37,25 @@ $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaVariant'] = [
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'light'],
 ];
 
+$GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaTypography'] = [
+    'inputType' => 'select',
+    'options' => DesignSettings::TYPOGRAPHIES,
+    'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaTypography_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'modern'],
+];
+
 $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaRadius'] = [
     'inputType' => 'select',
     'options' => DesignSettings::RADII,
     'reference' => &$GLOBALS['TL_LANG']['tl_layout']['creuvaRadius_options'],
-    'eval' => ['tl_class' => 'w50'],
+    'eval' => ['tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'large'],
 ];
 
 $GLOBALS['TL_DCA']['tl_layout']['fields']['creuvaPrimaryColor'] = [
     'inputType' => 'text',
-    'eval' => ['maxlength' => 6, 'colorpicker' => true, 'isHexColor' => true, 'tl_class' => 'w50 wizard'],
+    'eval' => ['maxlength' => 6, 'colorpicker' => true, 'isHexColor' => true, 'tl_class' => 'w50 clr wizard'],
     'sql' => ['type' => 'string', 'length' => 6, 'default' => ''],
 ];
 

@@ -46,8 +46,6 @@ final class InstallResult
      */
     public array $articles = [];
 
-    public bool $classSetAssigned = false;
-
     /**
      * @var list<string>
      */

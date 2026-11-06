@@ -7,7 +7,7 @@ aufgebaut auf dem [Theme Components Bundle](https://github.com/contao-themes-net
 
 - Contao 5.7 (PHP ≥ 8.3) oder Contao 6 (PHP ≥ 8.4)
 - `contao-themes-net/theme-components-bundle` ^2.0 (wird automatisch installiert)
-- `oveleon/contao-component-style-manager` ^3.12 (wird automatisch installiert)
+- `pdir/css-style-selector-bundle` ^2.1 (wird automatisch installiert)
 
 ## Installation
 
@@ -27,13 +27,13 @@ Der Befehl legt alles an, was das Theme braucht:
   Footer-Navigationen, Copyright und untere Links
 - Seitenlayout vom Typ „Modern“ mit dem Template `page/layout/creuva`, alle Module
   sind ihren Slots zugewiesen
-- Zuweisung des Layouts und des Klassen-Sets „Creuva“ (Advanced Classes) zum Startpunkt
+- Zuweisung des Layouts zum Startpunkt
 
 ```bash
 # Bestehende Website: Startpunkt wird abgefragt oder per ID übergeben
 vendor/bin/contao-console creuva:install --root=1
 
-# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz, Sitemap und Suche
+# Neue Website mit Startseite, Kontakt, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap und Suche
 vendor/bin/contao-console creuva:install --with-pages --site-title="Meine Firma" --dns=example.org
 
 # Komplette Demo-Website mit Beispielinhalten, Bildern, News und Formular
@@ -47,11 +47,15 @@ vendor/bin/contao-console creuva:install --demo
 | `--demo[=standard]` | Neuen Startpunkt mit der Demo anlegen (siehe unten) |
 | `--site-title`, `--language`, `--dns` | Titel, Sprache (Standard `de`) und Domain des neuen Startpunkts |
 | `--scheme` | Farbschema: `green` (Standard), `blue`, `red`, `yellow`, `petrol`, `violet`, `terracotta`, `ocean`, `indigo`, `gold`, `bordeaux`, `magenta`, `plum`, `orange`, `olive`, `sage`, `lime` |
-| `--variant` | Design-Variante: `light` (Standard), `dark`, `editorial` |
+| `--variant` | Farbmodus: `light` (Standard), `dark`, `auto` (nach Systemeinstellung) |
+| `--typography` | Typografie: `modern` (Standard, Plus Jakarta Sans) oder `editorial` (Überschriften in Fraunces), mit jedem Farbmodus kombinierbar |
 | `--theme-name` | Name des Themes (Standard „Creuva“), z. B. für eine zweite Variante |
+| `--replace` | Website mit gleicher Domain und Sprache samt Theme vorher löschen – erneuter Import in einer Multisite (siehe [Inhalte zurücksetzen](#inhalte-zurücksetzen)) |
+| `--reset` | Alle Contao-Inhalte vorher löschen (siehe `creuva:reset`) |
+| `--force`, `--no-backup` | Mit `--reset`/`--replace`: ohne Rückfrage bzw. ohne Datenbank-Backup |
 
-Kontakt-, Impressum-, Datenschutz-, Sitemap- und Suchseiten einer bestehenden Website werden
-anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `sitemap`, `suche`, …) und im
+Kontakt-, Impressum-, Datenschutz-, Barrierefreiheits-, Sitemap- und Suchseiten einer bestehenden Website werden
+anhand ihres Alias erkannt (`kontakt`, `impressum`, `datenschutz`, `barrierefreiheit`, `sitemap`, `suche`, …) und im
 Header-Button, in der Header-Suche bzw. im Footer verlinkt. Modulnamen und Texte richten sich
 nach der Sprache des Startpunkts (Deutsch oder Englisch).
 
@@ -73,6 +77,13 @@ Das Seitenlayout nimmt nur den Bereich `main` in den Suchindex auf; Header, Foot
 erscheinen deshalb nicht in den Suchergebnissen. Nach einem Update den Suchindex einmal neu
 aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
+## Suchmaschinen und Linkvorschau
+
+Das Creuva-Layout gibt auf allen indexierbaren Seiten Open-Graph-Tags aus: Titel, Beschreibung, Adresse und
+das erste Hero- oder Bild-Element im Hauptbereich (1200 × 630 px, keine SVG-Dateien). Startpunkte von
+`creuva:install` haben das Canonical-Tag aktiviert, bei bestehenden Websites lässt es sich im Startpunkt
+einschalten. Der Styleguide steht auf `noindex,nofollow`.
+
 ## Demo-Inhalte
 
 Es gibt vier Demos, jede wird als eigener Startpunkt importiert (bei einer bestehenden Website
@@ -89,13 +100,14 @@ mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
 
 - **Seiten:** Startseite, Leistungen (Webdesign, Entwicklung, Beratung), Projekte mit
   sechs Projektseiten, Über uns mit Team, Preise, News & Wissen mit FAQ und Downloads,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und eine 404-Seite („Diese Seite hat
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap, Suche und eine 404-Seite („Diese Seite hat
   sich verlaufen.“ mit Illustration und Links zu Leistungen, Projekten und Wissen); dazu der
   [Styleguide](#styleguide) (`styleguide: true` in der Demo-Definition)
 - **Module:** Hauptnavigation, Header mit CTA und Suche, Footer mit vier Spalten und Social-Media-Links,
   News-Liste und -Leser, Sitemap, Suchmaschine
-- **Bildgrößen** im Theme (Logo, Hero, Karte, Breit, Team, Avatar, News), auf die alle Bilder
-  der Demo verweisen
+- **Bildgrößen** im Theme (Logo, Hero, Karte, Bild & Text, Breit, Team, Avatar, News, Galerie),
+  auf die alle Bilder der Demo verweisen – mit mehreren Breiten, WebP und verzögertem Laden
+  (siehe *Bildgrößen der Demos* unter [Eigene Demo aus der Dateiverwaltung](#eigene-demo-aus-der-dateiverwaltung))
 - **News-Archiv** mit drei ausführlichen Beiträgen (nur wenn das News-Bundle installiert ist)
 - **Autor** der Artikel und News: der erste Administrator (sonst der erste Backend-Benutzer).
   Ältere Importe ohne Autor ergänzt `contao:migrate`.
@@ -109,7 +121,7 @@ mit `--dns` oder `--language` auf eine andere Domain bzw. Sprache legen):
   zusätzlich als `<link rel="icon" type="image/svg+xml">` ein; `/favicon.ico` bleibt Fallback
 
 Die Demo enthält außerdem den **Style-Switcher** (Zahnrad am linken Rand), mit dem
-Besucher Farbschema, Variante und Eckenradius live ausprobieren können.
+Besucher Farbschema, Farbmodus, Typografie und Eckenradius live ausprobieren können.
 
 ### Styleguide
 
@@ -145,13 +157,13 @@ und läuft deshalb unter Contao 5.7 und 6 identisch. Die Definition liegt in
 ### Demo „Portfolio / Studio“
 
 `creuva:install --demo=portfolio` importiert die Demo für Fotografen, Architekten,
-Designer und Kreativstudios („Studio Lichtung“, Variante Editorial, Farbschema Terracotta,
+Designer und Kreativstudios („Studio Lichtung“, Typografie Editorial, Farbschema Terracotta,
 kleine Ecken):
 
 - **Seiten:** Startseite mit Vollbild-Hero, Arbeiten mit sechs Projektseiten (Architektur,
   Ausstellung, Produkt, Hotel, Bürohaus, freie Serie), Bildarchiv (Masonry-Galerie mit
   Lightbox), Studio mit Team und Auszeichnungen, Leistungen mit Preisen und FAQ, Journal,
-  Kontakt mit Danke-Seite, Impressum, Datenschutz, Sitemap, Suche und 404-Seite
+  Kontakt mit Danke-Seite, Impressum, Datenschutz, Zugänglichkeitserklärung, Sitemap, Suche und 404-Seite
 - **Projektseiten:** Vollbild-Hero, Projektdaten (Fakten), Text, je eine andere
   Galerie-Anordnung oder ein Slider mit Thumbnails und ein Link zum nächsten Projekt
 - **Module:** Journal-Liste und -Leser, Breadcrumb, Sitemap, Suche; die Kundenlogos sind ein
@@ -164,6 +176,9 @@ u. a. die Bildform **„Vollbild (Text auf dem Bild)“** des Heros, die Templat
 **`creuva_tile`** („Bildkachel“: Bild in der Proportion seiner Bildgröße, ganze Kachel
 klickbar), das Inhaltselement **„Logoleiste“** (`creuva_logos`, ohne eigenen Hintergrund, den
 bestimmt der Abschnitt) und die Raster-Klasse **„Versetzt“** (`u-grid-offset`, zweite Spalte tiefer).
+Im Dark Mode stehen die Logos der Logoleiste auf einer hellen Fläche, damit dunkle und farbige Logos
+lesbar bleiben. Ausnahmen sind der Hintergrund „Primärfarbe“ und die Klasse `u-logos-original`, beide
+für weiße Logos.
 
 Seiten-Aliase in Insert-Tags wie `{{link_url::kontakt}}` ersetzt der Import durch die IDs
 der importierten Seiten. So verlinkt eine zweite Demo in derselben Installation (z. B. mit
@@ -250,9 +265,10 @@ imageSizes:
     width: 800
     height: 600
     resizeMode: crop
-    densities: 1.5x, 2x
+    densities: 400w, 600w, 800w
+    sizes: '(min-width: 80rem) 384px, (min-width: 44rem) 31vw, (min-width: 30rem) 46vw, calc(100vw - 2rem)'
     lazyLoading: true
-    formats: ['jpg:jpg,webp;jpeg:jpeg,webp', 'png:png,webp']   # wie in tl_image_size gespeichert
+    formats: [webp]   # Standard; [] = ohne moderne Formate
     items:
       - { media: '(max-width: 40rem)', width: 640, height: 640, resizeMode: 'crop' }
 pages:
@@ -264,6 +280,27 @@ modules:
   newslist: { name: 'News', type: 'newslist', news_archives: ['news_archive:blog'], imgSize: 'image_size:card' }
 ```
 
+**Bildgrößen der Demos:** Jede Größe ist für einen Platz im Layout gedacht, damit der Browser
+nicht mehr lädt als nötig (PageSpeed: „Bilder richtig dimensionieren“). Inhaltsbilder haben
+mehrere Breiten (`…w`) und eine `sizes`-Angabe passend zu Containerbreite (76rem), Spalten und
+Breakpoints; kleine Bilder fester Größe (Team, Avatar) haben `2x`. Alle Größen außer Hero,
+Vollbild und News-Detail (meist das größte Bild oben, siehe *Bevorzugtes Laden*) laden verzögert.
+JPEG- und PNG-Bilder bekommen zusätzlich WebP, wenn die Bildbibliothek des Servers es kann
+(`formats`, Standard `[webp]`; AVIF bleibt aus, weil GD dafür sehr langsam ist).
+
+| Key | Name | Für |
+|-----|------|-----|
+| `hero` | Hero | Bild im Hero-Element |
+| `cover` | Vollbild (16:9) | Hero über die volle Breite, auf Smartphones hochkant |
+| `card` | Karte (4:3) | Karten in drei oder vier Spalten, Slider mit mehreren Karten |
+| `media` | Bild & Text (4:3) | Templatevariante „Bild & Text“, Bilder und Karten in zwei Spalten |
+| `wide` | Breit | Bild über die Inhaltsbreite (auf Smartphones 4:3) |
+| `tile-portrait`, `tile-landscape` | Kachel hoch/quer | Bildkacheln (Portfolio, Sportverein) |
+| `slider` | Slider (3:2) | Bilder im Slider über die Inhaltsbreite (Portfolio) |
+| `team`, `avatar` | Team, Avatar | Personenbild (max. 14rem) und Kundenstimme (3rem) |
+| `news`, `news-detail` | News-Teaser, News-Detail | Newsliste und Kopf des Newslesers |
+| `gallery` | Galerie (responsiv) | Galerien, `sizes` setzt das Galerie-Template pro Bild |
+
 Header und Footer-Marke verwenden die Bildgröße mit dem Key `logo`. Ohne eine solche Größe legt
 der Installer eine eigene Bildgröße „Logo“ an (480 × 120 px Box, 2x-Dichte), auch ohne Demo.
 Das Logo selbst wird unter `header:` bzw. `brand:` mit `logo:` gesetzt, eine abweichende Größe
@@ -271,6 +308,10 @@ mit `logoSize`:
 
 ```yaml
 design:
+  scheme: green       # Farbschema, Farbmodus, Typografie und Eckenradius des Seitenlayouts
+  variant: light      # (der Startpunkt bleibt leer, damit Änderungen im Layout greifen)
+  typography: modern
+  radius: large
   logoHeight: 4rem    # Logohöhe des Layouts (Standard 2.25rem), der Header wächst mit
   stylesheets: ['files/design/custom.css']   # eigenes CSS, wird angelegt, falls nicht vorhanden
 header:
@@ -293,6 +334,23 @@ layout:
   prefooter: [partner]
 ```
 
+Die Links der unteren Leiste (neben dem Copyright) legt `bottom:` fest, z. B. die Rechtstexte,
+damit der Footer selbst mit Marke und drei Linkspalten in eine Zeile passt (ohne `bottom:` steht
+dort nur die Sitemap). Ein Kontaktbereich über die volle Breite unter den Spalten (Dachzeile, Titel, Text, Fakten mit
+Häkchen und Button; ab 72rem in einer Zeile) ist ein HTML-Modul mit der Klasse `c-footer-contact`
+im Slot `footer`:
+
+```yaml
+bottom: ['impressum', 'datenschutz', 'agb', 'sitemap']
+modules:
+  footerContact:
+    name: 'Footer – Kontakt'
+    type: html
+    html: '<div class="c-footer-contact"><div class="c-footer-contact__text"><p class="c-footer-contact__kicker">Beratung</p><p class="c-footer-contact__title">Fragen zum Projekt?</p><p>{{email::info@example.org}}</p></div><ul class="c-footer-contact__facts"><li>Fakt 1</li><li>Fakt 2</li></ul><a class="c-button c-button--primary" href="{{link_url::kontakt}}">Kontakt</a></div>'
+layout:
+  footer: [footerContact]
+```
+
 Termine (Kalender-Bundle) werden wie News unter `events:` definiert; das Datum ist ein
 `strtotime()`-Ausdruck (`"2026-12-05"`, `"5 December"` = aktuelles Jahr), Uhrzeiten als `HH:MM`.
 Module referenzieren den Kalender mit `calendar:<key>`:
@@ -311,7 +369,8 @@ modules:
 - Der Pfad ist relativ zum Projektverzeichnis und muss innerhalb von `files/` liegen
   (nicht in `files/creuva-demo`).
 - Die Dateien werden nach `files/creuva-demo/local-<ordnername>/` kopiert; der Quellordner
-  bleibt unverändert und kann mit `--reset` beliebig oft neu importiert werden.
+  bleibt unverändert und kann mit `--replace` (Multisite) oder `--reset` beliebig oft neu importiert
+  werden.
 - Mit `filesFolder: inhalte` in der `demo.yaml` landen die Dateien stattdessen in
   `files/inhalte/` (der Ordner wird öffentlich geschaltet). Er wird von `creuva:reset` nicht
   gelöscht; bei einem erneuten Import werden die Dateien überschrieben und behalten ihre UUID.
@@ -340,9 +399,17 @@ var/exports/kunde-x/
 Die Vorlage lässt sich in jede Installation importieren: Ordner nach `files/kunde-x` kopieren
 und `creuva:install --demo=files/kunde-x` ausführen (oder als Bundle-Demo nach `demo/<name>/`).
 
+**Im Backend** (Layout › Creuva › *Website exportieren*, nur für Administratoren) führt dasselbe
+Formular `creuva:export` aus. Darunter stehen alle Exporte aus `var/exports` mit Titel, Datum,
+Anzahl der Dateien und Größe; sie lassen sich als ZIP herunterladen und löschen. Das ZIP wird
+beim Download erzeugt (`Exporter/ZipWriter`, mit `ZipArchive` oder ohne die PHP-Erweiterung
+„zip“) und danach wieder gelöscht. Eigene Tabellen anderer Erweiterungen sind nicht Teil des
+Exports; für den Umzug einer kompletten Website ein Datenbank-Backup verwenden.
+
 - Header-Button, Logos, Marke (Claim, Social-Media-Links) und Footer-Spalten werden aus den
-  Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante und Eckenradius
-  aus Seitenlayout und Startpunkt. Eigene Farben des Layouts werden nicht exportiert.
+  Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante, Typografie und
+  Eckenradius aus Seitenlayout und Startpunkt (als `design:`, der Import setzt sie im Seitenlayout).
+  Eigene Farben des Layouts werden nicht exportiert.
 - Vom Startpunkt werden Datums-/Zeitformate und das Favicon übernommen
   (`root: { favicon: file:… }`).
 - Bildgrößen: alle Größen des Themes, dem das Seitenlayout gehört, und alle in Inhalten und
@@ -378,6 +445,52 @@ vendor/bin/contao-console creuva:install --demo --reset
   zurückspielen mit `contao:backup:restore <Dateiname>`. Ohne Backup: `--no-backup`.
 - Ohne Rückfrage (z. B. in Skripten): `--force`.
 
+#### Eine Website einer Multisite ersetzen (`--replace`)
+
+`--reset` löscht **alle** Websites. Laufen mehrere Websites in einer Installation, ersetzt
+`--replace` nur die Website, die der Import neu anlegen würde:
+
+```bash
+vendor/bin/contao-console creuva:install --demo=files/meine-demo \
+    --site-title="Meine Firma" --dns=example.org --theme-name="Meine Firma" --replace
+```
+
+Gelöscht werden:
+
+- die Startpunkte mit derselben Domain (`--dns`) und Sprache (`--language`) samt allen
+  Unterseiten, Artikeln und Inhaltselementen (auch verschachtelte)
+- das Theme mit dem Namen aus `--theme-name` und die Themes, deren Layouts diese Website nutzt,
+  jeweils mit Layouts, Modulen und Bildgrößen
+- Formulare (Inhaltselemente und Module vom Typ *Formular*), News-Archive und Kalender (aus den
+  Modulen der gelöschten Themes) samt Feldern, Nachrichten, Events und deren Inhalten – aber nur,
+  wenn keine andere Website sie verwendet
+
+Sicherheitsregeln:
+
+- Wird das Theme aus `--theme-name` auch von einer anderen Website genutzt (Layout oder Modul),
+  bricht der Befehl ab, ohne etwas zu löschen. Andere gemeinsam genutzte Themes, Formulare,
+  Archive und Kalender bleiben erhalten (mit Hinweis).
+- Vor dem Löschen zeigt der Befehl alle betroffenen Datensätze und fragt nach; ohne Rückfrage:
+  `--force`. Vorher wird ein Backup unter `var/backups/creuva-replace__<Zeitstempel>.sql.gz`
+  angelegt (`--no-backup` zum Abschalten).
+- Dateien bleiben erhalten; der Import überschreibt die Demo-Dateien, ihre UUIDs bleiben gleich.
+- Bild- und Sitemap-Cache werden geleert, der Seiten-Cache nur, wenn ein Reverse Proxy
+  konfiguriert ist (sonst bei Bedarf `cache:clear`). Den Suchindex danach mit `contao:crawl`
+  neu aufbauen.
+- Gibt es noch keine passende Website, legt `--replace` sie einfach neu an.
+- Nicht kombinierbar mit `--reset` und `--root`; erfordert `--demo` oder `--with-pages`.
+
+### Zugänglichkeitserklärung
+
+Jede Demo bringt die Seite `zugaenglichkeitserklaerung` mit, die im Footer verlinkt ist. Jeder
+Abschnitt ist ein eigenes Text-Element. Abschnitte, die nicht auf jede Website passen (PDF-Dokumente,
+Videos und Audio, Karten, Drittanbieter, BFSG, Schlichtung, Screenreader,
+Maßnahmen), sind ausgeblendet und lassen sich im Artikel über das Augen-Symbol einblenden.
+`--with-pages` legt die Seite mit einem Platzhalter an.
+
+Der Text ist ein Muster, das Theme allein macht eine Website nicht konform. Der Stand und
+die Angaben müssen zur jeweiligen Website passen.
+
 ## Manuelle Einrichtung
 
 1. **Layout → Themes → Neues Theme** anlegen.
@@ -401,18 +514,26 @@ vendor/bin/contao-console creuva:install --demo --reset
 
    Die untere Leiste enthält immer den Link „powered by contao-themes.net“; er ist Teil der
    Lizenz und darf nur mit einer Lizenz ohne Copyright-Link entfernt werden (siehe `LICENSE`).
+   Footer-Spalten und untere Leiste liegen gemeinsam in einem `<footer>`.
 
-4. Unter **Creuva-Design** Farbschema, Variante (Light, Dark, Editorial), Eckenradius,
+   Barrierefreiheit: Jedes Navigationsmodul sollte unter *Experten-Einstellungen* eine
+   eindeutige ARIA-Beschriftung bekommen (z. B. „Hauptnavigation“, „Leistungen“,
+   „Service-Links“), die Überschriften der Footer-Spalten sind `h2`. In Formularen bei Name,
+   E-Mail, Telefon usw. das Feld *Autovervollständigen* setzen (`name`, `email`, `tel`,
+   `organization`, `bday`). Der Installer und die Demos machen das bereits.
+
+4. Unter **Creuva-Design** Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial), Eckenradius,
    Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
    Standard `2.25rem`) festlegen.
-5. Im **Startpunkt der Website** unter *Advanced Classes* das Set **„Creuva“** wählen.
-   Redakteure können dann Hintergründe, Raster, Abstände usw. per Auswahlfeld setzen.
+
+Hintergründe, Raster, Abstände usw. setzen Redakteure im Bereich *CSS-Stil* der Elemente,
+Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-css-style-selector)).
 
 ## Inhaltselemente & Module
 
 | Typ | Beschreibung |
 |-----|--------------|
-| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in drei Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Akzentform dahinter, *Bild unverändert*) und Badge als kleine Karte mit Häkchen, eine Zeile pro Punkt (Bild und Text optional) |
+| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in mehreren Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Schatten und Akzentform dahinter, *Bild unverändert*, *Bild unverändert mit Akzentform* ohne Schatten und Beschnitt, ideal für freigestellte Bilder mit transparentem Hintergrund, und *Vollbild*) und Badge als kleine Karte mit Häkchen, eine Zeile pro Punkt (Bild und Text optional) |
 | Creuva › Creuva Header | Logo, Hauptnavigation (mit Dropdowns), CTA-Button, mobiles Menü |
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |
 
@@ -432,15 +553,16 @@ Unter *Template-Einstellungen › Individuelles Template* stehen diese Varianten
 | Element | Variante | Verwendung |
 |---------|----------|------------|
 | Text | `creuva_card` | Karte mit Bild, Kategorie (Subline), Titel und Text; der letzte Link macht die ganze Karte klickbar |
-| Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im Style Manager unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
-| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im Style Manager: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
-| Text | `creuva_media` | Bild & Text: Bild links oder rechts neben dem Text, oder oben bzw. unten im Format 16:9 (*Bildausrichtung*), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
+| Text | `creuva_feature` | Icon-Box mit rundem Icon (SVG oder kleines Bild); beim Hover hebt sich die Karte und das Icon wird mit der Primärfarbe gefüllt. Im CSS Style Selector unter *Elementoptionen › Icon-Box*: „Ohne Karte“ (`u-feature-plain`, z. B. Vorteile in einer Reihe) oder „Icon links“ (`u-feature-inline`, z. B. Kontaktdaten) |
+| Text | `creuva_cta` | Call-to-Action-Box: dunkle Fläche, Dachzeile, zweifarbige Überschrift und Text links, die Links im letzten Absatz als Buttons rechts (der erste gefüllt, weitere als Umriss). Optionen im CSS Style Selector: Farbe unter *Farben des Elements* (Weiß, Grau, Akzent hell, Akzentfarbe, Rahmen; Text und Buttons passen sich an), *Call to Action › Zentriert, Buttons unter dem Text* (`u-cta-stacked`), volle Fensterbreite mit *Breite › Volle Breite* (`u-full-bleed`, für eine Fläche ohne Abstand im Artikel „Innenabstand oben und unten: Kein“) |
+| Text | `creuva_media` | Bild & Text: Bild links oder rechts neben dem Text, oder oben bzw. unten (*Bildausrichtung*, dann am besten eine breite Bildgröße), Dachzeile, zweifarbige Überschrift, Text mit Häkchenliste; Links im letzten Absatz werden zu Buttons (der erste als Primär-Button) |
 | Text | `creuva_testimonial` | Kundenstimme: Zitat im Text, Name als Überschrift, Funktion als Subline, Porträt als Bild |
 | Text | `creuva_team` | Teammitglied: Porträt, Name, Funktion (Subline), Kontakt |
 | Text | `creuva_price` | Preis-Karte: Paket als Überschrift, Preis als Subline, Leistungsliste, letzter Link als Button; mit `u-featured` hervorgehoben |
-| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben |
+| Beschreibungsliste | `creuva_stats` | Kennzahlen als Karten: Begriff = Zahl, Beschreibung = Bezeichnung; Zeichen vor/nach der Zahl („+“, „%“, „Uhr“) werden hervorgehoben, die Zahlen zählen beim Scrollen hoch. Bereiche wie „11–20 Uhr“ bekommen die Einheit ebenfalls, zählen aber nicht hoch; Datumsangaben („24.11.“, „24.11.2026“) bleiben unverändert. Optional ein Icon über jeder Zahl: Feld *Icons (Kennzahlen)*, in der Reihenfolge der Einträge; der Kreis lässt sich mit den Icon-Klassen (`u-icon-*`) einfärben, SVG-Icons erscheinen im Farbschema |
 | Beschreibungsliste | `creuva_timeline` | Zeitleiste: Begriff = Jahr/Schritt, Beschreibung = Ereignis; horizontal, sobald das Element breit genug ist, in einer Rasterspalte vertikal |
 | Beschreibungsliste | `creuva_facts` | Fakten als Karte, z. B. Projektdaten: Begriff = Bezeichnung („Kunde“), Beschreibung = Wert |
+| Galerie | `creuva_slider` | Galerie als Slider (Swiper wie der Content-Slider): *Bilder pro Reihe* legt fest, wie viele Bilder ein Slide zeigt (1–6; auf Tablets höchstens zwei, auf Smartphones eines); Pfeile und Punkte blättern um so viele Bilder weiter. Das Format kommt aus der Bildgröße (für gleich hohe Slides eine Größe mit festem Zuschnitt wählen); *Großansicht* öffnet die Lightbox |
 
 In Kästen mit `u-bg-primary` oder `u-bg-accent` wird ein Link, der allein im letzten
 Absatz steht, automatisch als Button dargestellt (Call-to-Action-Box). In Texten mit
@@ -496,7 +618,7 @@ wird dann zum Abschnitt mit Hintergrund über die volle Breite.
 **Abstände zwischen Abschnitten:** Jeder Artikel hat oben und unten einen Abschnittsabstand.
 Folgen zwei Artikel ohne Hintergrund oder mit demselben Hintergrund aufeinander, entfällt der
 obere Abstand des zweiten. Sonst würde sich der Abstand verdoppeln, obwohl beide wie eine Fläche
-wirken. Einzelne Artikel lassen sich im Style Manager unter *Abstände* anpassen: Innen- und
+wirken. Einzelne Artikel lassen sich im CSS Style Selector unter *Abstände* anpassen: Innen- und
 Außenabstand jeweils oben und unten, nur oben oder nur unten.
 
 ### Überschriften mit Dachzeile oder Akzent
@@ -518,6 +640,10 @@ Der News-Leser zeigt einen Kopfbereich wie der Hero: Archiv, Datum und Lesezeit 
 Überschrift, Unterüberschrift als Einleitung und Autor, daneben das Bild des Beitrags (Bildgröße
 im Modul *News – Leser*). Die Inhaltselemente folgen in der Lesespalte.
 
+**Bildunterschrift des News-Bildes:** In Listen erscheint keine. Im News-Leser erscheint sie nur, wenn sie
+im Beitrag selbst unter *Metadaten überschreiben* eingetragen ist; die Bildunterschrift aus der
+Dateiverwaltung wird nicht übernommen (`src/EventListener/NewsImageCaptionListener.php`).
+
 Im Beitrag gibt es das Feld **„Hervorgehobener Teil“** (neben der Überschrift): Der eingetragene
 Text erscheint im Beitrag in der Akzentfarbe, z. B. „**Barrierefreiheit wird Pflicht** – was
 Websites jetzt brauchen“. Er muss genau so in der Überschrift vorkommen. Bleibt das Feld leer,
@@ -533,41 +659,56 @@ Der Texteditor hat das Menü **„Formate“** mit den Textstilen des Themes:
 - *Links:* Button, Button (sekundär) – den Link markieren und das Format wählen
 
 Technisch: Das Text-Element nutzt die Editor-Konfiguration `tinyCreuva`
-(`contao/templates/backend/be_tinyCreuva.html5`, erweitert `be_tinyMCE`).
+(`contao/templates/be_tinyCreuva.html.twig`, erweitert `@Contao/be_tinyMCE.html.twig`; als
+Twig-Template funktioniert sie in Contao 5.7 und 6).
 
-### CSS-Klassen im Style Manager
+### CSS-Klassen im CSS Style Selector
 
-Alle Creuva-Klassen stehen im [Style Manager](https://github.com/oveleon/contao-component-style-manager)
-als Auswahlfelder bereit, und zwar im Bereich *Stil* von Inhaltselementen, Artikeln und
-Modulen. Sie sind nach den Bereichen der Tabelle unten gruppiert, und jedes Element
-zeigt nur die Gruppen an, die für seinen Typ passen (z. B. *Raster* nur bei
-Elementgruppen, *Buttons* nur bei Hyperlink- und Text-Elementen).
+Alle Creuva-Klassen stehen im [CSS Style Selector](https://github.com/pdir/css-style-selector-bundle)
+als Stile bereit, und zwar im Bereich *CSS-Stil* von Inhaltselementen, Artikeln und
+Modulen. Die Bereiche der Tabelle unten sind Kategorien (z. B. *Abstände*), darin liegen
+die Gruppen (z. B. *Innenabstand oben und unten*). Jede Gruppe erscheint im Element als
+Auswahlfeld und erlaubt genau einen Stil. Jedes Element zeigt nur die Gruppen an, die für
+seinen Typ passen (z. B. *Raster* nur bei Elementgruppen, *Buttons* nur bei Hyperlink- und
+Text-Elementen).
 
-Die Gruppen liegen als normale Datensätze in der Datenbank. Unter *Layout › Style Manager*
-lassen sie sich ändern, und eigene Gruppen kommen dazu. Die Vorlage ist
-`config/style-manager.yaml`. Importiert wird sie
+Kategorien und Gruppen liegen als normale Datensätze in der Datenbank, die Stile als Zeilen
+(CSS-Klasse und Titel) in ihrer Gruppe. Unter *Layout › CSS Stile* lassen sie sich ändern,
+sortieren (Gruppen und Stile per Drag & Drop) und um eigene Kategorien und Gruppen
+ergänzen; Bereiche und Elementtypen gelten jeweils für die ganze Gruppe
+(*Veröffentlichung*). Die Vorlage ist `config/css-styles.yaml`.
+Importiert wird sie
 
 - automatisch von `creuva:install`,
-- bei bestehenden Websites einmalig von `contao:migrate`, solange noch kein Creuva-Archiv
+- bei bestehenden Websites einmalig von `contao:migrate`, solange noch keine Creuva-Gruppe
   existiert,
 - nach einem Theme-Update mit neuen Klassen mit diesem Befehl:
 
 ```bash
-vendor/bin/contao-console creuva:style-manager
+vendor/bin/contao-console creuva:css-styles
 ```
 
-Der Import ergänzt nur fehlende Archive, Gruppen und Klassen. Änderungen im Backend
-(Titel, Elementtypen, entfernte Klassen, eigene Gruppen) bleiben erhalten. Archiv- und
-Gruppen-Aliase (`creuvaGrid`, `columns` …) sind Teil der gespeicherten Auswahl und sollten
-nicht umbenannt werden.
+Der Import ergänzt nur fehlende Kategorien, Gruppen und Stile. Änderungen im Backend
+(Titel, Elementtypen, entfernte Stile, eigene Kategorien und Gruppen) bleiben erhalten. Die
+importierten Kategorien und Gruppen erkennt der Import an ihrer Kennung (`creuvaGrid`,
+`creuvaGrid.columns` …), die Stile einer Gruppe an ihrer CSS-Klasse.
 
-- Der Demo-Import belegt die Klassen der Demo-Elemente im Style Manager vor.
+Gruppen aus der Version vor den Kategorien (Titel „Bereich › Gruppe“) verschiebt
+`contao:migrate` in die Kategorie ihres Bereichs und kürzt den Titel auf den Gruppennamen,
+sofern er nicht im Backend geändert wurde.
+
+- Der Demo-Import wählt die Klassen der Demo-Elemente im CSS Style Selector vor.
 - Bei bestehenden Websites übernimmt die Migration (`contao:migrate`) Creuva-Klassen
-  aus dem Feld *CSS-Klasse* in die Auswahl des Style Managers. Das gilt nur für
-  Datensätze ohne Style-Manager-Auswahl, die Klassen selbst bleiben unverändert.
+  aus dem Feld *CSS-Klasse* in die Stil-Auswahl. Das gilt nur für Datensätze ohne
+  ausgewählten Stil, die Klassen selbst bleiben unverändert.
+- **Umstieg vom Style Manager:** Die Klassen stehen weiterhin im Feld *CSS-Klasse*, das
+  Frontend bleibt also unverändert. Nach dem Update legt `contao:migrate` die Creuva-Gruppen
+  an und überträgt die Auswahl. Eigene Style-Manager-Gruppen müssen als CSS-Stile neu
+  angelegt werden. Danach können die Tabellen `tl_style_manager_archive` und
+  `tl_style_manager` sowie die Spalten `styleManager` gelöscht werden.
 
 **Farben des Elements:** Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und die Boxen des
-Theme Components Bundles bekommen über den Style Manager eine Fläche (Weiß, Grau, Akzent hell,
+Theme Components Bundles bekommen über den CSS Style Selector eine Fläche (Weiß, Grau, Akzent hell,
 Haupt- oder Akzentfarbe) oder nur einen farbigen Rahmen. Auf dunklen Flächen wechseln Text,
 Links und Dachzeilen automatisch in die Kontrastfarbe. Der Kreis hinter dem Icon einer
 Icon-Box ist separat einstellbar. Bei Haupt- und Akzentfarbe wird das Icon weiß, das
@@ -580,10 +721,9 @@ siehe `assets/scss/_element-styles.scss`), die alle Karten lesen.
 **letzten Absatz** zu Buttons, nebeneinander. In der Templatevariante „Bild & Text“
 und in Call-to-Action-Boxen (`u-bg-primary`, `u-bg-accent`) passiert das automatisch.
 
-### Klassen-Set (Advanced Classes)
+### Übersicht der Klassen
 
-Dieselben Klassen gibt es zusätzlich als Klassen-Set „Creuva“ für das Advanced
-Classes Bundle (`public/sets/creuva.json`).
+Alle Klassen, die als CSS-Stile bereitstehen:
 
 | Bereich | Klassen |
 |---------|---------|
@@ -592,10 +732,11 @@ Classes Bundle (`public/sets/creuva.json`).
 | Rahmen | `u-card`, `u-featured` (hervorgehobene Preis-Karte) |
 | Raster (Elementgruppe) | `u-grid-2`, `u-grid-3`, `u-grid-4`, Ausrichtung `u-align-start` (Spalten nicht strecken), `u-align-center`, `u-align-end`, Spaltenbreite bei zwei Spalten `u-cols-wide-start`, `u-cols-wide-end` (3 : 2) |
 | Tabelle | `u-table-compare` (Paket-Vergleich: Spalten 2–4 farbig, „✓“/„–“ als Icons) |
+| News | `u-news-no-author` am Modul Newsliste, Newsleser oder Newsarchiv: blendet den Autor aus, das Datum bleibt (Contao 5 hat die Einstellung „Meta-Felder“ nicht mehr). Dafür setzen die Creuva-Templates `news_latest`/`news_short` den Autor in ein eigenes Element |
 | Abstände | Innenabstand `u-py-*` (oben und unten), `u-pt-*` (nur oben), `u-pb-*` (nur unten); Außenabstand `u-my-*`, `u-mt-*`, `u-mb-*` – jeweils `0`, `s`, `m`, `l`, `xl` |
 | Text | `u-text-left/center/right`, `u-lead`, `u-muted`, `u-accent`, `u-kicker` |
-| Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
-| Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`; Icon der Icon-Box und der Kennzahlen: `u-icon-soft` (hell, Standard), `u-icon-accent` (mittel, Icon weiß), `u-icon-primary` (dunkel, Icon weiß), `u-icon-white`, `u-icon-plain` |
+| Buttons | `u-button` (Primär), `u-button-secondary` (weiß), `u-button-accent` (Akzentfarbe), `u-button-outline`, `u-button-outline-accent` (nur Rahmen; Schrift und Rahmen in der Akzent-Textfarbe, damit auch helle Akzente lesbar bleiben) – für das Hyperlink-Element und die Links im letzten Absatz eines Text-Elements |
+| Farben des Elements | Fläche oder Rahmen von Karten, Icon-Boxen, Kundenstimmen, Preis-Karten und Theme-Components-Boxen: `u-card-white`, `u-card-muted`, `u-card-soft`, `u-card-primary`, `u-card-accent`, `u-card-outline-primary`, `u-card-outline-accent`, `u-card-flat`, `u-card-none` (ohne Hintergrund); bei den Kennzahlen gilt die Auswahl für jede einzelne Zahl (ohne Auswahl nur auf dunklem Hintergrund eine leichte Fläche, mit `u-card-none` auch dort keine). Icon der Icon-Box und der Kennzahlen: `u-icon-soft` (hell, Standard), `u-icon-accent` (mittel, Icon weiß), `u-icon-primary` (dunkel, Icon weiß), `u-icon-white`, `u-icon-light` (weißer Kreis, Icon schwarz – auch auf dunklem Hintergrund), `u-icon-plain`. SVG-Icons werden im Farbschema eingefärbt (CSS-Maske, Icon in Akzentfarbe bzw. Kontrastfarbe); `u-icon-original` (Gruppe *Icon-Farbe*) zeigt sie in den Farben der Datei, z. B. mehrfarbige Icons. Andere Bilder (PNG, JPG) behalten ihre Farben |
 | Icon-Box | `u-feature-plain` (ohne Karte), `u-feature-inline` (Icon links) |
 | Call to Action | `u-cta-stacked` (zentriert, Buttons unter dem Text) |
 | Galerie | Bildgröße „Galerie (responsiv)“ wählen (mehrere Breiten, der Browser lädt passend zur Kachel), „Großansicht“ öffnet die Creuva-Lightbox; Spalten über „Bilder pro Reihe“ (1–6); Anordnungen `u-gallery-mosaic` (großes Bild links, daneben ein breites und zwei kleine, je vier Bilder), `u-gallery-mosaic-right`, `u-gallery-featured` (erstes Bild über die volle Breite), `u-gallery-masonry` (Bilder in eigener Höhe – Bildgröße ohne Zuschnitt wählen) |
@@ -603,31 +744,51 @@ Classes Bundle (`public/sets/creuva.json`).
 | Elemente | `u-accordion-icon`, `u-accordion-info`, `u-accordion-chat` (Akkordeon-Icon), `u-media-plain` (Bild & Text ohne Akzentfläche) |
 | Sichtbarkeit | `u-hide-mobile`, `u-hide-desktop` |
 
-Die Klassen funktionieren auch ohne das Advanced Classes Bundle über das Feld
-*CSS-Klasse*.
+Die Klassen funktionieren auch direkt im Feld *CSS-Klasse*, z. B. in Bereichen ohne
+CSS-Stil-Auswahl.
+
+Ein Klassen-Set für das Advanced Classes Bundle bringt Creuva nicht mehr mit. Das Bundle
+bleibt installiert, weil das Theme Components Bundle es voraussetzt. `contao:migrate`
+entfernt das frühere Set „Creuva“ aus Startpunkten und Formularen.
 
 ## Bilder in Galerien und Lightbox
 
 **Bildgröße:** Eine Galerie hat nur eine Bildgröße für alle Bilder. Damit trotzdem jede
 Kachel passend geladen wird, bringen Demo und Styleguide die Bildgröße
-**„Galerie (responsiv)“** mit: proportional, Breiten 480/800/1200/1600 px als `srcset`.
+**„Galerie (responsiv)“** mit: proportional, Breiten 320/480/640/800/1200/1600 px als `srcset`.
 Das Galerie-Template (`contao/templates/content_element/gallery.html.twig`) ersetzt das
 `sizes` der Bildgröße pro Bild: passend zu Anordnung (`u-gallery-*`), Position und
 „Bilder pro Reihe“, begrenzt auf die Inhaltsbreite (1216 px). Beim Mosaik bekommt das große
 Bild z. B. `(min-width: 80rem) 608px, (min-width: 48rem) 50vw, 100vw`, die kleinen 304px
-bzw. 25vw. So lädt der Browser für kleine Kacheln kleine und für große Bilder große Varianten
+bzw. 25vw. Ist ein Bild breiter als seine Kachel, wird es seitlich beschnitten und größer als die
+Kachel dargestellt; `sizes` wird dann entsprechend erhöht, damit es nicht unscharf wird. So lädt
+der Browser für kleine Kacheln kleine und für große Bilder große Varianten
 (`src/Image/GalleryImages.php`). Zugeschnitten wird per CSS (`object-fit`), die Bilder bleiben
 unbeschnitten gespeichert. Der **„Wichtige Bereich“** aus der Dateiverwaltung wird dabei als
 `object-position` gesetzt, damit das Motiv in der Kachel sichtbar bleibt. Für eigene Galerien
 diese Bildgröße wählen oder nach demselben Prinzip anlegen (Breiten genügen, `sizes` setzt das
-Template). Feste Zuschnitte wie „Karte (4:3)“ passen nur zum gleichmäßigen Raster.
+Template).
+
+**Bildformat:** Das Format eines Bildes legt die Bildgröße fest, nicht das CSS. Das gilt für Galerie,
+Galerie-Slider, Bild & Text, Hero, News, Suchergebnisse und die Teaser-Box. Galerie-Raster und
+Galerie-Slider brauchen für gleich hohe Bilder eine Größe mit festem Zuschnitt (z. B. „Karte (4:3)“),
+Mosaik und „Erstes Bild groß“ füllen ihre Kacheln mit jeder Größe, Masonry braucht eine Größe ohne
+Zuschnitt. Fest bleiben nur Formen, die das Element selbst vorgibt: das runde Team-Bild (1:1), die
+Vorschaubilder des Sliders und die Wappen im Spiel-Element.
 
 **Lightbox:** Mit *Großansicht/Neues Fenster* öffnen Bilder der Galerie und des Bild-Elements
 die Creuva-Lightbox (`assets/js/creuva.js`, `components/_lightbox.scss`). Sie bietet einen
-dunklen Hintergrund, Bildunterschrift bzw. Alt-Text, Zähler, Vor/Zurück, Tastatur (Esc,
+dunklen Hintergrund, Bildunterschrift bzw. Titel aus den Metadaten (höchstens zwei Zeilen;
+der Alt-Text wird nicht angezeigt), Zähler, Vor/Zurück, Tastatur (Esc,
 Pfeiltasten) und Wischen auf dem Smartphone. Bilder mit demselben `data-lightbox`-Wert,
 also einer Galerie, bilden eine Gruppe. Die Lightbox-Skripte von Contao (jQuery/MooTools)
 werden nicht benötigt.
+
+**Bevorzugtes Laden:** Das erste große Bild einer Seite (mindestens 400 px breit, im ersten
+Artikel des Hauptbereichs, z. B. das Hero-Bild) bekommt automatisch `fetchpriority="high"`
+und kein Lazy Loading, damit es als Erstes geladen wird (`src/EventListener/ImagePriorityListener.php`).
+Beginnt eine Seite mit Text, bleiben alle Bilder unverändert, ebenso wenn ein Template bereits
+selbst `fetchpriority` setzt.
 
 ## Animationen und Hover-Effekte
 
@@ -636,14 +797,15 @@ Im Seitenlayout legt **Creuva-Design › Animationen** fest, was beim Scrollen e
 | Einstellung | Wirkung |
 |-------------|---------|
 | Alle Abschnitte (Standard) | Alle Elemente im Hauptbereich blenden von unten ein, Raster (`u-grid-*`) und News-Listen Element für Element, „Bild & Text“ von beiden Seiten |
-| Nur per CSS-Klasse | Nur Elemente mit einer Klasse aus „Animation“ (siehe Klassen-Set) |
+| Nur per CSS-Klasse | Nur Elemente mit einer Klasse aus „Animation“ (CSS-Stile, siehe Übersicht der Klassen) |
 | Keine | Keine Scroll-Animationen, keine Einstiegsanimation im Hero, Zahlen werden sofort angezeigt |
 
 - Die Klassen `u-reveal-*` legen die Richtung je Element fest und haben Vorrang vor der
   automatischen Animation; `u-reveal-none` nimmt ein Element (oder einen ganzen Artikel) aus.
 - Inhalte, die beim Laden schon sichtbar sind, werden nie ausgeblendet; ohne JavaScript ist
   alles sofort sichtbar.
-- Der Hero blendet beim Laden ein, die Fläche hinter dem Bild bewegt sich langsam.
+- Der Hero blendet beim Laden kurz ein (0,35 s, längere Animationen verschlechtern den Speed Index
+  in PageSpeed); die Fläche hinter dem Bild und das Badge bewegen sich erst nach 3 Sekunden.
 - Besucher mit der Systemeinstellung „Bewegung reduzieren“ sehen keine Animationen.
 - Hover-Effekte (Karten heben sich, Bilder zoomen, Pfeile wandern mit) sind immer aktiv.
 - Dauer, Weg und Verzögerung lassen sich per CSS anpassen:
@@ -688,8 +850,15 @@ Quelle für das CSS, die Auswahl im Seitenlayout, den Style-Switcher und `creuva
 | `darkAccent` | nein | Primär- und Akzentfarbe der Variante „Dark“ (Standard: `accent` aufgehellt) |
 
 Neues Schema: Eintrag ergänzen und `npm run build` ausführen. Der Build prüft die
-WCAG-Kontraste (Text 4,5:1, große Schrift 3:1) für Light und Dark und bricht mit einer
-Meldung ab, wenn ein Schema sie nicht erreicht. Das Schema `default` gilt ohne Auswahl.
+WCAG-Kontraste (Text 4,5:1, große Schrift und Grafiken 3:1) für Light und Dark und bricht mit
+einer Meldung ab, wenn ein Schema sie nicht erreicht (`assets/build/color-schemes.js`). Geprüft
+werden Text, gedämpfter Text und Akzenttext auf allen Flächen (Hintergrund, Weiß, Grau, Akzent
+hell), Schrift auf Primär- und Akzentfarbe sowie auf Primär-Karten im Dark Mode. Reicht der
+Akzent als Textfarbe nicht, ein dunkleres `accentText` angeben. Das Schema `default` gilt ohne Auswahl.
+
+Eigene Primär- und Akzentfarben im Seitenlayout prüft die Live-Vorschau: Sie zeigt einen
+Hinweis, wenn weiße Schrift auf der Primärfarbe oder die Akzentfarbe als Schrift auf Weiß
+unter 4,5:1 liegt.
 
 Im Seitenlayout werden die Schemen als Farbpunkte zur Auswahl angeboten; darunter zeigt eine
 Live-Vorschau Überschrift, Buttons und Boxen im gewählten Schema – inklusive Variante,
@@ -698,18 +867,23 @@ Eckenradius und eigener Farben (`public/backend.css` und `backend.js`, nur im Se
 Das Seitenlayout gibt das Schema als `data-scheme` am `<html>`-Element aus; eigene
 Primär-/Akzentfarben aus dem Layout überschreiben es.
 
-Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Variante und Eckenradius
+Im Startpunkt der Website (Root-Seite) lassen sich Farbschema, Farbmodus, Typografie und Eckenradius
 unter „Creuva-Design“ zusätzlich festlegen. Diese Werte haben Vorrang vor dem Seitenlayout;
 ein Schema im Startpunkt ersetzt auch die eigenen Farben des Layouts. So können mehrere
-Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Die frühere Variante „Corporate“
-ist jetzt das Schema „Blau“ (bestehende Layouts werden per Migration umgestellt).
+Websites ein Layout nutzen und trotzdem unterschiedlich aussehen. Der Installer und die Demos
+lassen die Felder im Startpunkt leer („Wie im Seitenlayout“), damit Änderungen im Seitenlayout
+sichtbar werden; ältere Demo-Definitionen mit `creuvaScheme` … unter `root:` landen ebenfalls im
+Seitenlayout. Die frühere Variante „Corporate“
+ist jetzt das Schema „Blau“, die frühere Variante „Editorial“ die Typografie „Editorial“ im Farbmodus Light
+(bestehende Layouts und Startpunkte werden per Migration umgestellt). Farbmodus und Typografie sind
+unabhängig voneinander, z. B. Editorial mit Dark.
 
 ### Style-Switcher
 
 Das Frontend-Modul *Creuva Style-Switcher* blendet am linken Rand ein Zahnrad ein, über das
-Besucher Farbschema, Variante und Eckenradius wechseln. Die Auswahl wird nur im Browser
+Besucher Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial) und Eckenradius wechseln. Die Auswahl wird nur im Browser
 (localStorage) gespeichert und gilt auf allen Seiten mit dem Modul. Per URL lässt sich eine
-Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&radius=none`. Das Modul im Slot
+Kombination direkt verlinken, z. B. `?scheme=red&theme=dark&typography=editorial&radius=none`. Das Modul im Slot
 `top` platzieren, damit die Auswahl vor dem ersten Rendern greift.
 
 In der Frontend-Vorschau zeigt der Switcher Administratoren zusätzlich den Button
@@ -718,15 +892,28 @@ leert den Seiten-Cache dieser Website und gilt danach für alle Besucher. Redakt
 Admin-Rechte und normale Besucher sehen den Button nicht; der Endpunkt
 (`/contao/creuva/style-switcher`) prüft Admin-Rechte und Request-Token.
 
-Mit der Moduloption „Nur für Administratoren in der Vorschau“ ist der Switcher für Besucher
-unsichtbar – so lässt sich das Design einer Live-Website in der Vorschau auswählen.
+Mit der Moduloption „Nur für angemeldete Backend-Benutzer“ ist der Switcher für Besucher
+unsichtbar: Er erscheint nur, wenn man im Backend angemeldet ist (im Frontend und in der
+Vorschau). Besucher können das Design dann nicht ändern, eine früher im Browser gespeicherte
+Auswahl gilt für sie nicht mehr. Für Live-Websites diese Option setzen, ohne sie sieht jeder
+den Switcher (Demo-Website).
+
+### Farbmodus „System“
+
+Der Farbmodus „Light oder Dark nach Systemeinstellung“ (`auto`, im Seitenlayout oder im
+Startpunkt) zeigt die Website hell oder dunkel, je nachdem, was im Betriebssystem bzw. Browser
+des Besuchers eingestellt ist, und wechselt mit, wenn sich die Einstellung ändert. Ein kleines
+Skript im `<head>` setzt dafür `data-theme` vor dem ersten Rendern (kein Aufblitzen); ohne
+JavaScript bleibt die Seite hell. Im Style-Switcher heißt die Option „System“.
 
 ## Schriften und Druck
 
 - **Schriften:** Plus Jakarta Sans (alle Gewichte von 200 bis 800) und Fraunces (Überschriften der
-  Variante „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
-  selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans wird vorab geladen (27 KB), Fraunces
-  lädt der Browser nur, wenn die Variante sie verwendet. Lizenz: SIL Open Font License 1.1
+  Typografie „Editorial“) werden als variable WOFF2-Dateien mit dem Zeichensatz Latin ausgeliefert und
+  selbst gehostet, also ohne Anfragen an Google. Plus Jakarta Sans (27 KB) wird bewusst nicht per
+  Preload geladen, weil das mit `creuva.css` konkurriert und das erste Rendern verzögert; bis die Datei da
+  ist, steht der Text in der Ersatzschrift (`font-display: swap`). Fraunces lädt der Browser nur, wenn
+  die Typografie sie verwendet. Lizenz: SIL Open Font License 1.1
   (siehe `THIRD-PARTY-NOTICES.md`).
 - **Druck:** Gedruckt wird nur der Inhalt in Schwarz auf Weiß, ohne Header, Footer, Breadcrumb,
   Slider-Steuerung und Hintergründe. Links im Text erscheinen mit ihrer Adresse, Akkordeons sind
@@ -780,14 +967,13 @@ composer require pdir/creuva-theme-bundle:@dev
 
 ```
 assets/            Quellcode (SCSS, JS) – wird nicht mit ausgeliefert
-config/            Symfony-Services, Farbschemen (color-schemes.json), Style-Manager-Gruppen (style-manager.yaml)
-contao/config/     Registrierung des Klassen-Sets
-contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module)
+config/            Symfony-Services, Farbschemen (color-schemes.json), CSS-Stile (css-styles.yaml)
+contao/dca/        DCA-Erweiterungen (tl_layout, tl_content, tl_module, tl_news, tl_page, tl_css_style_group)
 contao/languages/  Übersetzungen (de, en)
 contao/templates/  Twig-Templates (Seitenlayout, Elemente, Templatevarianten, Module, Komponenten)
 demo/              Demo-Definitionen (demo.yaml) und Demo-Dateien
-public/            gebaute Assets + sets/creuva.json → /bundles/creuvatheme/
-src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide)
+public/            gebaute Assets → /bundles/creuvatheme/
+src/               PHP (Bundle, Manager-Plugin, Controller, DCA-Listener, Installer + Befehle creuva:install, creuva:reset, creuva:styleguide, creuva:css-styles)
 styleguide/        Styleguide-Definition (styleguide.yaml) und Dateien
 theme-idee/        Konzept und Entwürfe
 ```
