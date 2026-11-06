@@ -106,7 +106,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadge'] = [
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeroMask'] = [
     'inputType' => 'select',
-    'options' => ['organic', 'rounded', 'none', 'cover'],
+    'options' => ['organic', 'rounded', 'none', 'blob', 'cover'],
     'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaHeroMask_options'],
     'eval' => ['tl_class' => 'w50'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => 'organic'],

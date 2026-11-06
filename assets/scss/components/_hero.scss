@@ -82,6 +82,12 @@
     display: none;
   }
 
+  // Image unchanged with accent shape: no shadow, no cropping, a large blob
+  // behind the image (e.g. for cut-out images with a transparent background)
+  .c-hero--blob .c-hero__media::before {
+    inset: -6% 4% -2% -4%;
+  }
+
   // Full screen: the image fills the section (behind the text), a gradient
   // keeps the light text readable
   .c-hero--cover {

@@ -499,6 +499,17 @@ pages:
             creuvaLinkTitle1: 'Primär-Button'
             creuvaUrl2: '#sg-hero-vollbild'
             creuvaLinkTitle2: 'Sekundär-Button'
+      - title: Hero mit Akzentform
+        cssID: ['sg-hero-akzentform', '']
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Bildform' }
+            text: '<p>Hero mit der Bildform „Bild unverändert mit Akzentform“: ohne Schatten und Beschnitt, die Akzentform liegt hinter dem Bild. Ideal für freigestellte Bilder mit transparentem Hintergrund.</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Mit Akzentform.'
+            creuvaHeroMask: blob
       - title: Farben der Elemente
         cssID: ['sg-farben', '']
         elements:
