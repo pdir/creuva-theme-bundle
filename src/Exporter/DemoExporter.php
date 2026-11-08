@@ -33,7 +33,7 @@ class DemoExporter
     /**
      * Settings of the website root that are part of the demo.
      */
-    private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat', 'favicon'];
+    private const ROOT_FIELDS = ['dateFormat', 'datimFormat', 'timeFormat', 'favicon', 'creuvaOgImage'];
 
     /**
      * cssStyleSelector: the selection is derived from the CSS classes on import
@@ -251,6 +251,17 @@ class DemoExporter
                 $data['favicon'] = $file;
             } else {
                 unset($data['favicon']);
+            }
+        }
+
+        // Preview image of the link preview (see OpenGraphImage)
+        if (isset($data['creuvaOgImage'])) {
+            $file = $this->isUuid((string) $data['creuvaOgImage']) ? $this->registerFile((string) $data['creuvaOgImage']) : null;
+
+            if (\is_string($file)) {
+                $data['creuvaOgImage'] = $file;
+            } else {
+                unset($data['creuvaOgImage']);
             }
         }
 

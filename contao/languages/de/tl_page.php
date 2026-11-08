@@ -17,3 +17,4 @@ $GLOBALS['TL_LANG']['tl_page']['creuvaTypography'] = ['Typografie', 'Überschrei
 $GLOBALS['TL_LANG']['tl_page']['creuvaTypography_options'] = ['modern' => 'Modern (Plus Jakarta Sans)', 'editorial' => 'Editorial (Fraunces)'];
 $GLOBALS['TL_LANG']['tl_page']['creuvaRadius'] = ['Eckenradius', 'Überschreibt den Eckenradius des Seitenlayouts für diese Website.'];
 $GLOBALS['TL_LANG']['tl_page']['creuvaRadius_options'] = ['none' => 'Eckig', 'small' => 'Klein', 'medium' => 'Mittel', 'large' => 'Groß'];
+$GLOBALS['TL_LANG']['tl_page']['creuvaOgImage'] = ['Vorschaubild für soziale Netzwerke', 'Erscheint in der Linkvorschau (Open Graph) aller Seiten ohne eigenes Bild. Sonst wird das Bild eines News-Beitrags oder das erste Bild im Hauptbereich verwendet. Ideal: 1200 × 630 Pixel, keine SVG-Datei.'];

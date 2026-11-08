@@ -79,10 +79,18 @@ aufbauen (Backend › System › Wartung oder `contao:crawl`).
 
 ## Suchmaschinen und Linkvorschau
 
-Das Creuva-Layout gibt auf allen indexierbaren Seiten Open-Graph-Tags aus: Titel, Beschreibung, Adresse und
-das erste Hero- oder Bild-Element im Hauptbereich (1200 × 630 px, keine SVG-Dateien). Startpunkte von
-`creuva:install` haben das Canonical-Tag aktiviert, bei bestehenden Websites lässt es sich im Startpunkt
-einschalten. Der Styleguide steht auf `noindex,nofollow`.
+Das Creuva-Layout gibt auf allen indexierbaren Seiten Open-Graph-Tags und `twitter:card` aus: Titel,
+Beschreibung, Adresse (wie im Canonical-Link, ohne Tracking-Parameter), Sprache (`og:locale`, z. B. `de_DE`)
+und ein Vorschaubild mit 1200 × 630 px. Als Bild nimmt das Layout, in dieser Reihenfolge:
+
+1. auf Seiten mit Nachrichtenleser das Bild des Beitrags; der Beitrag erscheint dann als `og:type` „article“
+   mit `article:published_time` und `article:modified_time`
+2. das erste Hero-, Bild- oder Element mit Bild im Hauptbereich, auch innerhalb von Elementgruppen
+3. das **Vorschaubild für soziale Netzwerke** des Startpunkts (Metadaten, Feld `creuvaOgImage`)
+
+SVG-Dateien werden übersprungen, WebP, AVIF und GIF als PNG ausgegeben, JPEG bleibt JPEG. Kleinere Bilder werden
+nicht vergrößert. Startpunkte von `creuva:install` haben das Canonical-Tag aktiviert, bei bestehenden Websites
+lässt es sich im Startpunkt einschalten. Der Styleguide steht auf `noindex,nofollow`.
 
 ## Demo-Inhalte
 
@@ -410,8 +418,8 @@ Exports; für den Umzug einer kompletten Website ein Datenbank-Backup verwenden.
   Creuva-Modulen des Seitenlayouts übernommen, Logo-Höhe, Farbschema, Variante, Typografie und
   Eckenradius aus Seitenlayout und Startpunkt (als `design:`, der Import setzt sie im Seitenlayout).
   Eigene Farben des Layouts werden nicht exportiert.
-- Vom Startpunkt werden Datums-/Zeitformate und das Favicon übernommen
-  (`root: { favicon: file:… }`).
+- Vom Startpunkt werden Datums-/Zeitformate, das Favicon und das Vorschaubild für soziale Netzwerke
+  übernommen (`root: { favicon: file:…, creuvaOgImage: file:… }`).
 - Bildgrößen: alle Größen des Themes, dem das Seitenlayout gehört, und alle in Inhalten und
   Modulen verwendeten Größen, jeweils mit ihren Media Queries. Größen aus der Konfiguration
   (`contao.image.sizes`, `_name`) bleiben Verweise und müssen im Ziel ebenfalls definiert sein.

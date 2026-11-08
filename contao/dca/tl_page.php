@@ -52,3 +52,19 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['creuvaRadius'] = [
     'eval' => ['includeBlankOption' => true, 'blankOptionLabel' => &$GLOBALS['TL_LANG']['tl_page']['creuvaFromLayout'], 'tl_class' => 'w50 clr'],
     'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
 ];
+
+/*
+ * Link preview (Open Graph) of pages without an image of their own, see
+ * OpenGraphImage
+ */
+PaletteManipulator::create()
+    ->addField('creuvaOgImage', 'pageTitle', PaletteManipulator::POSITION_AFTER, 'meta_legend')
+    ->applyToPalette('root', 'tl_page')
+    ->applyToPalette('rootfallback', 'tl_page')
+;
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['creuvaOgImage'] = [
+    'inputType' => 'fileTree',
+    'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => 'jpg,jpeg,png,webp,avif,gif', 'tl_class' => 'clr'],
+    'sql' => ['type' => 'binary', 'length' => 16, 'fixed' => true, 'notnull' => false],
+];

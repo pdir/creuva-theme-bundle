@@ -7,6 +7,8 @@
 title: Standard / Creative
 root:
   favicon: 'file:design/favicon.ico'
+  # Linkvorschau (Open Graph) für Seiten ohne eigenes Bild
+  creuvaOgImage: 'file:bilder/hero.jpg'
   dateFormat: d.m.Y
   timeFormat: 'H:i'
   datimFormat: d.m.Y
