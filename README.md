@@ -648,6 +648,10 @@ Der News-Leser zeigt einen Kopfbereich wie der Hero: Archiv, Datum und Lesezeit 
 Überschrift, Unterüberschrift als Einleitung und Autor, daneben das Bild des Beitrags (Bildgröße
 im Modul *News – Leser*). Die Inhaltselemente folgen in der Lesespalte.
 
+**Lesezeit:** Wörter der Inhaltselemente geteilt durch 200 Wörter pro Minute, aufgerundet, mindestens eine
+Minute (Twig-Filter `creuva_word_count`). Tags und `&nbsp;` trennen Wörter, Satzzeichen und Gedankenstriche
+zählen nicht, Skripte und SVG-Code ebenfalls nicht. Überschrift, Teaser und Bilder gehen nicht ein.
+
 **Bildunterschrift des News-Bildes:** In Listen erscheint keine. Im News-Leser erscheint sie nur, wenn sie
 im Beitrag selbst unter *Metadaten überschreiben* eingetragen ist; die Bildunterschrift aus der
 Dateiverwaltung wird nicht übernommen (`src/EventListener/NewsImageCaptionListener.php`).

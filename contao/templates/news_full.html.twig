@@ -2,7 +2,8 @@
    as lead and the news image next to it (like the hero); the content elements
    follow in the reading column. Same variables in Contao 5.7 and 6. #}
 {% set content = hasText.invoke() ? text.invoke() : '' %}
-{% set words = content|striptags|replace({"\n": ' ', "\t": ' '})|split(' ')|filter(word => word|trim is not empty)|length %}
+{# Reading time: 200 words per minute, at least one minute #}
+{% set words = content|creuva_word_count %}
 {% set readingTime = max(1, (words / 200)|round(0, 'ceil')) %}
 
 <div class="layout_full block{{ class }}">
