@@ -17,3 +17,4 @@ $GLOBALS['TL_LANG']['tl_page']['creuvaTypography'] = ['Typography', 'Overrides t
 $GLOBALS['TL_LANG']['tl_page']['creuvaTypography_options'] = ['modern' => 'Modern (Plus Jakarta Sans)', 'editorial' => 'Editorial (Fraunces)'];
 $GLOBALS['TL_LANG']['tl_page']['creuvaRadius'] = ['Corner radius', 'Overrides the corner radius of the page layout for this website.'];
 $GLOBALS['TL_LANG']['tl_page']['creuvaRadius_options'] = ['none' => 'Square', 'small' => 'Small', 'medium' => 'Medium', 'large' => 'Large'];
+$GLOBALS['TL_LANG']['tl_page']['creuvaOgImage'] = ['Preview image for social networks', 'Shown in the link preview (Open Graph) of all pages without an image of their own. Otherwise the image of a news item or the first image in the main column is used. Ideal: 1200 × 630 pixels, no SVG file.'];
