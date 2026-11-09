@@ -18,6 +18,7 @@ use Pdir\CreuvaThemeBundle\Design\StylesheetResolver;
 use Pdir\CreuvaThemeBundle\Image\GalleryImages;
 use Pdir\CreuvaThemeBundle\OpenGraph\OpenGraph;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class CreuvaExtension extends AbstractExtension
@@ -48,6 +49,33 @@ class CreuvaExtension extends AbstractExtension
             // Usage: {% set og = creuva_open_graph(page) %} → type, locale, image, published, modified
             new TwigFunction('creuva_open_graph', $this->openGraph->resolve(...)),
         ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            // Usage: {% set words = content|creuva_word_count %}
+            new TwigFilter('creuva_word_count', self::wordCount(...)),
+        ];
+    }
+
+    /**
+     * Number of words in an HTML fragment, e.g. for the reading time. Tags
+     * separate words ("<li>One</li><li>Two</li>" are two words), entities are
+     * decoded (&nbsp; separates words), scripts, styles and SVG code do not
+     * count, and neither do dashes or other punctuation on its own. Words with
+     * hyphens or apostrophes ("E-Mail", "geht's") count once.
+     */
+    public static function wordCount(string|null $html): int
+    {
+        if (null === $html || '' === $html) {
+            return 0;
+        }
+
+        $html = preg_replace('#<(script|style|svg|template)\b[^>]*>.*?</\1>#is', ' ', $html) ?? $html;
+        $text = html_entity_decode(preg_replace('/<[^>]*>/', ' ', $html) ?? $html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        return preg_match_all("/[\\p{L}\\p{N}]+(?:['’.\\-][\\p{L}\\p{N}]+)*/u", $text) ?: 0;
     }
 
     /**
