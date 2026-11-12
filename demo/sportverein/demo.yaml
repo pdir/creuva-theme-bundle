@@ -536,10 +536,10 @@ pages:
             singleSRC: 'file:bilder/training.jpg'
             creuvaKicker: Mannschaften
             creuvaHeadlineAccent: 'ein Verein.'
+            creuvaBadgeStyle: stat
             creuvaBadge: |-
-              Training ab 4 Jahren
-              Lizenzierte Trainer
-              Probetraining jederzeit
+              14
+              Mannschaften von den Bambini bis zu den Alten Herren
             creuvaHeroMask: rounded
       - title: Übersicht
         teaserCssID: ['', '']
@@ -1074,6 +1074,8 @@ pages:
             singleSRC: 'file:bilder/mannschaft-bambini.jpg'
             creuvaKicker: 'Mitglied werden'
             creuvaHeadlineAccent: Teams.
+            creuvaBadgeStyle: checklist
+            creuvaBadgeHeadline: 'Deine Vorteile'
             creuvaBadge: |-
               Probetraining kostenlos
               Faire Beiträge

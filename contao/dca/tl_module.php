@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * Creuva theme bundle for Contao Open Source CMS
  *
- * Copyright (C) pdir GmbH <develop@pdir.de>
+ * Copyright (C) pdir GmbH <develop@pdir.dev>
  */
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['creuva_header'] = '{title_legend},name,type;{creuva_logo_legend},creuvaLogo,imgSize,creuvaLogoText;{nav_legend},creuvaNavigation;{link_legend},creuvaUrl1,creuvaLinkTitle1;{creuva_search_legend},creuvaSearch;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';

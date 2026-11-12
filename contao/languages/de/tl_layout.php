@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * Creuva theme bundle for Contao Open Source CMS
  *
- * Copyright (C) pdir GmbH <develop@pdir.de>
+ * Copyright (C) pdir GmbH <develop@pdir.dev>
  */
 
 $GLOBALS['TL_LANG']['tl_layout']['creuva_legend'] = 'Creuva-Design';
