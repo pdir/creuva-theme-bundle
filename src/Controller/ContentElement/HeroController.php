@@ -41,6 +41,12 @@ class HeroController extends AbstractContentElementController
         $template->set('text', $model->text ?: '');
         $template->set('badge', $model->creuvaBadge ?: '');
         $template->set('mask', $model->creuvaHeroMask ?: 'organic');
+        $template->set('badge_style', $model->creuvaBadgeStyle ?: 'list');
+        $template->set('badge_position', $model->creuvaBadgePosition ?: 'bottom-start');
+        $template->set('badge_headline', $model->creuvaBadgeHeadline ?: '');
+        $template->set('badge_icon', $model->creuvaBadgeIcon ?: '');
+        $template->set('badge_href', $model->creuvaBadgeUrl ? $this->buildHref($model->creuvaBadgeUrl, $request) : '');
+        $template->set('badge_rating', $this->parseRating((string) $model->creuvaBadge));
 
         $template->set('image', $this->studio
             ->createFigureBuilder()
@@ -66,16 +72,39 @@ class HeroController extends AbstractContentElementController
             return null;
         }
 
+        return [
+            'text' => $title,
+            'variant' => $variant,
+            'attributes' => (new HtmlAttributes())->set('href', $this->buildHref($url, $request)),
+        ];
+    }
+
+    /**
+     * Stars of the badge style "rating": the first number in the first line
+     * (e.g. "4,9", "4.9/5" or "4,9 von 5"), limited to 0–5; five stars if
+     * the line has no number. Returned as a CSS value ("4.90").
+     */
+    private function parseRating(string $badge): string
+    {
+        $firstLine = trim(strtok($badge, "\n") ?: '');
+
+        if (!preg_match('/\d+(?:[.,]\d+)?/', $firstLine, $matches)) {
+            return '5';
+        }
+
+        $value = max(0.0, min(5.0, (float) str_replace(',', '.', $matches[0])));
+
+        return \sprintf('%.2F', $value);
+    }
+
+    private function buildHref(string $url, Request $request): string
+    {
         $href = $this->insertTagParser->replaceInline($url);
 
         if (Validator::isRelativeUrl($href)) {
             $href = $request->getBasePath().'/'.$href;
         }
 
-        return [
-            'text' => $title,
-            'variant' => $variant,
-            'attributes' => (new HtmlAttributes())->set('href', $href),
-        ];
+        return $href;
     }
 }

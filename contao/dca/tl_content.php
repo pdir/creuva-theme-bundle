@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask,creuvaBadge;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask;{creuva_badge_legend},creuvaBadgeStyle,creuvaBadgePosition,creuvaBadgeHeadline,creuvaBadgeIcon,creuvaBadge,creuvaBadgeUrl;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
 
 // Logo bar (images from multiSRC, link from the file metadata)
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_logos'] = '{type_legend},type,headline;{source_legend},multiSRC,size;{creuva_logos_legend},creuvaLogosHeight;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
@@ -99,9 +99,49 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeadlineAccent'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadge'] = [
+    'search' => true,
     'inputType' => 'textarea',
     'eval' => ['maxlength' => 255, 'tl_class' => 'clr'],
     'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+];
+
+// Badge of the hero: appearance, position, small headline, icon and link. The
+// empty defaults keep the former badge (check list in the lower left corner).
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadgeStyle'] = [
+    'inputType' => 'select',
+    'options' => ['list', 'checklist', 'info', 'label', 'text', 'stat', 'rating'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaBadgeStyle_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'list'],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadgePosition'] = [
+    'inputType' => 'select',
+    'options' => ['bottom-start', 'bottom-center', 'bottom-end', 'center-start', 'center-end', 'top-start', 'top-center', 'top-end'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaBadgePosition_options'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => 'bottom-start'],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadgeHeadline'] = [
+    'search' => true,
+    'inputType' => 'text',
+    'eval' => ['maxlength' => 64, 'tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 64, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadgeIcon'] = [
+    'inputType' => 'select',
+    'options' => ['check', 'clock', 'pin', 'file', 'info', 'chat', 'download', 'shield', 'star', 'mail', 'phone'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_content']['creuvaBadgeIcon_options'],
+    'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => 'string', 'length' => 16, 'default' => ''],
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['creuvaBadgeUrl'] = [
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'url', 'maxlength' => 2048, 'dcaPicker' => true, 'tl_class' => 'w50 clr'],
+    'sql' => ['type' => 'string', 'length' => 2048, 'default' => ''],
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['creuvaHeroMask'] = [

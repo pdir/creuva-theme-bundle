@@ -510,6 +510,71 @@ pages:
             creuvaKicker: 'Hero-Varianten'
             creuvaHeadlineAccent: 'Mit Akzentform.'
             creuvaHeroMask: blob
+            creuvaBadgeStyle: checklist
+            creuvaBadgePosition: top-end
+            creuvaBadgeHeadline: 'Badge „Checkliste“'
+            creuvaBadge: "Überschrift über dem Badge\nIcons im Kreis\n! Zeile mit „!“ als Hinweis"
+      - title: Hero-Badges
+        cssID: ['sg-hero-badges', '']
+        elements:
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Badge' }
+            text: '<p>Badge mit der Darstellung „Info (Icon, Titel, Text)“, dem Icon „Standort“ und einem Link: Das ganze Badge ist klickbar, die zweite Zeile erscheint in der Akzentfarbe.</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Info.'
+            creuvaHeroMask: rounded
+            creuvaBadgeStyle: info
+            creuvaBadgeIcon: pin
+            creuvaBadge: "Webagentur in Meißen\nZur Kontaktseite"
+            creuvaBadgeUrl: '#sg-hero-badges'
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Badge' }
+            text: '<p>Badge mit der Darstellung „Kennzeichnung (Icon, Hinweis, Wert)“ und dem Icon „Uhr“, unten in der Mitte: erste Zeile klein, zweite Zeile fett.</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Kennzeichnung.'
+            creuvaHeroMask: organic
+            creuvaBadgeStyle: label
+            creuvaBadgePosition: bottom-center
+            creuvaBadgeIcon: clock
+            creuvaBadge: "Antwort in der Regel\ninnerhalb von 24 Std."
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Badge' }
+            text: '<p>Badge mit der Darstellung „Text“ und dem Icon „Sprechblase“, Mitte rechts: normaler Text, jede Zeile ein Absatz – z. B. für ein kurzes Zitat.</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Text.'
+            creuvaHeroMask: rounded
+            creuvaBadgeStyle: text
+            creuvaBadgePosition: center-end
+            creuvaBadgeIcon: chat
+            creuvaBadgeHeadline: 'Kundenstimme'
+            creuvaBadge: "„Schnell, zuverlässig und immer erreichbar.“\nAnna Berger, Grünwerk"
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Badge' }
+            text: '<p>Badge mit der Darstellung „Kennzahl (Zahl, Beschriftung)“, oben links: die erste Zeile als große Zahl in der Akzentfarbe, darunter die Beschriftung.</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Kennzahl.'
+            creuvaHeroMask: organic
+            creuvaBadgeStyle: stat
+            creuvaBadgePosition: top-start
+            creuvaBadge: "250+\numgesetzte Projekte"
+          - type: creuva_hero
+            size: 'image_size:hero'
+            headline: { unit: h2, value: 'Badge' }
+            text: '<p>Badge mit der Darstellung „Bewertung (Sterne, Wert, Quelle)“, unten links: Die Sterne werden nach dem Wert der ersten Zeile gefüllt (hier 4,6 von 5).</p>'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Hero-Varianten'
+            creuvaHeadlineAccent: 'Bewertung.'
+            creuvaHeroMask: rounded
+            creuvaBadgeStyle: rating
+            creuvaBadge: "4,6\naus 120 Google-Bewertungen"
       - title: Farben der Elemente
         cssID: ['sg-farben', '']
         elements:
