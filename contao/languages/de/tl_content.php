@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * Creuva theme bundle for Contao Open Source CMS
  *
- * Copyright (C) pdir GmbH <develop@pdir.de>
+ * Copyright (C) pdir GmbH <develop@pdir.dev>
  */
 
 $GLOBALS['TL_LANG']['tl_content']['creuvaKicker'] = ['Dachzeile', 'Kurzer Text in Großbuchstaben über der Überschrift, z. B. „Kreative Partner auf Augenhöhe“. Lässt sich mit einer zweifarbigen Überschrift kombinieren.'];
