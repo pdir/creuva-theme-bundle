@@ -10,7 +10,7 @@ Types of changes
     Security in case of vulnerabilities.
 )
 
-## [1.1.0](https://github.com/pdir/creuva-theme-bundle/tree/1.1.0) – 2026-11-12
+## [1.1.0](https://github.com/pdir/creuva-theme-bundle/tree/1.1.0) – 2026-11-16
 
 - [Added] Hero badge: appearances checklist, info, label, text, key figure and rating (stars), position (corners and middle of the edges), small headline, icon, link and note points ("!")
 
