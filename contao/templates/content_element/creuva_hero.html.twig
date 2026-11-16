@@ -42,19 +42,86 @@
             <div class="c-hero__media">
                 {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
 
-                {# Badge: one line per point, shown as a small card with check icons
-                   (full screen image: as a caption, e.g. project and photographer) #}
+                {# Badge: small card on the image, one line per point (full screen
+                   image: as a caption, e.g. project and photographer) #}
                 {% set badge_items = badge|split("\n")|map(line => line|trim)|filter(line => line is not empty) %}
                 {% if badge_items and 'cover' == mask %}
                     <p class="c-hero__caption">{{ badge_items|join(' · ') }}</p>
-                {% elseif badge_items %}
-                    <ul class="c-hero__badge">
-                        {% for item in badge_items %}
-                            <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
+                {% elseif badge_items or badge_headline %}
+                    {{ block('badge') }}
                 {% endif %}
             </div>
         {% endif %}
     </div>
+{% endblock %}
+
+{#
+    Badge styles: list (icon per point, former badge), checklist (icons in a
+    circle), info (large icon, bold line, small text), label (large icon,
+    small line, bold line), text (normal text, one paragraph per line), stat
+    (large number and label) and rating (stars, value and source). A "!" at the beginning of a point shows an
+    exclamation mark instead of the icon.
+#}
+{% block badge %}
+    {% set badge_list = badge_style in ['list', 'checklist'] %}
+    {% set badge_tag = badge_href ? 'a' : 'div' %}
+    {% set badge_attributes = attrs()
+        .addClass(['c-hero__badge', 'c-hero__badge--' ~ badge_style, 'c-hero__badge--' ~ badge_position])
+        .addClass('c-hero__badge--icon-' ~ badge_icon, badge_icon)
+        .addClass('c-hero__badge--link', badge_href)
+        .set('href', badge_href, badge_href)
+    %}
+
+    <{{ badge_tag }}{{ badge_attributes }}>
+        {% if not badge_list and badge_icon %}
+            <span class="c-hero__badge-icon" aria-hidden="true"></span>
+        {% endif %}
+
+        <div class="c-hero__badge-body">
+            {% if badge_headline %}
+                <p class="c-hero__badge-title">{{ badge_headline }}</p>
+            {% endif %}
+
+            {% if badge_list and badge_items %}
+                <ul class="c-hero__badge-list">
+                    {% for item in badge_items %}
+                        {% if item starts with '!' %}
+                            <li class="is-alert">{{ item|slice(1)|trim }}</li>
+                        {% else %}
+                            <li>{{ item }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% elseif badge_items %}
+                {# info: first line bold; label: second line bold; text: normal text #}
+                {% if 'text' == badge_style %}
+                    {% for item in badge_items %}
+                        <p class="c-hero__badge-plain">{{ item }}</p>
+                    {% endfor %}
+                {% elseif 'stat' == badge_style %}
+                    {# stat: first line as a large number, the rest as label #}
+                    {% for item in badge_items %}
+                        <p class="{{ loop.first ? 'c-hero__badge-number' : 'c-hero__badge-text' }}">{{ item }}</p>
+                    {% endfor %}
+                {% elseif 'rating' == badge_style %}
+                    {# rating: stars filled from the first number of the first line #}
+                    {% for item in badge_items %}
+                        {% if loop.first %}
+                            <p class="c-hero__badge-rating">
+                                <span{{ attrs().addClass('c-hero__badge-stars').addStyle('--rating:' ~ badge_rating).set('aria-hidden', 'true') }}></span>
+                                <span class="c-hero__badge-strong">{{ item }}</span>
+                            </p>
+                        {% else %}
+                            <p class="c-hero__badge-text">{{ item }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% set strong_index = 'label' == badge_style and badge_items|length > 1 ? 1 : 0 %}
+                    {% for item in badge_items %}
+                        <p class="{{ loop.index0 == strong_index ? 'c-hero__badge-strong' : 'c-hero__badge-text' }}">{{ item }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </{{ badge_tag }}>
 {% endblock %}

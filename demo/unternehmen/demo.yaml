@@ -536,6 +536,8 @@ pages:
             singleSRC: 'file:bilder/fertigung.jpg'
             creuvaKicker: Leistungen
             creuvaHeadlineAccent: Montage.
+            creuvaBadgeStyle: checklist
+            creuvaBadgeHeadline: 'Alles aus einer Hand'
             creuvaBadge: |-
               Eigene Konstruktion
               Fertigung im Haus
@@ -1559,6 +1561,8 @@ pages:
             singleSRC: 'file:bilder/ausbildung.jpg'
             creuvaKicker: Karriere
             creuvaHeadlineAccent: 'etwas entsteht.'
+            creuvaBadgeStyle: checklist
+            creuvaBadgeHeadline: 'Was wir bieten'
             creuvaBadge: |-
               Unbefristete Verträge
               Faire Bezahlung

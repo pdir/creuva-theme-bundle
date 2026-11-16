@@ -10,6 +10,10 @@ Types of changes
     Security in case of vulnerabilities.
 )
 
+## [1.1.0](https://github.com/pdir/creuva-theme-bundle/tree/1.1.0) – 2026-11-12
+
+- [Added] Hero badge: appearances checklist, info, label, text, key figure and rating (stars), position (corners and middle of the edges), small headline, icon, link and note points ("!")
+
 ## [1.0.0](https://github.com/pdir/creuva-theme-bundle/tree/1.0.0) – 2026-11-09
 
 Initial release. Requires Contao 5.7 (PHP 8.3+) or Contao 6 (PHP 8.4+), the Theme Components Bundle 2.0 and the CSS Style Selector Bundle 2.1.

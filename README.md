@@ -541,9 +541,26 @@ Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-cs
 
 | Typ | Beschreibung |
 |-----|--------------|
-| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in mehreren Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Schatten und Akzentform dahinter, *Bild unverändert*, *Bild unverändert mit Akzentform* ohne Schatten und Beschnitt, ideal für freigestellte Bilder mit transparentem Hintergrund, und *Vollbild*) und Badge als kleine Karte mit Häkchen, eine Zeile pro Punkt (Bild und Text optional) |
+| Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in mehreren Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Schatten und Akzentform dahinter, *Bild unverändert*, *Bild unverändert mit Akzentform* ohne Schatten und Beschnitt, ideal für freigestellte Bilder mit transparentem Hintergrund, und *Vollbild*) und Badge als kleine Karte auf dem Bild (Bild und Text optional, siehe [Hero-Badge](#hero-badge)) |
 | Creuva › Creuva Header | Logo, Hauptnavigation (mit Dropdowns), CTA-Button, mobiles Menü |
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |
+
+### Hero-Badge
+
+Das Badge ist eine kleine Karte, die eine Ecke des Hero-Bildes überlappt. Eingestellt wird es im
+Bereich „Badge“ des Hero-Elements:
+
+| Feld | Wirkung |
+|------|---------|
+| Darstellung | *Liste* – Punkte mit Icon (Standard, bisherige Darstellung); *Checkliste* – Icons im Kreis; *Info* – großes Icon, fette Zeile, Text darunter (z. B. Standort, Dokumentation); *Kennzeichnung* – großes Icon, kleine Zeile, fette Zeile darunter (z. B. „Antwort in der Regel“ / „innerhalb von 24 Std.“); *Text* – normaler Text, jede Zeile ein Absatz (z. B. kurzes Zitat oder Hinweis); *Kennzahl* – große Zahl in der Akzentfarbe, darunter die Beschriftung (z. B. „250+“ / „umgesetzte Projekte“); *Bewertung* – fünf Sterne, gefüllt nach der ersten Zahl der ersten Zeile (0–5, Komma oder Punkt, z. B. „4,9“), daneben der Wert, darunter die Quelle |
+| Position | Unten links (Standard), Unten Mitte, Unten rechts, Mitte links, Mitte rechts, Oben links, Oben Mitte, Oben rechts. Auf großen Bildschirmen ragt das Badge seitlich bzw. (Mitte) nach unten/oben über das Bild |
+| Badge-Überschrift | Kleine Zeile in Großbuchstaben über dem Text, z. B. „Contao-Partner“, „Ergebnis“ |
+| Icon | Häkchen, Uhr, Standort, Dokument, Info, Sprechblase, Download, Schild, Stern, Brief, Telefon. Liste/Checkliste: Icon vor jedem Punkt (Standard: Häkchen); alle anderen: großes Icon links (Standard: keins) |
+| Badge-Text | Eine Zeile pro Punkt bzw. Textzeile. In Listen zeigt ein `!` am Zeilenanfang ein Ausrufezeichen in Gelb statt des Icons (z. B. „! Bilder komprimieren“) |
+| Badge-Link | Optional, das ganze Badge wird zum Link; bei *Info* erscheint die zweite Zeile in der Akzentfarbe |
+
+Bei der Bildform *Vollbild* erscheint der Badge-Text weiterhin als Bildunterschrift. Bestehende
+Badges bleiben unverändert (Darstellung *Liste*, unten links).
 
 Gestaltet werden außerdem die Contao-Standardelemente (Text, Liste, Beschreibungsliste,
 Tabelle, Bild, Galerie, Content-Slider, Akkordeon, Downloads, Hyperlink, Code, Toplink, Formulare,

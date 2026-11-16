@@ -1010,10 +1010,11 @@ pages:
             singleSRC: 'file:bilder/studio.jpg'
             creuvaKicker: Studio
             creuvaHeadlineAccent: 'genaues Hinsehen.'
+            creuvaBadgeStyle: info
+            creuvaBadgeIcon: pin
             creuvaBadge: |-
-              Gegründet 2011
               Atelier in Freiburg
-              Projekte in ganz Europa
+              seit 2011, Projekte in ganz Europa
             creuvaHeroMask: rounded
             creuvaUrl1: '{{link_url::kontakt|urlattr}}'
             creuvaLinkTitle1: 'Kennenlernen'

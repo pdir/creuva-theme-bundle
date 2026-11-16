@@ -213,11 +213,20 @@
     }
   }
 
-  // Badge: small card with check items, overlapping the lower left corner
+  // Badge: small card overlapping a corner of the image (default: lower left).
+  // Styles: list (icon per point), checklist (icons in a circle), info (large
+  // icon, bold line, text), label (large icon, small line, bold line), text,
+  // stat (large number) and rating (stars)
   .c-hero__badge {
+    --badge-offset: var(--space-s);
+    --badge-alert: #d4930d;
+    --badge-star: #f2b01e;
+
     position: absolute;
-    left: var(--space-s);
-    bottom: var(--space-m);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    max-width: min(22rem, 85%);
     margin: 0;
     padding: var(--space-s) var(--space-m) var(--space-s) var(--space-s);
     border: 1px solid var(--c-border);
@@ -228,6 +237,98 @@
     font-weight: 600;
     line-height: 1.4;
     color: var(--c-text);
+    text-decoration: none;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  // Position: corners and the middle of an edge. On wide screens the badge
+  // overhangs the image sideways (left/right) or downwards/upwards (center).
+  // Centering uses auto margins, the float animation needs the transform.
+  .c-hero__badge--bottom-start,
+  .c-hero__badge--bottom-end {
+    bottom: var(--space-m);
+  }
+
+  .c-hero__badge--top-start,
+  .c-hero__badge--top-end {
+    top: var(--space-m);
+  }
+
+  .c-hero__badge--bottom-start,
+  .c-hero__badge--top-start,
+  .c-hero__badge--center-start {
+    left: var(--badge-offset);
+  }
+
+  .c-hero__badge--bottom-end,
+  .c-hero__badge--top-end,
+  .c-hero__badge--center-end {
+    right: var(--badge-offset);
+  }
+
+  .c-hero__badge--bottom-center,
+  .c-hero__badge--top-center {
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-inline: auto;
+  }
+
+  .c-hero__badge--bottom-center {
+    bottom: var(--badge-offset);
+  }
+
+  .c-hero__badge--top-center {
+    top: var(--badge-offset);
+  }
+
+  .c-hero__badge--center-start,
+  .c-hero__badge--center-end {
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    margin-block: auto;
+  }
+
+  @container (min-width: 56rem) {
+    .c-hero__badge {
+      --badge-offset: calc(-1 * var(--space-m));
+    }
+  }
+
+  @each $icon in (check, clock, pin, file, info, chat, download, shield, star, mail, phone) {
+    .c-hero__badge--icon-#{$icon} {
+      --badge-icon: var(--icon-#{$icon});
+    }
+  }
+
+  // Linked badge: the border takes the accent color on hover
+  .c-hero__badge--link {
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--c-accent);
+      box-shadow: var(--shadow-l);
+    }
+  }
+
+  // Small uppercase headline above the text
+  .c-hero__badge-title {
+    margin-bottom: var(--space-2xs) !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  .c-hero__badge-list {
+    margin: 0;
+    padding: 0;
     list-style: none;
 
     li {
@@ -236,12 +337,114 @@
       + li {
         margin-top: var(--space-2xs);
       }
+
+      &::before {
+        mask-image: var(--badge-icon, var(--icon-check));
+      }
+
+      &.is-alert::before {
+        background: var(--badge-alert);
+        mask-image: var(--icon-alert);
+      }
     }
   }
 
-  @container (min-width: 56rem) {
-    .c-hero__badge {
-      left: calc(-1 * var(--space-m));
+  // Checklist: the icons sit in a soft circle
+  .c-hero__badge--checklist .c-hero__badge-list li {
+    padding-left: 2.1em;
+    line-height: 1.6;
+
+    + li {
+      margin-top: var(--space-xs);
     }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.1em;
+      left: 0;
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--c-accent) 16%, transparent);
+    }
+
+    &::before {
+      z-index: 1;
+      top: 0.4em;
+      left: 0.35em;
+      width: 0.8em;
+      height: 0.8em;
+    }
+
+    &.is-alert::after {
+      background: color-mix(in srgb, var(--badge-alert) 20%, transparent);
+    }
+  }
+
+  // Info and label: large icon on the left, two lines of text
+  .c-hero__badge-icon {
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: var(--c-accent);
+    mask: var(--badge-icon) center / contain no-repeat;
+  }
+
+  .c-hero__badge-strong {
+    font-size: var(--fs-base);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .c-hero__badge-text {
+    font-weight: 400;
+    color: var(--c-text-muted);
+  }
+
+  // Text: normal paragraphs (e.g. a short quote or note)
+  .c-hero__badge-plain {
+    font-weight: 400;
+    line-height: 1.5;
+
+    + .c-hero__badge-plain {
+      margin-top: var(--space-2xs) !important;
+    }
+  }
+
+  .c-hero__badge--info.c-hero__badge--link .c-hero__badge-text {
+    font-weight: 600;
+    color: var(--c-accent-text);
+  }
+
+  // Stat: large number in the accent color, label below
+  .c-hero__badge-number {
+    font-family: var(--font-heading);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--c-accent-text);
+  }
+
+  // Rating: five stars filled up to the value (--rating, 0–5), value and source
+  .c-hero__badge-rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .c-hero__badge-stars {
+    --star-size: 1.15em;
+
+    flex: none;
+    width: calc(5 * var(--star-size));
+    height: var(--star-size);
+    background: linear-gradient(
+      90deg,
+      var(--badge-star) calc(var(--rating, 5) / 5 * 100%),
+      color-mix(in srgb, var(--c-text-muted) 30%, transparent) 0
+    );
+    mask: var(--icon-star-solid) 0 0 / var(--star-size) var(--star-size) repeat-x;
   }
 }

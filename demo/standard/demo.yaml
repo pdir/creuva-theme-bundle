@@ -702,11 +702,12 @@ pages:
             singleSRC: 'file:bilder/detail-2.jpg'
             creuvaKicker: 'Unsere Leistungen'
             creuvaHeadlineAccent: Erfolg.
+            creuvaBadgeStyle: checklist
+            creuvaBadgeHeadline: 'Alles aus einer Hand'
             creuvaBadge: |-
               Strategie
               Design
               Entwicklung
-              Alles aus einer Hand
             creuvaHeroMask: rounded
             creuvaUrl1: '{{link_url::kontakt|urlattr}}'
             creuvaLinkTitle1: 'Jetzt anfragen'
@@ -970,6 +971,9 @@ pages:
                 singleSRC: 'file:bilder/detail-2.jpg'
                 creuvaKicker: 'Leistungen · Entwicklung'
                 creuvaHeadlineAccent: Contao.
+                creuvaBadgeStyle: checklist
+                creuvaBadgePosition: top-end
+                creuvaBadgeHeadline: 'Unsere Technik'
                 creuvaBadge: |-
                   Schnell
                   Sicher
@@ -1044,10 +1048,12 @@ pages:
                 singleSRC: 'file:bilder/detail-1.jpg'
                 creuvaKicker: 'Leistungen · Beratung'
                 creuvaHeadlineAccent: Weitblick.
+                creuvaBadgeStyle: label
+                creuvaBadgeIcon: chat
                 creuvaBadge: |-
-                  Ehrlich
-                  Strategisch
-                  Persönlich
+                  Erstgespräch
+                  kostenlos & unverbindlich
+                creuvaBadgeUrl: '{{link_url::kontakt|urlattr}}'
                 creuvaHeroMask: rounded
                 creuvaUrl1: '{{link_url::kontakt|urlattr}}'
                 creuvaLinkTitle1: 'Termin vereinbaren'
@@ -1102,11 +1108,10 @@ pages:
             singleSRC: 'file:bilder/projekte/projekt-gruenwerk.jpg'
             creuvaKicker: 'Unsere Projekte'
             creuvaHeadlineAccent: 'echtem Mehrwert.'
+            creuvaBadgeStyle: stat
             creuvaBadge: |-
-              Strategie
-              Design
-              Entwicklung
-              Alles aus einer Hand
+              120+
+              erfolgreiche Projekte
             creuvaHeroMask: rounded
       - title: Übersicht
         teaserCssID: ['', '']
@@ -2206,10 +2211,10 @@ pages:
             singleSRC: 'file:bilder/about.jpg'
             creuvaKicker: 'Über Creuva'
             creuvaHeadlineAccent: 'Echte Lösungen.'
+            creuvaBadgeStyle: rating
             creuvaBadge: |-
-              Kreativ
-              Zuverlässig
-              Auf Augenhöhe
+              4,9
+              aus 86 Kundenbewertungen
             creuvaHeroMask: rounded
             creuvaUrl1: '&#35;geschichte'
             creuvaLinkTitle1: 'Unsere Geschichte'
@@ -2404,10 +2409,10 @@ pages:
                 singleSRC: 'file:bilder/detail-1.jpg'
                 creuvaKicker: 'Unser Team'
                 creuvaHeadlineAccent: 'für das Web.'
+                creuvaBadgeStyle: stat
                 creuvaBadge: |-
-                  Gemeinsam
-                  Kreativ
-                  Zielstrebig
+                  24
+                  engagierte Köpfe
           - title: Team
             teaserCssID: ['', '']
             cssID: u-bg-surface
@@ -2518,9 +2523,12 @@ pages:
             singleSRC: 'file:bilder/detail-3.jpg'
             creuvaKicker: 'Pakete & Preise'
             creuvaHeadlineAccent: Leistungen.
+            creuvaBadgeStyle: checklist
+            creuvaBadgeHeadline: 'In jedem Paket'
             creuvaBadge: |-
               Individuell erweiterbar
               Passend für Ihr Projekt
+              ! Preise zzgl. MwSt.
             creuvaHeroMask: rounded
             creuvaUrl1: '{{link_url::kontakt|urlattr}}'
             creuvaLinkTitle1: 'Kostenlos beraten'
@@ -2813,9 +2821,12 @@ pages:
                 singleSRC: 'file:bilder/news-3.jpg'
                 creuvaKicker: 'Häufige Fragen'
                 creuvaHeadlineAccent: Fragen.
+                creuvaBadgeStyle: info
+                creuvaBadgeIcon: chat
                 creuvaBadge: |-
-                  Schnelle Antworten
-                  Persönliche Hilfe
+                  Frage nicht dabei?
+                  Schreiben Sie uns
+                creuvaBadgeUrl: '{{link_url::kontakt|urlattr}}'
                 creuvaHeroMask: rounded
           - title: Fragen
             teaserCssID: ['', '']
@@ -2930,10 +2941,11 @@ pages:
                 singleSRC: 'file:bilder/news-4.jpg'
                 creuvaKicker: Downloads
                 creuvaHeadlineAccent: Herunterladen.
+                creuvaBadgeStyle: info
+                creuvaBadgeIcon: download
                 creuvaBadge: |-
-                  Kostenlos
-                  Kompakt
-                  Praktisch
+                  Kostenlos als PDF
+                  ohne Anmeldung
                 creuvaHeroMask: rounded
           - title: Downloads
             teaserCssID: ['', '']
@@ -2973,9 +2985,11 @@ pages:
             singleSRC: 'file:bilder/about.jpg'
             creuvaKicker: Kontakt
             creuvaHeadlineAccent: 'Großes schaffen.'
+            creuvaBadgeStyle: label
+            creuvaBadgeIcon: clock
             creuvaBadge: |-
-              Unverbindlich anfragen
-              Persönliche Beratung
+              Antwort in der Regel
+              innerhalb von 24 Std.
             creuvaHeroMask: rounded
       - title: Werte
         teaserCssID: ['', '']
