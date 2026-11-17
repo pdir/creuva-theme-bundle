@@ -14,7 +14,7 @@ Types of changes
 
 - [Changed] Custom accent colors are used unchanged wherever they meet WCAG AA and only adjusted where needed (text on white, gray surfaces in dark mode, highlights on accent surfaces); the full screen hero darkens its gradient instead. The page layout preview shows the adjusted colors
 
-## [1.1.0](https://github.com/pdir/creuva-theme-bundle/tree/1.1.0) – 2026-11-12
+## [1.1.0](https://github.com/pdir/creuva-theme-bundle/tree/1.1.0) – 2026-11-16
 
 - [Added] Hero badge: appearances checklist, info, label, text, key figure and rating (stars), position (corners and middle of the edges), small headline, icon, link and note points ("!")
 
