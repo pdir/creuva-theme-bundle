@@ -112,8 +112,10 @@
       color: #fff;
     }
 
+    // Custom accent colors set --hero-accent: the accent itself on a gradient
+    // that is just dark enough (--hero-shade-*, DesignSettings::getAccentColors())
     .c-hero__accent {
-      color: color-mix(in srgb, var(--c-accent) 45%, #fff);
+      color: var(--hero-accent, color-mix(in srgb, var(--c-accent) 45%, #fff));
     }
 
     .c-hero__text {
@@ -159,7 +161,7 @@
         z-index: 1;
         border-radius: 0;
         background:
-          linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.3) 55%, rgb(0 0 0 / 0.35)),
+          linear-gradient(to top, rgb(0 0 0 / var(--hero-shade-end, 0.75)), rgb(0 0 0 / var(--hero-shade, 0.3)) 55%, rgb(0 0 0 / 0.35)),
           linear-gradient(to right, rgb(0 0 0 / 0.45), transparent 75%);
       }
 
@@ -167,7 +169,7 @@
       // for bright images like white machines)
       @media (max-width: 47.99rem) {
         &::before {
-          background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.5) 60%, rgb(0 0 0 / 0.4));
+          background: linear-gradient(to top, rgb(0 0 0 / var(--hero-shade-end-mobile, 0.8)), rgb(0 0 0 / var(--hero-shade-mobile, 0.5)) 60%, rgb(0 0 0 / 0.4));
         }
       }
 
@@ -186,6 +188,11 @@
     &.c-hero--no-image {
       min-height: 0;
       background: var(--c-primary);
+
+      // No image, no gradient: the highlight is on the primary color
+      .c-hero__accent {
+        color: color-mix(in srgb, var(--c-accent) 45%, #fff);
+      }
     }
   }
 

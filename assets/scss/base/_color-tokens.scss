@@ -45,7 +45,8 @@
   --c-accent: var(--scheme-dark-accent);
   --c-accent-text: var(--scheme-dark-accent);
   --c-accent-contrast: var(--c-bg);
-  --c-accent-on-primary: color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg));
+  // Custom accent colors set a readable value (DesignSettings::getAccentColors())
+  --c-accent-on-primary: var(--scheme-dark-accent-on-primary, color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg)));
   --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg));
   --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, var(--c-bg));
   --c-bg: color-mix(in srgb, var(--scheme-primary) 30%, #080808);

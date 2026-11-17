@@ -532,7 +532,20 @@ die Angaben müssen zur jeweiligen Website passen.
 
 4. Unter **Creuva-Design** Farbschema, Farbmodus (Light, Dark, System), Typografie (Modern, Editorial), Eckenradius,
    Animationen sowie optional eigene Primär- und Akzentfarbe und eine Logohöhe (z. B. `4rem`,
-   Standard `2.25rem`) festlegen.
+   Standard `2.25rem`) festlegen. Eine eigene Akzentfarbe wird überall unverändert
+   ausgegeben, wo sie einen Kontrast von mindestens 4,5:1 hat (WCAG AA), sonst nur so weit
+   wie nötig angepasst: Links und kleine Texte im Light Mode werden in 5-%-Schritten
+   abgedunkelt, die Schrift auf Akzentflächen (Buttons, Badges) ist Weiß, die Textfarbe oder
+   Schwarz. Im Dark Mode wird die Akzentfarbe nur aufgehellt, wenn sie auf dem Hintergrund
+   oder den Karten zu dunkel ist; reicht der Kontrast nur auf den grauen Flächen (Kopf- und
+   Fußleiste, `u-bg-muted`, `u-card-muted`) nicht, wird sie nur dort aufgehellt. Hervorgehobener
+   Text auf Akzentflächen im Dark Mode (z. B. die zweite Zeile der Überschrift in der
+   Call-to-Action-Box) wird so weit abgedunkelt, dass er lesbar bleibt. Im Hero mit der
+   Bildform *Vollbild* erscheint der hervorgehobene Teil der Überschrift in der Akzentfarbe
+   selbst; dafür wird der Verlauf über dem Bild nur so weit abgedunkelt, dass sie auch auf
+   einem hellen Bild 3:1 erreicht (höchstens 75 % Schwarz, sonst wird die Farbe aufgehellt). Ein Orange
+   wie `ee7321` bleibt so für Buttons und Flächen erhalten und im Dark Mode unverändert. Die
+   Vorschau im Seitenlayout zeigt die angepassten Farbwerte an.
 
 Hintergründe, Raster, Abstände usw. setzen Redakteure im Bereich *CSS-Stil* der Elemente,
 Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-css-style-selector)).

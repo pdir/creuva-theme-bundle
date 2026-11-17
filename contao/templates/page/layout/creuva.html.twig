@@ -16,12 +16,18 @@
 {# Settings of the page layout, overridden by the website root (see DesignSettings::resolve()) #}
 {% set creuva = creuva_design(page, layout|default(null)) %}
 
-{# Custom colors override the color scheme (see base/_schemes.scss), a custom
+{# Custom colors override the color scheme (see base/_schemes.scss); text
+   colors and the accent of the dark mode are derived from the custom accent so
+   that it is used unchanged wherever it is readable (see
+   DesignSettings::getAccentColors()), as well as the color of the highlighted
+   headline in the full screen hero and its gradient (see components/_hero.scss;
+   the default stops 0.3, 0.75, 0.5 and 0.8 are the minimum). A custom
    logo height also makes the header grow if needed (see base/_tokens.scss) #}
 {% set creuva_tokens = [
     creuva.logoHeight ? '--logo-height:%1$s;--header-height:max(4.5rem,calc(%1$s + 1rem))'|format(creuva.logoHeight),
     creuva.primary ? '--scheme-primary:#' ~ creuva.primary,
-    creuva.accent ? '--scheme-accent:#%1$s;--scheme-accent-text:#%1$s;--scheme-accent-contrast:#fff;--scheme-dark-accent:color-mix(in srgb,#%1$s 60%%,#fff)'|format(creuva.accent),
+    creuva.accent ? '--scheme-accent:#%s;--scheme-accent-text:#%s;--scheme-accent-contrast:#%s;--scheme-dark-accent:#%s;--scheme-dark-accent-muted:#%s;--scheme-dark-accent-on-primary:#%s'|format(creuva.accent, creuva.accentText, creuva.accentContrast, creuva.darkAccent, creuva.darkAccentMuted, creuva.darkAccentOnPrimary),
+    creuva.accent ? '--hero-accent:#%s;--hero-shade:%.2F;--hero-shade-end:%.2F;--hero-shade-mobile:%.2F;--hero-shade-end-mobile:%.2F'|format(creuva.heroAccent, max(0.3, creuva.heroShade), max(0.75, creuva.heroShade), max(0.5, creuva.heroShade), max(0.8, creuva.heroShade)),
 ]|filter(v => v)|join(';') %}
 
 {# Variant "auto": light until the inline script in the head switches to dark #}
