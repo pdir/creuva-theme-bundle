@@ -18,8 +18,11 @@ const LABELS = {
     primary: ['Box', 'Primär', 'Text auf der Primärfarbe'],
     contrast: 'Zu wenig Kontrast für WCAG AA (mindestens 4,5:1):',
     primaryContrast: 'weiße Schrift auf der Primärfarbe',
-    accentOnWhite: 'Akzentfarbe als Schrift auf Weiß',
-    whiteOnAccent: 'weiße Schrift auf der Akzentfarbe',
+    accentNotes: 'Damit alles WCAG-AA-konform lesbar bleibt, wird die Akzentfarbe angepasst:',
+    accentText: (color) => `Links und kleine Texte im Light Mode in #${color}`,
+    accentContrast: (color) => `Schrift auf Akzentflächen (Buttons, Badges) im Light Mode in #${color}`,
+    darkAccent: (color) => `Akzentfarbe im Dark Mode #${color}`,
+    darkAccentMuted: (color) => `nur auf grauen Flächen im Dark Mode (Kopf-/Fußleiste, graue Abschnitte und Karten) #${color}`,
   },
   en: {
     heading: 'Live preview',
@@ -34,8 +37,11 @@ const LABELS = {
     primary: ['Box', 'primary', 'Text on the primary color'],
     contrast: 'Not enough contrast for WCAG AA (at least 4.5:1):',
     primaryContrast: 'white text on the primary color',
-    accentOnWhite: 'accent color as text on white',
-    whiteOnAccent: 'white text on the accent color',
+    accentNotes: 'To keep everything readable according to WCAG AA, the accent color is adjusted:',
+    accentText: (color) => `links and small text in light mode in #${color}`,
+    accentContrast: (color) => `text on accent surfaces (buttons, badges) in light mode in #${color}`,
+    darkAccent: (color) => `accent color in dark mode #${color}`,
+    darkAccentMuted: (color) => `only on gray surfaces in dark mode (top/bottom bar, gray sections and cards) #${color}`,
   },
 };
 
@@ -57,7 +63,55 @@ const contrast = (a, b) => {
 };
 
 const HEX = /^[0-9a-f]{6}$/i;
-const SCHEME_PROPERTIES = ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent'];
+
+const toRgb = (value) => [0, 2, 4].map((i) => parseInt(value.slice(i, i + 2), 16));
+const toHex = (rgb) => rgb.map((c) => Math.round(c).toString(16).padStart(2, '0')).join('');
+
+// color-mix(in srgb, a share, b)
+const mix = (a, share, b) => a.map((c, i) => c * share + b[i] * (1 - share));
+
+const WHITE = [255, 255, 255];
+const BLACK = [0, 0, 0];
+
+// Mixes the color with the target in steps of 5 % until it is readable on all surfaces
+const adjust = (color, target, surfaces) => {
+  for (let step = 20; step >= 0; step -= 1) {
+    const candidate = toHex(mix(toRgb(color), step / 20, target));
+
+    if (surfaces(toRgb(candidate)).every((surface) => contrast(candidate, toHex(surface)) >= 4.5)) {
+      return candidate;
+    }
+  }
+
+  return toHex(target);
+};
+
+/**
+ * Derived colors of a custom accent color, so that the accent itself is used
+ * wherever it is readable (text color in the light mode, text on the accent,
+ * accent of the dark mode). Same calculation as
+ * DesignSettings::getAccentColors() – keep both in sync.
+ */
+const accentColors = (accent, primary) => {
+  const a = toRgb(accent);
+  const p = toRgb(primary);
+  const light = [mix(p, 0.03, WHITE), WHITE, mix(p, 0.07, WHITE), mix(a, 0.1, WHITE)];
+  const textColor = toHex(mix(p, 0.65, BLACK));
+  const darkBg = mix(p, 0.3, [8, 8, 8]);
+  const dark = [darkBg, mix(p, 0.42, [12, 12, 12])];
+  const darkMuted = mix(p, 0.62, [14, 14, 14]);
+  const darkAccent = adjust(accent, WHITE, (rgb) => [...dark, mix(rgb, 0.14, darkBg), mix(darkBg, 0.85, rgb)]);
+
+  return {
+    accentText: adjust(accent, BLACK, () => light),
+    accentContrast: ['ffffff', textColor].find((color) => contrast(color, accent) >= 4.5) ?? '000000',
+    darkAccent,
+    darkAccentMuted: adjust(darkAccent, WHITE, () => [darkMuted]),
+    darkAccentOnPrimary: adjust(toHex(mix(a, 0.4, darkBg)), darkBg, () => [toRgb(darkAccent)]),
+  };
+};
+
+const SCHEME_PROPERTIES = ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent', 'dark-accent-muted', 'dark-accent-on-primary'];
 
 const render = (t) => `
   <h3>${t.heading}</h3>
@@ -100,6 +154,12 @@ const initPreview = () => {
   warning.className = 'tl_error creuva-contrast-warning';
   warning.hidden = true;
   preview.after(warning);
+
+  // Note on the colors derived from the custom accent color
+  const accentNote = document.createElement('p');
+  accentNote.className = 'tl_help tl_tip creuva-accent-note';
+  accentNote.hidden = true;
+  warning.after(accentNote);
   const value = (name) => form.querySelector(`[name="${name}"]`)?.value.trim().replace(/^#/, '') ?? '';
 
   const update = () => {
@@ -128,23 +188,41 @@ const initPreview = () => {
       preview.style.setProperty('--scheme-primary', `#${primary}`);
     }
 
+    accentNote.hidden = true;
+
     if (HEX.test(accent)) {
-      preview.style.setProperty('--scheme-accent', `#${accent}`);
-      preview.style.setProperty('--scheme-accent-text', `#${accent}`);
-      preview.style.setProperty('--scheme-accent-contrast', '#fff');
-      preview.style.setProperty('--scheme-dark-accent', `color-mix(in srgb, #${accent} 60%, #fff)`);
+      // The surfaces use the primary color of the scheme without a custom one
+      const surfacePrimary = getComputedStyle(preview).getPropertyValue('--scheme-primary').trim().replace(/^#/, '');
+      const color = accent.toLowerCase();
+      const derived = HEX.test(surfacePrimary) ? accentColors(color, surfacePrimary) : { accentText: color, accentContrast: 'ffffff', darkAccent: color, darkAccentMuted: color, darkAccentOnPrimary: '' };
+
+      preview.style.setProperty('--scheme-accent', `#${color}`);
+      preview.style.setProperty('--scheme-accent-text', `#${derived.accentText}`);
+      preview.style.setProperty('--scheme-accent-contrast', `#${derived.accentContrast}`);
+      preview.style.setProperty('--scheme-dark-accent', `#${derived.darkAccent}`);
+      preview.style.setProperty('--scheme-dark-accent-muted', `#${derived.darkAccentMuted}`);
+
+      if (derived.darkAccentOnPrimary) {
+        preview.style.setProperty('--scheme-dark-accent-on-primary', `#${derived.darkAccentOnPrimary}`);
+      }
+
+      const notes = [
+        derived.accentText !== color && labels.accentText(derived.accentText),
+        'ffffff' !== derived.accentContrast && labels.accentContrast(derived.accentContrast),
+        derived.darkAccent !== color && labels.darkAccent(derived.darkAccent),
+        derived.darkAccentMuted !== derived.darkAccent && labels.darkAccentMuted(derived.darkAccentMuted),
+      ].filter(Boolean);
+
+      accentNote.textContent = `${labels.accentNotes} ${notes.join(', ')}.`;
+      accentNote.hidden = !notes.length;
     }
 
+    // Text colors derived from the accent are always readable, only white text
+    // on a custom primary color can fail
     const ratio = (a, b) => `${contrast(a, b).toLocaleString(document.documentElement.lang || 'en', { maximumFractionDigits: 2 })}:1`;
     const problems = [
       HEX.test(primary) && contrast('ffffff', primary) < 4.5 && `${labels.primaryContrast} (${ratio('ffffff', primary)})`,
-      HEX.test(accent) && contrast(accent, 'ffffff') < 4.5 && `${labels.accentOnWhite} (${ratio(accent, 'ffffff')})`,
     ].filter(Boolean);
-
-    // White text on the accent has the same ratio as the accent on white
-    if (HEX.test(accent) && contrast(accent, 'ffffff') < 4.5) {
-      problems.push(labels.whiteOnAccent);
-    }
 
     warning.hidden = !problems.length;
     warning.textContent = problems.length ? `${labels.contrast} ${problems.join(', ')}` : '';

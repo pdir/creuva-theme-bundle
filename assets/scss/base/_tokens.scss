@@ -87,6 +87,16 @@
     --shadow-l: 0 28px 56px -24px rgb(0 0 0 / 0.7);
   }
 
+  // Gray surfaces of the dark mode: a custom accent color that is too dark for
+  // them is lightened only there (--scheme-dark-accent-muted, see
+  // DesignSettings::getAccentColors()); the color schemes do not set it
+  :root[data-theme='dark'] body:not(.high-contrast) :is(.l-top, .l-bottom, .u-bg-muted, .u-card-muted) {
+    --c-primary: var(--scheme-dark-accent-muted, var(--scheme-dark-accent));
+    --c-accent: var(--scheme-dark-accent-muted, var(--scheme-dark-accent));
+    --c-accent-text: var(--scheme-dark-accent-muted, var(--scheme-dark-accent));
+    --c-link: var(--c-primary);
+  }
+
   // Typography, combinable with every color mode
   :root[data-typography='editorial'] {
     --font-heading: "Fraunces", ui-serif, Georgia, serif;
