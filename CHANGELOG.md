@@ -10,9 +10,14 @@ Types of changes
     Security in case of vulnerabilities.
 )
 
+## Unreleased
+
+
+
 ## [1.2.0](https://github.com/pdir/creuva-theme-bundle/tree/1.2.0) – 2026-11-17
 
 - [Added] Main navigation: menu items with a dropdown show a small chevron on desktop; on mobile, submenus are collapsed behind a "+" button (the one with the current page starts expanded)
+- [Added] Content element "Header image": image at the top of the page over the full width or the content width, small, medium or large height or the image format, optional kicker and headline (h1) on a gradient
 
 ## [1.1.1](https://github.com/pdir/creuva-theme-bundle/tree/1.1.1) – 2026-11-17
 

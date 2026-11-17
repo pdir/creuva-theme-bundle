@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Large intro section with headline, text, buttons and image.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_page_header'] = ['Header image', 'Image at the top of the page over the full width or the content width, optionally with a kicker and a headline (h1) on the image.'];
 $GLOBALS['TL_LANG']['CTE']['creuva_match'] = ['Match', 'Next match or result: competition, teams with crests, kick-off, venue and a button.'];
 $GLOBALS['TL_LANG']['CTE']['creuva_logos'] = ['Logo bar', 'Logos of clients or partners, linked via the file metadata. The section (article) defines the background.'];
 

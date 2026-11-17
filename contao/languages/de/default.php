@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['creuva'] = 'Creuva';
 $GLOBALS['TL_LANG']['CTE']['creuva_hero'] = ['Hero', 'Großer Einstiegsbereich mit Überschrift, Text, Buttons und Bild.'];
+$GLOBALS['TL_LANG']['CTE']['creuva_page_header'] = ['Headerbild', 'Bild oben auf der Seite über die volle Breite oder die Inhaltsbreite, optional mit Dachzeile und Überschrift (h1) auf dem Bild.'];
 $GLOBALS['TL_LANG']['CTE']['creuva_match'] = ['Spielpaarung', 'Nächstes Spiel oder Ergebnis: Wettbewerb, Mannschaften mit Wappen, Anstoß, Spielort und Button.'];
 $GLOBALS['TL_LANG']['CTE']['creuva_logos'] = ['Logoleiste', 'Logos von Kunden oder Partnern, verlinkt über die Metadaten der Dateien. Den Hintergrund bestimmt der Abschnitt (Artikel).'];
 

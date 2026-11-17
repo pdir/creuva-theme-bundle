@@ -12,6 +12,24 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_hero'] = '{type_legend},type,creuvaKicker,headline,creuvaHeadlineAccent;{text_legend},text;{image_legend},singleSRC,size,creuvaHeroMask;{creuva_badge_legend},creuvaBadgeStyle,creuvaBadgePosition,creuvaBadgeHeadline,creuvaBadgeIcon,creuvaBadge,creuvaBadgeUrl;{link_legend},creuvaUrl1,creuvaLinkTitle1,creuvaUrl2,creuvaLinkTitle2;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
 
+// Header image at the top of a page (see PageHeaderController), optionally
+// with a kicker and a headline (h1)
+$GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_page_header'] = '{type_legend},type,creuvaKicker,headline;{image_legend},singleSRC,size;{creuva_page_header_legend},creuvaPageHeaderWidth,creuvaPageHeaderHeight,creuvaPageHeaderAlign;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
+
+foreach ([
+    'creuvaPageHeaderWidth' => [Pdir\CreuvaThemeBundle\Controller\ContentElement\PageHeaderController::WIDTHS, 'full'],
+    'creuvaPageHeaderHeight' => [Pdir\CreuvaThemeBundle\Controller\ContentElement\PageHeaderController::HEIGHTS, 'medium'],
+    'creuvaPageHeaderAlign' => [Pdir\CreuvaThemeBundle\Controller\ContentElement\PageHeaderController::ALIGNMENTS, 'bottom'],
+] as $field => [$options, $default]) {
+    $GLOBALS['TL_DCA']['tl_content']['fields'][$field] = [
+        'inputType' => 'select',
+        'options' => $options,
+        'reference' => &$GLOBALS['TL_LANG']['tl_content'][$field.'_options'],
+        'eval' => ['tl_class' => 'w50'],
+        'sql' => ['type' => 'string', 'length' => 16, 'default' => $default],
+    ];
+}
+
 // Logo bar (images from multiSRC, link from the file metadata)
 $GLOBALS['TL_DCA']['tl_content']['palettes']['creuva_logos'] = '{type_legend},type,headline;{source_legend},multiSRC,size;{creuva_logos_legend},creuvaLogosHeight;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID;{invisible_legend:hide},invisible,start,stop';
 

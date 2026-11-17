@@ -38,6 +38,13 @@ $GLOBALS['TL_LANG']['tl_content']['creuvaSliderArrows'] = ['Navigationspfeile', 
 $GLOBALS['TL_LANG']['tl_content']['creuvaSliderDots'] = ['Punkte', 'Einen Punkt pro Element unter dem Slider anzeigen.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaSliderThumbs'] = ['Thumbnails', 'Vorschaubilder unter dem Slider anzeigen (aus dem ersten Bild jedes Elements), z. B. für eine Bildergalerie.'];
 $GLOBALS['TL_LANG']['tl_content']['creuva_logos_legend'] = 'Darstellung';
+$GLOBALS['TL_LANG']['tl_content']['creuva_page_header_legend'] = 'Darstellung';
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderWidth'] = ['Breite', 'Volle Breite: von Rand zu Rand des Fensters, ohne Abstand zum Header, wenn das Element als Erstes im Artikel steht. Inhaltsbreite: so breit wie der Inhalt, mit abgerundeten Ecken.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderWidth_options'] = ['full' => 'Volle Breite', 'content' => 'Inhaltsbreite'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderHeight'] = ['Höhe', 'Bei Klein, Mittel und Groß füllt das Bild die Fläche und wird mittig beschnitten (Bildgröße im Querformat wählen). Bildformat: das ganze Bild ohne Beschnitt.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderHeight_options'] = ['small' => 'Klein', 'medium' => 'Mittel', 'large' => 'Groß', 'auto' => 'Bildformat (ohne Zuschnitt)'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderAlign'] = ['Textposition', 'Position von Dachzeile und Überschrift auf dem Bild. Für die Hauptüberschrift der Seite bei der Überschrift „h1“ wählen.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderAlign_options'] = ['bottom' => 'Unten links', 'center' => 'Mittig'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaLogosHeight'] = ['Logohöhe', 'Höhe der Logos als CSS-Wert, z. B. „4rem“ (Standard: 5rem). Die Breite darf das Vierfache betragen (Wortmarken); die Bildgröße sollte groß genug gewählt sein.'];
 $GLOBALS['TL_LANG']['tl_content']['creuva_match_legend'] = 'Spiel';
 $GLOBALS['TL_LANG']['tl_content']['creuvaHomeTeam'] = ['Heimmannschaft', 'Name der Heimmannschaft.'];

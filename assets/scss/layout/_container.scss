@@ -43,12 +43,22 @@
   // background (see _utilities.scss, after the section backgrounds). A section
   // that ends with a full-width element (e.g. key figures or a call to action on
   // a colored band) has a surface of its own, the next one keeps its spacing.
-  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child), :has(> .u-full-bleed:last-child)) + .mod_article:not(#{$bg-classes}) {
+  .l-main > .mod_article:not(#{$bg-classes}, :has(> .c-hero:last-child), :has(> .u-full-bleed:last-child), :has(> .c-page-header--full:last-child)) + .mod_article:not(#{$bg-classes}) {
     padding-top: 0;
   }
 
   .l-main > .mod_article:has(> .c-hero:first-child) {
     padding-top: 0;
+  }
+
+  // Header image over the full width: directly below the header, and without
+  // spacing below if nothing follows in the section
+  .l-main > .mod_article:has(> .c-page-header--full:first-child) {
+    padding-top: 0;
+  }
+
+  .l-main > .mod_article:has(> .c-page-header--full:last-child) {
+    padding-bottom: 0;
   }
 
   // Breadcrumb at the top of a section (e.g. above the hero or a news article):

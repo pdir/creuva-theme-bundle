@@ -1,0 +1,140 @@
+// Header image at the top of a page (content element creuva_page_header): full
+// width or content width, fixed height or the aspect ratio of the image, kicker
+// and headline light on a gradient. The image and the text share one grid cell.
+@layer creuva.components {
+  .c-page-header {
+    --page-header-height: clamp(16rem, 45svh, 30rem);
+
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    overflow: hidden;
+    color: #fff;
+
+    > * {
+      grid-area: 1 / 1;
+    }
+
+    &:not(.c-page-header--auto) {
+      min-height: var(--page-header-height);
+    }
+  }
+
+  .c-page-header--small { --page-header-height: clamp(12rem, 30svh, 20rem); }
+  .c-page-header--large { --page-header-height: clamp(20rem, 70svh, 44rem); }
+
+  // Full width: the article is as wide as the window, only its children are
+  // contained (see layout/_container.scss)
+  .l-main > .mod_article > .c-page-header--full {
+    width: auto;
+  }
+
+  .c-page-header--content {
+    border-radius: var(--radius-l);
+  }
+
+  .c-page-header__media {
+    position: relative;
+    z-index: -1;
+    min-height: 0;
+
+    figure,
+    picture {
+      height: 100%;
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    // Caption of the image (metadata): small in the lower right corner
+    figcaption {
+      position: absolute;
+      right: var(--gutter);
+      bottom: var(--space-s);
+      z-index: 1;
+      margin: 0;
+      color: rgb(255 255 255 / 0.75);
+      font-size: 0.8125rem;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  // Fixed height: the image fills the area and does not take part in the
+  // height; image format (auto): the image defines the height
+  .c-page-header:not(.c-page-header--auto) .c-page-header__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .c-page-header--auto .c-page-header__media img {
+    height: auto;
+  }
+
+  // Gradient that keeps the light text readable, also on a bright image (white
+  // text: at least 4.5:1 for the kicker, 3:1 for the large headline)
+  .c-page-header--has-text .c-page-header__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.55) 60%, rgb(0 0 0 / 0.25));
+  }
+
+  .c-page-header--has-text.c-page-header--center .c-page-header__media::after {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  .c-page-header__content {
+    align-self: end;
+    padding-block: var(--space-l);
+
+    .c-kicker {
+      color: #fff;
+    }
+  }
+
+  .c-page-header--center .c-page-header__content {
+    align-self: center;
+    text-align: center;
+
+    .c-page-header__title {
+      margin-inline: auto;
+    }
+  }
+
+  .c-page-header__title {
+    max-width: 24ch;
+    margin: 0;
+    color: #fff;
+    text-wrap: balance;
+  }
+
+  .c-page-header--content .c-page-header__content {
+    padding-inline: clamp(0rem, 3vw, var(--space-m));
+  }
+
+  .c-page-header--content figcaption {
+    right: var(--space-m);
+  }
+
+  // Without an image: a band in the primary color
+  .c-page-header--no-image {
+    background: var(--c-primary);
+    color: var(--c-primary-contrast);
+
+    .c-page-header__title,
+    .c-kicker {
+      color: inherit;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .c-page-header__media figcaption {
+      display: none;
+    }
+  }
+}

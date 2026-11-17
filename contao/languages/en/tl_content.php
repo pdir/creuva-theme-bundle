@@ -37,6 +37,13 @@ $GLOBALS['TL_LANG']['tl_content']['creuvaSliderView_options'] = ['1' => '1 eleme
 $GLOBALS['TL_LANG']['tl_content']['creuvaSliderArrows'] = ['Navigation arrows', 'Show arrows below the slider.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaSliderDots'] = ['Dots', 'Show one dot per element below the slider.'];
 $GLOBALS['TL_LANG']['tl_content']['creuvaSliderThumbs'] = ['Thumbnails', 'Show preview images below the slider (from the first image of each element), e.g. for an image gallery.'];
+$GLOBALS['TL_LANG']['tl_content']['creuva_page_header_legend'] = 'Appearance';
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderWidth'] = ['Width', 'Full width: from edge to edge of the window, without a gap to the header if the element is the first one in the article. Content width: as wide as the content, with rounded corners.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderWidth_options'] = ['full' => 'Full width', 'content' => 'Content width'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderHeight'] = ['Height', 'With small, medium and large the image fills the area and is cropped around its center (choose a landscape image size). Image format: the whole image without cropping.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderHeight_options'] = ['small' => 'Small', 'medium' => 'Medium', 'large' => 'Large', 'auto' => 'Image format (no cropping)'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderAlign'] = ['Text position', 'Position of the kicker and the headline on the image. Choose "h1" for the headline if it is the main headline of the page.'];
+$GLOBALS['TL_LANG']['tl_content']['creuvaPageHeaderAlign_options'] = ['bottom' => 'Bottom left', 'center' => 'Centered'];
 $GLOBALS['TL_LANG']['tl_content']['creuva_logos_legend'] = 'Appearance';
 $GLOBALS['TL_LANG']['tl_content']['creuvaLogosHeight'] = ['Logo height', 'Height of the logos as a CSS value, e.g. "4rem" (default: 5rem). The width may be four times the height (word marks); choose a large enough image size.'];
 $GLOBALS['TL_LANG']['tl_content']['creuva_match_legend'] = 'Match';

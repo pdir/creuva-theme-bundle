@@ -556,6 +556,7 @@ Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-cs
 
 | Typ | Beschreibung |
 |-----|--------------|
+| Creuva › Headerbild | Bild oben auf der Seite: *Breite* volle Breite (direkt unter dem Header, wenn es als Erstes im Artikel steht) oder Inhaltsbreite mit runden Ecken, *Höhe* Klein, Mittel, Groß (das Bild wird mittig beschnitten) oder Bildformat, optional Dachzeile und Überschrift (für die Hauptüberschrift der Seite „h1“ wählen) unten links oder mittig auf einem Verlauf; die Bildunterschrift erscheint klein in der Ecke |
 | Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in mehreren Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Schatten und Akzentform dahinter, *Bild unverändert*, *Bild unverändert mit Akzentform* ohne Schatten und Beschnitt, ideal für freigestellte Bilder mit transparentem Hintergrund, und *Vollbild*) und Badge als kleine Karte auf dem Bild (Bild und Text optional, siehe [Hero-Badge](#hero-badge)) |
 | Creuva › Creuva Header | Logo, Hauptnavigation (mit Dropdowns), CTA-Button, mobiles Menü |
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |
