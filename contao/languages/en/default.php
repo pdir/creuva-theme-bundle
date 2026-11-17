@@ -19,6 +19,7 @@ $GLOBALS['TL_LANG']['FMD']['creuva_style_switcher'] = ['Creuva style switcher', 
 $GLOBALS['TL_LANG']['FMD']['creuva_brand'] = ['Creuva brand', 'Logo, claim and social media links, e.g. for the footer.'];
 
 $GLOBALS['TL_LANG']['MSC']['creuvaMenu'] = 'Menu';
+$GLOBALS['TL_LANG']['MSC']['creuvaSubmenu'] = 'Submenu %s';
 $GLOBALS['TL_LANG']['MSC']['creuvaHome'] = 'Go to start page';
 $GLOBALS['TL_LANG']['MSC']['creuvaReadingTime'] = '%s min read';
 

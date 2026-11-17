@@ -503,7 +503,9 @@ die Angaben müssen zur jeweiligen Website passen.
 
 1. **Layout → Themes → Neues Theme** anlegen.
 2. **Module** anlegen:
-   - *Navigation* (Navigationsmenü, 2 Ebenen) für das Hauptmenü
+   - *Navigation* (Navigationsmenü, 2 Ebenen) für das Hauptmenü; Menüpunkte mit Unterseiten bekommen auf
+     dem Desktop einen kleinen Pfeil und öffnen ein Dropdown; mobil sind die Unterseiten eingeklappt und öffnen sich
+     über das „+“ neben dem Menüpunkt (der Bereich mit der aktuellen Seite ist aufgeklappt)
    - *Creuva › Creuva Header* – Logo, Navigationsmodul, CTA-Button, optional Suche; enthält das mobile Menü
    - optional *Suchmaschine* auf einer versteckten Seite „Suche“ (siehe [Suche](#suche))
    - *Creuva › Creuva Marke* – Logo, Claim und Social-Media-Links für den Footer

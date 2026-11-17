@@ -53,6 +53,35 @@ const initNavigation = () => {
       }
     });
 
+    // Mobile: submenus collapse behind a toggle button next to the menu item,
+    // the one with the current page starts expanded (the button is hidden on
+    // desktop, see layout/_header.scss)
+    const label = panel.dataset.creuvaSubmenuLabel || '%s';
+
+    panel.querySelectorAll(':is(.mod_navigation, .mod_customnav) .level_1 > li.submenu').forEach((item, index) => {
+      const link = item.querySelector(':scope > :is(a, strong)');
+      const submenu = item.querySelector(':scope > ul');
+
+      if (!link || !submenu) {
+        return;
+      }
+
+      // Name of the menu item without the hidden "current page" text
+      const name = link.cloneNode(true);
+      name.querySelectorAll('.invisible, .u-visually-hidden').forEach((element) => element.remove());
+
+      submenu.id ||= `${panel.id}-submenu-${index + 1}`;
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'c-header__subnav-toggle';
+      button.setAttribute('aria-controls', submenu.id);
+      button.setAttribute('aria-label', label.replace('%s', name.textContent.trim()));
+      button.setAttribute('aria-expanded', String(item.matches('.active, .trail') || !!submenu.querySelector('.active')));
+      button.addEventListener('click', () => button.setAttribute('aria-expanded', String('true' !== button.getAttribute('aria-expanded'))));
+      link.after(button);
+    });
+
     // Reset when switching to the desktop layout
     matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
       if (event.matches) {
