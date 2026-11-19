@@ -548,6 +548,10 @@ die Angaben müssen zur jeweiligen Website passen.
    einem hellen Bild 3:1 erreicht (höchstens 75 % Schwarz, sonst wird die Farbe aufgehellt). Ein Orange
    wie `ee7321` bleibt so für Buttons und Flächen erhalten und im Dark Mode unverändert. Die
    Vorschau im Seitenlayout zeigt die angepassten Farbwerte an.
+   Flächen in der Hauptfarbe (Abschnitte, Karten, Call-to-Action) bleiben im Dark Mode in der
+   Hauptfarbe mit weißer Schrift; ist sie zu dunkel, um sich vom Hintergrund abzuheben, wird sie
+   aufgehellt (für die Farbschemata berechnet das der Build). Buttons erscheinen im Dark Mode in
+   der Akzentfarbe.
 
 Hintergründe, Raster, Abstände usw. setzen Redakteure im Bereich *CSS-Stil* der Elemente,
 Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-css-style-selector)).

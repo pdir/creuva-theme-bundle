@@ -58,6 +58,13 @@ class DesignSettings
     public const HERO_SHADE_MAX = 0.75;
 
     /**
+     * Surfaces in the primary color in the dark mode (u-bg-primary,
+     * u-card-primary, CTA box): minimum contrast to the dark background, so
+     * that the surface stands out, see getDarkPrimaryColors().
+     */
+    public const DARK_PRIMARY_CONTRAST = 2.0;
+
+    /**
      * @var array{default: string, schemes: array<string, array{label: array<string, string>, primary: string, accent: string}>}|null
      */
     private array|null $data = null;
@@ -114,7 +121,7 @@ class DesignSettings
      * @param array<string, mixed>|null $layout
      * @param array<string, mixed>|null $rootPage
      *
-     * @return array{variant: string, typography: string, scheme: string, radius: string, primary: string, accent: string, accentText: string, accentContrast: string, darkAccent: string, darkAccentMuted: string, darkAccentOnPrimary: string, heroAccent: string, heroShade: string, logoHeight: string, animations: string}
+     * @return array{variant: string, typography: string, scheme: string, radius: string, primary: string, accent: string, accentText: string, accentContrast: string, darkAccent: string, darkAccentMuted: string, darkPrimary: string, darkAccentOnPrimary: string, heroAccent: string, heroShade: string, logoHeight: string, animations: string}
      */
     public function resolve(array|null $layout, array|null $rootPage = null): array
     {
@@ -184,9 +191,6 @@ class DesignSettings
      *   steps of 5 % until it is readable on the background and the cards
      * - darkAccentMuted: the same for the gray surfaces of the dark mode (top
      *   and bottom bar, u-bg-muted, u-card-muted), only used there
-     * - darkAccentOnPrimary: highlighted text on the accent surfaces of the dark
-     *   mode (u-bg-primary, CTA box) – 40 % accent and 60 % background, mixed
-     *   further with the background until it is readable
      * - heroAccent, heroShade: highlighted headline of the full screen hero –
      *   the accent itself on a gradient that is just dark enough (heroShade,
      *   black share) for 3:1 even on a white image; if that would need more
@@ -196,7 +200,7 @@ class DesignSettings
      * the same calculation is done in assets/js/backend.js for the preview –
      * keep all three in sync.
      *
-     * @return array{accentText: string, accentContrast: string, darkAccent: string, darkAccentMuted: string, darkAccentOnPrimary: string, heroAccent: string, heroShade: string}
+     * @return array{accentText: string, accentContrast: string, darkAccent: string, darkAccentMuted: string, heroAccent: string, heroShade: string}
      */
     public function getAccentColors(string $accent, string $primary): array
     {
@@ -226,7 +230,6 @@ class DesignSettings
         $darkAccent = self::adjust($accent, $white, static fn (array $color): array => [...$dark, self::mix($color, 0.14, $darkBg), self::mix($darkBg, 0.85, $color)]);
         $darkMuted = self::mix($primary, 0.62, [14.0, 14.0, 14.0]);
         $darkAccentMuted = self::adjust($darkAccent, $white, static fn (array $color): array => [$darkMuted]);
-        $darkAccentOnPrimary = self::adjust(self::mix($accent, 0.4, $darkBg), $darkBg, static fn (array $color): array => [$darkAccent]);
 
         // Full screen hero: worst case is a white image under the gradient
         $heroAccent = $white;
@@ -247,9 +250,52 @@ class DesignSettings
             'accentContrast' => self::rgbToHex($accentContrast),
             'darkAccent' => self::rgbToHex($darkAccent),
             'darkAccentMuted' => self::rgbToHex($darkAccentMuted),
-            'darkAccentOnPrimary' => self::rgbToHex($darkAccentOnPrimary),
             'heroAccent' => self::rgbToHex($heroAccent),
             'heroShade' => \sprintf('%.2F', $heroShade),
+        ];
+    }
+
+    /**
+     * Surfaces in the primary color in the dark mode (hex values without #):
+     *
+     * - darkPrimary: the primary color itself or lightened in steps of 5 % until
+     *   it stands out from the dark background (DARK_PRIMARY_CONTRAST), as long
+     *   as white text stays readable on it (4.5:1)
+     * - darkAccentOnPrimary: highlighted text on these surfaces – the accent of
+     *   the dark mode, lightened in steps of 5 % until it is readable
+     *
+     * The same calculation is done in assets/build/color-schemes.js for the
+     * color schemes and in assets/js/backend.js for the preview – keep all
+     * three in sync.
+     *
+     * @return array{darkPrimary: string, darkAccentOnPrimary: string}
+     */
+    public function getDarkPrimaryColors(string $primary, string $darkAccent): array
+    {
+        $primary = self::hexToRgb($primary);
+        $white = [255.0, 255.0, 255.0];
+        $darkBg = self::mix($primary, 0.3, [8.0, 8.0, 8.0]);
+        $darkPrimary = $primary;
+
+        for ($step = 20; $step >= 0; --$step) {
+            $candidate = array_map(round(...), self::mix($primary, $step / 20, $white));
+
+            if (self::contrast($white, $candidate) < self::ACCENT_CONTRAST) {
+                break;
+            }
+
+            $darkPrimary = $candidate;
+
+            if (self::contrast($candidate, $darkBg) >= self::DARK_PRIMARY_CONTRAST) {
+                break;
+            }
+        }
+
+        $darkAccentOnPrimary = self::adjust(self::hexToRgb($darkAccent), $white, static fn (array $color): array => [$darkPrimary]);
+
+        return [
+            'darkPrimary' => self::rgbToHex($darkPrimary),
+            'darkAccentOnPrimary' => self::rgbToHex($darkAccentOnPrimary),
         ];
     }
 
@@ -260,21 +306,30 @@ class DesignSettings
      */
     private function withAccentColors(array $settings): array
     {
-        $settings += ['accentText' => '', 'accentContrast' => '', 'darkAccent' => '', 'darkAccentMuted' => '', 'darkAccentOnPrimary' => '', 'heroAccent' => '', 'heroShade' => ''];
+        $settings += ['accentText' => '', 'accentContrast' => '', 'darkAccent' => '', 'darkAccentMuted' => '', 'darkPrimary' => '', 'darkAccentOnPrimary' => '', 'heroAccent' => '', 'heroShade' => ''];
 
-        if (!preg_match('/^[0-9a-f]{6}$/i', $settings['accent'])) {
+        $hasPrimary = (bool) preg_match('/^[0-9a-f]{6}$/i', $settings['primary']);
+        $hasAccent = (bool) preg_match('/^[0-9a-f]{6}$/i', $settings['accent']);
+
+        if (!$hasPrimary && !$hasAccent) {
             return $settings;
         }
 
-        // Without a custom primary color, the surfaces use the one of the scheme
-        $primary = $settings['primary'];
+        // Colors of the scheme for the ones that are not customized
+        $schemes = $this->load()['schemes'];
+        $scheme = $schemes[$settings['scheme']] ?? $schemes[$this->getDefaultScheme()];
+        $primary = $hasPrimary ? $settings['primary'] : ltrim($scheme['primary'], '#');
 
-        if (!preg_match('/^[0-9a-f]{6}$/i', $primary)) {
-            $schemes = $this->load()['schemes'];
-            $primary = ($schemes[$settings['scheme']] ?? $schemes[$this->getDefaultScheme()])['primary'];
+        if ($hasAccent) {
+            $settings = [...$settings, ...$this->getAccentColors($settings['accent'], $primary)];
+            $darkAccent = $settings['darkAccent'];
+        } elseif (isset($scheme['darkAccent'])) {
+            $darkAccent = ltrim($scheme['darkAccent'], '#');
+        } else {
+            $darkAccent = self::rgbToHex(self::mix(self::hexToRgb($scheme['accent']), 0.6, [255.0, 255.0, 255.0]));
         }
 
-        return [...$settings, ...$this->getAccentColors($settings['accent'], $primary)];
+        return [...$settings, ...$this->getDarkPrimaryColors($primary, $darkAccent)];
     }
 
     /**

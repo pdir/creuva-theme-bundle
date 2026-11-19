@@ -36,6 +36,48 @@ export const contrast = (a, b) => {
 
 const WHITE = [255, 255, 255];
 
+const round = (rgb) => rgb.map((c) => Math.round(c));
+const toHex = (rgb) => `#${round(rgb).map((c) => c.toString(16).padStart(2, '0')).join('')}`;
+
+/**
+ * Surface in the primary color in the dark mode: the primary color itself or
+ * lightened in steps of 5 % until it stands out from the dark background (2:1),
+ * as long as white text stays readable on it (4.5:1). The highlighted text on
+ * it is the dark accent, lightened in steps of 5 % until it is readable. Same
+ * calculation as DesignSettings::getDarkPrimaryColors() – keep both in sync.
+ */
+export const darkPrimaryColors = (primary, darkAccent) => {
+  const darkBg = mix(primary, 0.3, [8, 8, 8]);
+  let darkPrimary = primary;
+
+  for (let step = 20; step >= 0; step -= 1) {
+    const candidate = round(mix(primary, step / 20, WHITE));
+
+    if (contrast(WHITE, candidate) < 4.5) {
+      break;
+    }
+
+    darkPrimary = candidate;
+
+    if (contrast(candidate, darkBg) >= 2) {
+      break;
+    }
+  }
+
+  let darkAccentOnPrimary = WHITE;
+
+  for (let step = 20; step >= 0; step -= 1) {
+    const candidate = round(mix(darkAccent, step / 20, WHITE));
+
+    if (contrast(candidate, darkPrimary) >= 4.5) {
+      darkAccentOnPrimary = candidate;
+      break;
+    }
+  }
+
+  return { darkPrimary, darkAccentOnPrimary };
+};
+
 /**
  * Resolves the colors of a scheme like the browser does (light and dark variant).
  */
@@ -46,6 +88,7 @@ export const resolveScheme = (scheme) => {
   const accentContrast = scheme.accentContrast ? hex(scheme.accentContrast) : WHITE;
   const darkAccent = scheme.darkAccent ? hex(scheme.darkAccent) : mix(accent, 0.6, WHITE);
   const darkBg = mix(primary, 0.3, hex('#080808'));
+  const { darkPrimary, darkAccentOnPrimary } = darkPrimaryColors(primary, darkAccent);
 
   return {
     light: {
@@ -69,7 +112,8 @@ export const resolveScheme = (scheme) => {
       textMuted: mix(primary, 0.2, hex('#d0d0d0')),
       accent: darkAccent,
       accentSoft: mix(darkAccent, 0.14, darkBg),
-      accentOnPrimary: mix(accent, 0.4, darkBg),
+      primary: darkPrimary,
+      accentOnPrimary: darkAccentOnPrimary,
     },
   };
 };
@@ -102,9 +146,10 @@ export const checkScheme = (name, scheme) => {
       [`dark: muted text on ${surface}`, dark.textMuted, bg, 4.5],
       [`dark: accent on ${surface}`, dark.accent, bg, 4.5],
     ]),
-    ['dark: background on accent (buttons, primary cards)', dark.bg, dark.accent, 4.5],
-    ['dark: muted text on primary cards (85 %)', onPrimaryMuted(dark.bg, dark.accent), dark.accent, 4.5],
-    ['dark: accent on primary cards', dark.accentOnPrimary, dark.accent, 3],
+    ['dark: background on accent (buttons, accent cards)', dark.bg, dark.accent, 4.5],
+    ['dark: white text on primary cards', WHITE, dark.primary, 4.5],
+    ['dark: muted text on primary cards (85 %)', onPrimaryMuted(WHITE, dark.primary), dark.primary, 4.5],
+    ['dark: accent on primary cards', dark.accentOnPrimary, dark.primary, 4.5],
   ];
 
   return checks
@@ -127,6 +172,10 @@ export const toScss = ({ default: defaultScheme, schemes }) => {
         props[prop] = scheme[key];
       }
     }
+
+    const { dark } = resolveScheme(scheme);
+    props['dark-primary'] = toHex(dark.primary);
+    props['dark-accent-on-primary'] = toHex(dark.accentOnPrimary);
 
     const body = Object.entries(props).map(([k, v]) => `${k}: ${v}`).join(', ');
 
