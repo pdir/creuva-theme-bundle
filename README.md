@@ -503,7 +503,9 @@ die Angaben müssen zur jeweiligen Website passen.
 
 1. **Layout → Themes → Neues Theme** anlegen.
 2. **Module** anlegen:
-   - *Navigation* (Navigationsmenü, 2 Ebenen) für das Hauptmenü
+   - *Navigation* (Navigationsmenü, 2 Ebenen) für das Hauptmenü; Menüpunkte mit Unterseiten bekommen auf
+     dem Desktop einen kleinen Pfeil und öffnen ein Dropdown; mobil sind die Unterseiten eingeklappt und öffnen sich
+     über das „+“ neben dem Menüpunkt (der Bereich mit der aktuellen Seite ist aufgeklappt)
    - *Creuva › Creuva Header* – Logo, Navigationsmodul, CTA-Button, optional Suche; enthält das mobile Menü
    - optional *Suchmaschine* auf einer versteckten Seite „Suche“ (siehe [Suche](#suche))
    - *Creuva › Creuva Marke* – Logo, Claim und Social-Media-Links für den Footer
@@ -546,6 +548,10 @@ die Angaben müssen zur jeweiligen Website passen.
    einem hellen Bild 3:1 erreicht (höchstens 75 % Schwarz, sonst wird die Farbe aufgehellt). Ein Orange
    wie `ee7321` bleibt so für Buttons und Flächen erhalten und im Dark Mode unverändert. Die
    Vorschau im Seitenlayout zeigt die angepassten Farbwerte an.
+   Flächen in der Hauptfarbe (Abschnitte, Karten, Call-to-Action) bleiben im Dark Mode in der
+   Hauptfarbe mit weißer Schrift; ist sie zu dunkel, um sich vom Hintergrund abzuheben, wird sie
+   aufgehellt (für die Farbschemata berechnet das der Build). Buttons erscheinen im Dark Mode in
+   der Akzentfarbe.
 
 Hintergründe, Raster, Abstände usw. setzen Redakteure im Bereich *CSS-Stil* der Elemente,
 Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-css-style-selector)).
@@ -554,6 +560,7 @@ Artikel und Module (siehe [CSS-Klassen im CSS Style Selector](#css-klassen-im-cs
 
 | Typ | Beschreibung |
 |-----|--------------|
+| Creuva › Headerbild | Bild oben auf der Seite: *Breite* volle Breite (direkt unter dem Header, wenn es als Erstes im Artikel steht) oder Inhaltsbreite mit runden Ecken, *Höhe* Klein, Mittel, Groß (das Bild wird mittig beschnitten) oder Bildformat, optional Dachzeile und Überschrift (für die Hauptüberschrift der Seite „h1“ wählen) unten links oder mittig auf einem Verlauf; die Bildunterschrift erscheint klein in der Ecke |
 | Creuva › Hero | Einstiegsbereich mit Dachzeile, Überschrift + hervorgehobenem Teil, Text, zwei Buttons, Bild in mehreren Formen (*Organisch* mit Maske, *Abgerundet* als ganzes Bild mit Schatten und Akzentform dahinter, *Bild unverändert*, *Bild unverändert mit Akzentform* ohne Schatten und Beschnitt, ideal für freigestellte Bilder mit transparentem Hintergrund, und *Vollbild*) und Badge als kleine Karte auf dem Bild (Bild und Text optional, siehe [Hero-Badge](#hero-badge)) |
 | Creuva › Creuva Header | Logo, Hauptnavigation (mit Dropdowns), CTA-Button, mobiles Menü |
 | Creuva › Creuva Marke | Logo, Claim, Social-Media-Links (Plattform wird anhand der URL erkannt) |

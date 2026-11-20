@@ -16,6 +16,13 @@
   --scheme-accent-text: #{map.get($scheme, accent-text) or var(--scheme-accent)};
   --scheme-accent-contrast: #{map.get($scheme, accent-contrast) or #fff};
   --scheme-dark-accent: #{map.get($scheme, dark-accent) or color-mix(in srgb, var(--scheme-accent) 60%, #fff)};
+
+  // Calculated by the build (assets/build/color-schemes.js)
+  @if map.get($scheme, dark-primary) {
+    --scheme-dark-primary: #{map.get($scheme, dark-primary)};
+    --scheme-dark-primary-contrast: #fff;
+    --scheme-dark-accent-on-primary: #{map.get($scheme, dark-accent-on-primary)};
+  }
 }
 
 @mixin light {
@@ -45,7 +52,7 @@
   --c-accent: var(--scheme-dark-accent);
   --c-accent-text: var(--scheme-dark-accent);
   --c-accent-contrast: var(--c-bg);
-  // Custom accent colors set a readable value (DesignSettings::getAccentColors())
+  // Highlighted text on the surfaces in the primary color (see dark-primary-surface)
   --c-accent-on-primary: var(--scheme-dark-accent-on-primary, color-mix(in srgb, var(--scheme-accent) 40%, var(--c-bg)));
   --c-accent-soft: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg));
   --c-accent-blob: color-mix(in srgb, var(--c-accent) 25%, var(--c-bg));
@@ -55,4 +62,14 @@
   --c-text: color-mix(in srgb, var(--scheme-primary) 6%, #fff);
   --c-text-muted: color-mix(in srgb, var(--scheme-primary) 20%, #d0d0d0);
   --c-border: color-mix(in srgb, var(--scheme-primary) 55%, #333);
+}
+
+// Surfaces in the primary color in the dark mode (u-bg-primary, u-card-primary,
+// CTA box …): the primary color, lightened until it stands out from the dark
+// background, with white text (--scheme-dark-primary, calculated by the build
+// for the schemes and by DesignSettings::getDarkPrimaryColors() for custom
+// colors). Buttons and links elsewhere keep the accent color.
+@mixin dark-primary-surface {
+  --c-primary: var(--scheme-dark-primary, var(--scheme-dark-accent));
+  --c-primary-contrast: var(--scheme-dark-primary-contrast, var(--c-bg));
 }

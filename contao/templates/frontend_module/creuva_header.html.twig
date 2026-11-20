@@ -18,7 +18,7 @@
             <span class="u-visually-hidden">{{ 'MSC.creuvaMenu'|trans([], 'contao_default') }}</span>
         </button>
 
-        <div class="c-header__panel" id="{{ nav_id }}" data-creuva-nav>
+        <div class="c-header__panel" id="{{ nav_id }}" data-creuva-nav data-creuva-submenu-label="{{ 'MSC.creuvaSubmenu'|trans([], 'contao_default') }}">
             {% if navigation %}
                 {{ frontend_module(navigation) }}
             {% endif %}

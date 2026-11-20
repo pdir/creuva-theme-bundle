@@ -26,7 +26,8 @@
 {% set creuva_tokens = [
     creuva.logoHeight ? '--logo-height:%1$s;--header-height:max(4.5rem,calc(%1$s + 1rem))'|format(creuva.logoHeight),
     creuva.primary ? '--scheme-primary:#' ~ creuva.primary,
-    creuva.accent ? '--scheme-accent:#%s;--scheme-accent-text:#%s;--scheme-accent-contrast:#%s;--scheme-dark-accent:#%s;--scheme-dark-accent-muted:#%s;--scheme-dark-accent-on-primary:#%s'|format(creuva.accent, creuva.accentText, creuva.accentContrast, creuva.darkAccent, creuva.darkAccentMuted, creuva.darkAccentOnPrimary),
+    creuva.accent ? '--scheme-accent:#%s;--scheme-accent-text:#%s;--scheme-accent-contrast:#%s;--scheme-dark-accent:#%s;--scheme-dark-accent-muted:#%s'|format(creuva.accent, creuva.accentText, creuva.accentContrast, creuva.darkAccent, creuva.darkAccentMuted),
+    creuva.darkPrimary ? '--scheme-dark-primary:#%s;--scheme-dark-primary-contrast:#fff;--scheme-dark-accent-on-primary:#%s'|format(creuva.darkPrimary, creuva.darkAccentOnPrimary),
     creuva.accent ? '--hero-accent:#%s;--hero-shade:%.2F;--hero-shade-end:%.2F;--hero-shade-mobile:%.2F;--hero-shade-end-mobile:%.2F'|format(creuva.heroAccent, max(0.3, creuva.heroShade), max(0.75, creuva.heroShade), max(0.5, creuva.heroShade), max(0.8, creuva.heroShade)),
 ]|filter(v => v)|join(';') %}
 

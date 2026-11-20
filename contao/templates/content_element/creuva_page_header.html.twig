@@ -1,0 +1,40 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use '@Contao/component/_figure.html.twig' %}
+
+{#
+    Header image at the top of a page: full width or content width, fixed
+    height (small, medium, large) or the aspect ratio of the image (auto). The
+    kicker and the headline (choose h1 for the main headline of the page) are
+    light on a gradient; the caption of the image is shown small in the corner.
+#}
+
+{% set has_text = kicker or headline.text %}
+
+{% set attributes = attrs(attributes|default)
+    .addClass(['c-page-header', 'c-page-header--' ~ width, 'c-page-header--' ~ height, 'c-page-header--' ~ align])
+    .addClass('c-page-header--has-text', has_text)
+    .addClass('c-page-header--no-image', not image)
+%}
+
+{% block wrapper_tag %}header{% endblock %}
+
+{% block inner %}
+    {% if image %}
+        <div class="c-page-header__media">
+            {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+        </div>
+    {% endif %}
+
+    {% if has_text %}
+        <div class="l-container c-page-header__content">
+            {% if kicker %}
+                <p class="c-kicker">{{ kicker|insert_tag }}</p>
+            {% endif %}
+
+            {% if headline.text %}
+                {% set tag_name = headline.tag_name|default('h1') %}
+                <{{ tag_name }} class="c-page-header__title">{{ headline.text|insert_tag }}</{{ tag_name }}>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

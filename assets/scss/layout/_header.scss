@@ -181,6 +181,34 @@ $nav-breakpoint: 64rem;
           border-radius: 2px;
           background: var(--c-accent);
         }
+
+        // Menu items with a dropdown: small chevron, points up while open
+        > li.submenu > :is(a, strong) {
+          padding-right: 1.1em;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 0.15em;
+            width: 0.4em;
+            height: 0.4em;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            opacity: 0.7;
+            transform: translateY(-70%) rotate(45deg);
+            transition: transform var(--transition);
+          }
+        }
+
+        > li.submenu:is(:hover, :focus-within) > :is(a, strong)::before {
+          transform: translateY(-20%) rotate(-135deg);
+        }
+
+        // The underline ends before the chevron
+        > li.submenu > :is(a, strong)::after {
+          right: 1.1em;
+        }
       }
 
       li {
@@ -222,6 +250,11 @@ $nav-breakpoint: 64rem;
         transform: none;
       }
     }
+  }
+
+  // Toggle buttons of the submenus, added by creuva.js (mobile only)
+  .c-header__subnav-toggle {
+    display: none;
   }
 
   // Search button: on the right, next to the burger button (mobile) or between
@@ -315,6 +348,60 @@ $nav-breakpoint: 64rem;
       opacity: 1;
       visibility: visible;
       transform: none;
+    }
+
+    // Submenus are collapsed behind a "+" button next to the menu item (the
+    // item itself stays a link); without JavaScript they are always visible
+    .c-header__panel :is(.mod_navigation, .mod_customnav) .level_1 > li.submenu {
+      position: relative;
+
+      &:has(> .c-header__subnav-toggle) > :is(a, strong) {
+        padding-right: 3rem;
+      }
+
+      &:has(> .c-header__subnav-toggle[aria-expanded='false']) > ul {
+        display: none;
+      }
+    }
+
+    .c-header__subnav-toggle {
+      position: absolute;
+      top: 0.35rem;
+      right: -0.5rem;
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-s);
+      background: none;
+      color: var(--c-text);
+      cursor: pointer;
+
+      // Plus, the vertical line turns into the minus while expanded
+      &::before,
+      &::after {
+        content: "";
+        grid-area: 1 / 1;
+        width: 0.875rem;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform var(--transition);
+      }
+
+      &::after {
+        transform: rotate(90deg);
+      }
+
+      &[aria-expanded='true']::after {
+        transform: rotate(0deg);
+      }
+
+      &:hover {
+        background: var(--c-surface-muted);
+      }
     }
 
     .c-header__panel .mod_navigation,
