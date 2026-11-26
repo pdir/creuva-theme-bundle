@@ -514,6 +514,28 @@ pages:
             creuvaBadgePosition: top-end
             creuvaBadgeHeadline: 'Badge „Checkliste“'
             creuvaBadge: "Überschrift über dem Badge\nIcons im Kreis\n! Zeile mit „!“ als Hinweis"
+      - title: Headerbild
+        cssID: ['sg-headerbild', '']
+        elements:
+          - type: creuva_page_header
+            size: 'image_size:cover'
+            singleSRC: 'file:bilder/projekt-gruenwerk.jpg'
+            creuvaKicker: 'Headerbild'
+            headline: { unit: h2, value: 'Volle Breite, Höhe „Mittel“' }
+            creuvaPageHeaderWidth: full
+            creuvaPageHeaderHeight: medium
+            creuvaPageHeaderAlign: bottom
+      - title: Headerbild in Inhaltsbreite
+        cssID: ['sg-headerbild-inhaltsbreite', '']
+        elements:
+          - type: creuva_page_header
+            size: 'image_size:cover'
+            singleSRC: 'file:bilder/hero.jpg'
+            creuvaKicker: 'Headerbild'
+            headline: { unit: h2, value: 'Inhaltsbreite, klein, mittig' }
+            creuvaPageHeaderWidth: content
+            creuvaPageHeaderHeight: small
+            creuvaPageHeaderAlign: center
       - title: Hero-Badges
         cssID: ['sg-hero-badges', '']
         elements:

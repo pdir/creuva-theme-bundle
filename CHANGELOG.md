@@ -10,6 +10,13 @@ Types of changes
     Security in case of vulnerabilities.
 )
 
+
+## [1.2.0](https://github.com/pdir/creuva-theme-bundle/tree/1.2.0) – 2026-11-19
+
+- [Added] Main navigation: menu items with a dropdown show a small chevron on desktop; on mobile, submenus are collapsed behind a "+" button (the one with the current page starts expanded)
+- [Added] Content element "Header image": image at the top of the page over the full width or the content width, small, medium or large height or the image format, optional kicker and headline (h1) on a gradient
+- [Fixed] Dark mode: surfaces in the primary color ("Hauptfarbe": sections, cards, call to action) use the primary color, lightened until it stands out from the background, with white text instead of the accent color, so they differ from "Akzentfarbe"; buttons keep the accent color
+
 ## [1.1.1](https://github.com/pdir/creuva-theme-bundle/tree/1.1.1) – 2026-11-17
 
 - [Changed] Custom accent colors are used unchanged wherever they meet WCAG AA and only adjusted where needed (text on white, gray surfaces in dark mode, highlights on accent surfaces); the full screen hero darkens its gradient instead. The page layout preview shows the adjusted colors

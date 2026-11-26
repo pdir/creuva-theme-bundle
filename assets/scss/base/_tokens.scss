@@ -97,6 +97,13 @@
     --c-link: var(--c-primary);
   }
 
+  // Surfaces in the primary color in the dark mode: the (lightened) primary
+  // color instead of the accent, so "Hauptfarbe" and "Akzentfarbe" differ; in
+  // accent surfaces the buttons in the primary color are affected as well
+  :root[data-theme='dark'] body:not(.high-contrast) :is(.u-bg-primary, .u-card-primary, .u-card-accent, .u-icon-primary, .c-hero--no-image, .c-page-header--no-image, .c-cta:not(.u-card-white, .u-card-muted, .u-card-soft, .u-card-outline-primary, .u-card-outline-accent)) {
+    @include colors.dark-primary-surface;
+  }
+
   // Typography, combinable with every color mode
   :root[data-typography='editorial'] {
     --font-heading: "Fraunces", ui-serif, Georgia, serif;

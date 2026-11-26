@@ -107,11 +107,36 @@ const accentColors = (accent, primary) => {
     accentContrast: ['ffffff', textColor].find((color) => contrast(color, accent) >= 4.5) ?? '000000',
     darkAccent,
     darkAccentMuted: adjust(darkAccent, WHITE, () => [darkMuted]),
-    darkAccentOnPrimary: adjust(toHex(mix(a, 0.4, darkBg)), darkBg, () => [toRgb(darkAccent)]),
   };
 };
 
-const SCHEME_PROPERTIES = ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent', 'dark-accent-muted', 'dark-accent-on-primary'];
+/**
+ * Surface in the primary color in the dark mode and the highlighted text on it.
+ * Same calculation as DesignSettings::getDarkPrimaryColors() – keep both in sync.
+ */
+const darkPrimaryColors = (primary, darkAccent) => {
+  const p = toRgb(primary);
+  const darkBg = mix(p, 0.3, [8, 8, 8]);
+  let darkPrimary = primary;
+
+  for (let step = 20; step >= 0; step -= 1) {
+    const candidate = toHex(mix(p, step / 20, WHITE));
+
+    if (contrast('ffffff', candidate) < 4.5) {
+      break;
+    }
+
+    darkPrimary = candidate;
+
+    if (contrast(candidate, toHex(darkBg)) >= 2) {
+      break;
+    }
+  }
+
+  return { darkPrimary, darkAccentOnPrimary: adjust(darkAccent, WHITE, () => [toRgb(darkPrimary)]) };
+};
+
+const SCHEME_PROPERTIES = ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent', 'dark-accent-muted', 'dark-primary', 'dark-primary-contrast', 'dark-accent-on-primary'];
 
 const render = (t) => `
   <h3>${t.heading}</h3>
@@ -194,17 +219,13 @@ const initPreview = () => {
       // The surfaces use the primary color of the scheme without a custom one
       const surfacePrimary = getComputedStyle(preview).getPropertyValue('--scheme-primary').trim().replace(/^#/, '');
       const color = accent.toLowerCase();
-      const derived = HEX.test(surfacePrimary) ? accentColors(color, surfacePrimary) : { accentText: color, accentContrast: 'ffffff', darkAccent: color, darkAccentMuted: color, darkAccentOnPrimary: '' };
+      const derived = HEX.test(surfacePrimary) ? accentColors(color, surfacePrimary) : { accentText: color, accentContrast: 'ffffff', darkAccent: color, darkAccentMuted: color };
 
       preview.style.setProperty('--scheme-accent', `#${color}`);
       preview.style.setProperty('--scheme-accent-text', `#${derived.accentText}`);
       preview.style.setProperty('--scheme-accent-contrast', `#${derived.accentContrast}`);
       preview.style.setProperty('--scheme-dark-accent', `#${derived.darkAccent}`);
       preview.style.setProperty('--scheme-dark-accent-muted', `#${derived.darkAccentMuted}`);
-
-      if (derived.darkAccentOnPrimary) {
-        preview.style.setProperty('--scheme-dark-accent-on-primary', `#${derived.darkAccentOnPrimary}`);
-      }
 
       const notes = [
         derived.accentText !== color && labels.accentText(derived.accentText),
@@ -215,6 +236,28 @@ const initPreview = () => {
 
       accentNote.textContent = `${labels.accentNotes} ${notes.join(', ')}.`;
       accentNote.hidden = !notes.length;
+    }
+
+    // Surfaces in the primary color in the dark mode, for custom colors (the
+    // schemes get them from the build)
+    if (HEX.test(primary) || HEX.test(accent)) {
+      const styles = getComputedStyle(preview);
+      const hex = (property) => styles.getPropertyValue(property).trim().replace(/^#/, '');
+      const surfacePrimary = hex('--scheme-primary');
+      let darkAccent = hex('--scheme-dark-accent');
+
+      // Schemes without a dark accent of their own: 60 % accent, 40 % white
+      if (!HEX.test(darkAccent) && HEX.test(hex('--scheme-accent'))) {
+        darkAccent = toHex(mix(toRgb(hex('--scheme-accent')), 0.6, WHITE));
+      }
+
+      if (HEX.test(surfacePrimary) && HEX.test(darkAccent)) {
+        const surface = darkPrimaryColors(surfacePrimary.toLowerCase(), darkAccent.toLowerCase());
+
+        preview.style.setProperty('--scheme-dark-primary', `#${surface.darkPrimary}`);
+        preview.style.setProperty('--scheme-dark-primary-contrast', '#fff');
+        preview.style.setProperty('--scheme-dark-accent-on-primary', `#${surface.darkAccentOnPrimary}`);
+      }
     }
 
     // Text colors derived from the accent are always readable, only white text

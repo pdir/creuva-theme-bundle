@@ -47,7 +47,8 @@
 
                     // A selected scheme replaces the custom colors of the page layout
                     if ('scheme' === key) {
-                        ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent'].forEach((name) => root.style.removeProperty('--scheme-' + name));
+                        ['primary', 'accent', 'accent-text', 'accent-contrast', 'dark-accent', 'dark-accent-muted', 'dark-primary', 'dark-primary-contrast', 'dark-accent-on-primary'].forEach((name) => root.style.removeProperty('--scheme-' + name));
+                        ['accent', 'shade', 'shade-end', 'shade-mobile', 'shade-end-mobile'].forEach((name) => root.style.removeProperty('--hero-' + name));
                     }
                 }
             };
